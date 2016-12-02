@@ -1,14 +1,38 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      {{title}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <div #book  >
+    <canvas #pageflipCanvas 
+      [attr.height] = "this.BOOK_HEIGHT + ( this.CANVAS_PADDING * 2 )"
+      [attr.width] = "this.BOOK_WIDTH + ( this.CANVAS_PADDING * 2 )"    
+    ></canvas>
+    <div *ngIf="this.show">
+      <section #page>
+        <p>
+          Page1
+        </p>
+      </section>
+      <section #page>
+        <p>
+          Page2
+        </p>
+      </section>
+      <section #page>
+        <p>
+          Page3
+        </p>
+      </section>
+      <section #page>
+        <p >
+        Page4
+        </p>
+      </section>
+    </div>    
+  </div>
 </ion-content>
