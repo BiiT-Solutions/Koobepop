@@ -1,137 +1,145 @@
 import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
-
-
-//BOOK_WIDTH = dispositive.width*2
-//BOOK_HEIGHT = dispositive.height
-
-//PAGE_WIDTH = dispositive.width -10%
-//PAGE_HEIGHT = dispositive.height -10%
-
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
+  templateUrl: 'home.html'
 
 })
 export class HomePage implements AfterViewInit{
-  BOOK_WIDTH = 830;
-  BOOK_HEIGHT = 260;
-  PAGE_WIDTH = 400;
+  BOOK_WIDTH = 400;
+  BOOK_HEIGHT = 300;
+  PAGE_WIDTH = 200;
   PAGE_HEIGHT = 250;
   PAGE_Y = ( this.BOOK_HEIGHT - this.PAGE_HEIGHT ) / 2;
-  CANVAS_PADDING = 60;
-  title: string = "Title";
-  @ViewChild("book") book: ElementRef;
-  @ViewChildren("page") pages: ElementRef[];
+  CANVAS_PADDING = 5;
+  pageNum=0;  
+  @ViewChild("pageflipCanvas") canvas: ElementRef;
+  context: CanvasRenderingContext2D ;
+
   mouse = {x: 0, y: 0};
   flips=[];
-  page=0;
-  context: CanvasRenderingContext2D ;
-  @ViewChild("pageflipCanvas") canvas: ElementRef;
-  show = false;
-  constructor(public navCtrl: NavController) {
-  document.addEventListener( "mousemove", this.mouseMoveHandler, false );
-	document.addEventListener( "mousedown", this.mouseDownHandler, false );
-	document.addEventListener( "mouseup", this.mouseUpHandler, false );
-  // Resize the canvas to match the book size
-	
-	// Offset the canvas so that it's padding is evenly spread around the book
-	//this.canvas.nativeElement.style.top = -this.CANVAS_PADDING + "px";
-	//this.canvas.nativeElement.style.left = -this.CANVAS_PADDING + "px";
-	
-  }
 
+  @ViewChild("book") book: ElementRef;
+  @ViewChildren("page") pages;
+  
+  
+  //Debugging
+  title: string = "Title";
+  constructor(public navCtrl: NavController) {
+    }
   ngAfterViewInit(){
-    
+	console.log("Pages: ",this.pages)
+	console.log("Book: ",this.flips);
+	this.canvas.nativeElement.width = this.BOOK_WIDTH + ( this.CANVAS_PADDING * 2 );
+	this.canvas.nativeElement.height =this.BOOK_HEIGHT + ( this.CANVAS_PADDING * 2 );
     this.canvas.nativeElement.style.top = -this.CANVAS_PADDING + "px";
-	  this.canvas.nativeElement.style.left = -this.CANVAS_PADDING + "px";
-    this.context= this.canvas.nativeElement.getContext("2d");
-    console.log(this.context);
-    console.log(this.pages)
-    this.context.fillStyle = 'blue';
-    this.context.fillRect(10, 10, 150, 150);
+	this.canvas.nativeElement.style.left = -this.CANVAS_PADDING + "px";
+    this.context= this.canvas.nativeElement.getContext("2d");	
+	for( var i = 0, len = this.pages.length; i < len; i++ ) {
+		this.pages._results[i].nativeElement.style.zIndex = len - i;
+		
+		this.flips.push( {
+			// Current progress of the flip (left -1 to right +1)
+			progress: 1,
+			// The target value towards which progress is always moving
+			target: 1,
+			// The page DOM element related to this flip
+			page: this.pages._results[i].nativeElement, 
+			// True while the page is being dragged
+			dragging: false
+		} );
+	}
+	
+    //console.log("Context:",this.context);
+	setInterval( () => this.render(), 1000 / 60 );
 
   }
 
 
 mouseMoveHandler( event ) {
-  console.log(this.book);
-   // Offset mouse position so that the top of the spine is 0,0
-   this.mouse.x = event.clientX - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
-   this.mouse.y = event.clientY - this.book.nativeElement.offsetTop;
+  //console.log(" moveHandler",this.context);
+   // Offset mouse position so that the top of the spine is 0
+   this.mouse.x = event.center.x - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
+   this.mouse.y = event.center.y - this.book.nativeElement.offsetTop;
    //DEBUG:
-   this.title = "X: "+event.clientX+" Y: "+ event.clientY;
-   this.show = !this.show;  
+   this.title = "Delta -> X: "+event.deltaX+" Y: "+ event.deltaY+"\nCenter-> X:"+event.center.x+"Y: "+event.center.y;
    
 }
+ 
 
 //
 mouseDownHandler( event ) {
+ //console.log(" downHandler",this.pageNum);
 if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
-   if (this.mouse.x < 0 && this.page - 1 >= 0) {
-       this.flips[this.page - 1].dragging = true;
-   } else if (this.mouse.x > 0 && this.page + 1 < this.flips.length) {
-       this.flips[this.page].dragging = true;
+   if (this.mouse.x < 0 && this.pageNum - 1 >= 0) {
+       this.flips[this.pageNum - 1].dragging = true;
+   } else if (this.mouse.x > 0 && this.pageNum + 1 < this.flips.length) {
+       this.flips[this.pageNum].dragging = true;
    }
-   this.mouse.x = event.clientX - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
-   this.mouse.y = event.clientY - this.book.nativeElement.offsetTop;
 }
  //Prevents the text selection cursor from appearing when dragging
 event.preventDefault();
 }
+
  mouseUpHandler( event ) {
+	 //console.log(" upHandler ",this.context);
   for( var i = 0; i < this.flips.length; i++ ) {
-    if( this.flips[i].dragging ) {
+    // If this flip was being dragged we animate to its destination
+	if( this.flips[i].dragging ) {
       this.flips[i].target = this.mouse.x < 0 ? -1 : 1;
-      if( this.flips[i].target === 1 ) {
-        this.page = this.page - 1 >= 0 ? this.page - 1 : this.page;
-      } else {
-        this.page = this.page + 1 < this.flips.length ? this.page + 1 : this.page;
+      // Figure out which page we should go to next depending on the flip direction
+		if( this.flips[i].target === 1 ) {
+        this.pageNum = this.pageNum - 1 >= 0 ? this.pageNum - 1 : this.pageNum;
+      	} else {
+        this.pageNum = this.pageNum + 1 < this.flips.length ? this.pageNum + 1 : this.pageNum;
       }
     }
     this.flips[i].dragging = false;
     }
   }
-  render() {
-		
+
+  render() {	
+	   console.log("Render func:",this.pageNum);	
 		this.context.clearRect( 0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height );
-		
-		for (var i = 0; i < this.flips.length; i++) {
-			var flip = this.flips[i];
-			
-			if( flip.dragging ) {
-				flip.target = Math.max( Math.min( this.mouse.x / this.PAGE_WIDTH, 1 ), -1 );
-			}
-			
-			flip.progress += ( flip.target - flip.progress ) * 0.2;
-			
-			// If the flip is being dragged or is somewhere in the middle of the book, render it
-			if( flip.dragging || Math.abs( flip.progress ) < 0.997 ) {
-				this.drawFlip( flip );
-			}
-			
+	for (var i = 0; i < this.flips.length; i++) {
+		var flip = this.flips[i];
+
+		if( flip.dragging ) {
+			flip.target = Math.max( Math.min( this.mouse.x / this.PAGE_WIDTH, 1 ), -1 );
 		}
+
+		flip.progress += ( flip.target - flip.progress ) * 0.2;
+
+		// If the flip is being dragged or is somewhere in the middle of the book, render it
+		if( flip.dragging || Math.abs( flip.progress ) < 0.997 ) {
+			this.drawFlip( flip );
+		}
+
+	}
 		
 	}
+
+
+
 drawFlip( flip ) {
+	console.log("drawFlip",flip);	
 		// Strength of the fold is strongest in the middle of the book
-		var strength = 1 - Math.abs( flip.progress );
+		let strength = 1 - Math.abs( flip.progress );
 		
 		// Width of the folded paper
-		var foldWidth = ( this.PAGE_WIDTH * 0.5 ) * ( 1 - flip.progress );
+		let foldWidth = ( this.PAGE_WIDTH * 0.5 ) * ( 1 - flip.progress );
 		
 		// X position of the folded paper
-		var foldX = this.PAGE_WIDTH * flip.progress + foldWidth;
+		let foldX = this.PAGE_WIDTH * flip.progress + foldWidth;
 		
 		// How far the page should outdent vertically due to perspective
-		var verticalOutdent = 20 * strength;
+		let verticalOutdent = 40 * strength;
 		
 		// The maximum width of the left and right side shadows
-		var paperShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( 1 - flip.progress, 0.5 ), 0 );
-		var rightShadowWidth = (this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( strength, 0.5 ), 0 );
-		var leftShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( strength, 0.5 ), 0 );
+		let paperShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( 1 - flip.progress, 0.5 ), 0 );
+		let rightShadowWidth = (this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( strength, 0.5 ), 0 );
+		let leftShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( strength, 0.5 ), 0 );
 		
 		
 		// Change page element width to match the x position of the fold
@@ -151,7 +159,7 @@ drawFlip( flip ) {
 		
 		
 		// Right side drop shadow
-		var rightShadowGradient = this.context.createLinearGradient(foldX, 0, foldX + rightShadowWidth, 0);
+		let rightShadowGradient = this.context.createLinearGradient(foldX, 0, foldX + rightShadowWidth, 0);
 		rightShadowGradient.addColorStop(0, 'rgba(0,0,0,'+(strength*0.2)+')');
 		rightShadowGradient.addColorStop(0.8, 'rgba(0,0,0,0.0)');
 		
@@ -165,7 +173,7 @@ drawFlip( flip ) {
 		
 		
 		// Left side drop shadow
-		var leftShadowGradient = this.context.createLinearGradient(foldX - foldWidth - leftShadowWidth, 0, foldX - foldWidth, 0);
+		let leftShadowGradient = this.context.createLinearGradient(foldX - foldWidth - leftShadowWidth, 0, foldX - foldWidth, 0);
 		leftShadowGradient.addColorStop(0, 'rgba(0,0,0,0.0)');
 		leftShadowGradient.addColorStop(1, 'rgba(0,0,0,'+(strength*0.15)+')');
 		
@@ -179,7 +187,7 @@ drawFlip( flip ) {
 		
 		
 		// Gradient applied to the folded paper (highlights & shadows)
-		var foldGradient = this.context.createLinearGradient(foldX - paperShadowWidth, 0, foldX, 0);
+		let foldGradient = this.context.createLinearGradient(foldX - paperShadowWidth, 0, foldX, 0);
 		foldGradient.addColorStop(0.35, '#fafafa');
 		foldGradient.addColorStop(0.73, '#eeeeee');
 		foldGradient.addColorStop(0.9, '#fafafa');
@@ -199,9 +207,9 @@ drawFlip( flip ) {
 		
 		this.context.fill();
 		this.context.stroke();
-		
-		
+
 		this.context.restore();
 	}
+	
 }
 

@@ -1,37 +1,52 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      {{title}}
+     Mouse X:{{mouse.x}} Y:{{mouse.y}} Page: {{pageNum}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <div #book  >
-    <canvas #pageflipCanvas 
-      [attr.height] = "this.BOOK_HEIGHT + ( this.CANVAS_PADDING * 2 )"
-      [attr.width] = "this.BOOK_WIDTH + ( this.CANVAS_PADDING * 2 )"    
+<ion-content padding
+>
+  <div #book id="book"
+  (touchstart)="mouseDownHandler($event)"
+      (pan)="mouseMoveHandler($event)"
+      (touchend)= "mouseUpHandler($event)">
+    <canvas #pageflipCanvas id = "pageflipCanvas"
+      
     ></canvas>
-    <div *ngIf="this.show">
+    <div id = "pages">
       <section #page>
-        <p>
-          Page1
-        </p>
+        <div>
+          <h2>11111111111111</h2>
+          <p>
+            11111111111
+          </p>
+        </div>
+      </section>
+      <section #page>        
+        <div>
+          <h2>2222222222222</h2>
+          <p>
+            222222222222
+          </p>
+        </div>
       </section>
       <section #page>
-        <p>
-          Page2
-        </p>
+       <div>
+          <h2>3333333333333</h2>
+          <p>
+            3333333333333333
+          </p>
+        </div>
       </section>
       <section #page>
-        <p>
-          Page3
-        </p>
-      </section>
-      <section #page>
-        <p >
-        Page4
-        </p>
+       <div>
+          <h2>Page4 Header</h2>
+          <p>
+            Page4 Text
+          </p>
+        </div>
       </section>
     </div>    
   </div>
