@@ -10,11 +10,13 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine', 'requirejs'],
+    frameworks: ['jasmine', 'requirejs', 'karma-typescript'],
 
 
     // list of files / patterns to load in the browser
     files: [
+      './src/pages/home/home.ts',
+      './src/test/home.spec.ts'
     ],
 
 
@@ -26,7 +28,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/*.ts': ['karma-typescript']
+      './src/pages/home/home.ts': ['karma-typescript'],
+      './src/test/home.spec.ts': ['karma-typescript']
     },
 
     typescriptPreprocessor: {
