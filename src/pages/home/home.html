@@ -6,15 +6,13 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding
->
+<ion-content padding>
   <div #book id="book"
   (touchstart)="mouseDownHandler($event)"
       (pan)="mouseMoveHandler($event)"
       (touchend)= "mouseUpHandler($event)">
-    <canvas #pageflipCanvas id = "pageflipCanvas"
-      
-    ></canvas>
+    <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
+    
     <div id = "pages">
       <section #page>
         <div>

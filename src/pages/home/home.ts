@@ -16,7 +16,6 @@ export class HomePage implements AfterViewInit{
   pageNum=0;  
   @ViewChild("pageflipCanvas") canvas: ElementRef;
   context: CanvasRenderingContext2D ;
-
   mouse = {x: 0, y: 0};
   flips=[];
 
@@ -100,7 +99,7 @@ event.preventDefault();
   }
 
   render() {	
-	   console.log("Render func:",this.pageNum);	
+	   //console.log("Render func:",this.pageNum);	
 		this.context.clearRect( 0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height );
 	for (var i = 0; i < this.flips.length; i++) {
 		var flip = this.flips[i];
@@ -123,7 +122,7 @@ event.preventDefault();
 
 
 drawFlip( flip ) {
-	console.log("drawFlip",flip);	
+	//console.log("drawFlip",flip);	
 		// Strength of the fold is strongest in the middle of the book
 		let strength = 1 - Math.abs( flip.progress );
 		
@@ -134,7 +133,7 @@ drawFlip( flip ) {
 		let foldX = this.PAGE_WIDTH * flip.progress + foldWidth;
 		
 		// How far the page should outdent vertically due to perspective
-		let verticalOutdent = 40 * strength;
+		let verticalOutdent = 20 * strength;
 		
 		// The maximum width of the left and right side shadows
 		let paperShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( 1 - flip.progress, 0.5 ), 0 );
@@ -143,11 +142,12 @@ drawFlip( flip ) {
 		
 		
 		// Change page element width to match the x position of the fold
-		flip.page.style.width = Math.max(foldX, 0) + "px";
-		
+		flip.page.style.width = Math.max((foldX-this.PAGE_WIDTH*0.5)*2+leftShadowWidth, 0) + "px";	
+		console.log("foldX: ",foldX,"foldWidth: ",foldWidth,"flipProgress: ",flip.progress);
+		console.log("pageZ: ",this.pages._results[this.pageNum].nativeElement.style.zIndex);
 		this.context.save();
+		//Set canvas in position
 		this.context.translate( this.CANVAS_PADDING + ( this.BOOK_WIDTH / 2 ), this.PAGE_Y + this.CANVAS_PADDING );
-		
 		
 		// Draw a sharp shadow on the left side of the page
 		this.context.strokeStyle = 'rgba(0,0,0,'+(0.05 * strength)+')';
@@ -187,7 +187,7 @@ drawFlip( flip ) {
 		
 		
 		// Gradient applied to the folded paper (highlights & shadows)
-		let foldGradient = this.context.createLinearGradient(foldX - paperShadowWidth, 0, foldX, 0);
+		let foldGradient = this.context.createLinearGradient(foldX - paperShadowWidth, 0, foldX, 0);	
 		foldGradient.addColorStop(0.35, '#fafafa');
 		foldGradient.addColorStop(0.73, '#eeeeee');
 		foldGradient.addColorStop(0.9, '#fafafa');
