@@ -1,5 +1,5 @@
 import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -11,6 +11,7 @@ export class HomePage implements AfterViewInit{
   BOOK_HEIGHT = 300;
   PAGE_WIDTH = 200;
   PAGE_HEIGHT = 250;
+
   PAGE_Y = ( this.BOOK_HEIGHT - this.PAGE_HEIGHT ) / 2;
   CANVAS_PADDING = 5;
   pageNum=0;  
@@ -18,38 +19,40 @@ export class HomePage implements AfterViewInit{
   context: CanvasRenderingContext2D ;
   mouse = {x: 0, y: 0};
   flips=[];
-
   @ViewChild("book") book: ElementRef;
-  @ViewChildren("page") pages;
-  
-  
+  @ViewChildren("rightPage") rightPages;
+  @ViewChildren("leftPage") leftPages;
   //Debugging
   title: string = "Title";
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,public platform: Platform) {
+	  //this.BOOK_WIDTH = platform.width();
+	  //this.BOOK_HEIGHT = platform.height();
+	  //this.PAGE_WIDTH = this.BOOK_WIDTH*0.5-this.BOOK_WIDTH*0.05;
+	  //this.PAGE_HEIGHT = this.BOOK_HEIGHT*0.9;
     }
   ngAfterViewInit(){
-	console.log("Pages: ",this.pages)
-	console.log("Book: ",this.flips);
 	this.canvas.nativeElement.width = this.BOOK_WIDTH + ( this.CANVAS_PADDING * 2 );
 	this.canvas.nativeElement.height =this.BOOK_HEIGHT + ( this.CANVAS_PADDING * 2 );
     this.canvas.nativeElement.style.top = -this.CANVAS_PADDING + "px";
 	this.canvas.nativeElement.style.left = -this.CANVAS_PADDING + "px";
     this.context= this.canvas.nativeElement.getContext("2d");	
-	for( var i = 0, len = this.pages.length; i < len; i++ ) {
-		this.pages._results[i].nativeElement.style.zIndex = len - i;
-		
+	//Right side pages 
+	//TODO
+	for( var i = 0, len = this.rightPages.length; i < len; i++ ) {
+		this.rightPages._results[i].nativeElement.style.zIndex = len - i;
+		//this.leftPages._results[i].nativeElement.style.zIndex = len - i;
 		this.flips.push( {
 			// Current progress of the flip (left -1 to right +1)
 			progress: 1,
 			// The target value towards which progress is always moving
 			target: 1,
 			// The page DOM element related to this flip
-			page: this.pages._results[i].nativeElement, 
+			rightPage: this.rightPages._results[i].nativeElement, 
+			leftPage: this.leftPages._results[i]!=undefined?this.leftPages._results[i].nativeElement:"",
 			// True while the page is being dragged
 			dragging: false
 		} );
-	}
-	
+	}	
     //console.log("Context:",this.context);
 	setInterval( () => this.render(), 1000 / 60 );
 
@@ -57,24 +60,25 @@ export class HomePage implements AfterViewInit{
 
 
 mouseMoveHandler( event ) {
-  //console.log(" moveHandler",this.context);
+ // console.log(" moveHandler",event.deltaX," ",event.center.x);
    // Offset mouse position so that the top of the spine is 0
    this.mouse.x = event.center.x - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
    this.mouse.y = event.center.y - this.book.nativeElement.offsetTop;
-   //DEBUG:
-   this.title = "Delta -> X: "+event.deltaX+" Y: "+ event.deltaY+"\nCenter-> X:"+event.center.x+"Y: "+event.center.y;
-   
+    
 }
  
 
 //
 mouseDownHandler( event ) {
- //console.log(" downHandler",this.pageNum);
+//console.log(" downHandler X:",event.touches[0].clientX);
+ this.mouse.x = event.touches[0].clientX - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
+ this.mouse.y = event.touches[0].clientY - this.book.nativeElement.offsetTop;
 if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
-   if (this.mouse.x < 0 && this.pageNum - 1 >= 0) {
-       this.flips[this.pageNum - 1].dragging = true;
+   if (this.mouse.x < 0 && this.pageNum > 0) {
+		this.pageNum = this.pageNum -1;
+       	this.flips[this.pageNum ].dragging = true;
    } else if (this.mouse.x > 0 && this.pageNum + 1 < this.flips.length) {
-       this.flips[this.pageNum].dragging = true;
+       	this.flips[this.pageNum].dragging = true;
    }
 }
  //Prevents the text selection cursor from appearing when dragging
@@ -82,17 +86,15 @@ event.preventDefault();
 }
 
  mouseUpHandler( event ) {
-	 //console.log(" upHandler ",this.context);
+	// console.log(" upHandler X:",event);
   for( var i = 0; i < this.flips.length; i++ ) {
     // If this flip was being dragged we animate to its destination
 	if( this.flips[i].dragging ) {
       this.flips[i].target = this.mouse.x < 0 ? -1 : 1;
       // Figure out which page we should go to next depending on the flip direction
-		if( this.flips[i].target === 1 ) {
-        this.pageNum = this.pageNum - 1 >= 0 ? this.pageNum - 1 : this.pageNum;
-      	} else {
-        this.pageNum = this.pageNum + 1 < this.flips.length ? this.pageNum + 1 : this.pageNum;
-      }
+		if( this.flips[i].target !== 1 ) {
+			this.pageNum = this.pageNum + 1 < this.flips.length ? this.pageNum + 1 : this.pageNum;
+      	} 
     }
     this.flips[i].dragging = false;
     }
@@ -105,6 +107,7 @@ event.preventDefault();
 		var flip = this.flips[i];
 
 		if( flip.dragging ) {
+
 			flip.target = Math.max( Math.min( this.mouse.x / this.PAGE_WIDTH, 1 ), -1 );
 		}
 
@@ -141,10 +144,13 @@ drawFlip( flip ) {
 		let leftShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( strength, 0.5 ), 0 );
 		
 		
-		// Change page element width to match the x position of the fold
-		flip.page.style.width = Math.max((foldX-this.PAGE_WIDTH*0.5)*2+leftShadowWidth, 0) + "px";	
-		console.log("foldX: ",foldX,"foldWidth: ",foldWidth,"flipProgress: ",flip.progress);
-		console.log("pageZ: ",this.pages._results[this.pageNum].nativeElement.style.zIndex);
+		// Change the right page element width to match the x position of the fold
+		flip.rightPage.style.width = Math.max((foldX-this.PAGE_WIDTH*0.5)*2+leftShadowWidth, 0) + "px";	
+		// Change the Left page width and position along with the folded piece check for non defined pages
+		flip.leftPage.style.width = Math.max(foldWidth,0)+"px";
+
+		//console.log("foldX: ",foldX,"foldWidth: ",foldWidth,"flipProgress: ",flip.progress);
+		//console.log("pageZ: ",this.rightPages._results[this.pageNum].nativeElement.style.zIndex);
 		this.context.save();
 		//Set canvas in position
 		this.context.translate( this.CANVAS_PADDING + ( this.BOOK_WIDTH / 2 ), this.PAGE_Y + this.CANVAS_PADDING );
