@@ -25,12 +25,20 @@ export class HomePage implements AfterViewInit{
   //Debugging
   title: string = "Title";
   constructor(public navCtrl: NavController,public platform: Platform) {
+	  
 	  //this.BOOK_WIDTH = platform.width();
 	  //this.BOOK_HEIGHT = platform.height();
 	  //this.PAGE_WIDTH = this.BOOK_WIDTH*0.5-this.BOOK_WIDTH*0.05;
 	  //this.PAGE_HEIGHT = this.BOOK_HEIGHT*0.9;
     }
   ngAfterViewInit(){
+	  console.log("Height: ",this.platform.height()," Width: ",this.platform.width());
+	this.BOOK_WIDTH = this.platform.width()*2 - this.CANVAS_PADDING*4;
+  	this.BOOK_HEIGHT = this.platform.height() - this.CANVAS_PADDING*4;
+  	this.PAGE_WIDTH = this.platform.width() - this.CANVAS_PADDING*4;
+  	this.PAGE_HEIGHT = this.platform.height() - this.CANVAS_PADDING*4;
+	this.PAGE_Y = ( this.BOOK_HEIGHT - this.PAGE_HEIGHT ) / 2;
+
 	this.canvas.nativeElement.width = this.BOOK_WIDTH + ( this.CANVAS_PADDING * 2 );
 	this.canvas.nativeElement.height =this.BOOK_HEIGHT + ( this.CANVAS_PADDING * 2 );
     this.canvas.nativeElement.style.top = -this.CANVAS_PADDING + "px";
@@ -40,7 +48,6 @@ export class HomePage implements AfterViewInit{
 	//TODO
 	for( var i = 0, len = this.rightPages.length; i < len; i++ ) {
 		this.rightPages._results[i].nativeElement.style.zIndex = len - i;
-		//this.leftPages._results[i].nativeElement.style.zIndex = len - i;
 		this.flips.push( {
 			// Current progress of the flip (left -1 to right +1)
 			progress: 1,
@@ -74,10 +81,10 @@ mouseDownHandler( event ) {
  this.mouse.x = event.touches[0].clientX - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
  this.mouse.y = event.touches[0].clientY - this.book.nativeElement.offsetTop;
 if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
-   if (this.mouse.x < 0 && this.pageNum > 0) {
+   if (this.mouse.x < 0.1*this.PAGE_WIDTH && this.pageNum > 0) {
 		this.pageNum = this.pageNum -1;
        	this.flips[this.pageNum ].dragging = true;
-   } else if (this.mouse.x > 0 && this.pageNum + 1 < this.flips.length) {
+   } else if (this.mouse.x > 0.1*this.PAGE_WIDTH && this.pageNum + 1 < this.flips.length) {
        	this.flips[this.pageNum].dragging = true;
    }
 }
@@ -90,7 +97,7 @@ event.preventDefault();
   for( var i = 0; i < this.flips.length; i++ ) {
     // If this flip was being dragged we animate to its destination
 	if( this.flips[i].dragging ) {
-      this.flips[i].target = this.mouse.x < 0 ? -1 : 1;
+      this.flips[i].target = this.mouse.x < 0.1*this.PAGE_WIDTH ? -1 : 1;
       // Figure out which page we should go to next depending on the flip direction
 		if( this.flips[i].target !== 1 ) {
 			this.pageNum = this.pageNum + 1 < this.flips.length ? this.pageNum + 1 : this.pageNum;
@@ -136,7 +143,7 @@ drawFlip( flip ) {
 		let foldX = this.PAGE_WIDTH * flip.progress + foldWidth;
 		
 		// How far the page should outdent vertically due to perspective
-		let verticalOutdent = 20 * strength;
+		let verticalOutdent = this.PAGE_HEIGHT*0.05 * strength;
 		
 		// The maximum width of the left and right side shadows
 		let paperShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( 1 - flip.progress, 0.5 ), 0 );
@@ -145,7 +152,7 @@ drawFlip( flip ) {
 		
 		
 		// Change the right page element width to match the x position of the fold
-		flip.rightPage.style.width = Math.max((foldX-this.PAGE_WIDTH*0.5)*2+leftShadowWidth, 0) + "px";	
+		flip.rightPage.style.width = Math.max((foldX-this.PAGE_WIDTH*0.5)*2, 0) + "px";	
 		// Change the Left page width and position along with the folded piece check for non defined pages
 		flip.leftPage.style.width = Math.max(foldWidth,0)+"px";
 
@@ -153,7 +160,8 @@ drawFlip( flip ) {
 		//console.log("pageZ: ",this.rightPages._results[this.pageNum].nativeElement.style.zIndex);
 		this.context.save();
 		//Set canvas in position
-		this.context.translate( this.CANVAS_PADDING + ( this.BOOK_WIDTH / 2 ), this.PAGE_Y + this.CANVAS_PADDING );
+		//( this.BOOK_WIDTH / 2 )
+		this.context.translate( this.CANVAS_PADDING , this.PAGE_Y + this.CANVAS_PADDING );
 		
 		// Draw a sharp shadow on the left side of the page
 		this.context.strokeStyle = 'rgba(0,0,0,'+(0.05 * strength)+')';
@@ -216,6 +224,8 @@ drawFlip( flip ) {
 
 		this.context.restore();
 	}
-	
+obtainImage(){
+	return '../../assets/infografies/commomfojmddoekd.png';
+}
 }
 
