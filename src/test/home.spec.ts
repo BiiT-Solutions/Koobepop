@@ -12,6 +12,7 @@
 
 //var navCtrl: NavController;
 //var homePage = new HomePage(navCtrl)
+
 describe("test suit", () => {
   
   it("should check if setInterval() is defined", () => {
