@@ -1,7 +1,5 @@
 import { NavMock, PlatformMock} from "../../mocks"
-
 import { HomePage } from "./home"
-
 
 let homePage = new HomePage((<any>new NavMock), (<any>new PlatformMock));
 homePage.BOOK_HEIGHT = 2;
