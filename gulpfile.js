@@ -1,10 +1,9 @@
-var gulp = require('gulp');
-var ts   = require('gulp-typescript');
+var gulp   = require('gulp');
+var Server = require('karma').Server;
 
-gulp.task('default', () => {
-  return gulp.src('src/mocks.ts')
-    .pipe(ts({
-      noImplicitAny: true,
-    }))
-    .pipe(gulp.dest('src/transpiled'));
+gulp.task('test', (done) => {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun:true
+  }, done).start();
 });
