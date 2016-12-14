@@ -6,6 +6,10 @@ import { NavController, Platform } from 'ionic-angular';
   templateUrl: 'home.html'
 
 })
+
+
+
+
 export class HomePage implements AfterViewInit{
   BOOK_WIDTH = 400;
   BOOK_HEIGHT = 300;

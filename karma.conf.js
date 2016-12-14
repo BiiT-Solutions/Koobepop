@@ -16,14 +16,12 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       //'./src/pages/home/home.ts',
-      //'./src/test/home.spec.ts',
-      //'./src/pages/testing/test.ts',
       './src/mocks.ts',
-      //'./src/pages/testing/test.ts',
-      './src/pages/testing/test.spec.ts'
+      //'./src/pages/home/todea.ts',
+      './src/pages/home/home.spec.ts',
+      
       
     ],
-
 
     // list of files to exclude
     exclude: [
@@ -32,13 +30,11 @@ module.exports = function(config) {
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      //'./src/pages/home/home.ts': ['karma-typescript'],
-      //'./src/test/home.spec.ts': ['karma-typescript']
-      //'./src/pages/testing/test.ts': ['karma-typescript'],      
+    preprocessors: {     
+      //'./src/pages/home/home.ts': ['karma-typescript'],      
       './src/mocks.ts': ['karma-typescript'],
-      //'./src/pages/testing/test.ts': ['karma-typescript'],
-      './src/pages/testing/test.spec.ts': ['karma-typescript']
+      //'./src/pages/home/todea.ts': ['karma-typescript'],      
+      './src/pages/home/home.spec.ts': ['karma-typescript']
       
     },
 
@@ -62,7 +58,8 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'karma-typescript'],
+    reporters: ['progress'],    
+    //reporters: ['progress', 'karma-typescript'],
 
 
     // web server port
@@ -75,7 +72,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_ERROR,
 
 
     // enable / disable watching file and executing tests whenever any file changes
