@@ -4,13 +4,15 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BookDirective, PageDirective } from '../struct-dir/structure.directive';
 import { TestingPage } from '../pages/testing/testing';
+import { HomeHPage } from '../pages/home-h/home-h';
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     TestingPage,
     BookDirective,
-    PageDirective
+    PageDirective,
+    HomeHPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -19,7 +21,8 @@ import { TestingPage } from '../pages/testing/testing';
   entryComponents: [
     MyApp,
     HomePage,
-    TestingPage
+    TestingPage,
+    HomeHPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

@@ -4,12 +4,13 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { HomePage } from '../pages/home/home';
 import { TestingPage } from '../pages/testing/testing';
+import { HomeHPage } from '../pages/home-h/home-h';
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = HomePage;
+  rootPage = HomeHPage;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
