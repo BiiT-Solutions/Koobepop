@@ -15,7 +15,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      //'./src/pages/home/home.ts',
       './src/polyfills.ts',
       './src/mocks.ts',
       './src/pages/home/home.ts',
