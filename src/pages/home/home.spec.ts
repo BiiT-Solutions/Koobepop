@@ -4,8 +4,9 @@
 //import { Todea } from "./home"
 //import { NavController } from "ionic-angular";
 //import { HomePage } from "./home.ts"
-import { NavMock, PlatformMock, Todea} from "../../mocks"
-//import { Todea } from "./todea"
+import { NavMock, PlatformMock} from "../../mocks"
+import { Todea } from "./todea"
+//import "../../polyfills.ts"
 
 //let homePage = new HomePage((<any>new NavMock), (<any>new PlatformMock));
 let todea = new Todea("Cristian", 10);

@@ -16,8 +16,9 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       //'./src/pages/home/home.ts',
+      './src/polyfills.ts',
       './src/mocks.ts',
-      //'./src/pages/home/todea.ts',
+      './src/pages/home/todea.ts',
       './src/pages/home/home.spec.ts',
       
       
@@ -31,9 +32,10 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {     
-      //'./src/pages/home/home.ts': ['karma-typescript'],      
+      //'./src/pages/home/home.ts': ['karma-typescript'],
+      './src/polyfills.ts': ['karma-typescript'],            
       './src/mocks.ts': ['karma-typescript'],
-      //'./src/pages/home/todea.ts': ['karma-typescript'],      
+      './src/pages/home/todea.ts': ['karma-typescript'],      
       './src/pages/home/home.spec.ts': ['karma-typescript']
       
     },
