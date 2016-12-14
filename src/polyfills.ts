@@ -1,5 +1,7 @@
 // This file includes polyfills needed by Angular 2 and is loaded before
 // the app. You can add your own extra polyfills to this file.
+
+//This file is needed for Karma to understand angular2 decorators (Components, etc...) when transpiling from TS to JS 
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
 import 'core-js/es6/function';

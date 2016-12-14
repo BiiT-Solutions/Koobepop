@@ -1,30 +1,17 @@
-
-
-
-//import { Todea } from "./home"
-//import { NavController } from "ionic-angular";
-//import { HomePage } from "./home.ts"
 import { NavMock, PlatformMock} from "../../mocks"
-import { Todea } from "./todea"
-//import "../../polyfills.ts"
 
-//let homePage = new HomePage((<any>new NavMock), (<any>new PlatformMock));
-let todea = new Todea("Cristian", 10);
+import { HomePage } from "./home"
 
-describe('Home page: ', () => {
-  //   beforeEach(()=>{
-  //     homePage = new HomePage((<any>new NavMock), (<any>new PlatformMock));
-  //     homePage.BOOK_HEIGHT = 1
-  // })
 
-  // it('should check things', () => {
-  //   expect(homePage.BOOK_HEIGHT).toBeLessThan(2)
-  // })
+let homePage = new HomePage((<any>new NavMock), (<any>new PlatformMock));
+homePage.BOOK_HEIGHT = 2;
 
-  it('asd', () => {
-    expect(todea.getAge()).toEqual(10);
+describe('Home page', () => {
+  it("should check if homePage width is less than 3", () => {
+    expect(homePage.BOOK_HEIGHT).toBeLessThan(3);
   })
 })
+
 
 
 
