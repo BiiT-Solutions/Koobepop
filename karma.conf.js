@@ -79,8 +79,8 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'PhantomJS'],
-
+    //browsers: ['Chrome', 'PhantomJS'], // chrome not available in Jenkins
+    browsers: ['PhantomJS'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
