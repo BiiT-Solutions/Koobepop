@@ -1,9 +1,6 @@
-page-home {
-
-}
 ion-content, h2, p {
-	margin: 0;
-	padding: 0;
+	//margin: 0;
+	//padding: 0;
 }
 
 ion-content {
@@ -13,37 +10,41 @@ ion-content {
 }
 
 #book {
-	//background-color: teal;// url("book.png") no-repeat;
-	position: absolute;
-	width: 400px;
-	height: 300px;
-	left: 100%;
-	top: 80%;
-	margin-left: -400px;
-	margin-top: -400px;
+	//background-color: teal;
+	//position: absolute;
+	//width: 400px;
+	//height: 300px;
+	//left: 50%;
+	//top: 50%;
+	//margin-left: -400px;
+	//margin-top: -400px;
 }
 
 #pages section {
-	background-color: white;//url("paper.png") no-repeat;
-	display: block;
-	width: 200px;
-	height: 250px;
+	background-color: white;
 	position: absolute;
-	left: 190px;
-	top: 5px;
 	overflow: hidden;
+	display: block;
+	//width: 200px;
+	//height: 250px;	
+	//left: 190px;// move to the side
+	//top: 25px;
+	
 }
 	#pages section>div {
 		display: block;
-		width: 200px;
-		height: 250px;
-		font-size: 12px;
+		//width: 200px;
+		//height: 250px;
+		//font-size: 12px;
 	}
 	#pages section p,
-	#pages section h2 {
-		padding: 3px 35px;
-		line-height: 1.4em;
-		text-align: justify;
+	#pages section h2{
+		//padding: 3px 35px;
+		//line-height: 1.4em;
+		//text-align: justify;
+	}
+	#pages section img{
+	
 	}
 	#pages section h2{
 		margin: 15px 0 10px;

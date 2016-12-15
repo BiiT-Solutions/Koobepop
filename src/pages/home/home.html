@@ -7,45 +7,75 @@
 </ion-header>
 
 <ion-content padding>
-  <div #book id="book"
+    
+  <div #book 
+  id="book"
   (touchstart)="mouseDownHandler($event)"
       (pan)="mouseMoveHandler($event)"
-      (touchend)= "mouseUpHandler($event)">
+      (touchend)= "mouseUpHandler($event)"
+      [style.margin-left]="-this.PAGE_WIDTH+'px'"
+      >
     <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
-
     <div id = "pages">
-      <section #rightPage>
-        <div>
+      <section #rightPage 
+      [style.margin-left]="this.PAGE_WIDTH+'px'">
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"
+      >
           <h2>11111111111111</h2>
           <p>
-            11111111111
+            111111111111111111111111111111111111111
+            1
+            11111111111111111111111111
+            1111111111111111111111
           </p>
         </div>
       </section>
-      <section #rightPage>        
-        <div>
-          <h2>2222222222222</h2>
-          <p>
-            222222222222
-          </p>
+      <section #rightPage 
+      [style.margin-left]="this.PAGE_WIDTH+'px'"
+      >        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"
+        >
+          <img 
+          src='../../assets/infografies/commomfojmddoekd.png' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
         </div>
       </section>
-      <section #rightPage>
-       <div>
+      <section #rightPage 
+      [style.margin-left]="this.PAGE_WIDTH+'px'">
+       <div
+       [style.width]="this.PAGE_WIDTH+'px'"
+       [style.height]="this.PAGE_HEIGHT+'px'"
+       >
           <h2>3333333333333</h2>
           <p>
-            3333333333333333
+            33333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            333333333333333333333333333
+            333333333333333333333333333333333333
           </p>
         </div>
       </section>
-      <section #rightPage>
-       <div>
+      <section #rightPage 
+      [style.margin-left]="this.PAGE_WIDTH+'px'">      
+       <div
+       [style.width]="this.PAGE_WIDTH+'px'"
+       [style.height]="this.PAGE_HEIGHT+'px'"
+       >
           <h2>Page4 Header</h2>
           <p>
             Page4 Text
+            4444444444444444444444
+            44444444444444444444
+            4
           </p>
         </div>
       </section>
+       
       <section #leftPage>
        <div>
           <h2>Page Left1 Header</h2>
