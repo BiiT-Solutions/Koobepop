@@ -1,32 +1,7 @@
-
+page-home {
 ion-content {
-	background-color: #444;
-	color: #333;
-	font-family: Helvetica, sans-serif;
-}
-
-#book {
-	background-color: darkred;
-}
-
-#pages section {
-	background-color: white;
-	position: absolute;
-	overflow: hidden;
-	display: block;
-	height: 100%;
-	width: 100%;
-	
-	
-}
-	#pages section>div {
-		display: block;
-		font-size: 12px;	
+		font-family: Helvetica, sans-serif;
 	}
-
-#pageflip-canvas {
-	position: absolute;
-	z-index: 100;
+	
 }
-
 

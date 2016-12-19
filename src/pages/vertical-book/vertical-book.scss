@@ -1,0 +1,27 @@
+page-vertical-book {
+    ion-content {
+            font-family: Helvetica, sans-serif;
+        }
+        #book {
+        //	background-color: darkred;
+        }
+
+        #pages section {
+            background-color: white;
+            position: absolute;
+            overflow: hidden;
+            display: block;
+            
+            
+        }
+            #pages section>div {
+                display: block;
+                font-size: 12px;	
+            }
+
+        #pageflip-canvas {
+            position: absolute;
+            z-index: 100;
+        }
+
+}

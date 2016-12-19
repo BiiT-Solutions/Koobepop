@@ -1,44 +1,43 @@
 import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
-
+import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
+import { Companies } from '../../providers/companies'
 @Component({
-  selector: 'page-home-h',
-  templateUrl: 'home-h.html'
+  selector: 'page-vertical-book',
+  templateUrl: 'vertical-book.html',
+  providers: [Companies]
 })
-export class HomeHPage implements AfterViewInit{
-  BOOK_WIDTH = 400;
-  BOOK_HEIGHT = 300;
-  PAGE_WIDTH = 200;
-  PAGE_HEIGHT = 250;
+export class VerticalBookPage implements AfterViewInit{
+  BOOK_WIDTH = 0;
+  BOOK_HEIGHT = 0;
+  PAGE_WIDTH = 0;
+  PAGE_HEIGHT = 0;
   PAGE_MARGIN = 0; 
   pageNum=0;
-
+  imageList ;
   @ViewChild("pageflipCanvas") canvas: ElementRef;
-  @ViewChild("pageshadowCanvas") shadowCanvas: ElementRef
   context: CanvasRenderingContext2D ;
-  shadowContext: CanvasRenderingContext2D;
   mouse = {x: 0, y: 0};
   flips=[];
   @ViewChild("book") book: ElementRef;
   @ViewChildren("rightPage") rightPages;
-  @ViewChildren("leftPage") leftPages;
-  //Debugging
-  title: string = "Title";
-  constructor(public navCtrl: NavController,public platform: Platform) {
-    }
+
+  constructor(public navCtrl: NavController,public platform: Platform,public companies: Companies) {
+	  this.imageList = companies.getCompanies(); 
+  }
   
   ngAfterViewInit(){
-	this.PAGE_MARGIN =  this.platform.width()*0.05;
-	this.BOOK_WIDTH = this.platform.width() ;
+	
+	window.onorientationchange = e => this.navToHorizontalBook();
+	this.PAGE_MARGIN = this.platform.width()*0.05;
+	this.BOOK_WIDTH = this.platform.width()*2 ;
   	this.BOOK_HEIGHT = this.platform.height();
-  	this.PAGE_WIDTH = this.BOOK_WIDTH/2-this.PAGE_MARGIN*2 ;
-  	this.PAGE_HEIGHT = this.PAGE_HEIGHT-this.PAGE_MARGIN*2;
-	this.canvas.nativeElement.width = this.BOOK_WIDTH;
-	this.canvas.nativeElement.height = this.BOOK_HEIGHT;
-  this.context= this.canvas.nativeElement.getContext("2d");	
-  this.shadowCanvas.nativeElement.width = this.BOOK_WIDTH;
-	this.shadowCanvas.nativeElement.height = this.BOOK_HEIGHT;
-  this.shadowContext= this.shadowCanvas.nativeElement.getContext("2d");	
+  	this.PAGE_WIDTH = this.platform.width()-this.PAGE_MARGIN*2 ;
+  	this.PAGE_HEIGHT = this.platform.height()-this.PAGE_MARGIN*2;
+	  this.canvas.nativeElement.width = this.BOOK_WIDTH;
+	  this.canvas.nativeElement.height = this.BOOK_HEIGHT;
+
+    this.context= this.canvas.nativeElement.getContext("2d");	
 	//Pages 
 	for( var i = 0, len = this.rightPages.length; i < len; i++ ) {
 		//Right
@@ -46,17 +45,9 @@ export class HomeHPage implements AfterViewInit{
 		this.rightPages._results[i].nativeElement.style.zIndex = len - i;
 		this.rightPages._results[i].nativeElement.style.marginLeft = this.PAGE_WIDTH+this.PAGE_MARGIN+"px";
 		this.rightPages._results[i].nativeElement.style.marginTop = this.PAGE_MARGIN+"px";
-		console.log(this.rightPages._results[i]);
+	
 		}
-		//Left
-		if(this.leftPages._results[i]!= undefined){
-		this.leftPages._results[i].nativeElement.style.zIndex = 100 + i;
-		this.leftPages._results[i].nativeElement.style.width = "0.1px";
-		this.leftPages._results[i].nativeElement.style.height = this.PAGE_HEIGHT+"px"
-		this.leftPages._results[i].nativeElement.style.marginTop = this.PAGE_MARGIN+"px";
-    this.leftPages._results[i].nativeElement.style.marginLeft = this.PAGE_MARGIN+"px";
 		
-	}
 		this.flips.push( {
 			// Current progress of the flip (left -1 to right +1)
 			progress: 1,
@@ -64,7 +55,6 @@ export class HomeHPage implements AfterViewInit{
 			target: 1,
 			// The page DOM element related to this flip
 			rightPage: this.rightPages._results[i].nativeElement, 
-			leftPage: this.leftPages._results[i]!=undefined?this.leftPages._results[i].nativeElement:"",
 			// True while the page is being dragged
 			dragging: false
 		} );
@@ -76,8 +66,7 @@ export class HomeHPage implements AfterViewInit{
 
 
 mouseMoveHandler( event ) {
- // console.log(" moveHandler",event.deltaX," ",event.center.x);
-   // Offset mouse position so that the top of the spine is 0
+  // Offset mouse position so that the top of the spine is 0
    this.mouse.x = event.center.x - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
    this.mouse.y = event.center.y - this.book.nativeElement.offsetTop;
     
@@ -120,7 +109,6 @@ event.preventDefault();
   render() {	
 	   //console.log("Render func:",this.pageNum);	
 		this.context.clearRect( 0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height );
-    this.shadowContext.clearRect( 0, 0, this.shadowCanvas.nativeElement.width, this.shadowCanvas.nativeElement.height );
 	for (var i = 0; i < this.flips.length; i++) {
 		var flip = this.flips[i];
 
@@ -153,7 +141,7 @@ drawFlip( flip ) {
 		let foldX = this.PAGE_WIDTH * flip.progress + foldWidth;
 		
 		// How far the page should outdent vertically due to perspective
-		let verticalOutdent = this.PAGE_HEIGHT*0.1 * strength;
+		let verticalOutdent = this.PAGE_MARGIN * strength;
 		
 		// The maximum width of the left and right side shadows
 		let paperShadowWidth = ( this.PAGE_WIDTH * 0.5 ) * Math.max( Math.min( 1 - flip.progress, 0.5 ), 0 );
@@ -164,54 +152,45 @@ drawFlip( flip ) {
 		// Change the right page element width to match the x position of the fold
 		flip.rightPage.style.width = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0) + "px";	
 
-		// Change the Left page width and position along with the folded piece check for non defined pages
-		flip.leftPage.style.marginLeft = Math.max(this.PAGE_WIDTH+this.PAGE_MARGIN*2+foldX-foldWidth,0)+"px";
-		flip.leftPage.style.width = Math.max(foldWidth,0)+"px";
-		
 		this.context.save();
-    this.shadowContext.save();
 		//Set canvas in position
-		//( this.BOOK_WIDTH / 2 )
 		this.context.translate( ( this.BOOK_WIDTH / 2 ) , this.PAGE_MARGIN);
-		this.shadowContext.translate( ( this.BOOK_WIDTH / 2 ) , this.PAGE_MARGIN);
 		
-
-
 		// Draw a sharp shadow on the left side of the page
-		this.shadowContext.strokeStyle = 'rgba(0,0,0,'+(0.05 * strength)+')';
-		this.shadowContext.lineWidth = 30 * strength;
-		this.shadowContext.beginPath();
-		this.shadowContext.moveTo(foldX - foldWidth, -verticalOutdent * 0.5);
-		this.shadowContext.lineTo(foldX - foldWidth, this.PAGE_HEIGHT + (verticalOutdent * 0.5));
-		this.shadowContext.stroke();
+		this.context.strokeStyle = 'rgba(0,0,0,'+(0.05 * strength)+')';
+		this.context.lineWidth = 30 * strength;
+		this.context.beginPath();
+		this.context.moveTo(foldX - foldWidth, -verticalOutdent * 0.5);
+		this.context.lineTo(foldX - foldWidth, this.PAGE_HEIGHT + (verticalOutdent * 0.5));
+		this.context.stroke();
 		
 		
 		// Right side drop shadow
-		let rightShadowGradient = this.shadowContext.createLinearGradient(foldX, 0, foldX + rightShadowWidth, 0);
+		let rightShadowGradient = this.context.createLinearGradient(foldX, 0, foldX + rightShadowWidth, 0);
 		rightShadowGradient.addColorStop(0, 'rgba(0,0,0,'+(strength*0.2)+')');
 		rightShadowGradient.addColorStop(0.8, 'rgba(0,0,0,0.0)');
 		
-		this.shadowContext.fillStyle = rightShadowGradient;
-		this.shadowContext.beginPath();
-		this.shadowContext.moveTo(foldX, 0);
-		this.shadowContext.lineTo(foldX + rightShadowWidth, 0);
-		this.shadowContext.lineTo(foldX + rightShadowWidth, this.PAGE_HEIGHT);
-		this.shadowContext.lineTo(foldX, this.PAGE_HEIGHT);
-		this.shadowContext.fill();
+		this.context.fillStyle = rightShadowGradient;
+		this.context.beginPath();
+		this.context.moveTo(foldX, 0);
+		this.context.lineTo(foldX + rightShadowWidth, 0);
+		this.context.lineTo(foldX + rightShadowWidth, this.PAGE_HEIGHT);
+		this.context.lineTo(foldX, this.PAGE_HEIGHT);
+		this.context.fill();
 		
 		
 		// Left side drop shadow
-		let leftShadowGradient = this.shadowContext.createLinearGradient(foldX - foldWidth - leftShadowWidth, 0, foldX - foldWidth, 0);
+		let leftShadowGradient = this.context.createLinearGradient(foldX - foldWidth - leftShadowWidth, 0, foldX - foldWidth, 0);
 		leftShadowGradient.addColorStop(0, 'rgba(0,0,0,0.0)');
 		leftShadowGradient.addColorStop(1, 'rgba(0,0,0,'+(strength*0.15)+')');
 		
-		this.shadowContext.fillStyle = leftShadowGradient;
-		this.shadowContext.beginPath();
-		this.shadowContext.moveTo(foldX - foldWidth - leftShadowWidth, 0);
-		this.shadowContext.lineTo(foldX - foldWidth, 0);
-		this.shadowContext.lineTo(foldX - foldWidth, this.PAGE_HEIGHT);
-		this.shadowContext.lineTo(foldX - foldWidth - leftShadowWidth, this.PAGE_HEIGHT);
-		this.shadowContext.fill();
+		this.context.fillStyle = leftShadowGradient;
+		this.context.beginPath();
+		this.context.moveTo(foldX - foldWidth - leftShadowWidth, 0);
+		this.context.lineTo(foldX - foldWidth, 0);
+		this.context.lineTo(foldX - foldWidth, this.PAGE_HEIGHT);
+		this.context.lineTo(foldX - foldWidth - leftShadowWidth, this.PAGE_HEIGHT);
+		this.context.fill();
 		
 		
 		// Gradient applied to the folded paper (highlights & shadows)
@@ -222,7 +201,7 @@ drawFlip( flip ) {
 		foldGradient.addColorStop(1.0, '#e2e2e2');
 		
 		this.context.fillStyle = foldGradient;
-		this.context.strokeStyle = 'rgba(0,0,0,0.0)';
+		this.context.strokeStyle = 'rgba(0,0,0,0.06)';
 		this.context.lineWidth = 0.5;
 		
 		// Draw the folded piece of paper
@@ -232,19 +211,28 @@ drawFlip( flip ) {
 		this.context.quadraticCurveTo(foldX, this.PAGE_HEIGHT + (verticalOutdent * 2), foldX - foldWidth, this.PAGE_HEIGHT + verticalOutdent);
 		this.context.lineTo(foldX - foldWidth, -verticalOutdent);
 		this.context.quadraticCurveTo(foldX, -verticalOutdent * 2, foldX, 0);
+		
 		this.context.fill();
 		this.context.stroke();
 
-		
-		//this.shadowContext.fill();
-		//this.shadowContext.stroke();
-
-    this.context.restore();
-		this.shadowContext.restore();
+		this.context.restore();
 	}
 
 	obtainImage(){
-		return '../../assets/infografies/commomfojmddoekd.png';
+		return 'assets/infografies/commomfojmddoekd.png';	}
+	navBack(){
+		window.onorientationchange = null;
+		this.navCtrl.pop();
+	}
+	navToHorizontalBook(){
+		//TODO fix this
+		console.log(window.orientation );
+		window.onorientationchange = null;
+	if (window.orientation in [90,270,-90]){
+		this.navCtrl.pop().then(e => this.navCtrl.push(HorizonalBookPage));
+		}else{
+		this.navCtrl.pop().then(e => this.navCtrl.push(VerticalBookPage));
+		}
 	}
 }
 

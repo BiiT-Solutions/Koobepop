@@ -1,128 +1,23 @@
-<!--
+
 <ion-header>
   <ion-navbar>
     <ion-title>
-     Mouse X:{{mouse.x}} Y:{{mouse.y}} Page: {{pageNum}}
+     Home Page
     </ion-title>
   </ion-navbar>
 </ion-header>
--->
+
 <ion-content >  
-  <style ng-style="estilo"></style>
-  <div #book 
-  id="book"
-  (touchstart)="mouseDownHandler($event)"
-      (pan)="mouseMoveHandler($event)"
-      (touchend)= "mouseUpHandler($event)"
-      [style.margin-left] = "-this.PAGE_WIDTH+'px'"
-      >
-    <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
-    <div id = "pages"  
-      
-      >      
-      <section #rightPage 
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'">        
-        <div
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"        
-        >
-          <img 
-          [src]='obtainImage()' 
-          [style.width]="this.PAGE_WIDTH+'px'"
-          [style.height]="this.PAGE_HEIGHT+'px'"/>
-        </div>
-      </section>
-      <section #rightPage
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"       
-      >
-        <div
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'" >
-          <h2>2</h2>
-          <p>
-            2222222222222222
-            22222222222
-            222222222222222
-            222222222222222
-            222222222222222
-            222222222222
-          </p>
-        </div>
-      </section>
-      <section #rightPage
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'"       
-      >
-       <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>3333333333333</h2>
-          <p>
-            33333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-            333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-            33333333333333333333333333333333
-            3333
-            3333333333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            33333333333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-            33333333333333333333333333333333
-            3333
-            3333333333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-             3333333333333333333333333333333333333333
-            33333333333333333333333333333333
-            33333333333333333333333333333333333
-            3333333333333333333333333333333333333333
-            333333333333333333333333333
-            333333333333333333333333333333333333
-          </p>
-        </div>
-      </section>
-      
-      <section #rightPage
-      [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"       
-      > 
-      <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>Page4 Header</h2>
-          <p>
-            Page4 Text
-            4444444444444444444444
-            44444444444444444444
-            4
-          </p>
-        </div>
-      </section>
-       
-      
-    </div>    
-  </div>
+<button ion-button     
+      (click) = "navVerticalBook()" 
+      color="light" >
+        Vertical Book</button>
+        <button ion-button     
+      (click) = "navHorizontalBook()" 
+      color="light" >
+        Horizontal Book</button>
+        <button ion-button     
+      (click) = "navSearchView()" 
+      color="light" >
+        Search View</button>
 </ion-content>

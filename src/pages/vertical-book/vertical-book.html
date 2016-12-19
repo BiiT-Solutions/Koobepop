@@ -1,19 +1,33 @@
-<ion-content >  
-  <style ng-style="estilo"></style>
-  <div #book 
+<ion-content>  
+  <button ion-button 
+      style="z-index:2000; position: absolute" 
+      (click) = "navBack()" 
+      color="light"
+      icon-only >
+        <ion-icon name = "arrow-back"></ion-icon></button>
+ <div #book 
   id="book"
   (touchstart)="mouseDownHandler($event)"
       (pan)="mouseMoveHandler($event)"
       (touchend)= "mouseUpHandler($event)"
-      
+      [style.margin-left] = "-this.PAGE_WIDTH+'px'"
       >
     <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
-    <canvas #pageshadowCanvas id = "pageshadow-canvas"></canvas>
-    
-    <div id = "pages"  
-      
-      >      
+    <div id = "pages" *ngFor="let image of imageList">     
       <section #rightPage 
+      [style.width]="this.PAGE_WIDTH+'px'"
+      [style.height]="this.PAGE_HEIGHT+'px'">        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"        
+        >
+          <img 
+          [src]='image' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
+        </div>
+      </section>
+      <!--<section #rightPage 
       [style.width]="this.PAGE_WIDTH+'px'"
       [style.height]="this.PAGE_HEIGHT+'px'">        
         <div
@@ -28,7 +42,7 @@
       </section>
       <section #rightPage
         [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"       
+        [style.height]="this.PAGE_HEIGHT+'px'"
       >
         <div
         [style.width]="this.PAGE_WIDTH+'px'"
@@ -42,6 +56,7 @@
             222222222222222
             222222222222
           </p>
+          <button ion-button>Butt</button>
         </div>
       </section>
       <section #rightPage
@@ -95,7 +110,8 @@
             333333333333333333333333333333333333
           </p>
         </div>
-      </section>      
+      </section>
+      
       <section #rightPage
       [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'"       
@@ -113,65 +129,8 @@
           </p>
         </div>
       </section>
-      <section #leftPage
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'"       
-      > 
-      <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>Page0 (left)</h2>
-          <p>
-            This is a test page
-          </p>
-        </div>
-      </section>
-      <section #leftPage
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'"       
-      > 
-      <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>Page1 (left)</h2>
-          <p>
-            This is a test page
-          </p>
-        </div>
-      </section>
-      <section #leftPage
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'"       
-      > 
-      <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>Page2 (left)</h2>
-          <p>
-            This is a test page
-          </p>
-        </div>
-      </section>
-      <section #leftPage
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'"       
-      > 
-      <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>Page3 (left)</h2>
-          <p>
-            This is a test page
-          </p>
-        </div>
-      </section>
-      
        
-      
+      -->
     </div>    
   </div>
 </ion-content>

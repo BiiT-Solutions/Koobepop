@@ -2,17 +2,17 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { BookDirective, PageDirective } from '../struct-dir/structure.directive';
-import { TestingPage } from '../pages/testing/testing';
-import { HomeHPage } from '../pages/home-h/home-h';
+import { HorizonalBookPage } from '../pages/horizontal-book/horizontal-book';
+import { VerticalBookPage } from '../pages/vertical-book/vertical-book';
+import { SearchPage } from '../pages/search/search';
+import { Companies } from '../providers/companies';
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    TestingPage,
-    BookDirective,
-    PageDirective,
-    HomeHPage
+    HorizonalBookPage,
+    VerticalBookPage,
+    SearchPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -21,8 +21,9 @@ import { HomeHPage } from '../pages/home-h/home-h';
   entryComponents: [
     MyApp,
     HomePage,
-    TestingPage,
-    HomeHPage
+    HorizonalBookPage,
+    VerticalBookPage,
+    SearchPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

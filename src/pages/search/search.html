@@ -1,0 +1,18 @@
+
+<ion-header>
+<ion-searchbar
+  [(ngModel)]="myInput"
+  [showCancelButton]="shouldShowCancel"
+  (ionInput)="onInput($event)"
+  (ionCancel)="onCancel($event)">
+</ion-searchbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngFor="let item of items">
+    <section>
+      {{item}}
+      </section>
+  </div>
+</ion-content>
