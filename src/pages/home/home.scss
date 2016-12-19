@@ -1,58 +1,7 @@
-ion-content, h2, p {
-	//margin: 0;
-	//padding: 0;
-}
-
+page-home {
 ion-content {
-	background-color: #444;
-	color: #333;
-	font-family: Helvetica, sans-serif;
-}
-
-#book {
-	//background-color: teal;
-	//position: absolute;
-	//width: 400px;
-	//height: 300px;
-	//left: 50%;
-	//top: 50%;
-	//margin-left: -400px;
-	//margin-top: -400px;
-}
-
-#pages section {
-	background-color: white;
-	position: absolute;
-	overflow: hidden;
-	display: block;
-	//width: 200px;
-	//height: 250px;	
-	//left: 190px;// move to the side
-	//top: 25px;
+		font-family: Helvetica, sans-serif;
+	}
 	
 }
-	#pages section>div {
-		display: block;
-		//width: 200px;
-		//height: 250px;
-		//font-size: 12px;
-	}
-	#pages section p,
-	#pages section h2{
-		//padding: 3px 35px;
-		//line-height: 1.4em;
-		//text-align: justify;
-	}
-	#pages section img{
-	
-	}
-	#pages section h2{
-		margin: 15px 0 10px;
-	}
-
-#pageflip-canvas {
-	position: absolute;
-	z-index: 100;
-}
-
 

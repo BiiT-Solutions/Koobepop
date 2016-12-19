@@ -1,0 +1,136 @@
+<ion-content>  
+  <button ion-button 
+      style="z-index:2000; position: absolute" 
+      (click) = "navBack()" 
+      color="light"
+      icon-only >
+        <ion-icon name = "arrow-back"></ion-icon></button>
+ <div #book 
+  id="book"
+  (touchstart)="mouseDownHandler($event)"
+      (pan)="mouseMoveHandler($event)"
+      (touchend)= "mouseUpHandler($event)"
+      [style.margin-left] = "-this.PAGE_WIDTH+'px'"
+      >
+    <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
+    <div id = "pages" *ngFor="let image of imageList">     
+      <section #rightPage 
+      [style.width]="this.PAGE_WIDTH+'px'"
+      [style.height]="this.PAGE_HEIGHT+'px'">        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"        
+        >
+          <img 
+          [src]='image' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
+        </div>
+      </section>
+      <!--<section #rightPage 
+      [style.width]="this.PAGE_WIDTH+'px'"
+      [style.height]="this.PAGE_HEIGHT+'px'">        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"        
+        >
+          <img 
+          [src]='obtainImage()' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
+        </div>
+      </section>
+      <section #rightPage
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"
+      >
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'" >
+          <h2>2</h2>
+          <p>
+            2222222222222222
+            22222222222
+            222222222222222
+            222222222222222
+            222222222222222
+            222222222222
+          </p>
+          <button ion-button>Butt</button>
+        </div>
+      </section>
+      <section #rightPage
+      [style.width]="this.PAGE_WIDTH+'px'"
+      [style.height]="this.PAGE_HEIGHT+'px'"       
+      >
+       <div
+       [style.width]="this.PAGE_WIDTH+'px'"
+       [style.height]="this.PAGE_HEIGHT+'px'"
+       >
+          <h2>3333333333333</h2>
+          <p>
+            33333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            33333333333333333333333333333333
+            3333
+            3333333333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            33333333333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            33333333333333333333333333333333
+            3333
+            3333333333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+             3333333333333333333333333333333333333333
+            33333333333333333333333333333333
+            33333333333333333333333333333333333
+            3333333333333333333333333333333333333333
+            333333333333333333333333333
+            333333333333333333333333333333333333
+          </p>
+        </div>
+      </section>
+      
+      <section #rightPage
+      [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"       
+      > 
+      <div
+       [style.width]="this.PAGE_WIDTH+'px'"
+       [style.height]="this.PAGE_HEIGHT+'px'"
+       >
+          <h2>Page4 Header</h2>
+          <p>
+            Page4 Text
+            4444444444444444444444
+            44444444444444444444
+            4
+          </p>
+        </div>
+      </section>
+       
+      -->
+    </div>    
+  </div>
+</ion-content>
