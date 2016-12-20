@@ -25,6 +25,8 @@ import { Companies } from '../providers/companies';
     VerticalBookPage,
     SearchPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+    Companies,
+  {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

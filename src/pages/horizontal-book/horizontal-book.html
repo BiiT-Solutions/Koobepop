@@ -1,122 +1,4 @@
-<!--<ion-content>  
-  <div #book 
-  id="book"
-      >
-      <button ion-button 
-      style="z-index:2000; position: absolute" 
-      (click) = "navBack()" 
-      color="light"
-      icon-only >
-        <ion-icon name = "arrow-back"></ion-icon></button>
-    <canvas #pageflipCanvas id = "pageflip-canvas"
-    (touchstart)="mouseDownHandler($event)"
-  (pan)="mouseMoveHandler($event)"
-  (touchend)= "mouseUpHandler($event)"></canvas>
-    <div id = "pages" >      
-      <section #rightPage>
-       <div
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"        
-        >
-          <img 
-          [src]='obtainImage()' 
-          [style.width]="this.PAGE_WIDTH+'px'"
-          [style.height]="this.PAGE_HEIGHT+'px'"/>
-        </div>
-      </section>
-      <section #rightPage>
-        <div
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'" >
-          <h2>2</h2>
-          <p>
-            2222222222222222
-            22222222222
-            222222222222222
-            222222222222222
-            222222222222222
-            222222222222
-          </p>
-           
-        </div>
-      </section>
-      <section #rightPage>
-      <div
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"        
-        >
-          <img 
-          [src]='obtainImage()' 
-          [style.width]="this.PAGE_WIDTH+'px'"
-          [style.height]="this.PAGE_HEIGHT+'px'"/>
-        </div>
-      </section>      
-      <section #rightPage> 
-      <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>Lorem ipsum</h2>
-          <p>
-            
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras commodo eros vestibulum, egestas magna quis, fringilla ante. Donec malesuada orci sed eros feugiat, a ultrices nibh viverra. Cras fringilla gravida felis, eget consequat turpis faucibus ut. Curabitur venenatis, felis quis dapibus lacinia, enim massa viverra turpis, ut tristique leo dolor et neque. Phasellus vel nunc eu mi ultrices dictum. Cras mattis accumsan odio, sed efficitur tortor rutrum sed. Morbi mattis finibus tincidunt. Praesent nec erat nisl.
 
-In congue, justo ac facilisis dapibus, nisl mauris posuere leo, a porta metus mauris nec sem. Quisque commodo fermentum ipsum, ac aliquet lorem convallis eu. Proin laoreet vel augue sit amet hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dui libero, vulputate nec ullamcorper non, elementum et diam. Aliquam non mattis nibh. Phasellus feugiat dui vestibulum porta lobortis. Praesent sed eleifend lorem. Aenean vitae ex ornare arcu consectetur congue. Praesent rhoncus hendrerit tortor, in consectetur mauris ultrices et. Sed posuere orci facilisis, efficitur felis vitae, accumsan lorem. Sed iaculis a dolor ac scelerisque. Maecenas facilisis, ipsum at convallis viverra, nunc ex sodales ligula, in ullamcorper diam eros nec leo. Sed fringilla augue nulla, at auctor arcu mollis in.
-
-Vestibulum ultrices dolor justo, nec interdum justo pretium nec. Suspendisse suscipit fermentum ligula placerat malesuada. Vestibulum at interdum nisl. Vestibulum id elit felis. Donec a metus faucibus, venenatis est sed, finibus urna. Phasellus sit amet ipsum dignissim, congue libero ut, fermentum nibh. Ut pharetra sem a turpis efficitur, a vehicula leo placerat. Maecenas fermentum justo quis fringilla venenatis. Ut enim quam, viverra at varius vel, porta eu urna. Etiam a imperdiet augue.
-
-Sed vitae odio sem. Etiam tincidunt, felis dignissim lacinia bibendum, ipsum massa pharetra nisi, a dapibus purus nibh finibus erat. Nam mattis felis eget porttitor pharetra. Nulla sapien risus, ultrices quis lectus ac, posuere malesuada ante. Morbi mi nulla, ornare in turpis dignissim, ultrices rutrum dolor. In hac habitasse platea dictumst. Praesent quis ligula ut elit convallis elementum. Etiam mollis ullamcorper purus, non pulvinar nisl pellentesque et. Phasellus at hendrerit tortor. Cras mollis arcu eu justo auctor pulvinar. Sed faucibus lectus a felis suscipit semper. Integer cursus eu ante ut tincidunt. Duis cursus dui non tortor dictum, eu condimentum eros vehicula. Nulla massa felis, congue non tellus dictum, ultrices mollis quam. Mauris at rutrum nisl.
-
-Ut aliquet rutrum ipsum, vel scelerisque eros commodo at. Praesent justo mauris, lobortis sit amet purus id, vulputate vulputate est. Aliquam luctus consequat pretium. Proin nec lobortis leo. Nullam tempus ligula a leo sodales faucibus. Aliquam lobortis nisi eu tristique aliquet. Donec vestibulum euismod est, in consequat sem bibendum in. Vestibulum a urna mi. Morbi aliquet felis odio, quis suscipit sem porta at. Nam ultricies arcu sem. Praesent leo metus, pretium sed laoreet non, lacinia quis enim. Sed at eros et ex fermentum rutrum ut a urna. Donec in odio aliquam, aliquam turpis eget, vestibulum urna. Vestibulum maximus nunc erat, nec commodo ipsum commodo eu. Etiam iaculis diam eu nibh iaculis, nec viverra sapien placerat.
-          
-          </p>
-        </div>
-      </section>
-      <section #leftPage> 
-      <div
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"        
-        >
-          <img 
-          [src]='obtainImage()' 
-          [style.width]="this.PAGE_WIDTH+'px'"
-          [style.height]="this.PAGE_HEIGHT+'px'"/>
-        </div>
-      </section>
-      <section #leftPage> 
-      <div
-        [style.width]="this.PAGE_WIDTH+'px'"
-        [style.height]="this.PAGE_HEIGHT+'px'"        
-        >
-          <img 
-          [src]='obtainImage()' 
-          [style.width]="this.PAGE_WIDTH+'px'"
-          [style.height]="this.PAGE_HEIGHT+'px'"/>
-        </div>
-      </section>
-      <section #leftPage> 
-      <div
-       [style.width]="this.PAGE_WIDTH+'px'"
-       [style.height]="this.PAGE_HEIGHT+'px'"
-       >
-          <h2>Page2 (left)</h2>
-          <p>
-            This is a test page
-          </p>
-        </div>
-      </section>
-      <section #leftPage> 
-      <div>
-          <h2>Page3 (left)</h2>
-          <p>
-            This is a test page
-          </p>
-        </div>
-      </section>
-    </div>    
-  </div>
-</ion-content>
--->
 <ion-content>  
   <button ion-button 
       style="z-index:2000; position: absolute" 
@@ -130,9 +12,9 @@ Ut aliquet rutrum ipsum, vel scelerisque eros commodo at. Praesent justo mauris,
       (pan)="mouseMoveHandler($event)"
       (touchend)= "mouseUpHandler($event)"
       >
+      
     <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
-
-    <div id = "pages" *ngFor="let image of imageList; let i = index">     
+      <div id = "pages" *ngFor="let image of imageList; let i = index">     
       <section *ngIf="i%2==0" #rightPage 
       [style.width]="this.PAGE_WIDTH+'px'"
       [style.height]="this.PAGE_HEIGHT+'px'">        
@@ -148,8 +30,7 @@ Ut aliquet rutrum ipsum, vel scelerisque eros commodo at. Praesent justo mauris,
       </section>
 
       <section *ngIf="i%2==1" #leftPage 
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'">        
+      >        
         <div
         [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'"        

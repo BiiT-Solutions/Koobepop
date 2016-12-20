@@ -248,11 +248,13 @@ drawFlip( flip ) {
 	navToVerticalBook(){
 		//TODO fix this
 		console.log(window.orientation );
-		window.onorientationchange = null;
-		if (window.orientation in [0,180,-180]){		
-		this.navCtrl.pop().then(e => this.navCtrl.push(VerticalBookPage));
+		
+		if (window.orientation==0){
+			window.onorientationchange = null;		
+			this.navCtrl.pop().then(e => this.navCtrl.push(VerticalBookPage));
 		}else{
-		this.navCtrl.pop().then(e => this.navCtrl.push(HorizonalBookPage));
+			window.onorientationchange = null;
+			this.navCtrl.pop().then(e => this.navCtrl.push(HorizonalBookPage));
 		}
 	}
 }

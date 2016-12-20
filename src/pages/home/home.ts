@@ -8,7 +8,7 @@ import { SearchPage } from '../search/search';
   templateUrl: 'home.html'
 })
 export class HomePage {
- 
+  BOOK_HEIGHT=4;
   constructor(public navCtrl: NavController,public platform: Platform) {
     }
   navHorizontalBook(){

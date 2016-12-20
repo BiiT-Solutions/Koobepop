@@ -29,6 +29,7 @@ export class VerticalBookPage implements AfterViewInit{
   ngAfterViewInit(){
 	
 	window.onorientationchange = e => this.navToHorizontalBook();
+
 	this.PAGE_MARGIN = this.platform.width()*0.05;
 	this.BOOK_WIDTH = this.platform.width()*2 ;
   	this.BOOK_HEIGHT = this.platform.height();
@@ -227,10 +228,12 @@ drawFlip( flip ) {
 	navToHorizontalBook(){
 		//TODO fix this
 		console.log(window.orientation );
+		
+	if (window.orientation == 90 || window.orientation == -90){
 		window.onorientationchange = null;
-	if (window.orientation in [90,270,-90]){
 		this.navCtrl.pop().then(e => this.navCtrl.push(HorizonalBookPage));
 		}else{
+		window.onorientationchange = null;
 		this.navCtrl.pop().then(e => this.navCtrl.push(VerticalBookPage));
 		}
 	}
