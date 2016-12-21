@@ -8,9 +8,14 @@ export class Companies {
   constructor(public http: Http) {
     this.companiesList = [
   "assets/infografies/commomfojmddoekd.png",
-  "assets/infografies/publi1_m.jpg",
+  "assets/infografies/red_graph.jpg",
+  "assets/infografies/red_graph.jpg",
+  "assets/infografies/blue_graph.jpg",
+  "assets/infografies/blue_graph.jpg",
+  "assets/infografies/publi1_m.jpg",  
   "assets/infografies/commomfojmddoekd.png",
   "assets/infografies/publi1_m.jpg",
+  "assets/infografies/green_orange_graph.jpg",
   "assets/infografies/commomfojmddoekd.png"]
   }
   getCompanies(): any {
