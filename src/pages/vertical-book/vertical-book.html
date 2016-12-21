@@ -10,13 +10,10 @@
   (touchstart)="mouseDownHandler($event)"
       (pan)="mouseMoveHandler($event)"
       (touchend)= "mouseUpHandler($event)"
-      [style.margin-left] = "-this.PAGE_WIDTH+'px'"
       >
     <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
     <div id = "pages" *ngFor="let image of imageList">     
-      <section #rightPage 
-      [style.width]="this.PAGE_WIDTH+'px'"
-      [style.height]="this.PAGE_HEIGHT+'px'">        
+      <section #rightPage >        
         <div
         [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'"        

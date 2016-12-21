@@ -1,4 +1,3 @@
-
 <ion-content>  
   <button ion-button 
       style="z-index:2000; position: absolute" 
@@ -9,36 +8,53 @@
  <div #book 
   id="book"
   (touchstart)="mouseDownHandler($event)"
-      (pan)="mouseMoveHandler($event)"
-      (touchend)= "mouseUpHandler($event)"
+  (pan)="mouseMoveHandler($event)"
+  (touchend)= "mouseUpHandler($event)"
       >
-      
     <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
-      <div id = "pages" *ngFor="let image of imageList; let i = index">     
-      <section *ngIf="i%2==0" #rightPage >        
+    <div id = "pages" >
+
+      <section #previousPage
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'" 
+       >        
         <div
         [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'"        
         >
           <img 
-          [src]='image' 
+          [src]='this.imageList[this.pageNum-1]' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
+        </div>
+      </section>     
+
+      <section #actualPage >        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"        
+        >
+          <img 
+          [src]='this.imageList[this.pageNum]' 
           [style.width]="this.PAGE_WIDTH+'px'"
           [style.height]="this.PAGE_HEIGHT+'px'"/>
         </div>
       </section>
 
-      <section *ngIf="i%2==1" #leftPage 
+      <section #nextPage        
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'" 
       >        
         <div
         [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'"        
         >
           <img 
-          [src]='image' 
+          [src]='this.imageList[this.pageNum+1]' 
           [style.width]="this.PAGE_WIDTH+'px'"
           [style.height]="this.PAGE_HEIGHT+'px'"/>
         </div>
       </section>
-    </div>
- </div>
+    </div>    
+  </div>
 </ion-content>

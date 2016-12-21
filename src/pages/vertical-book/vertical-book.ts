@@ -4,8 +4,7 @@ import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
 import { Companies } from '../../providers/companies'
 @Component({
   selector: 'page-vertical-book',
-  templateUrl: 'vertical-book.html',
-  providers: [Companies]
+  templateUrl: 'vertical-book.html'
 })
 export class VerticalBookPage implements AfterViewInit{
   BOOK_WIDTH = 0;
@@ -37,7 +36,7 @@ export class VerticalBookPage implements AfterViewInit{
   	this.PAGE_HEIGHT = this.platform.height()-this.PAGE_MARGIN*2;
 	  this.canvas.nativeElement.width = this.BOOK_WIDTH;
 	  this.canvas.nativeElement.height = this.BOOK_HEIGHT;
-
+	this.book.nativeElement.style.marginLeft = - this.PAGE_WIDTH+"px";
     this.context= this.canvas.nativeElement.getContext("2d");	
 	//Pages 
 	for( var i = 0, len = this.rightPages.length; i < len; i++ ) {
@@ -45,8 +44,7 @@ export class VerticalBookPage implements AfterViewInit{
 		if(this.rightPages._results[i]!= undefined){
 		this.rightPages._results[i].nativeElement.style.zIndex = len - i;
 		this.rightPages._results[i].nativeElement.style.marginLeft = this.PAGE_WIDTH+this.PAGE_MARGIN+"px";
-		this.rightPages._results[i].nativeElement.style.marginTop = this.PAGE_MARGIN+"px";
-	
+		this.rightPages._results[i].nativeElement.style.marginTop = this.PAGE_MARGIN+"px";	
 		}
 		
 		this.flips.push( {
@@ -73,8 +71,6 @@ mouseMoveHandler( event ) {
     
 }
  
-
-//
 mouseDownHandler( event ) {
 //console.log(" downHandler X:",event.touches[0].clientX);
  this.mouse.x = event.touches[0].clientX - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
