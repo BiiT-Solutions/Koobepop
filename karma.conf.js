@@ -17,8 +17,9 @@ module.exports = function(config) {
     files: [
       './src/polyfills.ts',
       './src/mocks.ts',
-      './src/pages/home/home.ts',
-      './src/pages/home/home.spec.ts'
+      './src/pages/**/*.ts',
+      './src/providers/**/*.ts'
+      
     ],
 
     // list of files to exclude
@@ -31,8 +32,8 @@ module.exports = function(config) {
     preprocessors: {     
       './src/polyfills.ts': ['karma-typescript'],            
       './src/mocks.ts': ['karma-typescript'],
-      './src/pages/home/home.ts': ['karma-typescript'],      
-      './src/pages/home/home.spec.ts': ['karma-typescript']
+      './src/pages/**/*.ts': ['karma-typescript'],
+      './src/providers/**/*.ts': ['karma-typescript']
       
     },
 
