@@ -1,7 +1,7 @@
 import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
-import { Companies } from '../../providers/companies'
+import { CompaniesProvider } from '../../providers/companies'
 @Component({
   selector: 'page-optimized-book',
   templateUrl: 'optimized-book.html'
@@ -30,7 +30,7 @@ export class OptimizedBookPage implements AfterViewInit{
   @ViewChildren("rightPage") rightPages;
   @ViewChild("pageflipCanvas") canvas: ElementRef;
   context: CanvasRenderingContext2D ;
-  constructor(public navCtrl: NavController,public platform: Platform,public companies: Companies) {
+  constructor(public navCtrl: NavController,public platform: Platform,public companies: CompaniesProvider) {
 	  this.imageList = companies.getCompanies();
 	  this.actualImage=this.imageList[this.pageNum];
 	  this.nextImage = this.imageList[this.pageNum+1]

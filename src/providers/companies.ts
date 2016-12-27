@@ -5,7 +5,7 @@ import {SearchCriteria} from '../models/search-criteria';
 import {Company} from '../models/company-interfaces';
 
 @Injectable()
-export class Companies {
+export class CompaniesProvider {
   companiesList: Company[] =[];
   imagesList: string[];
   constructor(public http: Http) {
@@ -30,10 +30,14 @@ export class Companies {
   }
   setCompanies(){}
   addCompany(){}
+
   requestCompanies(criteria: SearchCriteria){
-    let response = this.http.post("",criteria);
+    let response = this.http.get("../assets/dummy-data/companies.json");
+    console.log("RESPONSE: "+response);
      response.forEach(el=>{
+        console.log("EL: "+el);
        this.companiesList.push(el.json());
      });
+     console.log("JSON: "+this.companiesList);
   }
 }

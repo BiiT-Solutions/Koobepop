@@ -1,0 +1,29 @@
+[{
+    "name": "Chacompany",
+    "contacts": [{
+         "name": "Contact1",
+        "mail": "mail1@mail.com",
+        "phone": "625357585"
+    },{
+         "name": "Contact2",
+        "mail": "mail2@mail.com",
+        "phone": "666999666"
+    }],
+    "brands": ["IBM"],
+    "products": ["Huge mainframe","Little mainframe"],
+    "services": ["Delivery","Repair"]
+},{
+    "name": "Todea corp.",
+    "contacts": [{
+         "name": "Contact3",
+        "mail": "mail3@mail.com",
+        "phone": "625357585"
+    },{
+         "name": "Contact4",
+        "mail": "mail4@mail.com",
+        "phone": "666999666"
+    }],
+    "brands": ["IBM"],
+    "products": ["Huge mainframe","Stars"],
+    "services": ["Delivery","Repair"]
+}]

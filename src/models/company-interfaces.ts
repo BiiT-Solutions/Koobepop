@@ -6,8 +6,6 @@ export interface Contact{
 }
 
 export interface Company {
-    //remove when testing is done
-    image: string;
     name: string;
     contacts: Contact[];
     brands: string[];

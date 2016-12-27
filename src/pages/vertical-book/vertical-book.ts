@@ -1,7 +1,7 @@
 import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
-import { Companies } from '../../providers/companies';
+import { CompaniesProvider } from '../../providers/companies';
 @Component({
   selector: 'page-vertical-book',
   templateUrl: 'vertical-book.html'
@@ -21,7 +21,7 @@ export class VerticalBookPage implements AfterViewInit{
   @ViewChild("book") book: ElementRef;
   @ViewChildren("rightPage") rightPages;
 
-  constructor(public navCtrl: NavController,public platform: Platform,public companies: Companies) {
+  constructor(public navCtrl: NavController,public platform: Platform,public companies: CompaniesProvider) {
 	  this.imageList = companies.getCompanies(); 
   }
   

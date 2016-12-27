@@ -5,7 +5,7 @@ import { HomePage } from '../pages/home/home';
 import { HorizonalBookPage } from '../pages/horizontal-book/horizontal-book';
 import { VerticalBookPage } from '../pages/vertical-book/vertical-book';
 import { SearchPage } from '../pages/search/search';
-import { Companies } from '../providers/companies';
+import { CompaniesProvider } from '../providers/companies';
 import { OptimizedBookPage } from '../pages/optimized-book/optimized-book';
 
 @NgModule({
@@ -30,7 +30,7 @@ import { OptimizedBookPage } from '../pages/optimized-book/optimized-book';
     OptimizedBookPage
   ],
   providers: [
-    Companies,
+    CompaniesProvider,
   {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
