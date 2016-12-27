@@ -1,7 +1,7 @@
 import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
-import { Companies } from '../../providers/companies'
+import { Companies } from '../../providers/companies';
 @Component({
   selector: 'page-vertical-book',
   templateUrl: 'vertical-book.html'

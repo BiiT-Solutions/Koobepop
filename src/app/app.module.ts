@@ -7,6 +7,7 @@ import { VerticalBookPage } from '../pages/vertical-book/vertical-book';
 import { SearchPage } from '../pages/search/search';
 import { Companies } from '../providers/companies';
 import { OptimizedBookPage } from '../pages/optimized-book/optimized-book';
+
 @NgModule({
   declarations: [
     MyApp,

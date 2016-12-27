@@ -12,8 +12,8 @@
   (touchend)= "mouseUpHandler($event)"
       >
     <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
-    <div id = "pages" >
 
+    <div id = "pages" >
       <section #previousPage
         [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'" 
@@ -23,19 +23,20 @@
         [style.height]="this.PAGE_HEIGHT+'px'"        
         >
           <img 
-          [src]='this.imageList[this.pageNum-1]' 
+          [src]='this.previousImage' 
           [style.width]="this.PAGE_WIDTH+'px'"
           [style.height]="this.PAGE_HEIGHT+'px'"/>
         </div>
       </section>     
 
-      <section #actualPage >        
+      <section #actualPage      
+       >        
         <div
         [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'"        
         >
           <img 
-          [src]='this.imageList[this.pageNum]' 
+          [src]='this.actualImage' 
           [style.width]="this.PAGE_WIDTH+'px'"
           [style.height]="this.PAGE_HEIGHT+'px'"/>
         </div>
@@ -50,7 +51,7 @@
         [style.height]="this.PAGE_HEIGHT+'px'"        
         >
           <img 
-          [src]='this.imageList[this.pageNum+1]' 
+          [src]='this.nextImage' 
           [style.width]="this.PAGE_WIDTH+'px'"
           [style.height]="this.PAGE_HEIGHT+'px'"/>
         </div>

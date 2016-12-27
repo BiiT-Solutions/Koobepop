@@ -15,9 +15,9 @@ export class OptimizedBookPage implements AfterViewInit{
   PAGE_MARGIN = 0; 
   pageNum=0;
   imageList ;
-  actualImages = {left:"",right:""};
-  previousImages = {left:"",right:""};
-  nextImages = {left:"",right:""};
+  previousImage;
+  actualImage;
+  nextImage;
   previousFlip;
   actualFlip;
   nextFlip;
@@ -31,11 +31,27 @@ export class OptimizedBookPage implements AfterViewInit{
   @ViewChild("pageflipCanvas") canvas: ElementRef;
   context: CanvasRenderingContext2D ;
   constructor(public navCtrl: NavController,public platform: Platform,public companies: Companies) {
-	  this.imageList = companies.getCompanies(); 
-    this.previousImages.right = this.imageList[3];
-    this.nextImages.right = this.imageList[4];
+	  this.imageList = companies.getCompanies();
+	  this.actualImage=this.imageList[this.pageNum];
+	  this.nextImage = this.imageList[this.pageNum+1]
+	  this.previousImage = this.imageList[this.pageNum-1]
+
+}
+  increasePage(){
+	  this.pageNum = this.pageNum+1;
+	  this.actualImage=this.imageList[this.pageNum];
+	  this.drawFlip(this.actualFlip);	
+	  this.nextImage = this.imageList[this.pageNum+1];
+	  this.previousImage = this.imageList[this.pageNum-1];
   }
+  decreasePage(){
+	  this.pageNum = this.pageNum-1;
+	  this.actualImage=this.imageList[this.pageNum];
+	  this.drawFlip(this.actualFlip);
+	  this.nextImage = this.imageList[this.pageNum+1];
+	  this.previousImage = this.imageList[this.pageNum-1];
   
+  }
   ngAfterViewInit(){
 	
 	window.onorientationchange = e => this.navToHorizontalBook();
@@ -48,7 +64,7 @@ export class OptimizedBookPage implements AfterViewInit{
 	this.canvas.nativeElement.width = this.BOOK_WIDTH;
 	this.canvas.nativeElement.height = this.BOOK_HEIGHT;
 	this.book.nativeElement.style.marginLeft = - this.PAGE_WIDTH+"px";
-  	this.context= this.canvas.nativeElement.getContext("2d");	
+  	this.context = this.canvas.nativeElement.getContext("2d");	
 	//Pages 
 		//Previous
 		this.previousFlip = {};
@@ -57,7 +73,7 @@ export class OptimizedBookPage implements AfterViewInit{
 			progress: 1,
 			target: 1,
 			rightPage: this.actualRightPage.nativeElement,
-			ragging: false
+			dragging: false
 		};
 		//Next
 		this.nextFlip = {};
@@ -68,8 +84,8 @@ export class OptimizedBookPage implements AfterViewInit{
 	this.nextRightPage.nativeElement.style.marginLeft = this.PAGE_WIDTH+this.PAGE_MARGIN+"px";
 	this.nextRightPage.nativeElement.style.marginTop = this.PAGE_MARGIN+"px";	
 
-	this.previousRightPage.nativeElement.style.zIndex = 0;
-	this.actualRightPage.nativeElement.style.zIndex = 0;
+	this.previousRightPage.nativeElement.style.zIndex = 2;
+	this.actualRightPage.nativeElement.style.zIndex = 1;
 	this.nextRightPage.nativeElement.style.zIndex = 0;
 
     //console.log("Context:",this.context);
@@ -91,18 +107,29 @@ mouseDownHandler( event ) {
  
   if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
     if (this.mouse.x < 0.5*this.PAGE_WIDTH && this.pageNum > 0) {
-      	this.pageNum = this.pageNum -1;
-		  this.actualFlip.progress = -1;  
+		
         this.actualFlip.dragging = true;
+		this.actualFlip.progress = -1; 
+		this.decreasePage();		 
+		this.actualFlip.target = -1;
+		
     } else if (this.mouse.x > 0.5*this.PAGE_WIDTH ) {
+		 if (this.actualFlip.dragging || Math.abs(this.actualFlip.progress) < 0.996 ){
+			 this.increasePage();
+		 }
+		 
+		this.actualFlip.dragging = true;
         this.actualFlip.progress = 1;
  		this.actualFlip.target = 1;
-		this.actualFlip.dragging = true;
+		
+		
     }
   }
   //Prevents the text selection cursor from appearing when dragging
   event.preventDefault();
   console.log(this.pageNum);
+  console.log(this.actualRightPage);
+  
 }
 
  mouseUpHandler( event ) {
@@ -113,9 +140,8 @@ mouseDownHandler( event ) {
 	  
       // Figure out which page we should go to next depending on the flip direction
 		if( this.actualFlip.target !== 1 ) {
-			this.pageNum =  this.pageNum + 1 ;
-			
-      	} 
+      	} else{
+      	  }
     }
     this.actualFlip.dragging = false;
     console.log(this.pageNum);
@@ -123,20 +149,24 @@ mouseDownHandler( event ) {
 
   render() {	
 		this.context.clearRect( 0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height );
-    
+      
       if( this.actualFlip.dragging ) {
-
          this.actualFlip.target = Math.max( Math.min( this.mouse.x / this.PAGE_WIDTH, 1 ), -1 );
       }
 
        this.actualFlip.progress += (  this.actualFlip.target - this.actualFlip.progress ) * 0.2;
-
+	   //console.log("Dragging: "+this.actualFlip.dragging+" Progress: "+this.actualFlip.progress);
       // If the flip is being dragged or is somewhere in the middle of the book, render it
       if( this.actualFlip.dragging || Math.abs( this.actualFlip.progress ) < 0.997 ) {
         this.drawFlip( this.actualFlip );
-      }
-
-    
+      }else if (this.actualFlip.progress<0){
+		  
+		  this.actualFlip.target=1;
+		  this.actualFlip.progress = 1;
+		  this.increasePage();
+		  this.drawFlip(this.actualFlip);
+	  }
+     
 		
 	}
 
@@ -162,7 +192,7 @@ drawFlip( flip ) {
 		
 		
 		// Change the right page element width to match the x position of the fold
-		flip.rightPage.style.width = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0) + "px";	
+		this.actualRightPage.nativeElement.style.width = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0) + "px";	
 
 		this.context.save();
 		//Set canvas in position

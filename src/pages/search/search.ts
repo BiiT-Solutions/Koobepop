@@ -6,10 +6,16 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'search.html'
 })
 export class SearchPage {
+
+  country:string = "";
+  brand:string = "";
+  product:string = "";
+  service: string = "";
   myInput="";
   items = ["item1","item2","item3","item4","item5","item6"];
   constructor(public navCtrl: NavController) {}
 
-  onInput(ev){}
-  onCancel(ev){}
+  searchCompanies(){
+    
+  }
 }
