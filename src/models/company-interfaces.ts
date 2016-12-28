@@ -11,4 +11,5 @@ export interface Company {
     brands: string[];
     products: string[];
     services: string[];
+    description: string;
 }

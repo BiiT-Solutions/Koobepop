@@ -18,7 +18,8 @@ module.exports = function(config) {
       './src/polyfills.ts',
       './src/mocks.ts',
       './src/pages/**/*.ts',
-      './src/providers/**/*.ts'
+      './src/providers/**/*.ts',
+      './src/models/**/*.ts'
       
     ],
 
@@ -33,8 +34,8 @@ module.exports = function(config) {
       './src/polyfills.ts': ['karma-typescript'],            
       './src/mocks.ts': ['karma-typescript'],
       './src/pages/**/*.ts': ['karma-typescript'],
-      './src/providers/**/*.ts': ['karma-typescript']
-      
+      './src/providers/**/*.ts': ['karma-typescript'],
+      './src/models/**/*.ts': ['karma-typescript']
     },
 
     typescriptPreprocessor: {

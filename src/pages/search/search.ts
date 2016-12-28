@@ -25,4 +25,7 @@ export class SearchPage {
      service:this.service} ;
     this.companiesProvider.requestCompanies(criteria);
   }
+  navBack(){
+    this.navCtrl.pop();
+  }
 }

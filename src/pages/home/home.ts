@@ -4,6 +4,7 @@ import {VerticalBookPage} from '../vertical-book/vertical-book';
 import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
 import { SearchPage } from '../search/search';
 import { OptimizedBookPage } from '../optimized-book/optimized-book';
+import { DetailsPage } from '../details/details';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -26,6 +27,8 @@ export class HomePage {
   navOptimizedBook(){
     this.navCtrl.push(OptimizedBookPage);
   }
-  
+  navDetails(){
+    this.navCtrl.push(DetailsPage);
+  }
 }
 

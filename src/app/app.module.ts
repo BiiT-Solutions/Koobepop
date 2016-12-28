@@ -7,7 +7,7 @@ import { VerticalBookPage } from '../pages/vertical-book/vertical-book';
 import { SearchPage } from '../pages/search/search';
 import { CompaniesProvider } from '../providers/companies';
 import { OptimizedBookPage } from '../pages/optimized-book/optimized-book';
-
+import { DetailsPage } from '../pages/details/details';
 @NgModule({
   declarations: [
     MyApp,
@@ -15,7 +15,8 @@ import { OptimizedBookPage } from '../pages/optimized-book/optimized-book';
     HorizonalBookPage,
     VerticalBookPage,
     SearchPage,
-    OptimizedBookPage
+    OptimizedBookPage,
+    DetailsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -27,7 +28,8 @@ import { OptimizedBookPage } from '../pages/optimized-book/optimized-book';
     HorizonalBookPage,
     VerticalBookPage,
     SearchPage,
-    OptimizedBookPage
+    OptimizedBookPage,
+    DetailsPage
   ],
   providers: [
     CompaniesProvider,

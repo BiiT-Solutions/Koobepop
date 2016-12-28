@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {SearchCriteria} from '../models/search-criteria';
 import {Company} from '../models/company-interfaces';
 
 @Injectable()
 export class CompaniesProvider {
-  companiesList: Company[] =[];
+  companiesList: Array<Company> =[];
   imagesList: string[];
   constructor(public http: Http) {
    this.imagesList = [
@@ -32,12 +32,8 @@ export class CompaniesProvider {
   addCompany(){}
 
   requestCompanies(criteria: SearchCriteria){
-    let response = this.http.get("../assets/dummy-data/companies.json");
-    console.log("RESPONSE: "+response);
-     response.forEach(el=>{
-        console.log("EL: "+el);
-       this.companiesList.push(el.json());
-     });
-     console.log("JSON: "+this.companiesList);
+    let response = this.http.get("assets/dummy-data/companies.json");
+    this.companiesList = [];
+    response.forEach(el=>this.companiesList=el.json());
   }
 }

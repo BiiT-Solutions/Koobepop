@@ -88,9 +88,7 @@ export class OptimizedBookPage implements AfterViewInit{
 	this.actualRightPage.nativeElement.style.zIndex = 1;
 	this.nextRightPage.nativeElement.style.zIndex = 0;
 
-    //console.log("Context:",this.context);
 	setInterval( () => this.render(), 1000 / 60 );
-
   }
 
 
@@ -98,7 +96,6 @@ mouseMoveHandler( event ) {
   // Offset mouse position so that the top of the spine is 0
    this.mouse.x = event.center.x - this.book.nativeElement.offsetLeft - ( this.BOOK_WIDTH / 2 );
    this.mouse.y = event.center.y - this.book.nativeElement.offsetTop;
-   
 }
  
 mouseDownHandler( event ) {

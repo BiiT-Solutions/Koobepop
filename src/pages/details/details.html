@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>[Company name here]</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <p>[Address]</p>
+  <p>[Phone from phone list]</p>
+  <p>[Url]</p>
+  <p>[VAT]</p>
+  <p>[Established]</p>
+  <h2>Contacts</h2>
+  <div *ngFor="let contact of contacts">
+    <section>
+      <ion-icon name="person" ></ion-icon>
+    {{contact.name}}</section>
+    <div id = "contact-extra">
+      <section>phone: 
+      <a [href]="'tel:'+contact.phone">{{contact.phone}}</a>
+      </section>
+      <section>mail: 
+        <a [href]="'mailto:'+contact.mail">{{contact.mail}}</a>
+      </section><br>
+      
+      
+    </div>
+  </div>
+</ion-content>

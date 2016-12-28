@@ -1,17 +1,20 @@
 
 <ion-header>
-  <ion-title ><section>Search Page</section></ion-title>
-</ion-header>
+  <ion-navbar color = "lightblue">
+ <ion-title ><section>Search Page</section> </ion-title>
+  </ion-navbar>
+  </ion-header>
 
 
 <ion-content padding>
+  <ion-list>
    <ion-item>
     <ion-label color="orange">Country</ion-label>
-    <ion-input placeholder="" [(value)]="this.country"></ion-input>
+    <ion-input placeholder="USA, Netherlands, e.g." [(value)]="this.country"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label color="orange">Brand</ion-label>
-    <ion-input placeholder="" [(value)]="this.brand"></ion-input>
+    <ion-input placeholder="IBM , e.g." [(value)]="this.brand"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label color="orange">Product</ion-label>
@@ -22,6 +25,7 @@
     <ion-input placeholder="" [(value)]="this.service"></ion-input>
   </ion-item><br>
   <button ion-button [full]="true" (click)="searchCompanies()"
-    color = "darkblue"  
-  >Search</button>
+    color = "lightblue"  
+  ><ion-icon name = "search"></ion-icon>Search</button>
+  </ion-list>
 </ion-content>

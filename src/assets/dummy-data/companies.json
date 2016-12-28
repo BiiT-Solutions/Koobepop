@@ -11,7 +11,8 @@
     }],
     "brands": ["IBM"],
     "products": ["Huge mainframe","Little mainframe"],
-    "services": ["Delivery","Repair"]
+    "services": ["Delivery","Repair"],
+    "description":"This is not a normal company"
 },{
     "name": "Todea corp.",
     "contacts": [{
@@ -25,5 +26,6 @@
     }],
     "brands": ["IBM"],
     "products": ["Huge mainframe","Stars"],
-    "services": ["Delivery","Repair"]
+    "services": ["Delivery","Repair"],
+    "description": "Tis is a normal company"
 }]
