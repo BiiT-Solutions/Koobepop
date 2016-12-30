@@ -3,7 +3,7 @@
   "author": "Biit Sourcing Solutions",
   "homepage": "",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.4",
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
