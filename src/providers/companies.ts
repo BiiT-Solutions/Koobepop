@@ -24,9 +24,12 @@ export class CompaniesProvider {
     ];
   
   }
-  getCompanies() {
+  getImages(){
     return this.imagesList;
-    //return this.companiesList;
+  }
+  getCompanies(): Company[] {
+    //return this.imagesList;
+    return this.companiesList;
   }
   setCompanies(){}
   addCompany(){}

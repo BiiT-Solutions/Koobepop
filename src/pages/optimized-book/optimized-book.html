@@ -1,12 +1,26 @@
-<ion-content>  
+<ion-header *ngIf="showHeader">
+  <ion-navbar color = "lightblue">
+    <!--
+      <button ion-button 
+        style="z-index:2000;" 
+        (click) = "navBack()" 
+        color="light"
+        icon-only >
+          <ion-icon name = "arrow-back"></ion-icon></button>
+  -->
   <button ion-button 
-      style="z-index:2000; position: absolute" 
-      (click) = "navBack()" 
-      color="light"
-      icon-only >
-        <ion-icon name = "arrow-back"></ion-icon></button>
- <div #book 
+        style="z-index:2000;"
+        (click) = "navDetails()" 
+        color="light"
+        ><ion-icon name = "plus"></ion-icon>Details
+    </button>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>  
+<div #book 
   id="book"
+  (tap)="showHeader = !showHeader"
   (touchstart)="mouseDownHandler($event)"
   (pan)="mouseMoveHandler($event)"
   (touchend)= "mouseUpHandler($event)"
@@ -14,7 +28,7 @@
     <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
 
     <div id = "pages" >
-      <section #previousPage
+      <section #previousPage hidden="true"
         [style.width]="this.PAGE_WIDTH+'px'"
         [style.height]="this.PAGE_HEIGHT+'px'" 
        >        

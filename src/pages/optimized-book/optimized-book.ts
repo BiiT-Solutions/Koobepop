@@ -2,6 +2,7 @@ import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angu
 import { NavController, Platform } from 'ionic-angular';
 import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
 import { CompaniesProvider } from '../../providers/companies'
+import { DetailsPage } from '../details/details';
 @Component({
   selector: 'page-optimized-book',
   templateUrl: 'optimized-book.html'
@@ -30,27 +31,29 @@ export class OptimizedBookPage implements AfterViewInit{
   @ViewChildren("rightPage") rightPages;
   @ViewChild("pageflipCanvas") canvas: ElementRef;
   context: CanvasRenderingContext2D ;
+  showHeader: boolean = false;
+
   constructor(public navCtrl: NavController,public platform: Platform,public companies: CompaniesProvider) {
-	  this.imageList = companies.getCompanies();
-	  this.actualImage=this.imageList[this.pageNum];
-	  this.nextImage = this.imageList[this.pageNum+1]
-	  this.previousImage = this.imageList[this.pageNum-1]
+	  this.imageList = companies.getImages();
+	  this.actualImage = this.imageList[this.pageNum];
+	  this.nextImage = this.imageList[this.pageNum+1];
+	  this.previousImage = this.imageList[this.pageNum-1];
 
 }
   increasePage(){
 	  this.pageNum = this.pageNum+1;
-	  this.actualImage=this.imageList[this.pageNum];
+	  this.previousImage = this.actualImage;
+	  this.actualImage=this.nextImage;
 	  this.drawFlip(this.actualFlip);	
-	  this.nextImage = this.imageList[this.pageNum+1];
-	  this.previousImage = this.imageList[this.pageNum-1];
+	  this.nextImage = this.imageList[this.pageNum+1];	  
   }
+
   decreasePage(){
 	  this.pageNum = this.pageNum-1;
-	  this.actualImage=this.imageList[this.pageNum];
-	  this.drawFlip(this.actualFlip);
-	  this.nextImage = this.imageList[this.pageNum+1];
-	  this.previousImage = this.imageList[this.pageNum-1];
-  
+	  this.nextImage = this.actualImage;
+	  this.actualImage=this.previousImage;
+	  this.drawFlip(this.actualFlip);	  
+	  this.previousImage = this.imageList[this.pageNum-1];  
   }
   ngAfterViewInit(){
 	
@@ -110,7 +113,7 @@ mouseDownHandler( event ) {
 		this.decreasePage();		 
 		this.actualFlip.target = -1;
 		
-    } else if (this.mouse.x > 0.5*this.PAGE_WIDTH ) {
+    } else if (this.mouse.x > 0.5*this.PAGE_WIDTH &&this.pageNum < this.imageList.length-1) {
 		 if (this.actualFlip.dragging || Math.abs(this.actualFlip.progress) < 0.996 ){
 			 this.increasePage();
 		 }
@@ -124,8 +127,8 @@ mouseDownHandler( event ) {
   }
   //Prevents the text selection cursor from appearing when dragging
   event.preventDefault();
-  console.log(this.pageNum);
-  console.log(this.actualRightPage);
+ // console.log(this.pageNum);
+ // console.log(this.actualRightPage);
   
 }
 
@@ -141,7 +144,7 @@ mouseDownHandler( event ) {
       	  }
     }
     this.actualFlip.dragging = false;
-    console.log(this.pageNum);
+    //console.log(this.pageNum);
   }
 
   render() {	
@@ -151,8 +154,8 @@ mouseDownHandler( event ) {
          this.actualFlip.target = Math.max( Math.min( this.mouse.x / this.PAGE_WIDTH, 1 ), -1 );
       }
 
-       this.actualFlip.progress += (  this.actualFlip.target - this.actualFlip.progress ) * 0.2;
-	   //console.log("Dragging: "+this.actualFlip.dragging+" Progress: "+this.actualFlip.progress);
+      this.actualFlip.progress += (  this.actualFlip.target - this.actualFlip.progress ) * 0.2;
+	  //console.log("Dragging: "+this.actualFlip.dragging+" Progress: "+this.actualFlip.progress);
       // If the flip is being dragged or is somewhere in the middle of the book, render it
       if( this.actualFlip.dragging || Math.abs( this.actualFlip.progress ) < 0.997 ) {
         this.drawFlip( this.actualFlip );
@@ -265,7 +268,7 @@ drawFlip( flip ) {
 	}
 	navToHorizontalBook(){
 		//TODO fix this
-		console.log(window.orientation );
+		//console.log(window.orientation );
 		
 	if (window.orientation == 90 || window.orientation == -90){
 		window.onorientationchange = null;
@@ -274,6 +277,10 @@ drawFlip( flip ) {
 		window.onorientationchange = null;
 		this.navCtrl.pop().then(e => this.navCtrl.push(OptimizedBookPage));
 		}
+	}
+
+	navDetails(){
+		this.navCtrl.push(DetailsPage,this.pageNum);
 	}
 }
 

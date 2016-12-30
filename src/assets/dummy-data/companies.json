@@ -9,7 +9,7 @@
         "mail": "mail2@mail.com",
         "phone": "666999666"
     }],
-    "brands": ["IBM"],
+    "brands": ["IBM","Cisco","Toshiba"],
     "products": ["Huge mainframe","Little mainframe"],
     "services": ["Delivery","Repair"],
     "description":"This is not a normal company"
@@ -27,5 +27,5 @@
     "brands": ["IBM"],
     "products": ["Huge mainframe","Stars"],
     "services": ["Delivery","Repair"],
-    "description": "Tis is a normal company"
+    "description": "This is a normal company"
 }]

@@ -23,7 +23,7 @@ export class HorizonalBookPage implements AfterViewInit{
   @ViewChildren("rightPage") rightPages;
   @ViewChildren("leftPage") leftPages;
   constructor(public navCtrl: NavController,public platform: Platform, public companies: CompaniesProvider) {
-	  this.imageList = companies.getCompanies(); 
+	  this.imageList = companies.getImages(); 
     }
 
   ngAfterViewInit(){

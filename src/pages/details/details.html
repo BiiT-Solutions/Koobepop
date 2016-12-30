@@ -1,20 +1,23 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>[Company name here]</ion-title>
+  <ion-navbar color = "lightblue">
+    <ion-title *ngIf = "company!=undefined">{{company.name}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-  <p>[Address]</p>
-  <p>[Phone from phone list]</p>
-  <p>[Url]</p>
-  <p>[VAT]</p>
-  <p>[Established]</p>
+  <div *ngIf = "company != undefined">
+  <p>[Address]{{company.address}}</p>
+  <div *ngFor="let phone of company.phones">
+    <p>[Phone from phone list]{{phone}}</p>
+  </div>
+  <p>[Url]{{company.url}}</p>
+  <p>[VAT]{{company.vat}}</p>
+  <p *ngIf = "company.establishmentYear != undefined">[Established]{{company.establishmentYear}}</p>
+  <p>{{company.description}}</p>
   <h2>Contacts</h2>
-  <div *ngFor="let contact of contacts">
+  <ion-list *ngFor="let contact of company.contacts">
     <section>
       <ion-icon name="person" ></ion-icon>
     {{contact.name}}</section>
@@ -24,9 +27,8 @@
       </section>
       <section>mail: 
         <a [href]="'mailto:'+contact.mail">{{contact.mail}}</a>
-      </section><br>
-      
-      
-    </div>
+      </section><br>      
+      </div>
+  </ion-list>
   </div>
 </ion-content>
