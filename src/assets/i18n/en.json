@@ -1,0 +1,15 @@
+{
+    "ABOUT":{
+        "TITLE": "About title",
+        "WELLCOME":"Dear Sir, Dear Madam, The Computer Brokers Exchange, the ...",
+        "PROFESSIONAL":"Members of the Association of Service and Computer Dealers"
+    },
+    "HOME":{
+        "OPT-BOOK-BUTTON":"optimized book",
+        "V-BOOK-BUTTON":"vertical book",
+        "H-BOOK-BUTTON":"horizontal book",
+        "SEARCH-BUTTON":"search",
+        "DETAILS-BUTTON":"details",
+        "ABOUT-BUTTON":"about"
+    }
+}

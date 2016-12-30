@@ -9,7 +9,10 @@ export class Todea {
     return this.age
   }
 }
-
+export class TranslateServiceMock{
+  //This is a dummy mock for testing
+  public
+}
 
 export class ConfigMock {
 

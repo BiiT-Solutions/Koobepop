@@ -1,11 +1,11 @@
-import { NavMock, PlatformMock} from "../../mocks"
+import { NavMock, PlatformMock,TranslateServiceMock} from "../../mocks"
 import { HomePage } from "./home"
 
 let homePage: HomePage = null
 
 describe('Home page', () => {
   beforeEach(() => {
-    homePage = new HomePage((<any>new NavMock), (<any>new PlatformMock));
+    homePage = new HomePage((<any>new NavMock), (<any>new PlatformMock),(<any>new TranslateServiceMock));
     homePage.BOOK_HEIGHT = 2;
   })
   it("should check if homePage width is less than 3", () => {

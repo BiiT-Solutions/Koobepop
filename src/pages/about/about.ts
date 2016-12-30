@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'page-about',
@@ -7,6 +8,10 @@ import { NavController } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, private translate: TranslateService) {
+      //TODO change this according with the locale if possible
+      //Add options to the app
+      translate.use('en');
+  }
 
 }
