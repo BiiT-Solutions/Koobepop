@@ -2,7 +2,7 @@
 <widget id="com.ionicframework.koobepop396598" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Koobepop</name>
     <description>An awesome Ionic/Cordova app.</description>
-    <author email="amelcon@biit-solutions.com">Biit Solutions</author>
+    <author email="amelcon@biit-solutions.com">Biit Sourcing Solutions</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -10,7 +10,7 @@
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
+    <allow-intent href="geo:*" /><!-- Won't be necessary -->
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
