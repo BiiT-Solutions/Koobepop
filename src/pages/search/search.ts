@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
 import { SearchCriteria } from '../../models/search-criteria';
+import { OptimizedBookPage } from '../optimized-book/optimized-book';
 @Component({
   selector: 'page-search',
   templateUrl: 'search.html'
@@ -24,7 +25,10 @@ export class SearchPage {
      product: this.product,
      service:this.service} ;
     this.companiesProvider.requestCompanies(criteria);
-  }
+    //this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),OptimizedBookPage);
+   // this.navBack();
+   this.navCtrl.push(OptimizedBookPage);
+}
   navBack(){
     this.navCtrl.pop();
   }

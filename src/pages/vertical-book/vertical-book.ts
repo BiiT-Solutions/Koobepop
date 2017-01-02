@@ -2,7 +2,7 @@ import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angu
 import { NavController, Platform } from 'ionic-angular';
 import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
 import { CompaniesProvider } from '../../providers/companies';
-import { DetailsPage } from '../details/details';
+//import { DetailsPage } from '../details/details';
 @Component({
   selector: 'page-vertical-book',
   templateUrl: 'vertical-book.html'
@@ -24,19 +24,19 @@ export class VerticalBookPage implements AfterViewInit{
 
   constructor(public navCtrl: NavController,public platform: Platform,public companies: CompaniesProvider) {
 	  this.imageList = companies.getImages(); 
-  }
-  
-  ngAfterViewInit(){
-	
+
 	window.onorientationchange = e => this.navToHorizontalBook();
 
-	this.PAGE_MARGIN = this.platform.width()*0.05;
-	this.BOOK_WIDTH = this.platform.width()*2 ;
-  	this.BOOK_HEIGHT = this.platform.height();
-  	this.PAGE_WIDTH = this.platform.width()-this.PAGE_MARGIN*2 ;
-  	this.PAGE_HEIGHT = this.platform.height()-this.PAGE_MARGIN*2;
-	  this.canvas.nativeElement.width = this.BOOK_WIDTH;
-	  this.canvas.nativeElement.height = this.BOOK_HEIGHT;
+	this.PAGE_MARGIN = window.outerWidth*0.05;
+	this.BOOK_WIDTH = window.outerWidth*2 ;
+  	this.BOOK_HEIGHT = window.outerHeight;
+  	this.PAGE_WIDTH = window.outerWidth-this.PAGE_MARGIN*2 ;
+  	this.PAGE_HEIGHT = window.outerHeight-this.PAGE_MARGIN*2;
+  }
+  
+  ngAfterViewInit(){	
+	this.canvas.nativeElement.width = this.BOOK_WIDTH;
+	this.canvas.nativeElement.height = this.BOOK_HEIGHT;
 	this.book.nativeElement.style.marginLeft = - this.PAGE_WIDTH+"px";
     this.context= this.canvas.nativeElement.getContext("2d");	
 	//Pages 
@@ -224,14 +224,14 @@ drawFlip( flip ) {
 	}
 	navToHorizontalBook(){
 		//TODO fix this
-		console.log(window.orientation );
+		console.log("Orientation change: "+window.orientation );
 		
 	if (window.orientation == 90 || window.orientation == -90){
-		window.onorientationchange = null;
-		this.navCtrl.pop().then(e => this.navCtrl.push(HorizonalBookPage));
+		this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),HorizonalBookPage);
+    	this.navCtrl.pop();
 		}else{
-		window.onorientationchange = null;
-		this.navCtrl.pop().then(e => this.navCtrl.push(VerticalBookPage));
+		this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),VerticalBookPage);
+    	this.navCtrl.pop();
 		}
 	}
 }

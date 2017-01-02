@@ -1,14 +1,6 @@
 <ion-header *ngIf="showHeader">
-  <ion-navbar color = "lightblue">
-    <!--
-      <button ion-button 
-        style="z-index:2000;" 
-        (click) = "navBack()" 
-        color="light"
-        icon-only >
-          <ion-icon name = "arrow-back"></ion-icon></button>
-  -->
-  <button ion-button 
+  <ion-navbar *ngIf="showHeader" color="lightblue">
+    <button ion-button 
         style="z-index:2000;"
         (click) = "navDetails()" 
         color="light"

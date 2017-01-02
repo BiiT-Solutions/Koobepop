@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {SearchCriteria} from '../models/search-criteria';
 import {Company} from '../models/company-interfaces';
@@ -11,13 +11,12 @@ export class CompaniesProvider {
   constructor(public http: Http) {
    this.imagesList = [
       "assets/infografies/commomfojmddoekd.png",
+      "assets/infografies/publi1_m.jpg",
       "assets/infografies/commomfojmddoekd.png",
-  "assets/infografies/red_graph.jpg",  
-  "assets/infografies/blue_graph.jpg",
+      "assets/infografies/publi1_m.jpg",
+
   "assets/infografies/red_graph.jpg",
   "assets/infografies/blue_graph.jpg",
-  "assets/infografies/publi1_m.jpg",  
-  "assets/infografies/commomfojmddoekd.png",
   "assets/infografies/publi1_m.jpg",
   "assets/infografies/green_orange_graph.jpg",
   "assets/infografies/commomfojmddoekd.png"

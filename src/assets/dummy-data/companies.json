@@ -1,4 +1,19 @@
 [{
+    "name": "Spectra",
+    "contacts": [{
+         "name": "Johnny Tourino",
+        "mail": "johnny@spectra.com",
+        "phone": "629957585"
+    },{
+         "name": "Ed Allebest",
+        "mail": "mike@spectra.com",
+        "phone": "666999666"
+    }],
+    "brands": ["IBM","EMC","HP"],
+    "products": ["Servers","Storage"],
+    "services": ["Dealer","Brokerage","Parts Supply"],
+    "description":"Pyramid Technologuy (PTSI) is an independent reseller of new, used and refurbished computer products. We are a stocking dealer and test, integrate and configure products. We offer onsite maintenance to over 100 countries."
+},{
     "name": "Chacompany",
     "contacts": [{
          "name": "Contact1",

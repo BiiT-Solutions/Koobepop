@@ -34,6 +34,7 @@ export class OptimizedBookPage implements AfterViewInit{
   showHeader: boolean = false;
 
   constructor(public navCtrl: NavController,public platform: Platform,public companies: CompaniesProvider) {
+	  //console.log("Constructor");
 	  this.imageList = companies.getImages();
 	  this.actualImage = this.imageList[this.pageNum];
 	  this.nextImage = this.imageList[this.pageNum+1];
@@ -56,12 +57,11 @@ export class OptimizedBookPage implements AfterViewInit{
 	  this.previousImage = this.imageList[this.pageNum-1];  
   }
   ngAfterViewInit(){
-	
 	window.onorientationchange = e => this.navToHorizontalBook();
 
-	this.PAGE_MARGIN = this.platform.width()*0.05;
-	this.BOOK_WIDTH = this.platform.width()*2 ;
-	this.BOOK_HEIGHT = this.platform.height();
+	this.PAGE_MARGIN =  window.outerWidth*0.05;
+	this.BOOK_WIDTH = window.outerWidth*2 ;
+	this.BOOK_HEIGHT = window.outerHeight;
 	this.PAGE_WIDTH = this.BOOK_WIDTH/2-this.PAGE_MARGIN*2 ;
 	this.PAGE_HEIGHT = this.BOOK_HEIGHT-this.PAGE_MARGIN*2;
 	this.canvas.nativeElement.width = this.BOOK_WIDTH;
@@ -267,19 +267,21 @@ drawFlip( flip ) {
 		this.navCtrl.pop();
 	}
 	navToHorizontalBook(){
-		//TODO fix this
-		//console.log(window.orientation );
-		
-	if (window.orientation == 90 || window.orientation == -90){
-		window.onorientationchange = null;
-		this.navCtrl.pop().then(e => this.navCtrl.push(HorizonalBookPage));
+	
+		console.log("Orientation change: "+window.orientation );
+		//First we place the following page then we pop the actual so its a substitution
+		if (window.orientation == 90 || window.orientation == -90){
+			this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),HorizonalBookPage);
+			this.navCtrl.pop();
 		}else{
-		window.onorientationchange = null;
-		this.navCtrl.pop().then(e => this.navCtrl.push(OptimizedBookPage));
-		}
+			this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),OptimizedBookPage);
+			this.navCtrl.pop();
+			}
 	}
 
 	navDetails(){
+		window.onorientationchange = null;
+		
 		this.navCtrl.push(DetailsPage,this.pageNum);
 	}
 }

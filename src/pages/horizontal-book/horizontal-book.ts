@@ -24,15 +24,16 @@ export class HorizonalBookPage implements AfterViewInit{
   @ViewChildren("leftPage") leftPages;
   constructor(public navCtrl: NavController,public platform: Platform, public companies: CompaniesProvider) {
 	  this.imageList = companies.getImages(); 
+	  window.onorientationchange = ev => this.navToVerticalBook();
+	this.PAGE_MARGIN = window.outerWidth*0.05;
+	this.BOOK_WIDTH =window.outerWidth ;
+  	this.BOOK_HEIGHT = window.outerHeight;
+  	this.PAGE_WIDTH = this.BOOK_WIDTH/2-this.PAGE_MARGIN*2 ;
+  	this.PAGE_HEIGHT = 	this.BOOK_HEIGHT-this.PAGE_MARGIN*2;
     }
 
   ngAfterViewInit(){
-	window.onorientationchange = ev => this.navToVerticalBook();
-	this.PAGE_MARGIN = this.platform.width()*0.05;
-	this.BOOK_WIDTH = this.platform.width() ;
-  	this.BOOK_HEIGHT = this.platform.height();
-  	this.PAGE_WIDTH = this.BOOK_WIDTH/2-this.PAGE_MARGIN*2 ;
-  	this.PAGE_HEIGHT = 	this.BOOK_HEIGHT-this.PAGE_MARGIN*2;
+	
 	this.canvas.nativeElement.width = this.BOOK_WIDTH;
 	this.canvas.nativeElement.height = this.BOOK_HEIGHT;
 
@@ -245,14 +246,15 @@ drawFlip( flip ) {
 
 	navToVerticalBook(){
 		//TODO fix this
-		console.log(window.orientation );
 		
-		if (window.orientation==0){
-			window.onorientationchange = null;		
-			this.navCtrl.pop().then(e => this.navCtrl.push(VerticalBookPage));
+		console.log("Orientation change: "+window.orientation );
+		
+	if (window.orientation == 90 || window.orientation == -90){
+		this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),HorizonalBookPage);
+    	this.navCtrl.pop();
 		}else{
-			window.onorientationchange = null;
-			this.navCtrl.pop().then(e => this.navCtrl.push(HorizonalBookPage));
+		this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),VerticalBookPage);
+    	this.navCtrl.pop();
 		}
 	}
 }
