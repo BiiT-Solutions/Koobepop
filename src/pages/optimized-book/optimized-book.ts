@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
 import { CompaniesProvider } from '../../providers/companies'
 import { DetailsPage } from '../details/details';
 import { TranslateService } from 'ng2-translate';
@@ -31,7 +30,7 @@ export class OptimizedBookPage implements AfterViewInit {
 	@ViewChild("book") book: ElementRef;
 	@ViewChild("pageflipCanvas") canvas: ElementRef;
 	context: CanvasRenderingContext2D;
-	showHeader: boolean;
+	hideHeader: boolean;
 	id;
 
 	constructor(public navCtrl: NavController,private companies: CompaniesProvider, private translate: TranslateService) {
@@ -57,8 +56,7 @@ export class OptimizedBookPage implements AfterViewInit {
 		this.previousImage = this.imageList[this.pageNum - 1];
 	}
 	ngAfterViewInit() {
-		this.showHeader = true;
-		window.onorientationchange = e => this.navToHorizontalBook();
+		this.hideHeader = true;
 
 		this.PAGE_MARGIN = window.outerWidth * 0.05;
 		this.BOOK_WIDTH = window.outerWidth * 2;
@@ -152,11 +150,9 @@ export class OptimizedBookPage implements AfterViewInit {
 		if (this.actualFlip.dragging || Math.abs(this.actualFlip.progress) < 0.997) {
 			this.drawFlip(this.actualFlip);
 		} else if (this.actualFlip.progress < 0) {
-
 			this.actualFlip.target = 1;
 			this.actualFlip.progress = 1;
 			this.increasePage();
-			this.drawFlip(this.actualFlip);
 		}
 	}
 
@@ -249,8 +245,8 @@ export class OptimizedBookPage implements AfterViewInit {
 		console.log("Orientation change: " + window.orientation);
 		//First we place the following page then we pop the actual so its a substitution
 		if (window.orientation == 90 || window.orientation == -90) {
-			this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()), HorizonalBookPage);
-			this.navCtrl.pop();
+			//this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()), HorizonalBookPage);
+			//this.navCtrl.pop();
 		} else {
 			this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()), OptimizedBookPage);
 			this.navCtrl.pop();
@@ -258,14 +254,16 @@ export class OptimizedBookPage implements AfterViewInit {
 	}
 
 	navDetails() {
-		window.onorientationchange = null;
-
 		this.navCtrl.push(DetailsPage, this.pageNum);
 	}
+
 	ionViewWillEnter(){
+		window.onorientationchange = e => this.navToHorizontalBook();
 		this.id = setInterval(() => this.render(), 1000/60);
 	}
+
 	ionViewDidLeave(){
+		window.onorientationchange = null;
 		clearInterval(this.id);
 	}
 }

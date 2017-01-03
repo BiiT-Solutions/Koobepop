@@ -1,12 +1,12 @@
 <ion-content>
-  <ion-navbar color="primary" [hidden]="showHeader">
+  <ion-navbar color="primary" [hidden]="hideHeader">
     <ion-buttons end>
       <button ion-button style="z-index:2000;" (click) = "navDetails()" color="light" icon-only >
 <ion-icon name="list"></ion-icon>
 </button>
 </ion-buttons>
 </ion-navbar>
-<div #book id="book" (tap)="showHeader = !showHeader" (touchstart)="mouseDownHandler($event)" (pan)="mouseMoveHandler($event)"
+<div #book id="book" (tap)="hideHeader = !hideHeader" (touchstart)="mouseDownHandler($event)" (pan)="mouseMoveHandler($event)"
   (touchend)="mouseUpHandler($event)">
   <canvas #pageflipCanvas id="pageflip-canvas"></canvas>
 

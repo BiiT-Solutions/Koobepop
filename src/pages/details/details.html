@@ -1,33 +1,36 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title *ngIf = "company!=undefined">{{company.name}}</ion-title>
-    <ion-title *ngIf = "company==undefined">Ooops</ion-title>
-  </ion-navbar></ion-header>
-
+    <ion-title *ngIf="company!=undefined">{{company.name}}</ion-title>
+    <ion-title *ngIf="company==undefined">Ooops</ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content padding>
-  <div *ngIf = "company != undefined">
-  <p *ngIf = "company.address != undefined">{{company.address}}</p>
-  <div *ngFor="let phone of company.phones">
-    <p>{{phone}}</p>
-  </div>
-  <p *ngIf = "company.url != undefined">{{company.url}}</p>
-  <p *ngIf = "company.vat != undefined">{{company.vat}}</p>
-  <p *ngIf = "company.establishmentYear != undefined">{{company.establishmentYear}}</p>
-  <p>{{company.description}}</p>
-  <h2>Contacts</h2>
-  <ion-list *ngFor="let contact of company.contacts">
-    <section>
-      <ion-icon name="person" ></ion-icon>
-    {{contact.name}}</section>
-    <div id = "contact-extra">
-      <section>phone: 
-      <a [href]="'tel:'+contact.phone">{{contact.phone}}</a>
-      </section>
-      <section>mail: 
-        <a [href]="'mailto:'+contact.mail">{{contact.mail}}</a>
-      </section><br>      
+  <div *ngIf="company != undefined">
+    <p *ngIf="company.address != undefined">{{company.address}}</p>
+    <div *ngFor="let phone of company.phones">
+      <p>{{phone}}</p>
+    </div>
+    <p *ngIf="company.url != undefined">{{company.url}}</p>
+    <p *ngIf="company.vat != undefined">{{company.vat}}</p>
+    <p *ngIf="company.establishmentYear != undefined">{{company.establishmentYear}}</p>
+    <p>{{company.description}}</p>
+    <h2>Contacts</h2>
+    <ion-list *ngFor="let contact of company.contacts">
+      <section>
+        <ion-icon name="person"></ion-icon>
+        {{contact.name}}</section>
+      <div id="contact-extra">
+        <section>phone:
+          <a [href]="'tel:'+contact.phone">{{contact.phone}}</a>
+        </section>
+        <section>mail:
+          <a [href]="'mailto:'+contact.mail">{{contact.mail}}</a>
+        </section><br>
       </div>
-  </ion-list>
-  </div><div *ngIf = "company == undefined"><h2>Sorry, we can't find the company you are looking for.</h2></div>
+    </ion-list>
+  </div>
+  <div *ngIf="company == undefined">
+    <h2>Sorry, we can't find the company you are looking for.</h2>
+  </div>
 </ion-content>
