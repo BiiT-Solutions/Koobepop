@@ -19,8 +19,7 @@ export class DetailsPage {
   company: Company;
   constructor(public navCtrl: NavController,public navParams: NavParams, public compProv: CompaniesProvider) {
     if(compProv.getCompanies() != undefined){
-      console.log(compProv.getCompanies());
-      this.company = compProv.getCompanies()[navParams.data];
+     this.company = compProv.getCompanies()[navParams.data];
      }
     }
 

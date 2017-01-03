@@ -1,0 +1,67 @@
+<ion-header *ngIf="showHeader">
+  <ion-navbar *ngIf="showHeader" color="lightblue">
+    <button ion-button 
+        style="z-index:2000;"
+        (click) = "navDetails()" 
+        color="light"
+        icon-only
+        ><ion-icon name = "list"></ion-icon></button>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>  
+<div #book 
+  id="book"
+  (tap)="showHeader = !showHeader"
+  (touchstart)="mouseDownHandler($event)"
+  (pan)="mouseMoveHandler($event)"
+  (touchend)= "mouseUpHandler($event)"
+      >
+    <canvas #pageflipCanvas id = "pageflip-canvas"></canvas>
+
+    <div id = "pages" >
+      <section #previousPage
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'" 
+       >        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"        
+        >
+          <img 
+          [src]='this.previousImage' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
+        </div>
+      </section>     
+
+      <section #actualPage      
+       >        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"        
+        >
+          <img 
+          [src]='this.actualImage' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
+        </div>
+      </section>
+
+      <section #nextPage        
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'" 
+      >        
+        <div
+        [style.width]="this.PAGE_WIDTH+'px'"
+        [style.height]="this.PAGE_HEIGHT+'px'"        
+        >
+          <img 
+          [src]='this.nextImage' 
+          [style.width]="this.PAGE_WIDTH+'px'"
+          [style.height]="this.PAGE_HEIGHT+'px'"/>
+        </div>
+      </section>
+    </div>    
+  </div>
+</ion-content>
