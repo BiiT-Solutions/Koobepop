@@ -23,11 +23,11 @@ export class CompaniesProvider {
     ];
   
   }
+  //TODO Remove when infographicsJS is integrated
   getImages(){
     return this.imagesList;
   }
   getCompanies(): Company[] {
-    //return this.imagesList;
     return this.companiesList;
   }
   setCompanies(){}

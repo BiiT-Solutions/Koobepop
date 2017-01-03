@@ -1,18 +1,19 @@
 page-search {
-    ion-title{
+    ion-header{
+         //background: #387ef5;//color($colors , primary);
        
+        ion-navbar{
+            //background: color($colors , primary);
+            }
+            ion-title{
+              //background:color($colors , primary);
+            //background-color:color($colors , primary);
+            
+            }
+       //background-color: primary;
     }
+    ion-content{
 
-    ion-title section{
-       // text-align: center;
-         
     }
-    section{
-        //color: #eaeafa;
-        //color: #d2d2f9;
-       // color: #ff8300;
-        
-    }
-     
     
 }

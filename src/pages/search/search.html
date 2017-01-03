@@ -1,31 +1,30 @@
-
 <ion-header>
-  <ion-navbar color = "lightblue">
- <ion-title ><section>Search Page</section> </ion-title>
+  <ion-navbar color="primary" >
+    <ion-title>
+      <section>{{'SEARCH.TITLE' | translate }}</section>
+    </ion-title>
   </ion-navbar>
-  </ion-header>
+</ion-header>
 
 
 <ion-content padding>
-  <ion-list>
-   <ion-item>
-    <ion-label color="orange">Country</ion-label>
-    <ion-input placeholder="USA, Netherlands, e.g." [(value)]="this.country"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="orange">Brand</ion-label>
-    <ion-input placeholder="IBM, Lenovo" [(value)]="this.brand"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="orange">Product</ion-label>
-    <ion-input placeholder="Servers, Components" [(value)]="this.product"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label color="orange">Service</ion-label>
-    <ion-input placeholder="Reseller, Buyer" [(value)]="this.service"></ion-input>
-  </ion-item><br>
-  <button ion-button [full]="true" (click)="searchCompanies()"
-    color = "lightblue"  
-  ><ion-icon name = "search"></ion-icon>Search</button>
+  <ion-list >
+    <ion-item>
+      <ion-label class="input-label" color="secondary">{{'SEARCH.COUNTRY-LABEL' | translate }}</ion-label>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.COUNTRY-PLACEHOLDER' | translate" [(value)]="this.country"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label class="input-label" color="secondary">{{'SEARCH.BRAND-LABEL' | translate }}</ion-label>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.BRAND-PLACEHOLDER' | translate" [(value)]="this.brand"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label class="input-label" color="secondary">{{'SEARCH.PRODUCT-LABEL' | translate }}</ion-label>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.PRODUCT-PLACEHOLDER' | translate" [(value)]="this.product"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label class="input-label" color="secondary">{{'SEARCH.SERVICE-LABEL' | translate }}</ion-label>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.SERVICE-PLACEHOLDER' | translate" [(value)]="this.service"></ion-input>
+    </ion-item><br>
+    <button ion-button full (click)="searchCompanies()" icon-left><ion-icon name="search"></ion-icon>{{'SEARCH.SEARCH-BUTTON-TEXT'|translate}}</button>
   </ion-list>
 </ion-content>

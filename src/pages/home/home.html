@@ -1,27 +1,17 @@
 
 <ion-header>
-  <ion-navbar color = "lightblue">
+  <ion-navbar color="primary">
     <ion-title>
-     Home Page
+     {{ 'HOME.TITLE' | translate}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content >  
-  <button ion-button     
+  <button ion-button  
         (click) = "navOptimizedBook()" 
         color="light" >
            {{ 'HOME.OPT-BOOK-BUTTON' | translate}}
-  </button>
-  <button ion-button     
-        (click) = "navVerticalBook()" 
-        color="light" >
-          {{ 'HOME.V-BOOK-BUTTON' | translate}}
-  </button>
-  <button ion-button     
-        (click) = "navHorizontalBook()" 
-        color="light" >
-          {{ 'HOME.H-BOOK-BUTTON' | translate}}
   </button>
   <button ion-button     
         (click) = "navSearchView()" 
@@ -37,5 +27,15 @@
         (click) = "navAbout()" 
         color="light" >
           {{ 'HOME.ABOUT-BUTTON' | translate}}
+  </button>
+  <button ion-button hidden    
+        (click) = "navVerticalBook()" 
+        color="light" >
+          {{ 'HOME.V-BOOK-BUTTON' | translate}}
+  </button>
+  <button ion-button hidden    
+        (click) = "navHorizontalBook()" 
+        color="light" >
+          {{ 'HOME.H-BOOK-BUTTON' | translate}}
   </button>
 </ion-content>

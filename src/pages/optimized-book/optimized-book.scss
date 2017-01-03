@@ -1,12 +1,13 @@
 page-optimized-book {
-    ion-header{
-        background-color:lightblue;
-        
+    ion-navbar{
+        position: absolute;
+            z-index: 10;
     }
     ion-content {
             font-family: Helvetica, sans-serif;
         }
         #book {
+            position: absolute;
         //	background-color: darkred;
         }
 
@@ -25,6 +26,6 @@ page-optimized-book {
 
         #pageflip-canvas {
             position: absolute;
-            z-index: 100;
+            z-index: 9;
         }
 }
