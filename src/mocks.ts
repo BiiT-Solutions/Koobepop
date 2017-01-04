@@ -11,7 +11,9 @@ export class Todea {
 }
 export class TranslateServiceMock{
   //This is a dummy mock for testing
-  public
+  public use(str:string): any {
+    return '';
+  }
 }
 
 export class ConfigMock {
