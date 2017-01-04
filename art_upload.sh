@@ -3,7 +3,7 @@
 # Based on: https://github.com/JFrogDev/project-examples/blob/master/bash-example/deploy-file.sh
 
 localFilePath="$1"
-targetFolder="https://artifactory.biit-solutions.com:8443/artifactory/koobepop"
+targetFolder="https://artifactory.biit-solutions.com:8443/artifactory/js-release-local/com/biit/koobepop/"
 artifactoryUser="jenkins"
 artifactoryPassword="Fkx0HKsncprwPvT5EzNU"
 
