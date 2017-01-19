@@ -3,7 +3,7 @@
   "author": "Biit Sourcing Solutions",
   "homepage": "A Biit Solutions app",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.15",
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
@@ -33,6 +33,7 @@
     "gulp": "^3.9.1",
     "gulp-bump": "^2.5.1",
     "gulp-if": "^2.0.2",
+    "gulp-util": "^3.0.8",
     "jasmine-core": "^2.4.1",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",
