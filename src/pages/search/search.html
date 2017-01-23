@@ -11,19 +11,19 @@
   <ion-list>
     <ion-item>
       <ion-label class="input-label" color="secondary">{{'SEARCH.COUNTRY-LABEL' | translate }}</ion-label>
-      <ion-input class="input-placeholder" [placeholder]="'SEARCH.COUNTRY-PLACEHOLDER' | translate" [(value)]="this.country"></ion-input>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.COUNTRY-PLACEHOLDER' | translate" [(ngModel)]="this.country"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label class="input-label" color="secondary">{{'SEARCH.BRAND-LABEL' | translate }}</ion-label>
-      <ion-input class="input-placeholder" [placeholder]="'SEARCH.BRAND-PLACEHOLDER' | translate" [(value)]="this.brand"></ion-input>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.BRAND-PLACEHOLDER' | translate" [(ngModel)]="this.brand"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label class="input-label" color="secondary">{{'SEARCH.PRODUCT-LABEL' | translate }}</ion-label>
-      <ion-input class="input-placeholder" [placeholder]="'SEARCH.PRODUCT-PLACEHOLDER' | translate" [(value)]="this.product"></ion-input>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.PRODUCT-PLACEHOLDER' | translate" [(ngModel)]="this.product"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label class="input-label" color="secondary">{{'SEARCH.SERVICE-LABEL' | translate }}</ion-label>
-      <ion-input class="input-placeholder" [placeholder]="'SEARCH.SERVICE-PLACEHOLDER' | translate" [(value)]="this.service"></ion-input>
+      <ion-input class="input-placeholder" [placeholder]="'SEARCH.SERVICE-PLACEHOLDER' | translate" [(ngModel)]="this.service"></ion-input>
     </ion-item><br>
     <button ion-button full (click)="searchCompanies()" icon-left><ion-icon name="search"></ion-icon>{{'SEARCH.SEARCH-BUTTON-TEXT'|translate}}</button>
   </ion-list>

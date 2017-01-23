@@ -1,6 +1,5 @@
 import { Component,AfterViewInit,ViewChild,ViewChildren,ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
-import { HorizonalBookPage } from '../horizontal-book/horizontal-book';
 import { CompaniesProvider } from '../../providers/companies'
 import { DetailsPage } from '../details/details';
 @Component({
@@ -162,12 +161,8 @@ mouseDownHandler( event ) {
 		  this.actualFlip.progress = 1;
 		  this.increasePage();
 		  this.drawFlip(this.actualFlip);
-	  }
-     
-		
+	  }  
 	}
-
-
 
 drawFlip( flip ) {
 		// Strength of the fold, is strongest in the middle of the book
@@ -268,8 +263,7 @@ drawFlip( flip ) {
 		console.log("Orientation change: "+window.orientation );
 		//First we place the following page then we pop the actual so its a substitution
 		if (window.orientation == 90 || window.orientation == -90){
-			this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),HorizonalBookPage);
-			this.navCtrl.pop();
+
 		}else{
 			this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()),OptimizedBookPage);
 			this.navCtrl.pop();

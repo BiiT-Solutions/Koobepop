@@ -7,8 +7,8 @@ export interface Contact{
 
 export interface Company {
     name: string;
-    contacts: Contact[];
     brands: string[];
+    contacts: Contact[];
     products: string[];
     services: string[];
     description: string;

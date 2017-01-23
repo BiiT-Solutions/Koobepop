@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams } from 'ionic-angular';
+import {  NavController,NavParams } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
 import { Contact, Company } from '../../models/company-interfaces'
+
 @Component({
   selector: 'page-details',
   templateUrl: 'details.html'
@@ -18,10 +19,9 @@ export class DetailsPage {
   contacts:Contact[] = [{name:"Daniel J",mail:"dan@test.com",phone:"661457616"}, {name:"Illian",mail:"amelcon@biit-solutions.com",phone:"625357585"}];
   company: Company;
   constructor(public navCtrl: NavController,public navParams: NavParams, public compProv: CompaniesProvider) {
+  // console.log("Companies: ",compProv.getCompanies())
     if(compProv.getCompanies() != undefined){
      this.company = compProv.getCompanies()[navParams.data];
      }
     }
-
-
 }

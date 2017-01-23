@@ -4,11 +4,12 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SearchPage } from '../pages/search/search';
 import { CompaniesProvider } from '../providers/companies';
-import { OptimizedBookPage } from '../pages/optimized-book/optimized-book';
+import { BookPage } from '../pages/book/book';
 import { DetailsPage } from '../pages/details/details';
 import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
+import {TestPage} from '../pages/test/test';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -18,9 +19,10 @@ export function createTranslateLoader(http: Http) {
     MyApp,
     HomePage,
     SearchPage,
-    OptimizedBookPage,
+    BookPage,
     DetailsPage,
-    AboutPage
+    AboutPage,
+    TestPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -36,9 +38,10 @@ export function createTranslateLoader(http: Http) {
     MyApp,
     HomePage,
     SearchPage,
-    OptimizedBookPage,
+    BookPage,
     DetailsPage,
-    AboutPage
+    AboutPage,
+    TestPage
   ],
   providers: [
     CompaniesProvider,

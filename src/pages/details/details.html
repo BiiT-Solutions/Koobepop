@@ -6,6 +6,7 @@
 </ion-header>
 
 <ion-content padding>
+  <div id = "touchy">
   <div *ngIf="company != undefined">
     <p *ngIf="company.address != undefined">{{company.address}}</p>
     <div *ngFor="let phone of company.phones">
@@ -32,5 +33,6 @@
   </div>
   <div *ngIf="company == undefined">
     <h2>Sorry, we can't find the company you are looking for.</h2>
+  </div>
   </div>
 </ion-content>
