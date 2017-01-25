@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies'
 import { DetailsPage } from '../details/details';
 import { TranslateService } from 'ng2-translate';
@@ -34,13 +34,16 @@ export class BookPage implements AfterViewInit {
 	@ViewChild("previousPage") previousRightPage
 	@ViewChild("actualPage") actualRightPage;
 	@ViewChild("nextPage") nextRightPage;
-
-	@ViewChild("book") book: ElementRef;
 	@ViewChild("pageflipCanvas") canvas: ElementRef;
 	context: CanvasRenderingContext2D;
+
+	@ViewChild("book") book: ElementRef;
+	private gesture: Gesture;
+
 	hideHeader: boolean;
 	id;
 	scaling = false;
+
 	constructor(public navCtrl: NavController, private companies: CompaniesProvider, private translate: TranslateService) {
 		this.imageList = companies.getImages();
 		this.actualImage = this.imageList[this.pageNum];
@@ -48,21 +51,7 @@ export class BookPage implements AfterViewInit {
 		this.previousImage = this.imageList[this.pageNum - 1];
 	}
 
-	increasePage() {
-		this.pageNum = this.pageNum + 1;
-		this.previousImage = this.actualImage;
-		this.actualImage = this.nextImage;
-		this.drawFlip(this.actualFlip);
-		this.nextImage = this.imageList[this.pageNum + 1];
-	}
-
-	decreasePage() {
-		this.pageNum = this.pageNum - 1;
-		this.nextImage = this.actualImage;
-		this.actualImage = this.previousImage;
-		this.drawFlip(this.actualFlip);
-		this.previousImage = this.imageList[this.pageNum - 1];
-	}
+	
 
 	ngAfterViewInit() {
 		this.PAGE_MARGIN = window.outerWidth * 0.05;
@@ -74,6 +63,14 @@ export class BookPage implements AfterViewInit {
 		this.canvas.nativeElement.height = this.BOOK_HEIGHT;
 		this.book.nativeElement.style.marginLeft = - this.PAGE_WIDTH + "px";
 		this.context = this.canvas.nativeElement.getContext("2d");
+
+		//create gesture obj w/ ref to DOM element
+		this.gesture = new Gesture(this.book.nativeElement);
+		//listen for the gesture
+		this.gesture.listen();
+		//turn on listening for pinch or rotate events
+		this.gesture.on('pinch', e => this.pinchEvent(e));
+
 		//Pages 
 		//Previous
 		this.previousFlip = {
@@ -108,73 +105,11 @@ export class BookPage implements AfterViewInit {
 		this.actualRightPage.nativeElement.style.zIndex = 1;
 		this.nextRightPage.nativeElement.style.zIndex = 0;
 	}
-/*
-	grabPage(event){
-		//Initial position of the movement, the grabbing (spine is position 0)
-		this.mouse.x = event.touches[0].clientX - this.book.nativeElement.offsetLeft - (this.BOOK_WIDTH / 2);
-		this.mouse.y = event.touches[0].clientY - this.book.nativeElement.offsetTop;
-		//If the touch is inside the page
-		if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
-			//In the right side
-			if (this.mouse.x < 0.5 * this.PAGE_WIDTH && this.pageNum > 0) {
-				//right to left already moving 
-				if(this.actualFlip.target == -1 && this.actualFlip.progress >=0.5){
-					this.pageNum += 1;
-					//previousFlip is now the same as actualFlip
-					this.previousFlip.target = -1;
-					this.previousFlip.progress = this.actualFlip.progress;
-					this.previousImage = this.actualImage;
-					//actualFlip is now the same as nextFlip
-					this.actualFlip.target = -1;
-					this.actualFlip.progress = -1;
-					this.actualImage = this.nextImage;
-					//nextFlip is now a newFlip with a new page
-					this.nextFlip.target = -1;
-					this.nextFlip.progress = -1;
-					this.nextImage = this.imageList[this.pageNum+1];
-				}
-				//left to right already moving or no movement
-				//we pick the moving flip so we don't have to chage flips				
-				
-				this.actualFlip.dragging = true;
-			}
-			//In the left side
-			if (this.mouse.x > 0.5 * this.PAGE_WIDTH && this.pageNum < this.imageList.length) {
-				//left to right already moving
-				if(this.actualFlip.target == 1){
-					this.pageNum -= 1;
-					//nextFlip is now the same as actualFlip
-					this.nextFlip.target = 1;
-					this.nextFlip.progress = this.actualFlip.progress;
-					this.nextImage = this.actualImage;
-					//actualFlip is now the same as nextFlip
-					this.actualFlip.target = -1;
-					this.actualFlip.progress = -1;
-					this.actualImage = this.previousImage;
-					//previousFlip is now a newFlip with a new page
-					this.previousFlip.target = -1;
-					this.previousFlip.progress = -1;
-					this.previousImage = this.imageList[this.pageNum+1];
-				}
-			}
-		}
-		event.preventDefault();
+	
+	pinchEvent(event){
+		
 	}
 
-	dragPage(event){
-		// We just save the new location of the pointer
-		this.mouse.x = event.center.x - this.book.nativeElement.offsetLeft - (this.BOOK_WIDTH / 2);
-		this.mouse.y = event.center.y - this.book.nativeElement.offsetTop;
-	}
-
-	releasePage(event){
-
-		if (this.actualFlip.dragging) {
-			this.actualFlip.target = this.mouse.x < 0.5 * this.PAGE_WIDTH ? -1 : 1;
-		}
-		this.actualFlip.dragging = false;
-	}
-*/
 	mouseMoveHandler(event) {
 
 		// Offset mouse position so that the top of the spine is 0
@@ -311,6 +246,21 @@ export class BookPage implements AfterViewInit {
 		this.context.stroke();
 		this.context.restore();
 	}
+	increasePage() {
+		this.pageNum = this.pageNum + 1;
+		this.previousImage = this.actualImage;
+		this.actualImage = this.nextImage;
+		this.drawFlip(this.actualFlip);
+		this.nextImage = this.imageList[this.pageNum + 1];
+	}
+
+	decreasePage() {
+		this.pageNum = this.pageNum - 1;
+		this.nextImage = this.actualImage;
+		this.actualImage = this.previousImage;
+		this.drawFlip(this.actualFlip);
+		this.previousImage = this.imageList[this.pageNum - 1];
+	}
 
 	navBack() {
 		window.onorientationchange = null;
@@ -342,6 +292,73 @@ export class BookPage implements AfterViewInit {
 		window.onorientationchange = null;
 		clearInterval(this.id);
 	}
+	/*
+	grabPage(event){
+		//Initial position of the movement, the grabbing (spine is position 0)
+		this.mouse.x = event.touches[0].clientX - this.book.nativeElement.offsetLeft - (this.BOOK_WIDTH / 2);
+		this.mouse.y = event.touches[0].clientY - this.book.nativeElement.offsetTop;
+		//If the touch is inside the page
+		if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
+			//In the right side
+			if (this.mouse.x < 0.5 * this.PAGE_WIDTH && this.pageNum > 0) {
+				//right to left already moving 
+				if(this.actualFlip.target == -1 && this.actualFlip.progress >=0.5){
+					this.pageNum += 1;
+					//previousFlip is now the same as actualFlip
+					this.previousFlip.target = -1;
+					this.previousFlip.progress = this.actualFlip.progress;
+					this.previousImage = this.actualImage;
+					//actualFlip is now the same as nextFlip
+					this.actualFlip.target = -1;
+					this.actualFlip.progress = -1;
+					this.actualImage = this.nextImage;
+					//nextFlip is now a newFlip with a new page
+					this.nextFlip.target = -1;
+					this.nextFlip.progress = -1;
+					this.nextImage = this.imageList[this.pageNum+1];
+				}
+				//left to right already moving or no movement
+				//we pick the moving flip so we don't have to chage flips				
+				
+				this.actualFlip.dragging = true;
+			}
+			//In the left side
+			if (this.mouse.x > 0.5 * this.PAGE_WIDTH && this.pageNum < this.imageList.length) {
+				//left to right already moving
+				if(this.actualFlip.target == 1){
+					this.pageNum -= 1;
+					//nextFlip is now the same as actualFlip
+					this.nextFlip.target = 1;
+					this.nextFlip.progress = this.actualFlip.progress;
+					this.nextImage = this.actualImage;
+					//actualFlip is now the same as nextFlip
+					this.actualFlip.target = -1;
+					this.actualFlip.progress = -1;
+					this.actualImage = this.previousImage;
+					//previousFlip is now a newFlip with a new page
+					this.previousFlip.target = -1;
+					this.previousFlip.progress = -1;
+					this.previousImage = this.imageList[this.pageNum+1];
+				}
+			}
+		}
+		event.preventDefault();
+	}
+
+	dragPage(event){
+		// We just save the new location of the pointer
+		this.mouse.x = event.center.x - this.book.nativeElement.offsetLeft - (this.BOOK_WIDTH / 2);
+		this.mouse.y = event.center.y - this.book.nativeElement.offsetTop;
+	}
+
+	releasePage(event){
+
+		if (this.actualFlip.dragging) {
+			this.actualFlip.target = this.mouse.x < 0.5 * this.PAGE_WIDTH ? -1 : 1;
+		}
+		this.actualFlip.dragging = false;
+	}
+*/
 }
 
 
