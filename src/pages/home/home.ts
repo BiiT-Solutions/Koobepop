@@ -1,11 +1,10 @@
 import { Component,} from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { SearchPage } from '../search/search';
-import { BookPage } from '../book/book';
 import { DetailsPage } from '../details/details';
 import { AboutPage } from '../about/about';
 import { TranslateService } from 'ng2-translate';
-import {TestPage} from '../test/test';
+import {ZoomPage} from '../test/test';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -18,9 +17,6 @@ export class HomePage {
   navSearchView(){
     this.navCtrl.push(SearchPage);
   }
-  navOptimizedBook(){
-    this.navCtrl.push(BookPage);
-  }
   navDetails(){
     this.navCtrl.push(DetailsPage);
   }
@@ -28,7 +24,7 @@ export class HomePage {
     this.navCtrl.push(AboutPage);
   }
   navTest(){
-    this.navCtrl.push(TestPage);
+    this.navCtrl.push(ZoomPage);
   }
 }
 

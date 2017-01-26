@@ -1,11 +1,4 @@
-<ion-content>
-  <ion-navbar color="primary" [hidden]="hideHeader">
-    <ion-buttons end>
-      <button ion-button style="z-index:2000;" (click) = "navDetails()" color="light" icon-only >
-        <ion-icon name="list"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+
   <div #eventReciver id = "eventReciver"
   >
     <div #book id="book" (tap)="hideHeader = !hideHeader"
@@ -20,7 +13,7 @@
       ></canvas>
 
       <div id="pages">
-        <section #previousPage      
+        <section #previousPage hidden="true"     
            [style.marginLeft]="this.PAGE_MARGIN+'px'"
            [style.marginTop] = "this.PAGE_MARGIN+'px'"
         >
@@ -64,4 +57,3 @@
       </div>
     </div>
   </div>
-</ion-content>

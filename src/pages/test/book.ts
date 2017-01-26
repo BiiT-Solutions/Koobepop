@@ -47,8 +47,9 @@ export class BookPage implements AfterViewInit {
 	@ViewChild("book") book: ElementRef;
 	private gesture: Gesture;
 	hideHeader: boolean;
-	id;
-	scaling = false;
+	
+	intervalId;
+
 	
 
 	@ViewChild("eventReciver") eventHandling: ElementRef;
@@ -129,7 +130,7 @@ export class BookPage implements AfterViewInit {
 		this.gesture.on('panstart', e => this.mouseDownHandler(e));
 		this.gesture.on('pan', e =>this.mouseMoveHandler(e));
 		this.gesture.on('panend', e => this.mouseUpHandler(e));
-		this.id = setInterval(() => this.render(), 1000 / 60);
+		//this.intervalId = setInterval(() => this.render(), 1000 / 60);
 	}
 	/* Sets all size attributes */
 	setBookAttributes(width,height){
@@ -150,7 +151,7 @@ export class BookPage implements AfterViewInit {
 		this.bookWidth = this.BOOK_WIDTH;
 		//this is so the book shows just 1 page
 		this.bookLeftMovement = -(this.BOOK_WIDTH/2);
-		if(!this.flipActive) this.actualPageWidth = this.PAGE_WIDTH;
+		this.actualPageWidth = this.BOOK_WIDTH;
 	}
 
 	mouseMoveHandler(event) {
@@ -200,7 +201,7 @@ export class BookPage implements AfterViewInit {
 	render() {
 		console.log("rendering");
 		this.setBookAttributes(this.BOOK_WIDTH,this.BOOK_HEIGHT);
-		
+		if (this.flipActive){
 		this.context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
 		
 		if (this.actualFlip.dragging) {
@@ -216,6 +217,7 @@ export class BookPage implements AfterViewInit {
 			this.actualFlip.progress = 1;
 			this.increasePage();
 		}
+		}
 	}
     
 	drawFlip(flip) {
@@ -223,10 +225,10 @@ export class BookPage implements AfterViewInit {
 		let strength = 1 - Math.abs(flip.progress);
 
 		// Width of the folded paper
-		let foldWidth = (this.PAGE_WIDTH * 0.5) * (1 - flip.progress);
+		let foldWidth = ((this.PAGE_WIDTH * 0.5) +this.PAGE_MARGIN)* (1 - flip.progress);
 
 		// X position of the folded paper
-		let foldX = this.PAGE_WIDTH * flip.progress + foldWidth;
+		let foldX = (this.PAGE_WIDTH+this.PAGE_MARGIN*2) * flip.progress + foldWidth;
 
 		// How far the page should outdent vertically due to perspective
 		let verticalOutdent = this.PAGE_MARGIN * strength;
@@ -239,7 +241,7 @@ export class BookPage implements AfterViewInit {
 		// Change the right page element width to match the x position of the fold
 		//this.actualRightPage.nativeElement.style.width = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0) + "px";
 		//flip.page.nativeElement.style.width = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0) + "px";
-		this.actualPageWidth = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0);
+		this.actualPageWidth = Math.max(foldX - foldWidth , 0);
 
 		this.context.save();
 		//Set canvas in position
@@ -332,20 +334,14 @@ export class BookPage implements AfterViewInit {
 		}
 	}
 
-	navDetails() {
-		this.navCtrl.push(DetailsPage, this.pageNum);
+	public getPageNum(){
+		return this.pageNum;
 	}
-
-	
-	ionViewWillEnter() {	
-		window.onorientationchange = e => this.navToHorizontalBook();
-		this.id = setInterval(() => this.render(), 1000 / 60);
-		this.hideHeader = true;	
+	public stopRendering(){
+		clearInterval(this.intervalId);	
 	}
-	/* When  we exit the page we don't want that behaviour anymore*/
-	ionViewDidLeave() {
-		window.onorientationchange = null;
-		clearInterval(this.id);
+	public startRendering(){
+		this.intervalId = setInterval(() => this.render(), 1000 / 60);
 	}
 
 }

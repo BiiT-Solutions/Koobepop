@@ -1,6 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild ,Input} from '@angular/core';
 import { NavController, NavParams,Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
+import { DetailsPage } from '../details/details';
+import { BookPage } from 'book';
 /**
  *  This is a test page and should be removed before releasing .
  * Here you can meddle with dark magic better left alone.
@@ -11,19 +13,18 @@ import { CompaniesProvider } from '../../providers/companies';
   selector: 'page-test',
   templateUrl: 'test.html'
 })
-export class TestPage {
+export class ZoomPage {
   companies = [{name:" :D"}];
   private gesture: Gesture;
   @ViewChild('frame') element;
-  @ViewChild('contenedor') contenedor;
-  newWidth =300;
-  newHeight = 400;
+  @ViewChild('book') book;
+  newWidth =30;
+  newHeight = 40;
   oldWidth=300;
   oldHeight= 400;
-
-  src = "assets/infografies/commomfojmddoekd.png";
+  zoomActive = false;
   mLeft = 0;
-  mTop = 0
+  mTop = 0;
   pinchX=0;
   pinchY=0;
   oldCenterX=0;
@@ -34,6 +35,7 @@ export class TestPage {
   translateFromZoomingY=0;
   translateFromTranslatingX=0;
   translateFromTranslatingY=0;
+  hideHeader;
   constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) {}
 
 
@@ -47,14 +49,17 @@ export class TestPage {
 	this.gesture.on('pinchstart', e => this.pinchStartEvent(e));
   this.gesture.on('pinch', e => this.pinchEvent(e));
   this.gesture.on('pinchend', e => this.pinchEndEvent(e));
-
-  this.gesture.on('panstart', e => this.startMove(e));
-  this.gesture.on('pan', e =>this.move(e));
+  this.newWidth =window.outerWidth*2;
+  this.newHeight = window.outerHeight;
+  this.oldWidth=window.outerWidth*2;
+  this.oldHeight= window.outerHeight;
+  this.hideHeader = true;
 }
 
 pinchStartEvent(e){
   console.log("PINCH START EVENT")
   this.startMove(e);
+  this.zoomActive = true;
   this.gesture.off('panstart', e => this.startMove(e));
   this.gesture.off('pan', e =>this.move(e));
 }
@@ -63,8 +68,21 @@ pinchEndEvent(e){
   console.log("PINCH END EVENT")
    this.oldWidth = this.newWidth;
    this.oldHeight = this.newHeight;
-   this.gesture.on('panstart', e => this.startMove(e));
-  this.gesture.on('pan', e =>this.move(e));
+
+   if(this.newHeight<window.outerWidth*2){
+      this.newWidth =window.outerWidth*2;
+      this.newHeight = window.outerHeight;
+      this.oldWidth=window.outerWidth*2;
+      this.oldHeight= window.outerHeight;
+      this.mLeft = 0;
+      this.mTop = 0;
+      this.zoomActive = false;
+   }
+
+   if (this.zoomActive){
+  this.gesture.on('panstart', e => this.startMove(e));
+   this.gesture.on('pan', e =>this.move(e));
+  }
 }
 
 pinchEvent(e){
@@ -72,9 +90,9 @@ pinchEvent(e){
   // TODO: ADD max y min
   this.newWidth = this.oldWidth * e.scale;
   this.newHeight = this.oldHeight * e.scale;
-  //this.newWidth = Math.min(Math.max(this.oldWidth * e.scale,window.outerWidth-4),window.outerWidth*10);
-  //this.newHeight =Math.min(Math.max(this.oldHeight * e.scale,window.outerHeight-4),window.outerHeight*10);
-
+  this.newWidth = Math.min(Math.max(this.oldWidth * e.scale,window.outerWidth*2*0.5),window.outerWidth*2*5);
+  this.newHeight =Math.min(Math.max(this.oldHeight * e.scale,window.outerHeight*0.5),window.outerHeight*5);
+ 
   this.move(e);
 }
 
@@ -83,12 +101,30 @@ startMove(e){
   this.percentageOfImageAtPinchPointY = (e.center.y - this.mTop)/this.oldHeight;
 }
 move(e){
-  this.translateFromZoomingX = - ((this.newWidth * this.percentageOfImageAtPinchPointX) -e.center.x) ;
-  this.translateFromZoomingY = - ((this.newHeight * this.percentageOfImageAtPinchPointY) -e.center.y) ;
-  this.mLeft = this.translateFromZoomingX;
-  this.mTop = this.translateFromZoomingY;
+  this.mLeft = - ((this.newWidth * this.percentageOfImageAtPinchPointX) -e.center.x) ;
+  this.mTop = - ((this.newHeight * this.percentageOfImageAtPinchPointY) -e.center.y) ;
   //Limits
-  this.mLeft = Math.min(Math.max(this.mLeft,-this.newWidth+window.outerWidth),2);
-  this.mTop = Math.min(Math.max(this.mTop,-this.newHeight+window.outerHeight),2);
+  this.mLeft = Math.min(Math.max(this.mLeft,-this.newWidth+window.outerWidth/3),window.outerHeight/3);
+  this.mTop = Math.min(Math.max(this.mTop,-this.newHeight+window.outerHeight/3),window.outerHeight/3);
   }
+  navDetails(){
+    this.navCtrl.push(DetailsPage, this.book.getPageNum());
+  }
+	ionViewWillEnter(){
+		 this.book.startRendering();
+	}
+	ionViewDidLeave(){
+    this.book.stopRendering();
+	}
+
+
 }
+
+ @Component({
+   selector:"test-element",
+    template:`<div>Some Test div {{name}}</div>`
+  })
+  export class TestElement{
+    @Input()
+    name;
+  }

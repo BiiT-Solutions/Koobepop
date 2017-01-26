@@ -1,27 +1,31 @@
 
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      test X: {{translateFromTranslatingX | number:'.2-2'}} 
-      Y: {{translateFromTranslatingY | number:'.2-2'}}
-      
-      </ion-title>
-  
+
+<ion-content >
+ <ion-navbar color="primary" [hidden]="hideHeader">
+    <ion-buttons end>
+      <button ion-button  (click) = "navDetails()" color="light" icon-only >
+        <ion-icon name="list"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-</ion-header>
-
-
-<ion-content padding>
-  <div #frame  
+   
+  <div #frame (tap)="hideHeader = !hideHeader" 
   style="width:100%;height:100%;">
-    <ion-scroll scrollX="true" scrollY="true" zoom="true" 
+  <div
+  [style.height] = "newHeight+'px'" 
+  [style.width] = "newWidth+'px'" 
+  [style.marginTop] = "mTop+'px'" 
+  [style.marginLeft]="mLeft+'px'"
+  >
+  <page-book #book
+    [flipActive]="!zoomActive"
+    [BOOK_HEIGHT] = "newHeight" 
+    [BOOK_WIDTH] = "newWidth"
+  ></page-book>
+  </div>
+  <ion-scroll scrollX="true" scrollY="true" zoom="true" 
     style="width:100%;height:100%;">
-     <img #contenedor [src] = "src" 
-      style = "max-width:1000%; max-height:1000%;min-width:90%; min-height:90%"
-      [style.height] = "newHeight+'px'" 
-      [style.width] = "newWidth+'px'" 
-      [style.marginTop] = "mTop+'px'" 
-      [style.marginLeft]="mLeft+'px'"/>  
-    </ion-scroll>
+  </ion-scroll>
+    
   </div>
 </ion-content>
