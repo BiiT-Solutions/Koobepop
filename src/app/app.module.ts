@@ -10,7 +10,7 @@ import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-tran
 import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
 import {ZoomPage,TestElement} from '../pages/test/test';
-
+import {APP_CONFIG, AppConfig} from './app.config'
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
@@ -45,7 +45,7 @@ export function createTranslateLoader(http: Http) {
     ZoomPage
   ],
   providers: [
-    CompaniesProvider,
+    CompaniesProvider,{provide:APP_CONFIG, useValue: AppConfig},
   {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
