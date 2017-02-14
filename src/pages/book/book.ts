@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef,Input,Output } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input, Output } from '@angular/core';
 import { NavController, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies'
 import { DetailsPage } from '../details/details';
@@ -13,18 +13,22 @@ import { TranslateService } from 'ng2-translate';
 
 export class BookPage implements AfterViewInit {
 	@Input()
-	flipActive:boolean=true;
+	flipActive: boolean = true;
 	@Input()
 	BOOK_WIDTH = 400;
 	@Input()
 	BOOK_HEIGHT = 200;
+	@Input()
+	zoomLeftMargin = 0;
+	@Input()
+	zoomTopMargin = 0;
 	
 	PAGE_WIDTH = 0;
 	PAGE_HEIGHT = 0;
 	PAGE_MARGIN = 0;
 	pageNum = 0;
-	bookLeftMovement=0;
-	bookTopMovement=0;
+	bookLeftMovement = 0;
+	bookTopMovement = 0;
 
 	imageList;
 
@@ -35,7 +39,7 @@ export class BookPage implements AfterViewInit {
 	previousFlip;
 	actualFlip;
 	nextFlip;
-	
+
 	mouse = { x: 0, y: 0 };
 	flips = [];
 	@ViewChild("previousPage") previousRightPage
@@ -49,14 +53,14 @@ export class BookPage implements AfterViewInit {
 	hideHeader: boolean;
 	id;
 	scaling = false;
-	
+
 
 	@ViewChild("eventReciver") eventHandling: ElementRef;
 	percentageOfImageAtPinchPointX = 0;
 	percentageOfImageAtPinchPointY = 0;
-	
-	mLeft=0;
-	mTop=0;
+
+	mLeft = 0;
+	mTop = 0;
 
 	oldWidth;
 	oldHeight;
@@ -76,7 +80,7 @@ export class BookPage implements AfterViewInit {
 	bookWidth;
 
 
-	
+
 	constructor(public navCtrl: NavController, private companies: CompaniesProvider, private translate: TranslateService) {
 		this.imageList = companies.getImages();
 		this.actualImage = this.imageList[this.pageNum];
@@ -84,12 +88,12 @@ export class BookPage implements AfterViewInit {
 		this.previousImage = this.imageList[this.pageNum - 1];
 	}
 
-	
-	
+
+
 	ngAfterViewInit() {
 		//this.setBookAttributes(window.outerWidth * 2,window.outerHeight);	
 		this.context = this.canvas.nativeElement.getContext("2d");
-	// Define PageFlips 
+		// Define PageFlips 
 		//Previous
 		this.previousFlip = {
 			progress: 1,
@@ -112,8 +116,8 @@ export class BookPage implements AfterViewInit {
 			dragging: false
 		};
 
-		
-		
+
+
 		//Setting up the z index
 		this.previousRightPage.nativeElement.style.zIndex = 2;
 		this.actualRightPage.nativeElement.style.zIndex = 1;
@@ -127,12 +131,12 @@ export class BookPage implements AfterViewInit {
 
 		// Turn on listening for panning
 		this.gesture.on('panstart', e => this.mouseDownHandler(e));
-		this.gesture.on('pan', e =>this.mouseMoveHandler(e));
+		this.gesture.on('pan', e => this.mouseMoveHandler(e));
 		this.gesture.on('panend', e => this.mouseUpHandler(e));
 		this.id = setInterval(() => this.render(), 1000 / 60);
 	}
 	/* Sets all size attributes */
-	setBookAttributes(width,height){
+	setBookAttributes(width, height) {
 		// Determines the size of the book
 		this.BOOK_WIDTH = width;
 		this.BOOK_HEIGHT = height;
@@ -142,72 +146,73 @@ export class BookPage implements AfterViewInit {
 		this.PAGE_WIDTH = this.BOOK_WIDTH / 2 - this.PAGE_MARGIN * 2;
 		this.PAGE_HEIGHT = this.BOOK_HEIGHT - this.PAGE_MARGIN * 2;
 
-		this.imageHeight =this.PAGE_HEIGHT;
-		this.imageWidth =this.PAGE_WIDTH ;
+		this.imageHeight = this.PAGE_HEIGHT;
+		this.imageWidth = this.PAGE_WIDTH;
 		this.pageHeight = this.PAGE_HEIGHT;
 		this.pageWidth = this.PAGE_WIDTH;
 		this.bookHeight = this.BOOK_HEIGHT;
 		this.bookWidth = this.BOOK_WIDTH;
 		//this is so the book shows just 1 page
-		this.bookLeftMovement = -(this.BOOK_WIDTH/2);
-		if(!this.flipActive) this.actualPageWidth = this.PAGE_WIDTH;
+		this.bookLeftMovement = -(this.BOOK_WIDTH / 2) +this.zoomLeftMargin;
+		this.bookTopMovement = this.zoomTopMargin;
+		if (!this.flipActive) this.actualPageWidth = this.PAGE_WIDTH;
 	}
 
 	mouseMoveHandler(event) {
-		if (this.flipActive){
-		console.log("moving around");
-		// Offset mouse position so that the top of the spine is 0
-		this.mouse.x = event.center.x ;
-		this.mouse.y = event.center.y ;
-	}
+		if (this.flipActive) {
+			//console.log("moving around");
+			// Offset mouse position so that the top of the spine is 0
+			this.mouse.x = event.center.x;
+			this.mouse.y = event.center.y;
+		}
 
 	}
-	
+
 	mouseDownHandler(event) {
-		console.log("Down");
-		if (this.flipActive){
-		this.mouse.x = event.center.x ;
-		this.mouse.y = event.center.y ;
-		if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
-			if (this.mouse.x < 0.5 * this.PAGE_WIDTH && this.pageNum > 0) {
-				this.actualFlip.dragging = true;
-				this.actualFlip.progress = -1;
-				this.decreasePage();
-				this.actualFlip.target = -1;
-			} else if (this.mouse.x > 0.5 * this.PAGE_WIDTH && this.pageNum < this.imageList.length - 1) {
-				if (this.actualFlip.dragging || Math.abs(this.actualFlip.progress) < 0.996) {
-					this.increasePage();
+		//console.log("Down");
+		if (this.flipActive) {
+			this.mouse.x = event.center.x;
+			this.mouse.y = event.center.y;
+			if (Math.abs(this.mouse.x) < this.PAGE_WIDTH) {
+				if (this.mouse.x < 0.5 * this.PAGE_WIDTH && this.pageNum > 0) {
+					this.actualFlip.dragging = true;
+					this.actualFlip.progress = -1;
+					this.decreasePage();
+					this.actualFlip.target = -1;
+				} else if (this.mouse.x > 0.5 * this.PAGE_WIDTH && this.pageNum < this.imageList.length - 1) {
+					if (this.actualFlip.dragging || Math.abs(this.actualFlip.progress) < 0.996) {
+						this.increasePage();
+					}
+					this.actualFlip.dragging = true;
+					this.actualFlip.progress = 1;
+					this.actualFlip.target = 1;
 				}
-				this.actualFlip.dragging = true;
-				this.actualFlip.progress = 1;
-				this.actualFlip.target = 1;
 			}
-		}
 		}
 		//Prevents the text selection cursor from appearing when dragging
 		event.preventDefault();
 	}
 	mouseUpHandler(event) {
-		console.log("Up");
-			if (this.flipActive){
+		//console.log("Up");
+		if (this.flipActive) {
 			// If the flip was being dragged we animate to its destination
 			if (this.actualFlip.dragging) {
 				this.actualFlip.target = this.mouse.x < 0.5 * this.PAGE_WIDTH ? -1 : 1;
 			}
 			this.actualFlip.dragging = false;
-			}
 		}
+	}
 	render() {
-		console.log("rendering");
-		this.setBookAttributes(this.BOOK_WIDTH,this.BOOK_HEIGHT);
-		
+		//console.log("rendering");
+		this.setBookAttributes(this.BOOK_WIDTH, this.BOOK_HEIGHT);
+
 		this.context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-		
+
 		if (this.actualFlip.dragging) {
 			this.actualFlip.target = Math.max(Math.min(this.mouse.x / this.PAGE_WIDTH, 1), -1);
-		}		
+		}
 		this.actualFlip.progress += (this.actualFlip.target - this.actualFlip.progress) * 0.2;
-		
+
 		// If the flip is being dragged or is somewhere in the middle of the book, render it
 		if (this.actualFlip.dragging || Math.abs(this.actualFlip.progress) < 0.997) {
 			this.drawFlip(this.actualFlip);
@@ -217,7 +222,7 @@ export class BookPage implements AfterViewInit {
 			this.increasePage();
 		}
 	}
-    
+
 	drawFlip(flip) {
 		// Strength of the fold, is strongest in the middle of the book
 		let strength = 1 - Math.abs(flip.progress);
@@ -336,11 +341,11 @@ export class BookPage implements AfterViewInit {
 		this.navCtrl.push(DetailsPage, this.pageNum);
 	}
 
-	
-	ionViewWillEnter() {	
+
+	ionViewWillEnter() {
 		window.onorientationchange = e => this.navToHorizontalBook();
 		this.id = setInterval(() => this.render(), 1000 / 60);
-		this.hideHeader = true;	
+		this.hideHeader = true;
 	}
 	/* When  we exit the page we don't want that behaviour anymore*/
 	ionViewDidLeave() {

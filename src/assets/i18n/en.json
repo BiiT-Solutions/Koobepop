@@ -5,7 +5,8 @@
         "PROFESSIONAL":"Members of the Association of Service and Computer Dealers International/North-American Association of Telecommunications Dealers(the\"AscdiNatd\") and Subscribers to the Equipment Trading Network (the \"eTN\") and Computer Brokers Exchange (CBE) have pledged to honor and abide by the Code of Ethics (the \"Code\") to ensure the public of high standards in all dealings.\nThe Code\nMembers of the AscdiNatd and Subscribers to the eTN & CBE agree to the following:\n"
     },
     "HOME":{
-        "TITLE":"Home Page",
+        "NAVBAR-TITLE":"Home",
+        "TITLE":"The world directory of technology resellers & service providers",
         "OPT-BOOK-BUTTON":"Optimized book",
         "V-BOOK-BUTTON":"Vertical book",
         "H-BOOK-BUTTON":"Horizontal book",

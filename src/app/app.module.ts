@@ -9,7 +9,7 @@ import { DetailsPage } from '../pages/details/details';
 import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
-import {ZoomPage,TestElement} from '../pages/test/test';
+import {ZoomPage} from '../pages/test/test';
 import {APP_CONFIG, AppConfig} from './app.config'
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -22,8 +22,7 @@ export function createTranslateLoader(http: Http) {
     BookPage,
     DetailsPage,
     AboutPage,
-    ZoomPage,
-    TestElement 
+    ZoomPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),

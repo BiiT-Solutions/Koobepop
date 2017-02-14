@@ -1,12 +1,17 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      {{ 'HOME.TITLE' | translate}}
+      {{ 'HOME.NAVBAR-TITLE' | translate}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content >
+  <h2>{{ 'HOME.TITLE' | translate}}</h2>
+  
+    <button ion-button (click)="navOptimizedBook()" color="light">
+           {{ 'HOME.OPT-BOOK-BUTTON' | translate}}
+  </button>
     <button ion-button (click)="navSearchView()" color="light">
            {{ 'HOME.SEARCH-BUTTON' | translate}}
   </button>

@@ -14,18 +14,18 @@
   <div
   [style.height] = "newHeight+'px'" 
   [style.width] = "newWidth+'px'" 
-  [style.marginTop] = "mTop+'px'" 
-  [style.marginLeft]="mLeft+'px'"
+ 
   >
   <page-book #book
     [flipActive]="!zoomActive"
     [BOOK_HEIGHT] = "newHeight" 
     [BOOK_WIDTH] = "newWidth"
+    [zoomLeftMargin] = "mLeft" 
+    [zoomTopMargin] = "mTop"
   ></page-book>
   </div>
   <ion-scroll scrollX="true" scrollY="true" zoom="true" 
     style="width:100%;height:100%;">
   </ion-scroll>
-    
   </div>
 </ion-content>
