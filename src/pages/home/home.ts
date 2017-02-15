@@ -4,7 +4,9 @@ import { SearchPage } from '../search/search';
 import { DetailsPage } from '../details/details';
 import { AboutPage } from '../about/about';
 import { TranslateService } from 'ng2-translate';
-import {ZoomPage} from '../test/test';
+import {ZoomPage} from '../zoom/zoom';
+import {TestPage} from '../test-page/test-page';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -23,8 +25,12 @@ export class HomePage {
   navAbout(){
     this.navCtrl.push(AboutPage);
   }
-  navTest(){
+  navBook(){
     this.navCtrl.push(ZoomPage);
   }
+  navTest(){
+    this.navCtrl.push(TestPage);
+  }
+  
 }
 

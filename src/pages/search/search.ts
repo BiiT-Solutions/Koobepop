@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
 import { SearchCriteria } from '../../models/search-criteria';
-import { ZoomPage } from '../test/test';
+import { ZoomPage } from '../zoom/zoom';
 @Component({
   selector: 'page-search',
   templateUrl: 'search.html'

@@ -1,13 +1,15 @@
 {
     "ABOUT":{
         "TITLE": "About",
-        "WELLCOME":"Dear Sir, Dear Madam, The Computer Brokers Exchange, the AscdiNatd Equipment Trading etwork and the Association of Service and Computer Dealers/North Association of Telecom dealers welcome you to the 2017 edition of the World Directory of Technology Resellers &Service Providers. Our organizations have published this valuable resource to assist you in finding the best technology resellers in the world...",
-        "PROFESSIONAL":"Members of the Association of Service and Computer Dealers International/North-American Association of Telecommunications Dealers(the\"AscdiNatd\") and Subscribers to the Equipment Trading Network (the \"eTN\") and Computer Brokers Exchange (CBE) have pledged to honor and abide by the Code of Ethics (the \"Code\") to ensure the public of high standards in all dealings.\nThe Code\nMembers of the AscdiNatd and Subscribers to the eTN & CBE agree to the following:\n"
+        "AUTHORY":"BiiT sourcing solutions",
+        "DESCRIPTION":"Description of the application, aim, etc.",
+        "VERSION":"App version"
     },
+
     "HOME":{
         "NAVBAR-TITLE":"Home",
-        "TITLE":"The world directory of technology resellers & service providers",
-        "OPT-BOOK-BUTTON":"Optimized book",
+        "TITLE":"",
+        "BOOK-BUTTON":"Book",
         "V-BOOK-BUTTON":"Vertical book",
         "H-BOOK-BUTTON":"Horizontal book",
         "SEARCH-BUTTON":"Search",

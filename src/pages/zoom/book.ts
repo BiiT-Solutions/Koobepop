@@ -1,8 +1,8 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Input, Output } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { NavController, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies'
-import { DetailsPage } from '../details/details';
 import { TranslateService } from 'ng2-translate';
+
 /**
  * Here we manage the book page 
  */
@@ -80,7 +80,9 @@ export class BookPage implements AfterViewInit {
 	bookHeight;
 	bookWidth;
 
-
+	drawTime = 0;
+	imageTime = 0;
+	renderTime = 0;
 
 	constructor(public navCtrl: NavController, private companies: CompaniesProvider, private translate: TranslateService) {
 		this.imageList = companies.getImages();
@@ -157,6 +159,7 @@ export class BookPage implements AfterViewInit {
 		this.bookLeftMovement = -(this.BOOK_WIDTH / 2) + this.zoomLeftMargin;
 		this.bookTopMovement = this.zoomTopMargin;
 		this.actualPageWidth = this.BOOK_WIDTH;
+
 	}
 
 	mouseMoveHandler(event) {
@@ -204,7 +207,6 @@ export class BookPage implements AfterViewInit {
 		}
 	}
 	render() {
-		//console.log("rendering");
 		this.setBookAttributes(this.BOOK_WIDTH, this.BOOK_HEIGHT);
 		if (this.flipActive) {
 			this.context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
@@ -226,6 +228,7 @@ export class BookPage implements AfterViewInit {
 	}
 
 	drawFlip(flip) {
+		
 		// Strength of the fold, is strongest in the middle of the book
 		let strength = 1 - Math.abs(flip.progress);
 
@@ -247,11 +250,11 @@ export class BookPage implements AfterViewInit {
 		//this.actualRightPage.nativeElement.style.width = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0) + "px";
 		//flip.page.nativeElement.style.width = Math.max(foldX - foldWidth + this.PAGE_MARGIN, 0) + "px";
 		this.actualPageWidth = Math.max(foldX - foldWidth, 0);
-
+		
 		this.context.save();
 		//Set canvas in position
 		this.context.translate((this.BOOK_WIDTH / 2), this.PAGE_MARGIN);
-
+		
 		// Draw a sharp shadow on the left side of the page
 		this.context.strokeStyle = 'rgba(0,0,0,' + (0.05 * strength) + ')';
 		this.context.lineWidth = 30 * strength;
@@ -259,12 +262,11 @@ export class BookPage implements AfterViewInit {
 		this.context.moveTo(foldX - foldWidth, -verticalOutdent * 0.5);
 		this.context.lineTo(foldX - foldWidth, this.PAGE_HEIGHT + (verticalOutdent * 0.5));
 		this.context.stroke();
-
+		
 		// Right side drop shadow
 		let rightShadowGradient = this.context.createLinearGradient(foldX, 0, foldX + rightShadowWidth, 0);
 		rightShadowGradient.addColorStop(0, 'rgba(0,0,0,' + (strength * 0.2) + ')');
 		rightShadowGradient.addColorStop(0.8, 'rgba(0,0,0,0.0)');
-
 		this.context.fillStyle = rightShadowGradient;
 		this.context.beginPath();
 		this.context.moveTo(foldX, 0);
@@ -272,7 +274,6 @@ export class BookPage implements AfterViewInit {
 		this.context.lineTo(foldX + rightShadowWidth, this.PAGE_HEIGHT);
 		this.context.lineTo(foldX, this.PAGE_HEIGHT);
 		this.context.fill();
-
 		// Left side drop shadow
 		let leftShadowGradient = this.context.createLinearGradient(foldX - foldWidth - leftShadowWidth, 0, foldX - foldWidth, 0);
 		leftShadowGradient.addColorStop(0, 'rgba(0,0,0,0.0)');
@@ -305,6 +306,7 @@ export class BookPage implements AfterViewInit {
 		this.context.fill();
 		this.context.stroke();
 		this.context.restore();
+		
 	}
 
 	increasePage() {
@@ -330,8 +332,6 @@ export class BookPage implements AfterViewInit {
 
 	/* Change view mode depending on the device's orientation */
 	navToHorizontalBook() {
-		//TODO remove logs, add logger class
-		console.log("Orientation change: " + window.orientation);
 		//First we place the following page then we pop the actual so its a substitution
 		if (window.orientation != 90 && window.orientation != -90) {
 			this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()), BookPage);
