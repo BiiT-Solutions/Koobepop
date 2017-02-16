@@ -39,7 +39,7 @@ export class BookPage implements AfterViewInit {
 	previousFlip;
 	actualFlip;
 	nextFlip;
-
+	
 	mouse = { x: 0, y: 0 };
 	flips = [];
 	@ViewChild("previousPage") previousRightPage
@@ -63,14 +63,6 @@ export class BookPage implements AfterViewInit {
 	mLeft = 0;
 	mTop = 0;
 
-	oldWidth;
-	oldHeight;
-	newWidth;
-	newHeight;
-	translateFromZoomingX;
-	translateFromZoomingY;
-	isZoomActive = false;
-
 	actualPageWidth;
 
 	imageHeight;
@@ -83,6 +75,16 @@ export class BookPage implements AfterViewInit {
 	drawTime = 0;
 	imageTime = 0;
 	renderTime = 0;
+
+	paperShadowWidth = 0;
+	rightShadowWidth = 0;
+	leftShadowWidth = 0;
+	foldWidth=0;
+
+	paperShadowMargin = 0;
+	leftShadowMargin = 0;
+	rightShadowMargin = 0;
+	foldMargin=0;
 
 	constructor(public navCtrl: NavController, private companies: CompaniesProvider, private translate: TranslateService) {
 		this.imageList = companies.getImages();
@@ -226,6 +228,33 @@ export class BookPage implements AfterViewInit {
 			}
 		}
 	}
+	drawFlip2(flip){
+		// Strength of the fold, is strongest in the middle of the book
+		let strength = 1 - Math.abs(flip.progress);
+
+		// Width of the folded paper
+		let foldWidth = ((this.PAGE_WIDTH * 0.5) + this.PAGE_MARGIN) * (1 - flip.progress);
+
+		// X position of the folded paper
+		let foldX = (this.PAGE_WIDTH + this.PAGE_MARGIN * 2) * flip.progress + foldWidth;
+
+		// The maximum width of the left and right side shadows
+		
+		this.actualPageWidth = Math.max(foldX - foldWidth, 0);
+
+		//Here we use the gradient images overlaped with the pages to mimic the shadows
+		this.paperShadowWidth = (this.PAGE_WIDTH * 0.5) * Math.max(Math.min(1 - flip.progress, 0.5), 0);
+		this.rightShadowWidth = (this.PAGE_WIDTH * 0.5) * Math.max(Math.min(strength, 0.5), 0);
+		this.leftShadowWidth = (this.PAGE_WIDTH * 0.5) * Math.max(Math.min(strength, 0.5), 0);
+		this.foldWidth = foldWidth;
+
+		this.paperShadowMargin = foldX  - this.paperShadowWidth + this.PAGE_WIDTH;
+		this.rightShadowMargin = foldX + this.PAGE_WIDTH;
+		this.leftShadowMargin = foldX - foldWidth - this.leftShadowWidth + this.PAGE_WIDTH;		
+		this.foldMargin = foldX- foldWidth+this.PAGE_WIDTH;
+		
+	}
+
 
 	drawFlip(flip) {
 		

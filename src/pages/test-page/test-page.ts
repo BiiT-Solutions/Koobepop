@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import * as infographicjs from 'infographic-js';
+import * as dummy from '../../assets/dummy-data/fileManager.js';
 //declare function createFreeInfographic(any:any) : any;
-
+/**
+ *  This is a test page and should be removed before releasing .
+ * Here you can meddle with dark magic better left alone.
+ * Beware of dragons!
+ * 
+ */
 @Component({
     selector: 'test-page',
     templateUrl:'test-page.html'
 })
 export class TestPage{
+    
     jsonDefinition = {"width": "800", "height": "800", "background": "fill:#FFE4C4",
             "svgElements": [{"id":"girlDoctor","href":"http://www.google.com", "attributes": {"width": "300","height": "250",  "x":"30", "y":"40"}},
                     {"id":"doctor", "attributes": {"width": "300","height": "250","x":"400", "y":"40"}},
@@ -18,11 +25,14 @@ export class TestPage{
         };
 svg;
     constructor(public navCtrl: NavController){
-       this.svg = infographicjs.createFreeInfographic(this.jsonDefinition);
-       console.log("SVG: "+this.svg);
+       //this.svg = infographicjs.createFreeInfographic(this.jsonDefinition);
+       //console.log("SVG: "+this.svg);
+       dummy.readFileFromImages('assets/infografies/basket','svg');
     }
     /**
      * Let's test Anna's api 
      */
-
+     ngAfterViewInit(){
+         
+     }
 }

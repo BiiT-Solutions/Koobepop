@@ -2,13 +2,7 @@ import { Component, ViewChild} from '@angular/core';
 import { NavController, NavParams, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
 import { DetailsPage } from '../details/details';
-//import { BookPage } from 'book';
-/**
- *  This is a test page and should be removed before releasing .
- * Here you can meddle with dark magic better left alone.
- * Beware of dragons!
- * 
- */
+
 @Component({
   selector: 'page-zoom',
   templateUrl: 'zoom.html'

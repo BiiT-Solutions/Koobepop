@@ -20,7 +20,8 @@
            [style.width]="this.PAGE_WIDTH+'px'"
            [style.height]="this.PAGE_HEIGHT+'px'"
            >
-            <img [src]='this.previousImage' 
+            <img 
+            [src]="previousImage"
             [style.width]="this.PAGE_WIDTH+'px'" 
             [style.height]="this.PAGE_HEIGHT+'px'" />
           </div>
@@ -33,8 +34,9 @@
           <div 
           [style.width]="this.PAGE_WIDTH+'px'" 
           [style.height]="this.PAGE_HEIGHT+'px'"
-          >
-            <img [src]='this.actualImage' 
+          > 
+            <img 
+            [src]="actualImage"
             [style.width]="this.PAGE_WIDTH+'px'" 
             [style.height]="this.PAGE_HEIGHT+'px'" />
           </div>
@@ -47,11 +49,13 @@
           [style.width]="this.PAGE_WIDTH+'px'" 
           [style.height]="this.PAGE_HEIGHT+'px'"
           >
-            <img [src]='this.nextImage' 
+            <img 
+            [src]="nextImage"
             [style.width]="this.PAGE_WIDTH+'px'" 
             [style.height]="this.PAGE_HEIGHT+'px'" />
           </div>
         </section>
+        
       </div>
     </div>
   </div>
