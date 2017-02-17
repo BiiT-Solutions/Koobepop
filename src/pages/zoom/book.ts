@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular
 import { NavController, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies'
 import { TranslateService } from 'ng2-translate';
-
+import * as infographicjs from 'infographic-js';
 /**
  * Here we manage the book page 
  */
@@ -86,6 +86,16 @@ export class BookPage implements AfterViewInit {
 	rightShadowMargin = 0;
 	foldMargin=0;
 
+	 @ViewChild("svgBox") box: ElementRef;
+    jsonDefinition = {"width": "300", "height": "400", "background": "fill:#FFE4C4",
+            "svgElements": [{"id":"girlDoctor","href":"http://www.google.com", "attributes": {"width": "100","height": "90",  "x":"10", "y":"4"}},
+                    {"id":"doctor", "attributes": {"width": "100","height": "90","x":"120", "y":"4"}},
+                    {"id":"medical-kit", "attributes": {"width": "60","height": "50","x":"80", "y":"150"}},
+                    {"id":"heart", "attributes": {"width": "50","height": "50","x":"20", "y":"150"}}],
+            "textElements": [{"id":"text1","contentText":"Doctor Infographic","attributes":{"font-family": "Purisa","font-size":"20","x":"10", "y":"120","fill":"#660000;font-weight:bold"}}],
+            "pngElements":  [{"id":"bitIcon","attributes": { "width": "30", "height": "30", "x":"10", "y":"300"}}]
+        };
+
 	constructor(public navCtrl: NavController, private companies: CompaniesProvider, private translate: TranslateService) {
 		this.imageList = companies.getImages();
 		this.actualImage = this.imageList[this.pageNum];
@@ -96,6 +106,8 @@ export class BookPage implements AfterViewInit {
 
 
 	ngAfterViewInit() {
+		 this.box.nativeElement.innerHTML=infographicjs.createFreeInfographic(this.jsonDefinition);
+
 		//this.setBookAttributes(window.outerWidth * 2,window.outerHeight);	
 		this.context = this.canvas.nativeElement.getContext("2d");
 		// Define PageFlips 

@@ -1,6 +1,6 @@
 <div #eventReciver id = "eventReciver"
   >
-    <div #book id="book" (tap)="hideHeader = !hideHeader"
+    <div #book id="book" 
      [style.marginLeft] = "bookLeftMovement+'px'"
      [style.marginTop] = "bookTopMovement+'px'"
      [style.width]="this.BOOK_WIDTH+'px'"
@@ -35,10 +35,13 @@
           [style.width]="this.PAGE_WIDTH+'px'" 
           [style.height]="this.PAGE_HEIGHT+'px'"
           > 
+          <div #svgBox>
             <img 
             [src]="actualImage"
             [style.width]="this.PAGE_WIDTH+'px'" 
             [style.height]="this.PAGE_HEIGHT+'px'" />
+            </div>
+            
           </div>
         </section>
         <section #nextPage 

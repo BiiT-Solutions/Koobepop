@@ -1,0 +1,63 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="72.287918"
+   height="53.321198"
+   id="root">
+
+    <g
+       transform="translate(0.27556175,-0.13778087)"
+       id="g5" />
+    <g
+       transform="scale(0.44213103,0.42574257)"
+       id="g7">
+      <rect
+         width="25.433155"
+         height="125.24281"
+         x="69.032852"
+         y="0"
+         id="rect6"
+         style="fill:#754c24;fill-opacity:1;stroke:none" />
+      <rect
+         width="163.49886"
+         height="75.145691"
+         x="0"
+         y="9.1085682"
+         id="rect10"
+         style="fill:#a67c52;fill-opacity:1;stroke:none" />
+      <rect
+         width="163.49886"
+         height="3.4157131"
+         x="0"
+         y="9.1085682"
+         id="rect12"
+         style="fill:#8c6239;fill-opacity:1;stroke:none" />
+      <rect
+         width="163.49886"
+         height="3.4157131"
+         x="0"
+         y="34.157131"
+         id="rect14"
+         style="fill:#8c6239;fill-opacity:1;stroke:none" />
+      <rect
+         width="163.49886"
+         height="3.4157131"
+         x="0"
+         y="59.205692"
+         id="rect16"
+         style="fill:#8c6239;fill-opacity:1;stroke:none" />
+      <path
+         d="m 0,19.924993 0,3.415713 5.4499618,0 z"
+         id="path18"
+         style="fill:#8c6239;fill-opacity:1;stroke:none" />
+      <path
+         d="m 163.49885,74.007116 -15.62322,0 15.62322,3.415713 z"
+         id="path20"
+         style="fill:#8c6239;fill-opacity:1;stroke:none" />
+    </g>
+
+</svg>
