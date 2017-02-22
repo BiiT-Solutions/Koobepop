@@ -11,6 +11,7 @@ import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
 import {ZoomPage} from '../pages/zoom/zoom';
 import {TestPage} from '../pages/test-page/test-page';
+import {ZoomableSlide} from '../pages/test-page/zoomable-slide/zoomableSlide';
 import {APP_CONFIG, AppConfig} from './app.config'
 
 export function createTranslateLoader(http: Http) {
@@ -25,7 +26,8 @@ export function createTranslateLoader(http: Http) {
     DetailsPage,
     AboutPage,
     ZoomPage,
-    TestPage
+    TestPage,
+    ZoomableSlide
   ],
   imports: [
     IonicModule.forRoot(MyApp),
