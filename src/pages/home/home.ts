@@ -31,6 +31,14 @@ export class HomePage {
   navTest(){
     this.navCtrl.push(TestPage);
   }
-  
+  navAgenda(){
+    this.navCtrl;
+  }
+  navReport(){
+    this.navCtrl;
+  }
+  navSummary(){
+   window.open("https://m3sport.biit-solutions.com/tracker"); 
+  }
 }
 

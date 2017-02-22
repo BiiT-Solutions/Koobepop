@@ -7,14 +7,17 @@
     },
 
     "HOME":{
-        "NAVBAR-TITLE":"Home",
-        "TITLE":"",
+        "NAVBAR-TITLE":"Home Title",
+        "TITLE":"<your header here>",
         "BOOK-BUTTON":"Book",
         "V-BOOK-BUTTON":"Vertical book",
         "H-BOOK-BUTTON":"Horizontal book",
         "SEARCH-BUTTON":"Search",
         "DETAILS-BUTTON":"Details",
-        "ABOUT-BUTTON":"About"
+        "ABOUT-BUTTON":"About",
+        "AGENDA-BUTTON":"Agenda",
+        "SUMMARY-BUTTON":"Summary",
+        "REPORT-BUTTON":"Report"
     },
     "BOOK":{
         "BUTTON":""

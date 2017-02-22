@@ -8,20 +8,30 @@
 
 <ion-content>
   <h2>{{ 'HOME.TITLE' | translate}}</h2>
-
-  <button ion-button (click)="navSearchView()" color="light">
+  <!--<button ion-button full (click)="navSearchView()" color="light">
            {{ 'HOME.SEARCH-BUTTON' | translate}}
   </button>
-  <button ion-button (click)="navDetails()" color="light">
+  <button ion-button full (click)="navDetails()" color="light">
           {{ 'HOME.DETAILS-BUTTON' | translate}}
   </button>
-  <button ion-button (click)="navAbout()" color="light">
+  
+  <button ion-button full (click)="navBook()" color="light">
+         {{ 'HOME.BOOK-BUTTON' | translate}}
+  </button>-->
+
+  <button ion-button full (click)="navAgendaView()" color="light">
+           {{ 'HOME.AGENDA-BUTTON' | translate}}
+  </button>
+  <button ion-button full (click)="navSummary()" color="light">
+           {{ 'HOME.SUMMARY-BUTTON' | translate}}
+  </button>
+  <button ion-button full (click)="navReportView()" color="light">
+           {{ 'HOME.REPORT-BUTTON' | translate}}
+  </button>
+<button ion-button full (click)="navAbout()" color="light">
           {{ 'HOME.ABOUT-BUTTON' | translate}}
   </button>
-  <button ion-button (click)="navBook()" color="light">
-         {{ 'HOME.BOOK-BUTTON' | translate}}
-  </button>
-  <button ion-button (click)="navTest()" color="light">
+  <button ion-button full (click)="navTest()" color="light">
          Test
   </button>
 </ion-content>

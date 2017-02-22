@@ -1,11 +1,10 @@
-import { Component, ViewChild} from '@angular/core';
+import { Component, ViewChild,ViewChildren} from '@angular/core';
 import { NavController, NavParams, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
-import { DetailsPage } from '../details/details';
-
+import * as infographicjs from 'infographic-js';
 @Component({
   selector: 'page-zoom',
-  templateUrl: 'zoom.html'
+  templateUrl: 'zoom-test.html'
 })
 export class ZoomPage {
   private gesture: Gesture;
@@ -19,13 +18,27 @@ export class ZoomPage {
   mLeft = 0;
   mTop = 0;
   percentageOfImageAtPinchPointX = 0;
-  percentageOfImageAtPinchPointY = 0;
-  
+  percentageOfImageAtPinchPointY = 0;  
   hideHeader;
+
+    @ViewChildren("svgSlide") slides;
+    jsonDefinition = {
+        "width": window.outerWidth.toString(), "height": window.outerHeight.toString(), "background": "fill:#FFE4C4",
+        "svgElements": [{ "id": "girlDoctor", "href": "http://www.google.com", "attributes": { "width": "100", "height": "90", "x": "10", "y": "4" } },
+        { "id": "doctor", "attributes": { "width": "100", "height": "90", "x": "120", "y": "4" } },
+        { "id": "medical-kit", "attributes": { "width": "60", "height": "50", "x": "80", "y": "150" } },
+        { "id": "heart", "attributes": { "width": "50", "height": "50", "x": "20", "y": "150" } }],
+        "textElements": [{ "id": "text1", "contentText": "Doctor Infographic", "attributes": { "font-family": "Purisa", "font-size": "20", "x": "10", "y": "120", "fill": "#660000;font-weight:bold" } }],
+        "pngElements": [{ "id": "bitIcon", "attributes": { "width": "150", "height": "150", "x": "10", "y": "300" } }]
+    };
+    svg;
   constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) { }
 
 
-
+   ngAfterViewInit() {
+        this.svg = infographicjs.createFreeInfographic(this.jsonDefinition);
+        this.slides.forEach(slide => { slide.nativeElement.innerHTML = this.svg; });
+    }
   ionViewDidLoad() {
     //create gesture obj w/ ref to DOM element
     this.gesture = new Gesture(this.element.nativeElement);
@@ -72,8 +85,6 @@ export class ZoomPage {
   }
 
   pinchEvent(e) {
-    // console.log("PINCH EVENT CONTROLLER RUNNING")
-    // TODO: ADD max y min
     this.newWidth = this.oldWidth * e.scale;
     this.newHeight = this.oldHeight * e.scale;
     this.newWidth = Math.min(Math.max(this.oldWidth * e.scale, window.outerWidth * 2 * 0.5), window.outerWidth * 2 * 5);
@@ -92,15 +103,6 @@ export class ZoomPage {
     //Limits
     this.mLeft = Math.min(Math.max(this.mLeft, -this.newWidth + window.outerWidth / 3), window.outerHeight / 3);
     this.mTop = Math.min(Math.max(this.mTop, -this.newHeight + window.outerHeight / 3), window.outerHeight / 3);
-  }
-  navDetails() {
-    this.navCtrl.push(DetailsPage, this.book.getPageNum());
-  }
-  ionViewWillEnter() {
-    this.book.startRendering();
-  }
-  ionViewDidLeave() {
-    this.book.stopRendering();
   }
 }
 

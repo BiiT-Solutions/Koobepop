@@ -48,7 +48,8 @@ export function createTranslateLoader(http: Http) {
     TestPage
   ],
   providers: [
-    CompaniesProvider,{provide:APP_CONFIG, useValue: AppConfig},
+    CompaniesProvider,
+    {provide:APP_CONFIG, useValue: AppConfig},
   {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}
