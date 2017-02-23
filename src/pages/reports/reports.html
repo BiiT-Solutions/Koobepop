@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar color = "primary">
+    <ion-title>Reports</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-list>
+    <ion-item-sliding *ngFor="let appointment of appointments">
+        <ion-item>
+          {{appointment.doctor}}
+          <ion-note item-right>{{appointment.date}}</ion-note>
+        </ion-item>
+      <ion-item-options side="right">
+        <button ion-button (click)="openItem($item)" color="calm">Open</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

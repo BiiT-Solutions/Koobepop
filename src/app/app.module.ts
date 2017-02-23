@@ -10,6 +10,9 @@ import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-tran
 import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
 import {ZoomPage} from '../pages/zoom/zoom';
+import { AgendaPage } from '../pages/agenda/agenda';
+import {ReportsPage} from '../pages/reports/reports';
+import {ReportPage} from '../pages/report/report';
 import {TestPage} from '../pages/test-page/test-page';
 import {ZoomableSlide} from '../pages/test-page/zoomable-slide/zoomableSlide';
 import {APP_CONFIG, AppConfig} from './app.config'
@@ -27,7 +30,10 @@ export function createTranslateLoader(http: Http) {
     AboutPage,
     ZoomPage,
     TestPage,
-    ZoomableSlide
+    ZoomableSlide,
+    AgendaPage,
+    ReportsPage,
+    ReportPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -47,7 +53,10 @@ export function createTranslateLoader(http: Http) {
     DetailsPage,
     AboutPage,
     ZoomPage,
-    TestPage
+    TestPage,
+    AgendaPage,
+    ReportsPage,
+    ReportPage
   ],
   providers: [
     CompaniesProvider,

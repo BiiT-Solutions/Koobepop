@@ -22,7 +22,7 @@ export class ZoomableSlide {
   hideHeader;
   @ViewChild("svgSlide") slide;
   jsonDefinition = {
-        "width": window.outerWidth, "height": window.outerHeight, "background": "fill:#FFE4C4",
+        "width": window.outerWidth, "height": window.outerHeight, "background": "fill:#237245",
                 "svgElements":  [{"id":"girlDoctor","href":"http://www.google.com", "attributes": {"width": 100,"height": 80,  "x":30, "y":40}},
                  {"id":"doctor", "attributes": {"width": 100,"height": 80,"x":200, "y":40}},
                  {"id":"medical-kit", "attributes": {"width": 66,"height": 53,"x":30, "y":200}},

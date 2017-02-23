@@ -1,3 +1,14 @@
-page-agenda {
 
+page-agenda {
+   
 }
+ .good-toast {
+      >div{
+        background-color:map-get($colors,calm)!important;
+      }
+    }
+ .bad-toast {
+        >div{
+         background-color:map-get($colors,danger)!important;
+        }
+    }

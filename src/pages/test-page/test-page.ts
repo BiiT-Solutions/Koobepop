@@ -15,13 +15,16 @@ import * as infographicjs from 'infographic-js';
   templateUrl:'test-page.html'
 })
 export class TestPage{
+  @ViewChild("sider") slider;
   hideHeader;
    constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) { }
    ionViewDidLoad(){
      this.hideHeader = true;
    }
-
 }
+
+
+
 //@Component({
 //  selector: 'test-zoom',
 //  templateUrl: 'zoom-test.html'
