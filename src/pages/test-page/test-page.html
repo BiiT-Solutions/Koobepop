@@ -1,18 +1,24 @@
 <ion-navbar color="primary" [hidden]="hideHeader" style="position:absolute;z-index:10">
   </ion-navbar>
-<div (tap)="hideHeader = !hideHeader">
-<ion-slides #slider style="width:100%;height:100%;">
+<section>
+<ion-slides #slider1 [options]="sliderOpts1"  >
   <ion-slide>
-    <zoomable-slide></zoomable-slide>
+    <h2>Header</h2>
+    <div>Slider's slide 1</div>
   </ion-slide>
   <ion-slide>
-    <zoomable-slide></zoomable-slide>
-  </ion-slide>
-  <ion-slide>
-    <zoomable-slide></zoomable-slide>
-  </ion-slide>
-  <ion-slide>
-    <zoomable-slide></zoomable-slide>
+    <h2>Header</h2>
+    <div>Slider's slide 2</div>
   </ion-slide>
 </ion-slides>
-</div>
+
+<ion-slides #slider2 [options]="sliderOpts2" >
+  <ion-slide  >
+    <div >Slide 1</div>
+  </ion-slide>
+   <ion-slide>
+    <div>Slide 2</div>
+  </ion-slide>
+</ion-slides>
+<button ion-button (click)="next()">Click me!</button>
+</section>

@@ -12,7 +12,7 @@
     <ion-item-sliding *ngFor="let appointment of appointments">
         <ion-item>
           {{appointment.doctor}}
-          <ion-note item-right>{{appointment.date}}</ion-note>
+          <ion-note item-right>{{appointment.date | date:"MMM yyyy"}}</ion-note>
         </ion-item>
       <ion-item-options side="right">
         <button ion-button (click)="openItem($item)" color="calm">Open</button>

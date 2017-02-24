@@ -11,6 +11,7 @@ import { ToastController } from 'ionic-angular';
 })
 export class AgendaPage {
   items;
+  today;
   constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl:ToastController) {
     this.items = [
       { name: 'Task 1' },
@@ -18,11 +19,12 @@ export class AgendaPage {
       { name: 'Task 3' },
       { name: 'Task 4' }
     ]
+    this.today = Date.now();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AgendaPage');
   }
+
   finish(item: ItemSliding) {
    this.removeItem(item)
    let toast = this.toastCtrl.create({
@@ -50,4 +52,5 @@ export class AgendaPage {
     }
   }
 
+  openCalendar(){}
 }

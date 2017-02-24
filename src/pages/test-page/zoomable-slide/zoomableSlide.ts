@@ -33,13 +33,14 @@ export class ZoomableSlide {
 
    //@Input()//Soon
    svg;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) { }
+  constructor( public companiesProvider: CompaniesProvider) { }
 
 
    ngAfterViewInit() {
-     console.log("ngAfterViewInit")
-        this.svg = infographicjs.newFreeLayout(this.jsonDefinition);
-        this.slide.nativeElement.innerHTML = this.svg; 
+        //TODO Remove this when svg is an input
+       this.svg = infographicjs.newFreeLayout(this.jsonDefinition);
+       this.slide.nativeElement.innerHTML = this.svg; 
+
     //console.log(this.svg); 
     //create gesture obj w/ ref to DOM element
     this.gesture = new Gesture(this.element.nativeElement);

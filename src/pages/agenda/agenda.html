@@ -1,20 +1,38 @@
-
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Agenda</ion-title>
+
+    <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content >
-  <ion-item color="secondary">
-    Month | Day
-  </ion-item >
-  <ion-list >
-    <ion-item-sliding *ngFor="let item of items" >
-      <ion-item  color="light">
+<ion-content>
+  <ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-buttons center>
+          {{today | date:'MMM'}}
+        </ion-buttons>
+      </ion-col>
+      <ion-col>
+        <ion-buttons center>
+          <button ion-button color="light" icon-only>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button> {{today | date:'dd'}}
+          <button ion-button color="light" icon-only>
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+        </ion-buttons>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-item>
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of items">
+      <ion-item color="light">
         {{item.name}}
       </ion-item>
       <ion-item-options side="right">

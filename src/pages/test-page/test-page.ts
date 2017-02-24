@@ -1,8 +1,7 @@
 import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
-import { NavController , NavParams, Gesture,Slides } from 'ionic-angular';
+import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
 
-import * as infographicjs from 'infographic-js';
 
 /**
  *  This is a test page and should be removed before releasing .
@@ -11,16 +10,40 @@ import * as infographicjs from 'infographic-js';
  * 
  */
 @Component({
-  selector:'test-page',
-  templateUrl:'test-page.html'
+  selector: 'test-page',
+  templateUrl: 'test-page.html'
 })
-export class TestPage{
-  @ViewChild("sider") slider;
+export class TestPage {
+
+  @ViewChild('slider1') slider1: Slides;
+  @ViewChild('slider2') slider2: Slides;
   hideHeader;
-   constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) { }
-   ionViewDidLoad(){
-     this.hideHeader = true;
-   }
+  sliderOpts1 = {
+    loop: true,
+    initialSlide: 1,
+    onTransitionStart:(slider)=>{
+      if(slider.activeIndex>slider.previousIndex){
+        console.log("This is L: ");
+        console.log(slider);
+    } else if(slider.activeIndex<slider.previousIndex){
+      console.log("This is R: ");
+        console.log(slider);
+    }
+    }
+  }
+  sliderOpts2 = {
+    loop: true
+  };
+  constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) { }
+  
+  ionViewDidLoad() {
+    this.hideHeader = true;
+    console.log(this.slider1);
+    console.log(this.slider2);
+  }
+  next(){
+    this.slider2.slider.slideNext(false,200);
+  }
 }
 
 
