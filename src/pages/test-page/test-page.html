@@ -1,6 +1,7 @@
-<ion-navbar color="primary" [hidden]="hideHeader" style="position:absolute;z-index:10">
+<ion-content>
+  <ion-navbar color="primary" [hidden]="hideHeader" style="position:absolute;z-index:10">
   </ion-navbar>
-<section>
+<section (tap)="hideHeader=!hideHeader">
 <ion-slides #slider1 [options]="sliderOpts1"  >
   <ion-slide>
     <h2>Header</h2>
@@ -22,3 +23,4 @@
 </ion-slides>
 <button ion-button (click)="next()">Click me!</button>
 </section>
+</ion-content>

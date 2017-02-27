@@ -31,14 +31,14 @@ export class ZoomableSlide {
         "pngElements":  [{"id":"bitIcon","attributes": { "width": 75, "height": 75, "x":50, "y":250}}]
    };
 
-   //@Input()//Soon
+   @Input()//Soon
    svg;
   constructor( public companiesProvider: CompaniesProvider) { }
 
 
    ngAfterViewInit() {
         //TODO Remove this when svg is an input
-       this.svg = infographicjs.newFreeLayout(this.jsonDefinition);
+       //this.svg = infographicjs.newFreeLayout(this.jsonDefinition);
        this.slide.nativeElement.innerHTML = this.svg; 
 
     //console.log(this.svg); 

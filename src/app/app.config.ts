@@ -6,6 +6,8 @@ export let APP_CONFIG = new OpaqueToken('app.config');
 export interface IAppConfig {
     koobepopServer: string;
     getCompaniesService: string;
+    usmoServer:string;
+    getAppointmentsService:string;
     user: string;
     password: string;
 }
@@ -13,6 +15,8 @@ export interface IAppConfig {
 export const AppConfig: IAppConfig = {    
     koobepopServer: "https://testing.biit-solutions.com:8443/koobepop-server-0.0.25",    
     getCompaniesService : "/rest/getCompanies",
+    usmoServer:"http://localhost:8081",
+    getAppointmentsService:"/rest/getAppointments",
     user:"",
-    password:""
+    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU="
 };

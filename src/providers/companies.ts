@@ -15,7 +15,6 @@ export class CompaniesProvider {
       "assets/infografies/publi1_m.jpg",
       "assets/infografies/commomfojmddoekd.png",
       "assets/infografies/publi1_m.jpg"
-
     ];
 
   }

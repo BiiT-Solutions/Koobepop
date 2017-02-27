@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams,Slides} from 'ionic-angular';
 import { ItemSliding } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 /**
@@ -12,6 +12,9 @@ import { ToastController } from 'ionic-angular';
 export class AgendaPage {
   items;
   today;
+  slides = [1,2,3,4,5];
+  sliderOptions ={loop:true}
+  @ViewChild('slider') slider:Slides;
   constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl:ToastController) {
     this.items = [
       { name: 'Task 1' },
@@ -53,4 +56,11 @@ export class AgendaPage {
   }
 
   openCalendar(){}
+  nextDay()
+  {
+    this.slider.slideNext()
+  }
+  previousDay(){
+    this.slider.slidePrev();
+  }
 }

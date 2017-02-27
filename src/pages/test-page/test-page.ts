@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
-import { CompaniesProvider } from '../../providers/companies';
+import { AppointmentsProvider } from '../../providers/appointments-provider';
 
 
 /**
@@ -34,7 +34,7 @@ export class TestPage {
   sliderOpts2 = {
     loop: true
   };
-  constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentsProvider: AppointmentsProvider) { }
   
   ionViewDidLoad() {
     this.hideHeader = true;
@@ -43,6 +43,9 @@ export class TestPage {
   }
   next(){
     this.slider2.slider.slideNext(false,200);
+
+    this.appointmentsProvider.requestAppointments({patientId:"21008286V"});
+    console.log(this.appointmentsProvider.getAppointments());
   }
 }
 
