@@ -17,10 +17,10 @@ export class AgendaPage {
   @ViewChild('slider') slider:Slides;
   constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl:ToastController) {
     this.items = [
-      { name: 'Task 1' },
-      { name: 'Task 2' },
-      { name: 'Task 3' },
-      { name: 'Task 4' }
+      { name: 'Oefeningen bij achillespeesklachten' },
+      { name: 'Hip flexed torso rotation' },
+      { name: 'Push-up Walkout' },
+      { name: 'Single Leg Lowering' }
     ]
     this.today = Date.now();
   }
@@ -28,20 +28,20 @@ export class AgendaPage {
   ionViewDidLoad() {
   }
 
-  finish(item: ItemSliding) {
-   this.removeItem(item)
+  finish(item) {
+   //this.removeItem(item)
    let toast = this.toastCtrl.create({
-      message: 'Task finished!',
+      message: item.name+' finished!',
       duration: 3000,
       cssClass:'good-toast'
     });
 
     toast.present();
   }
-  cancel(item: ItemSliding) {
+  cancel(item) {
     this.removeItem(item);
     let toast = this.toastCtrl.create({
-      message: 'Task cancelled!',
+      message: item.name+' cancelled!',
       duration: 3000,
       cssClass:'bad-toast'
     });
@@ -62,5 +62,8 @@ export class AgendaPage {
   }
   previousDay(){
     this.slider.slidePrev();
+  }
+  gotoExercise(){
+    window.open("https://www.sportzorg.nl/oefeningen/achillespeesblessure");
   }
 }

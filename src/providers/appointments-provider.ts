@@ -20,11 +20,19 @@ export class AppointmentsProvider {
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
-    let response = this.http
+
+    return this.http
       .post(requestAddres, criteria, { headers: headers })
-      .map(this.extractData);
-    response.forEach(el => this.appointmentsList = el).then(()=>callback(this.appointmentsList));
-  }
+      .map(this.extractData).map((appointments)=>{
+        let response = [];
+        if(appointments){
+        appointments.forEach(appointment=>{
+          response = response.concat(appointment);//TODO transform to a desired object TYPES!
+        })
+      }
+        return response;
+      });
+    }
 
   extractData(res: Response) {
     return res.json() || {};

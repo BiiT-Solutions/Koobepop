@@ -10,8 +10,9 @@ import  {AppointmentsProvider} from '../../providers/appointments-provider';
 export class ReportsPage {
   appointments;
   constructor(public navCtrl: NavController, public navParams: NavParams,public appointmentsProvider: AppointmentsProvider) {
-    let callback = this.setAppointments;
-    this.appointmentsProvider.requestAppointments({patientId:"21008286V"},callback);
+   //TODO Provider for the patient
+    this.appointmentsProvider.requestAppointments({patientId:"21008286V"})
+    .subscribe(res=>{this.appointments = res;console.log(res)});
     
     /*[
       { date: new Date("2016-07-12"), doctor: "Sam Maximus",type:"Basic" }
@@ -23,15 +24,7 @@ export class ReportsPage {
   ionViewDidLoad() {
 
   }
-  setAppointments(app){
-    this.appointments=app;
-  }
   openItem(item: ItemSliding) {
-   // for (let i = 0; i < this.appointments.length; i++) {
-   //   if (this.appointments[i] == item) {
-   //   }
-   // }
-
         this.navCtrl.push(ReportPage);
   }
 

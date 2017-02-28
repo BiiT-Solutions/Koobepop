@@ -11,18 +11,11 @@
   <ion-list>
     <ion-item-sliding *ngFor="let appointment of appointments">
         <ion-item>
-          <div item-content>
-          {{appointment.type}}</div>
-          <div item-left>{{appointment.doctor}}</div>
-          <div item-right >{{appointment.date | date:"MMM yyyy"}}</div>
+          <div item-content style="width:100%;text-align: center;">
+          {{appointment.examinationType}}</div>
+          <div item-left>{{appointment.doctorFirstName}} {{appointment.doctorLastName}}</div>
+          <div item-right>{{appointment.startTime | date:"MMM yyyy"}}</div>
         </ion-item>
-
-          <div>{{appointment.type}}</div>
-          <div>{{appointment.doctor}}</div>
-          <div>{{appointment.date | date:"MMM yyyy"}}</div>
-
-
-
       <ion-item-options side="right">
         <button ion-button (click)="openItem($item)" color="calm">Open</button>
       </ion-item-options>

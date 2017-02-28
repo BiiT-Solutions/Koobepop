@@ -11,7 +11,7 @@ import * as infographicjs from 'infographic-js';
 export class ReportPage {
 
   mySlideOptions = {
-    loop: true
+    //loop: true
   };
   // Definition of the objet to pass to infographicJS.
   // TODO Generate it from the appointment
@@ -26,15 +26,15 @@ export class ReportPage {
   };
   svgList = [];
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    console.log("constructor");
-    this.svgList=this.svgList.concat(infographicjs.newFreeLayout(this.jsonDefinition));
+   // console.log("constructor");
+    this.svgList=this.svgList.concat(infographicjs.basicReport());//infographicjs.newFreeLayout(this.jsonDefinition));
 
   }
   ngAfterViewInit() {
-    console.log("avi");
+   // console.log("avi");
   }
   ionViewDidLoad() {
-    console.log("ivdl");
+  //  console.log("ivdl");
   }
 
 }

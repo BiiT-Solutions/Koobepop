@@ -4,47 +4,33 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <div>
-    <ion-slides #slider>
-      <ion-slide *ngFor="let slide of slides">
-        
-
-        <ion-item color="secondary">
-          <div item-left>{{today | date:'MMM'}}</div>
-          <button ion-button (click)="previousDay()" color="light" icon-only item-left>
-                <ion-icon name="arrow-back"></ion-icon>
-          </button>
-
-          <div item-content>{{today | date:'dd'}}</div>
-          
-          <button ion-button (click)="nextDay()" color="light" icon-only item-right>
-                <ion-icon name="arrow-forward"></ion-icon>
-          </button>
-        </ion-item>
-        <ion-list>
-          <ion-item-sliding *ngFor="let item of items">
-            <ion-item color="light">
-              {{item.name}}
-            </ion-item>
-            <ion-item-options side="right">
-              <button ion-button color="calm" (click)="finish(item)" icon-only>
-          <ion-icon name="checkmark"></ion-icon>
-          </button>
-              <button ion-button color="danger" (click)="cancel(item)" icon-only>
+ 
+<ion-item color="secondary">
+  <div item-left>Today </div>
+ <div item-content style="width:100%;text-align: center;">{{today | date:'MMM dd'}}</div>
+</ion-item>
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of items">
+      <ion-item color="light">
+        <div>
+          {{item.name}}          
+        </div>
+        <ion-icon name="information-circle"  (click)="gotoExercise()" item-right></ion-icon>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="cancel(item)" icon-only>
           <ion-icon name="trash"></ion-icon>
         </button>
-            </ion-item-options>
-            <ion-item-options side="left">
-              <button ion-button color="calm" (click)="finish(item)" icon-only>
+      </ion-item-options>
+      <ion-item-options side="left">
+        <button ion-button color="calm" (click)="finish(item)" icon-only>
           <ion-icon name="checkmark"></ion-icon>
         </button>
-              <button ion-button color="danger" (click)="cancel(item)" icon-only>
-          <ion-icon name="trash"></ion-icon>
-        </button>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
-      </ion-slide>
-    </ion-slides>
-  </div>
+      </ion-item-options>
+    </ion-item-sliding>
+    <!--<ion-item *ngFor="let item of items">
+      <ion-label> {{item.name}}</ion-label>
+      <ion-radio (ionSelect)="finish(item)"></ion-radio>
+    </ion-item>-->
+  </ion-list>
 </ion-content>

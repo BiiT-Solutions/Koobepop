@@ -7,7 +7,7 @@
     },
 
     "HOME":{
-        "NAVBAR-TITLE":"Home Title",
+        "NAVBAR-TITLE":"Home",
         "TITLE":"<your header here>",
         "BOOK-BUTTON":"Book",
         "V-BOOK-BUTTON":"Vertical book",
@@ -35,6 +35,6 @@
         "SEARCH-BUTTON-TEXT":"Search"
     },
     "AGENDA":{
-        "TITLE":"Agenda"
+        "TITLE":"Tasks"
     }
 }
