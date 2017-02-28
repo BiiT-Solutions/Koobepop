@@ -1,7 +1,6 @@
 import { Component, ViewChild} from '@angular/core';
 import { NavController, NavParams, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies';
-import { DetailsPage } from '../details/details';
 
 @Component({
   selector: 'page-zoom',
@@ -92,9 +91,6 @@ export class ZoomPage {
     //Limits
     this.mLeft = Math.min(Math.max(this.mLeft, -this.newWidth + window.outerWidth / 3), window.outerHeight / 3);
     this.mTop = Math.min(Math.max(this.mTop, -this.newHeight + window.outerHeight / 3), window.outerHeight / 3);
-  }
-  navDetails() {
-    this.navCtrl.push(DetailsPage, this.book.getPageNum());
   }
   ionViewWillEnter() {
     this.book.startRendering();

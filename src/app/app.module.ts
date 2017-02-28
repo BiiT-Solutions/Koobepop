@@ -2,11 +2,9 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { SearchPage } from '../pages/search/search';
 import { CompaniesProvider } from '../providers/companies';
 import { AppointmentsProvider } from '../providers/appointments-provider';
 import { BookPage } from '../pages/zoom/book';
-import { DetailsPage } from '../pages/details/details';
 import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
@@ -25,9 +23,7 @@ export function createTranslateLoader(http: Http) {
   declarations: [
     MyApp,
     HomePage,
-    SearchPage,
     BookPage,
-    DetailsPage,
     AboutPage,
     ZoomPage,
     TestPage,
@@ -49,9 +45,7 @@ export function createTranslateLoader(http: Http) {
   entryComponents: [
     MyApp,
     HomePage,
-    SearchPage,
     BookPage,
-    DetailsPage,
     AboutPage,
     ZoomPage,
     TestPage,
