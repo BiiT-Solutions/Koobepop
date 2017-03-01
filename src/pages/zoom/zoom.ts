@@ -72,7 +72,6 @@ export class ZoomPage {
 
   pinchEvent(e) {
     // console.log("PINCH EVENT CONTROLLER RUNNING")
-    // TODO: ADD max y min
     this.newWidth = this.oldWidth * e.scale;
     this.newHeight = this.oldHeight * e.scale;
     this.newWidth = Math.min(Math.max(this.oldWidth * e.scale, window.outerWidth * 2 * 0.5), window.outerWidth * 2 * 5);

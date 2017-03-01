@@ -10,7 +10,7 @@
  <div item-content style="width:100%;text-align: center;">{{today | date:'MMM dd'}}</div>
 </ion-item>
   <ion-list>
-    <ion-item-sliding *ngFor="let item of items">
+   <!-- <ion-item-sliding *ngFor="let item of items">
       <ion-item color="light">
         <div>
           {{item.name}}          
@@ -27,10 +27,13 @@
           <ion-icon name="checkmark"></ion-icon>
         </button>
       </ion-item-options>
-    </ion-item-sliding>
-    <!--<ion-item *ngFor="let item of items">
+    </ion-item-sliding>-->
+    <ion-item *ngFor="let item of items">
       <ion-label> {{item.name}}</ion-label>
-      <ion-radio (ionSelect)="finish(item)"></ion-radio>
-    </ion-item>-->
+      <button ion-button  color="secondary" (click)="gotoExercise()" item-right icon-only>
+          <ion-icon name="information-circle"></ion-icon>
+        </button>
+      <ion-checkbox (ionChange)="finish(item)" color="dark" ></ion-checkbox>
+    </ion-item>
   </ion-list>
 </ion-content>

@@ -29,3 +29,6 @@ gulp.task('bump', () => {
     .pipe(gulpif(argv.major, bump({ type: 'major' }))) // X._._
     .pipe(gulp.dest('./'));
 })
+
+//TODO Add task to change the configuration of infographic-js 
+// and copy the 'images' folder.

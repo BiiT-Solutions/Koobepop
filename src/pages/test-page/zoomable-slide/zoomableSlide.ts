@@ -103,8 +103,8 @@ export class ZoomableSlide {
     this.mLeft = - ((this.newWidth * this.percentageOfImageAtPinchPointX) - e.center.x);
     this.mTop = - ((this.newHeight * this.percentageOfImageAtPinchPointY) - e.center.y);
     //Limits
-    //this.mLeft = Math.min(Math.max(this.mLeft, -this.newWidth + window.outerWidth / 3), window.outerHeight / 3);
-    //this.mTop = Math.min(Math.max(this.mTop, -this.newHeight + window.outerHeight / 3), window.outerHeight / 3);
+    this.mLeft = Math.min(Math.max(this.mLeft, -this.newWidth + window.outerWidth / 3), window.outerHeight / 3);
+    this.mTop = Math.min(Math.max(this.mTop, -this.newHeight + window.outerHeight / 3), window.outerHeight / 3);
   }
   public isZoomActive(){
       return this.zoomActive;
