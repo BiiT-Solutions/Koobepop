@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import * as infographicjs from 'infographic-js';
+import { AppointmentsProvider } from '../../providers/appointments-provider';
+
 /**
  * This page holds a report into a slider consisting on several pages (zoomable-slide)
  */
@@ -10,31 +12,26 @@ import * as infographicjs from 'infographic-js';
 })
 export class ReportPage {
 
-  mySlideOptions = {
-    //loop: true
-  };
+  sliderOptions = {};
   // Definition of the objet to pass to infographicJS.
-  // TODO Generate it from the appointment
-  jsonDefinition = {
-    "width": window.outerWidth, "height": window.outerHeight, "background": "fill:#ffffff",
-    "svgElements": [{ "id": "girlDoctor", "href": "http://www.google.com", "attributes": { "width": 100, "height": 80, "x": 30, "y": 40 } },
-    { "id": "doctor", "attributes": { "width": 100, "height": 80, "x": 200, "y": 40 } },
-    { "id": "medical-kit", "attributes": { "width": 66, "height": 53, "x": 30, "y": 200 } },
-    { "id": "heart", "attributes": { "width": 53, "height": 53, "x": 200, "y": 200 } }],
-    "textElements": [{ "id": "text1", "contentText": "Doctor Infographic", "attributes": { "font-family": "Purisa", "font-size": 20, "x": 30, "y": 150, "fill": "#660000;font-weight:bold" } }],
-    "pngElements": [{ "id": "bitIcon", "attributes": { "width": 75, "height": 75, "x": 50, "y": 250 } }]
-  };
   svgList = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-   // console.log("constructor");
-    this.svgList=this.svgList.concat(infographicjs.basicReport());//infographicjs.newFreeLayout(this.jsonDefinition));
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentsProvider: AppointmentsProvider, public changeDetector: ChangeDetectorRef) {
 
   }
+
   ngAfterViewInit() {
-   // console.log("avi");
+    this.appointmentsProvider.requestAppointments({ patientId: "21008286V" })
+      .subscribe(res => {
+        res.forEach((appointment) => {
+          this.svgList.push(infographicjs.basicReport());
+        });
+        //We check for changes because this is done outside of the regular angular detections
+        //More info: https://github.com/angular/angular/issues/10131
+        this.changeDetector.detectChanges();
+
+      });
   }
   ionViewDidLoad() {
-  //  console.log("ivdl");
   }
 
 }

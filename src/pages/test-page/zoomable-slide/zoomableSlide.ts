@@ -1,5 +1,5 @@
-import { Component, ViewChild, ViewChildren, ElementRef,Input } from '@angular/core';
-import { NavController , NavParams, Gesture,Slides } from 'ionic-angular';
+import { Component, ViewChild, ViewChildren, ElementRef, Input } from '@angular/core';
+import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
 import { CompaniesProvider } from '../../../providers/companies';
 import * as infographicjs from 'infographic-js';
 
@@ -17,31 +17,25 @@ export class ZoomableSlide {
   zoomActive = false;
   mLeft = 0;
   mTop = 0;
+
+  viewWidth;
+  viewHeight;
+  viewMarginTop;
+  viewMarginLeft;
+
+
   percentageOfImageAtPinchPointX = 0;
-  percentageOfImageAtPinchPointY = 0;  
+  percentageOfImageAtPinchPointY = 0;
   hideHeader;
   @ViewChild("svgSlide") slide;
-  jsonDefinition = {
-        "width": window.outerWidth, "height": window.outerHeight, "background": "fill:#237245",
-                "svgElements":  [{"id":"girlDoctor","href":"http://www.google.com", "attributes": {"width": 100,"height": 80,  "x":30, "y":40}},
-                 {"id":"doctor", "attributes": {"width": 100,"height": 80,"x":200, "y":40}},
-                 {"id":"medical-kit", "attributes": {"width": 66,"height": 53,"x":30, "y":200}},
-                 {"id":"heart", "attributes": {"width": 53,"height": 53,"x":200, "y":200}}],
-        "textElements": [{"id":"text1","contentText":"Doctor Infographic","attributes":{"font-family": "Purisa","font-size":20,"x":30, "y":150,"fill":"#660000;font-weight:bold"}}],
-        "pngElements":  [{"id":"bitIcon","attributes": { "width": 75, "height": 75, "x":50, "y":250}}]
-   };
+  @Input() svg;
+  intervalId;
 
-   @Input()//Soon
-   svg;
-  constructor( public companiesProvider: CompaniesProvider) { }
+  constructor(public companiesProvider: CompaniesProvider) { }
 
 
-   ngAfterViewInit() {
-        //TODO Remove this when svg is an input
-       //this.svg = infographicjs.newFreeLayout(this.jsonDefinition);
-       this.slide.nativeElement.innerHTML = this.svg; 
-
-    //console.log(this.svg); 
+  ngAfterViewInit() {
+    this.slide.nativeElement.innerHTML = this.svg;
     //create gesture obj w/ ref to DOM element
     this.gesture = new Gesture(this.element.nativeElement);
     //listen for the gesture
@@ -50,13 +44,14 @@ export class ZoomableSlide {
     this.gesture.on('pinchstart', e => this.pinchStartEvent(e));
     this.gesture.on('pinch', e => this.pinchEvent(e));
     this.gesture.on('pinchend', e => this.pinchEndEvent(e));
-    this.newWidth = window.outerWidth ;
-    this.newHeight = window.outerHeight;
-    this.oldWidth = window.outerWidth ;
-    this.oldHeight = window.outerHeight;
-    this.hideHeader = true;
 
-    }
+    this.newWidth = window.outerWidth;
+    this.newHeight = window.outerHeight;
+    this.oldWidth = window.outerWidth;
+    this.oldHeight = window.outerHeight;
+    this.changeSize();
+    this.startRendering();
+  }
 
   pinchStartEvent(e) {
     //console.log("PINCH START EVENT")
@@ -66,15 +61,21 @@ export class ZoomableSlide {
     this.gesture.off('pan', e => this.moveAround(e));
   }
 
+  pinchEvent(e) {
+    this.newWidth = Math.max(Math.min(this.oldWidth * e.scale, window.outerWidth * 4),window.outerWidth);
+    this.newHeight = Math.max(Math.min(this.oldHeight * e.scale, window.outerHeight * 4),window.outerHeight);
+    this.moveAround(e);
+  }
+  
   pinchEndEvent(e) {
     //console.log("PINCH END EVENT")
     this.oldWidth = this.newWidth;
     this.oldHeight = this.newHeight;
 
-    if (this.newHeight < window.outerWidth ) {
-      this.newWidth = window.outerWidth ;
+    if (this.newHeight < window.outerWidth) {
+      this.newWidth = window.outerWidth;
       this.newHeight = window.outerHeight;
-      this.oldWidth = window.outerWidth ;
+      this.oldWidth = window.outerWidth;
       this.oldHeight = window.outerHeight;
       this.mLeft = 0;
       this.mTop = 0;
@@ -87,26 +88,40 @@ export class ZoomableSlide {
     }
   }
 
-  pinchEvent(e) {
-    this.newWidth = Math.min(this.oldWidth * e.scale,window.outerWidth*4);
-    this.newHeight = Math.min(this.oldHeight * e.scale,window.outerHeight*4);  
-
-
-    this.moveAround(e);
-  }
-
   startMove(e) {
     this.percentageOfImageAtPinchPointX = (e.center.x - this.mLeft) / this.oldWidth;
     this.percentageOfImageAtPinchPointY = (e.center.y - this.mTop) / this.oldHeight;
   }
+
   moveAround(e) {
     this.mLeft = - ((this.newWidth * this.percentageOfImageAtPinchPointX) - e.center.x);
     this.mTop = - ((this.newHeight * this.percentageOfImageAtPinchPointY) - e.center.y);
     //Limits
-    this.mLeft = Math.min(Math.max(this.mLeft, -this.newWidth + window.outerWidth / 3), window.outerHeight / 3);
-    this.mTop = Math.min(Math.max(this.mTop, -this.newHeight + window.outerHeight / 3), window.outerHeight / 3);
+    this.mLeft = Math.min(Math.max(this.mLeft, window.outerWidth -this.newWidth), 0);
+    this.mTop = Math.min(Math.max(this.mTop,  window.outerHeight - this.newHeight),0);
+  }  
+  
+  ngOnDestroy(){
+   this.stopRendering();
   }
-  public isZoomActive(){
-      return this.zoomActive;
+  startRendering() {
+    this.intervalId = setInterval(() => this.render(), 1000 /25);
+  }
+  stopRendering() {
+    clearInterval(this.intervalId);
+  }
+
+  /* We change the image once every 1/25 of second while zoom is changing so it's not processor dependent*/
+  render(){
+    this.changeSize();
+  }
+  changeSize(){
+    this.viewHeight = this.newHeight;
+    this.viewWidth=this.newWidth;
+    this.viewMarginTop = this.mTop;
+    this.viewMarginLeft = this.mLeft;
+  }
+  public isZoomActive() {
+    return this.zoomActive;
   }
 }

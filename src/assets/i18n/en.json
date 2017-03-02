@@ -15,9 +15,10 @@
         "SEARCH-BUTTON":"Search",
         "DETAILS-BUTTON":"Details",
         "ABOUT-BUTTON":"About",
-        "AGENDA-BUTTON":"Agenda",
-        "SUMMARY-BUTTON":"Summary",
-        "REPORT-BUTTON":"Reports"
+        "AGENDA-BUTTON":"Work book",
+        "SUMMARY-BUTTON":"Tracker",
+        "REPORT-BUTTON":"Reports",
+        "KNOW-BUTTON":"Know"
     },
     "BOOK":{
         "BUTTON":"Agenda"

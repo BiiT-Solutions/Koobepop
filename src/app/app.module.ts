@@ -10,7 +10,6 @@ import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
 import {ZoomPage} from '../pages/zoom/zoom';
 import { AgendaPage } from '../pages/agenda/agenda';
-import {ReportsPage} from '../pages/reports/reports';
 import {ReportPage} from '../pages/report/report';
 import {TestPage} from '../pages/test-page/test-page';
 import {ZoomableSlide} from '../pages/test-page/zoomable-slide/zoomableSlide';
@@ -29,7 +28,6 @@ export function createTranslateLoader(http: Http) {
     TestPage,
     ZoomableSlide,
     AgendaPage,
-    ReportsPage,
     ReportPage
   ],
   imports: [
@@ -50,7 +48,6 @@ export function createTranslateLoader(http: Http) {
     ZoomPage,
     TestPage,
     AgendaPage,
-    ReportsPage,
     ReportPage
   ],
   providers: [

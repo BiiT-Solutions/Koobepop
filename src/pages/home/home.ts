@@ -6,7 +6,7 @@ import { TranslateService } from 'ng2-translate';
 import {ZoomPage} from '../zoom/zoom';
 import {TestPage} from '../test-page/test-page';
 import {AgendaPage} from '../agenda/agenda';
-import {ReportsPage} from '../reports/reports'
+import {ReportPage} from '../report/report'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -29,7 +29,7 @@ export class HomePage {
     this.navCtrl.push(AgendaPage);
   }
   navReportView(){
-    this.navCtrl.push(ReportsPage);
+    this.navCtrl.push(ReportPage);
   }
   navSummary(){
    window.open("https://m3sport.biit-solutions.com/tracker"); 

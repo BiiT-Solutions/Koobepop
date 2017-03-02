@@ -2,10 +2,12 @@
   <ion-navbar color="primary" ><!--[hidden]="hideHeader" style="position:absolute;z-index:10">-->
   </ion-navbar>
 <div (tap)="hideHeader = !hideHeader">
-<!--<ion-slides [options]="mySlideOptions" #slider style="width:100%;height:100%;">-->
-  <div *ngFor="let svg of svgList">
+<ion-slides [options]="sliderOptions" #slider style="width:100%;height:100%;">
+  <ion-slide *ngFor="let svg of svgList">
+  <div style="height:100%;width:100%">
     <zoomable-slide [svg]="svg"></zoomable-slide>
   </div>
-<!--</ion-slides>-->
+  </ion-slide>
+</ion-slides>
 </div>
 </ion-content>
