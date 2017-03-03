@@ -6,7 +6,8 @@ import { TranslateService } from 'ng2-translate';
 import {ZoomPage} from '../zoom/zoom';
 import {TestPage} from '../test-page/test-page';
 import {AgendaPage} from '../agenda/agenda';
-import {ReportPage} from '../report/report'
+import {ReportPage} from '../report/report';
+import { KnowPage } from '../know/know';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -30,6 +31,9 @@ export class HomePage {
   }
   navReportView(){
     this.navCtrl.push(ReportPage);
+  }
+  navKnow(){
+    this.navCtrl.push(KnowPage);
   }
   navSummary(){
    window.open("https://m3sport.biit-solutions.com/tracker"); 

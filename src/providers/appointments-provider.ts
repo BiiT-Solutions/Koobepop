@@ -30,7 +30,7 @@ export class AppointmentsProvider {
           response = response.concat(appointment);//TODO transform to a desired object TYPES!
         })
       }
-        return response;
+        return response.reverse();
       });
     }
 

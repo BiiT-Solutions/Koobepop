@@ -42,7 +42,7 @@ export class TestPage {
     console.log(this.slider2);
   }
   next(){
-    this.slider2.slider.slideNext(false,200);
+    this.slider2.slideNext(200);
 
     this.appointmentsProvider.requestAppointments({patientId:"21008286V"});
     console.log(this.appointmentsProvider.getAppointments());

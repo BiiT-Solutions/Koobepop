@@ -13,7 +13,9 @@ import { AgendaPage } from '../pages/agenda/agenda';
 import {ReportPage} from '../pages/report/report';
 import {TestPage} from '../pages/test-page/test-page';
 import {ZoomableSlide} from '../pages/test-page/zoomable-slide/zoomableSlide';
-import {APP_CONFIG, AppConfig} from './app.config'
+import {APP_CONFIG, AppConfig} from './app.config';
+import { KnowPage } from '../pages/know/know';
+import { VideoPage } from '../pages/video/video';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -28,7 +30,9 @@ export function createTranslateLoader(http: Http) {
     TestPage,
     ZoomableSlide,
     AgendaPage,
-    ReportPage
+    ReportPage,
+    KnowPage,
+    VideoPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -48,7 +52,9 @@ export function createTranslateLoader(http: Http) {
     ZoomPage,
     TestPage,
     AgendaPage,
-    ReportPage
+    ReportPage,
+    KnowPage,
+    VideoPage
   ],
   providers: [
     CompaniesProvider,

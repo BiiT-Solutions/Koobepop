@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Slides } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { VideoPage } from '../video/video';
 /**
  * 
  */
@@ -17,7 +18,8 @@ export class AgendaPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
    
     this.itemsList = [[
-      { name: 'Core stability exercises' },
+      { name: 'Bruggetje op een oefenbal' },
+
       { name: 'Hip flexed torso rotation' },
       { name: 'Push-up Walkout' },
       { name: 'Single Leg Lowering' }
@@ -77,7 +79,7 @@ export class AgendaPage {
   }
 
   gotoExerciseVideo() {
-    window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
+    this.navCtrl.push(VideoPage);
   }
 }
 
