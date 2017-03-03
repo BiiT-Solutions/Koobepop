@@ -23,7 +23,7 @@
             <ion-list class="inside-list" style="height:100%">
               <ion-item *ngFor="let item of items">
                 <ion-label> {{item.name}}</ion-label>
-                <button ion-button (click)="gotoExerciseVideo()" item-right clear icon-only>
+                <button ion-button (click)="gotoExerciseVideo(item.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
                 <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>

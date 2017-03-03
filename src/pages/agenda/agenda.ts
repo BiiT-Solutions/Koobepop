@@ -18,9 +18,8 @@ export class AgendaPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
    
     this.itemsList = [[
-      { name: 'Bruggetje op een oefenbal' },
-
-      { name: 'Hip flexed torso rotation' },
+      { name: 'Bruggetje op een oefenbal', videoUrl:"https://www.youtube.com/embed/sesXc7GIU1A" },
+      { name: 'crunches', videoUrl:"https://www.youtube.com/embed/PmxpXW_vWLw" },
       { name: 'Push-up Walkout' },
       { name: 'Single Leg Lowering' }
     ],[
@@ -78,8 +77,8 @@ export class AgendaPage {
     window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
   }
 
-  gotoExerciseVideo() {
-    this.navCtrl.push(VideoPage);
+  gotoExerciseVideo(videoUrl:string) {
+    this.navCtrl.push(VideoPage,{videoUrl:videoUrl});
   }
 }
 
