@@ -7,17 +7,10 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
   templateUrl: 'video.html'
 })
 export class VideoPage {
-  navBarHidden;
   videoUrl:SafeResourceUrl ;
   constructor(public navCtrl: NavController, public navParams: NavParams,sanitizer: DomSanitizer) {
     this.videoUrl = sanitizer.bypassSecurityTrustResourceUrl(navParams.data.videoUrl);
   }
   ionViewDidLoad() {
-    this.navBarHidden = true;
   }
-openMenu(event){
-  console.log(event);
-
-    this.navBarHidden = !this.navBarHidden;
-}
 }

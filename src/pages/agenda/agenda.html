@@ -18,8 +18,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-slides #slider [options]="sliderOptions" style="height:100%">
+        <ion-slides #slider [options]="sliderOptions" style="height:100%" >
           <ion-slide class="slide" *ngFor="let items of itemsList" style="height:auto">
+
             <ion-list class="inside-list" style="height:100%">
               <ion-item *ngFor="let item of items">
                 <ion-label> {{item.name}}</ion-label>
@@ -29,7 +30,7 @@
                 <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                <ion-checkbox (ionChange)="finish(item)" color="dark"></ion-checkbox>
+                <ion-checkbox  (ionChange)="finish(item)" color="dark"></ion-checkbox>
               </ion-item>
             </ion-list>
           </ion-slide>

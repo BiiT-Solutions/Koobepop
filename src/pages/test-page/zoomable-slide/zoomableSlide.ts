@@ -68,8 +68,8 @@ export class ZoomableSlide {
 
   pinchEvent(e) {
     this.pinchString = "pinching";
-    this.newWidth = Math.max(Math.min(this.oldWidth * e.scale, this.MIN_WIDTH * 4), this.MIN_WIDTH*0.5);
-    this.newHeight = Math.max(Math.min(this.oldHeight * e.scale, this.MIN_HEIGHT * 4), this.MIN_HEIGHT*0.5);
+    this.newWidth = Math.max(Math.min(this.oldWidth * e.scale, this.MIN_WIDTH * 4), this.MIN_WIDTH);
+    this.newHeight = Math.max(Math.min(this.oldHeight * e.scale, this.MIN_HEIGHT * 4), this.MIN_HEIGHT);
     this.moveAround(e);
   }
 
@@ -79,7 +79,7 @@ export class ZoomableSlide {
     this.oldWidth = this.newWidth;
     this.oldHeight = this.newHeight;
 
-    if (this.newHeight == this.MIN_WIDTH*1.1) {
+    if (this.newHeight <= this.MIN_WIDTH*1.1) {
       this.newWidth = this.MIN_WIDTH;
       this.newHeight = this.MIN_HEIGHT;
       this.oldWidth = this.MIN_WIDTH;

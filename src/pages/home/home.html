@@ -9,27 +9,41 @@
 <ion-content>
   <img src="assets/images/medi-knows.png" />
 
-  <ion-grid>
+  <ion-grid class="footer">
     <ion-row>
       <ion-col>
-        <button ion-button full (click)="navAgendaView()" color="secondary">
-           {{ 'HOME.AGENDA-BUTTON' | translate}}
+        <button ion-button full large (click)="navAgendaView()" color="secondary">
+           <ion-grid>
+             <ion-row>
+               <ion-col width-100>
+           <ion-icon name="bookmarks" ></ion-icon>
+            </ion-col>
+             </ion-row>
+             <ion-row>
+               <ion-col width-100>
+              {{ 'HOME.AGENDA-BUTTON' | translate}}  
+               </ion-col>            
+          </ion-row>
+          </ion-grid>   
         </button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col width-33>
-        <button ion-button full (click)="navReportView()" color="light">
+        <button ion-button full (click)="navReportView()" color="light" icon-left>
+           <ion-icon name="document" ></ion-icon>
            {{ 'HOME.REPORT-BUTTON' | translate}}
         </button>
       </ion-col>
       <ion-col width-33>
-        <button ion-button full (click)="navSummary()" color="light">
+        <button ion-button full (click)="navSummary()" color="light" icon-left>
+           <ion-icon name="trending-up" ></ion-icon>
            {{ 'HOME.SUMMARY-BUTTON' | translate}}
         </button>
       </ion-col>
       <ion-col width-33>
-        <button ion-button full (click)="navKnow()" color="light">
+        <button ion-button full (click)="navKnow()" color="light" icon-left>
+           <ion-icon name="school" ></ion-icon>
            {{ 'HOME.KNOW-BUTTON' | translate}}
         </button>
       </ion-col>

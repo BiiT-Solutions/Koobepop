@@ -1,31 +1,23 @@
-
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Know</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <ion-grid>
-    <ion-row *ngFor="let topic of topics">
-      <ion-col width-33>
-         <button ion-button full color="light">
-           {{topic[0]}}
-        </button>
-      </ion-col>
-      <ion-col width-33>
-         <button ion-button full color="light">
-           {{topic[1]}}
-        </button>
-      </ion-col>
-      <ion-col width-33>
-         <button ion-button full color="light">
-           {{topic[2]}}
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content>
+  <ion-infinite-scroll style="width:100%">
+    <ion-grid>
+      <ion-row>
+        <ion-col width-33 *ngFor="let topic of topics">
+          <button class="square" (click)="displayInfo(topic)">
+            <img  [src]="topic.image"/>
+            {{topic.name}}
+           </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-infinite-scroll>
 </ion-content>

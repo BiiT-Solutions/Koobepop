@@ -8,14 +8,18 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'know.html'
 })
 export class KnowPage {
-  topics=[
-    ['Anthropometry','100 FMS',' Basic Test'],
-    ['1','2','3'],
-    ['4','5','6']
-    ]
+  topics=
+    [
+    {image:'assets/images/antropometry.svg',
+      name:'antropometry'},
+    {image:'assets/images/spirometry.svg',
+      name:'spirometry'}]
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
+  }
+  displayInfo(topic:any){
+    //Show some info
   }
 
 }

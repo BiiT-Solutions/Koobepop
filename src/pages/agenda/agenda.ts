@@ -18,15 +18,15 @@ export class AgendaPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
    
     this.itemsList = [[
-      { name: 'Bruggetje op een oefenbal', videoUrl:"https://www.youtube.com/embed/sesXc7GIU1A" },
-      { name: 'crunches', videoUrl:"https://www.youtube.com/embed/PmxpXW_vWLw" },
-      { name: 'Push-up Walkout' },
-      { name: 'Single Leg Lowering' }
+      { name: 'Bridge with exercise ball', videoUrl:"https://www.youtube.com/embed/sesXc7GIU1A" },
+      { name: 'Crunches', videoUrl:"https://www.youtube.com/embed/PmxpXW_vWLw" },
+      { name: 'Push-up walkout' },
+      { name: 'Single leg lowering' }
     ],[
       { name: 'Core stability exercises' },
       { name: 'Hip flexed torso rotation' },
-      { name: 'Push-up Walkout' },
-      { name: 'Single Leg Lowering' }
+      { name: 'Push-up walkout' },
+      { name: 'Single leg lowering' }
     ]]
     this.day = Date.now();
     //console.log(this.day);
@@ -63,6 +63,7 @@ export class AgendaPage {
 // }
 
   openCalendar() { }
+  
   nextDay() {
     this.day += 24 * 60 * 60 * 1000;
     this.slider.slideNext();
@@ -71,6 +72,7 @@ export class AgendaPage {
     this.day -= 24 * 60 * 60 * 1000;
     this.slider.slidePrev();
   }
+
 
 //TODO Fill with relevant data from somewhere 
   gotoExerciseInfo() {
