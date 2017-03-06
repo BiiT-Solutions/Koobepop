@@ -1,7 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
-import { Gesture } from 'ionic-angular';
-import { CompaniesProvider } from '../../../providers/companies';
-@Component({
+import { Gesture } from 'ionic-angular';@Component({
   selector: 'zoomable-slide',
   templateUrl: 'zoomableSlide.html'
 })
@@ -33,7 +31,7 @@ export class ZoomableSlide {
   @Output() zooming:EventEmitter<boolean> = new EventEmitter<boolean>();
 
   pinchString: string="";
-  constructor(public companiesProvider: CompaniesProvider) { }
+  constructor() { }
 
 
   ngAfterViewInit() {
@@ -52,7 +50,7 @@ export class ZoomableSlide {
     this.newHeight = this.MIN_HEIGHT;
     this.oldWidth =  this.MIN_WIDTH;
     this.oldHeight = this.MIN_HEIGHT;
-    this.changeSize();
+    this.applyResize();
     this.startRendering();
   }
 
@@ -122,9 +120,9 @@ export class ZoomableSlide {
 
   /* We change the image once every 1/25 of second while zoom is changing so it's not processor dependent*/
   render() {
-    this.changeSize();
+    this.applyResize();
   }
-  changeSize() {
+  applyResize() {
     this.viewHeight = this.newHeight;
     this.viewWidth = this.newWidth;
     this.viewMarginTop = this.mTop;

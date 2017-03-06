@@ -25,7 +25,6 @@ export class ReportPage {
         //We check for changes because this is done outside of the regular angular detections
         //More info: https://github.com/angular/angular/issues/10131
         this.changeDetector.detectChanges();
-        
       });
   }
   ionViewDidLoad() {

@@ -38,5 +38,6 @@ export class HomePage {
   navSummary(){
    window.open("https://m3sport.biit-solutions.com/tracker"); 
   }
+  
 }
 

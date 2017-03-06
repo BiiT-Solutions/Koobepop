@@ -18,35 +18,25 @@ export class TestPage {
   @ViewChild('slider1') slider1: Slides;
   @ViewChild('slider2') slider2: Slides;
   hideHeader;
-  sliderOpts1 = {
-    loop: true,
-    initialSlide: 1,
-    onTransitionStart:(slider)=>{
-      if(slider.activeIndex>slider.previousIndex){
-        console.log("This is L: ");
-        console.log(slider);
-    } else if(slider.activeIndex<slider.previousIndex){
-      console.log("This is R: ");
-        console.log(slider);
-    }
-    }
-  }
-  sliderOpts2 = {
-    loop: true
-  };
   constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentsProvider: AppointmentsProvider) { }
   
   ionViewDidLoad() {
     this.hideHeader = true;
+    this.slider2.lockSwipes(true);
+    this.slider1.control = this.slider2
     console.log(this.slider1);
     console.log(this.slider2);
   }
   next(){
     this.slider2.slideNext(200);
-
     this.appointmentsProvider.requestAppointments({patientId:"21008286V"});
     console.log(this.appointmentsProvider.getAppointments());
   }
+  nextSlide(){
+
+
+  }
+  prevSlide(){}
 }
 
 

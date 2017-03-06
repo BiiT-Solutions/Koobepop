@@ -7,10 +7,10 @@
   <ion-grid>
     <ion-row>
         <ion-item color="secondary">
-          <div (click)="prevDay()" item-left clear>
+          <div (click)="prevArrow()" item-left clear>
             <ion-icon name="arrow-back"></ion-icon>
           </div>
-          <div (click)="nextDay()" item-right clear>
+          <div (click)="nextArrow()" item-right clear>
             <ion-icon name="arrow-forward"></ion-icon>
           </div>
           <section item-content style="width:100%;text-align: center;">{{day | date}}</section>
@@ -18,9 +18,10 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-slides #slider [options]="sliderOptions" style="height:100%" >
+        <ion-slides #slider loop style="height:100%"
+        (ionSlideNextEnd)="onSlideNext()"
+        (ionSlidePrevEnd)="onSlidePrev()" >
           <ion-slide class="slide" *ngFor="let items of itemsList" style="height:auto">
-
             <ion-list class="inside-list" style="height:100%">
               <ion-item *ngFor="let item of items">
                 <ion-label> {{item.name}}</ion-label>
