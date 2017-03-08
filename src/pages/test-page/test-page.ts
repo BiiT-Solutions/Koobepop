@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
 import { AppointmentsProvider } from '../../providers/appointments-provider';
 import {DpDatePickerModule} from 'ng2-date-picker';
-
+import * as moment from 'moment';
 /**
  *  This is a test page and should be removed before releasing .
  * Here you can meddle with dark magic better left alone.
@@ -17,21 +17,24 @@ export class TestPage {
   @ViewChild('slider') slider: Slides;
   hideHeader;
   count = 0;
-  selectedDate;
-  datePikerConfig;
+  datePikerConfig = {
+    format:"DD-MM-YYYY"
+  };
   itemsList = ['item0','item1','item2','item3','item4','item5','item6','item7','item8','item9'];
   item1;
   item2;
   item3;
+  today: number =0;
   day: number = 0;
   DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   events:{[id:number]:IEvent[];};
-
+  selectedDate;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentsProvider: AppointmentsProvider) { 
     this.item1 = this.itemsList[this.itemsList.length-1];
     this.item2 = this.itemsList[0];
     this.item3 = this.itemsList[1];
+    this.today = Date.now();
     this.day = Date.now();
     this.events={};
     this.events[this.day] = [
@@ -55,16 +58,11 @@ export class TestPage {
     ];
 
 
-
-    console.log(this.events)
-
+    this.selectedDate = moment(this.day);
   }
   
   ionViewDidLoad() {
     this.hideHeader = true;
-
-    //console.log(this.slider1);
-    //console.log(this.slider2);
   }
 
   plus(){    
@@ -110,7 +108,12 @@ export class TestPage {
   getItem(day:number):string{
     return "This is the item for the day \n"+new Date(day).toDateString();
   }
-
+  check(event){
+    console.log(event.checked);
+    if(event.checked){
+      (this.day)
+    }
+  }
 }
 export interface IEvent{
   name:string;

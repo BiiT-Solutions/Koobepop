@@ -14,4 +14,8 @@ test-page{
 	position:fixed;
     top:0%;
     }
+    .dp-calendars-container{
+        //This is so the calendar shows above the tasks
+        z-index:2;
+    }
 }

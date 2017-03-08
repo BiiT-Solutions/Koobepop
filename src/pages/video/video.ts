@@ -9,8 +9,10 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 export class VideoPage {
   videoUrl:SafeResourceUrl ;
   constructor(public navCtrl: NavController, public navParams: NavParams,sanitizer: DomSanitizer) {
+    if(navParams.data.videoUrl){
     this.videoUrl = sanitizer.bypassSecurityTrustResourceUrl(navParams.data.videoUrl);
-  }
+    }
+}
   ionViewDidLoad() {
   }
 }

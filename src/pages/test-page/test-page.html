@@ -2,6 +2,7 @@
   <ion-navbar color="primary" [hidden]="hideHeader" style="position:absolute;z-index:10">
   </ion-navbar>
   <section>
+    <!--<dp-day-picker style="z-index:10;" [class.dp-material]="true" style="z-index:10;" [(ngModel)]="selectedDate" [config]="datePikerConfig"></dp-day-picker>-->
     
     <ion-slides  initialSlide="1" #slider 
     (ionSlideNextEnd)="nextSlide()"
@@ -10,8 +11,9 @@
          <ion-slide>
         <div>{{day-DAY_IN_MILIS|date}}</div>
         <ion-list>
-          <ion-item *ngFor="let event of events[day+DAY_IN_MILIS]">
-        {{event.name}}
+          <ion-item *ngFor="let event of events[day-DAY_IN_MILIS]">            
+            <ion-label>{{event.name}}</ion-label>
+             <ion-checkbox [disabled]="day-DAY_IN_MILIS>today" (ionChange)="check($event)" color="dark"></ion-checkbox>
           </ion-item>
         </ion-list>
       </ion-slide>
@@ -19,20 +21,22 @@
         <div>{{day|date}}</div>
         <ion-list>
           <ion-item *ngFor="let event of events[day]">
-        {{event.name}}
+            <ion-label>{{event.name}}</ion-label>
+             <ion-checkbox [disabled]="day>today" (ionChange)="check($event)" color="dark"></ion-checkbox>
           </ion-item>
         </ion-list>
       </ion-slide>
       <ion-slide>
         <div>{{day+DAY_IN_MILIS|date}}</div>
          <ion-list>
-          <ion-item *ngFor="let event of events[day-DAY_IN_MILIS]">
-        {{event.name}}
+          <ion-item *ngFor="let event of events[day+DAY_IN_MILIS]">
+           
+            <ion-label>{{event.name}}</ion-label>
+         <ion-checkbox [disabled]="day+DAY_IN_MILIS>today" (ionChange)="check($event)" color="dark"></ion-checkbox>
           </ion-item>
         </ion-list>
       </ion-slide>
     </ion-slides>
- <dp-day-picker [class.dp-material]="true" style="z-index:10;" [(ngModel)]="selectedDate" [config]="datePikerConfig"></dp-day-picker>
-    
+ 
   </section>
 </ion-content>

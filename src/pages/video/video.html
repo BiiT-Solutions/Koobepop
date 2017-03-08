@@ -3,7 +3,11 @@
       <ion-title>
       </ion-title>
     </ion-navbar>
-    <div class="video-container">
+    <div *ngIf="videoUrl!=undefined" class="video-container">
       <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
     </div>
+    <div *ngIf="navParams.data.videoUrl==undefined">
+      <!--Make it a translate-->
+      The resource is not avaliable at the moment      
+      </div>
 </ion-content>

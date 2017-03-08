@@ -13,12 +13,14 @@ export class AgendaPage {
   item1;
   item2;
   item3;
+  today: number;
   day: number;
   DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   @ViewChild('slider') slider: Slides;
 
   events:{[id:number]:IEvent[];}={};
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+    this.today = Date.now(); 
     this.day = Date.now();
     this.events={};
     this.events[this.day] = [
@@ -42,10 +44,10 @@ export class AgendaPage {
       { name: 'Push-up walkout' },
       { name: 'Day + 1' }
     ];
-    
   }
 
   ionViewDidLoad() {
+
   }
 
   finish(item) {
@@ -84,7 +86,6 @@ export class AgendaPage {
   /**
    * ionSlide methods are triggered by slideNext() and slidePrev()
    */
-  
   nextSlide(){
     let oldIndex = 1;
     // Make sure we moved forward
@@ -122,6 +123,11 @@ export class AgendaPage {
     //    this.itemsList[0].splice(i, 1);
     //  }
     //}
+  }
+
+  check(item){
+    console.log("Item");
+    console.log(item);
   }
 }
 export interface IEvent{

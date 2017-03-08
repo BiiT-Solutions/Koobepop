@@ -25,6 +25,7 @@
           <ion-slides initialSlide="1" #slider  
           (ionSlideNextEnd)="nextSlide()" 
           (ionSlidePrevEnd)="prevSlide()">
+          
             <ion-slide>
               <div>{{day - DAY_IN_MILIS|date}}</div>
               <ion-list>
@@ -36,7 +37,7 @@
                   <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                  <ion-checkbox (ionChange)="finish(event)" color="dark"></ion-checkbox>
+                  <ion-checkbox [disabled]="day-DAY_IN_MILIS>today" color="dark"></ion-checkbox>
                 </ion-item>
               </ion-list>
             </ion-slide>
@@ -52,7 +53,7 @@
                   <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                  <ion-checkbox (ionChange)="finish(event)" color="dark"></ion-checkbox>
+                  <ion-checkbox [disabled]="day>today" (ionChange)="check($event)" color="dark"></ion-checkbox>
                 </ion-item>
               </ion-list>
             </ion-slide>
@@ -61,14 +62,14 @@
               <div>{{day + DAY_IN_MILIS|date}}</div>
               <ion-list>
                 <ion-item *ngFor="let event of events[day + DAY_IN_MILIS]">
-                  <ion-label> {{event.name}}</ion-label>
+                  <ion-label > {{event.name}}</ion-label>
                   <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
                   <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                  <ion-checkbox (ionChange)="finish(event)" color="dark"></ion-checkbox>
+                  <ion-checkbox [disabled]="day+DAY_IN_MILIS>today" color="dark"></ion-checkbox>
                 </ion-item>
               </ion-list>
             </ion-slide>
