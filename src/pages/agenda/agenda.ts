@@ -27,6 +27,7 @@ export class AgendaPage {
       { name: 'Push-up walkout' },
       { name: 'Single leg lowering' }
     ];
+
     this.events[this.day- this.DAY_IN_MILIS]=
      [
       { name: 'Core stability exercises' },
@@ -34,12 +35,14 @@ export class AgendaPage {
       { name: 'Push-up walkout' },
       { name: 'Day -1' }
     ];
+
     this.events[this.day + this.DAY_IN_MILIS]=[
       { name: 'Core stability exercises' },
       { name: 'Hip flexed torso rotation' },
       { name: 'Push-up walkout' },
       { name: 'Day + 1' }
     ];
+    
   }
 
   ionViewDidLoad() {

@@ -22,27 +22,13 @@
 
       <ion-col>
         <section>
-          <ion-slides #slider initialSlide="1" (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
-
-            <ion-slide>
-              <ion-list class="inside-list" style="height:100%">
-                <ion-item *ngFor="let item of items">
-                  <ion-label> {{item.name}}</ion-label>
-                  <button ion-button (click)="gotoExerciseVideo(item.videoUrl)" item-right clear icon-only>
-                  <ion-icon name="play"></ion-icon>
-                </button>
-                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
-                  <ion-icon name="information-circle"></ion-icon>
-                </button>
-                  <ion-checkbox (ionChange)="finish(item)" color="dark"></ion-checkbox>
-                </ion-item>
-              </ion-list>
-            </ion-slide>
-
+          <ion-slides initialSlide="1" #slider  
+          (ionSlideNextEnd)="nextSlide()" 
+          (ionSlidePrevEnd)="prevSlide()">
             <ion-slide>
               <div>{{day - DAY_IN_MILIS|date}}</div>
               <ion-list>
-                <ion-item *ngFor="let event of events[day+DAY_IN_MILIS]">
+                <ion-item *ngFor="let event of events[day - DAY_IN_MILIS]">
                   <ion-label> {{event.name}}</ion-label>
                   <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
@@ -54,7 +40,7 @@
                 </ion-item>
               </ion-list>
             </ion-slide>
-            
+
             <ion-slide>
               <div>{{day|date}}</div>
               <ion-list>
@@ -74,7 +60,7 @@
             <ion-slide>
               <div>{{day + DAY_IN_MILIS|date}}</div>
               <ion-list>
-                <ion-item *ngFor="let event of events[day - DAY_IN_MILIS]">
+                <ion-item *ngFor="let event of events[day + DAY_IN_MILIS]">
                   <ion-label> {{event.name}}</ion-label>
                   <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
