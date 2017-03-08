@@ -10,45 +10,36 @@ import { VideoPage } from '../video/video';
   templateUrl: 'agenda.html'
 })
 export class AgendaPage {
-  itemsList =[];
-  day;
-  slides = [1, 2, 3, 4, 5];
-  sliderOptions;
+  item1;
+  item2;
+  item3;
+  day: number;
+  DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   @ViewChild('slider') slider: Slides;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
 
-    this.itemsList = [[
+  events:{[id:number]:IEvent[];}={};
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+    this.day = Date.now();
+    this.events={};
+    this.events[this.day] = [
       { name: 'Bridge with exercise ball', videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A" },
       { name: 'Crunches', videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw" },
       { name: 'Push-up walkout' },
       { name: 'Single leg lowering' }
-    ], [
+    ];
+    this.events[this.day- this.DAY_IN_MILIS]=
+     [
       { name: 'Core stability exercises' },
       { name: 'Hip flexed torso rotation' },
       { name: 'Push-up walkout' },
-      { name: 'Single leg lowering' }
-    ],[
+      { name: 'Day -1' }
+    ];
+    this.events[this.day + this.DAY_IN_MILIS]=[
       { name: 'Core stability exercises' },
       { name: 'Hip flexed torso rotation' },
       { name: 'Push-up walkout' },
-      { name: 'Single leg lowering' }
-    ],
-    [
-      { name: 'Core stability exercises' },
-      { name: 'Hip flexed torso rotation' },
-      { name: 'Push-up walkout' },
-      { name: 'Single leg lowering' }
-    ],
-    [
-      { name: 'Core stability exercises' },
-      { name: 'Hip flexed torso rotation' },
-      { name: 'Push-up walkout' },
-      { name: 'Single leg lowering' }
-    ]]
-
-    this.day = Date.now();
-    //console.log(this.day);
-
+      { name: 'Day + 1' }
+    ];
   }
 
   ionViewDidLoad() {
@@ -86,29 +77,34 @@ export class AgendaPage {
   public prevArrow(){
     this.slider.slidePrev();
   }
+
   /**
-   * onSlide methods are triggered by slideNext() and slidePrev()
+   * ionSlide methods are triggered by slideNext() and slidePrev()
    */
-  public onSlideNext(){
-
-    this.nextDay();
-  }
-  public onSlidePrev(){
-    this.prevDay();
-  }
-  //slideNum = 0 //init
-  // onSlideNext
-  //this.day += this.slideNum*24 * 60 * 60 * 1000;
-
-  private nextDay() {
-    this.day += 24 * 60 * 60 * 1000;
-  }
-  private prevDay() {
-    this.day -= 24 * 60 * 60 * 1000;
+  
+  nextSlide(){
+    let oldIndex = 1;
+    // Make sure we moved forward
+    console.log("Next. "+this.slider.getActiveIndex())
+    if(oldIndex < this.slider.getActiveIndex()){
+      this.day += this.DAY_IN_MILIS;
+      this.slider.slideTo(1,0,true);
+    }
+    this.slider.update();
   }
 
+  prevSlide(){
+    let oldIndex = 1;
+    //TODO loop slides
+    console.log("Prev. "+this.slider.getActiveIndex())
+    if(oldIndex > this.slider.getActiveIndex()){
+      this.day -= this.DAY_IN_MILIS;
+      this.slider.slideTo(1,0,true);
+    }
+    this.slider.update();
+  }
 
-  //TODO Fill with relevant data from somewhere 
+  //TODO Fill with relevant data from somewhere a provider?
   public gotoExerciseInfo() {
     window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
   }
@@ -118,12 +114,16 @@ export class AgendaPage {
   }
 
   private removeItem(item) {
-    for (let i = 0; i < this.itemsList[0].length; i++) {
-      if (this.itemsList[0][i] == item) {
-        this.itemsList[0].splice(i, 1);
-      }
-    }
+    //for (let i = 0; i < this.itemsList[0].length; i++) {
+    //  if (this.itemsList[0][i] == item) {
+    //    this.itemsList[0].splice(i, 1);
+    //  }
+    //}
   }
+}
+export interface IEvent{
+  name:string;
+  videoUrl?:string;
 }
 
 //TODO separate AgendaSlider from the day

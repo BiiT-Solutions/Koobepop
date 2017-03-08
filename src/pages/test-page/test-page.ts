@@ -1,7 +1,7 @@
 import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
 import { AppointmentsProvider } from '../../providers/appointments-provider';
-
+import {DpDatePickerModule} from 'ng2-date-picker';
 
 /**
  *  This is a test page and should be removed before releasing .
@@ -14,31 +14,108 @@ import { AppointmentsProvider } from '../../providers/appointments-provider';
   templateUrl: 'test-page.html'
 })
 export class TestPage {
-
-  @ViewChild('slider1') slider1: Slides;
-  @ViewChild('slider2') slider2: Slides;
+  @ViewChild('slider') slider: Slides;
   hideHeader;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentsProvider: AppointmentsProvider) { }
+  count = 0;
+  selectedDate;
+  datePikerConfig;
+  itemsList = ['item0','item1','item2','item3','item4','item5','item6','item7','item8','item9'];
+  item1;
+  item2;
+  item3;
+  day: number = 0;
+  DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
+  events:{[id:number]:IEvent[];};
+
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentsProvider: AppointmentsProvider) { 
+    this.item1 = this.itemsList[this.itemsList.length-1];
+    this.item2 = this.itemsList[0];
+    this.item3 = this.itemsList[1];
+    this.day = Date.now();
+    this.events={};
+    this.events[this.day] = [
+      { name: 'Bridge with exercise ball', videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A" },
+      { name: 'Crunches', videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw" },
+      { name: 'Push-up walkout' },
+      { name: 'Single leg lowering' }
+    ];
+    this.events[this.day- this.DAY_IN_MILIS]=
+     [
+      { name: 'Core stability exercises' },
+      { name: 'Hip flexed torso rotation' },
+      { name: 'Push-up walkout' },
+      { name: 'Single leg lowering' }
+    ];
+    this.events[this.day + this.DAY_IN_MILIS]=[
+      { name: 'Core stability exercises' },
+      { name: 'Hip flexed torso rotation' },
+      { name: 'Push-up walkout' },
+      { name: 'Single leg lowering' }
+    ];
+
+
+
+    console.log(this.events)
+
+  }
   
   ionViewDidLoad() {
     this.hideHeader = true;
-    this.slider2.lockSwipes(true);
-    this.slider1.control = this.slider2
-    console.log(this.slider1);
-    console.log(this.slider2);
+
+    //console.log(this.slider1);
+    //console.log(this.slider2);
   }
-  next(){
-    this.slider2.slideNext(200);
-    this.appointmentsProvider.requestAppointments({patientId:"21008286V"});
-    console.log(this.appointmentsProvider.getAppointments());
+
+  plus(){    
+    this.count++;
   }
+  
   nextSlide(){
-
-
+    let oldIndex = 1;
+    // Make sure we moved forward
+    if(oldIndex < this.slider.getActiveIndex()){
+      this.day += this.DAY_IN_MILIS;
+      this.item1 = this.item2;
+      this.item2 = this.item3;
+      this.slider.slideTo(1,0,true);
+      this.item3 = this.nextItem();
+    }
+    this.slider.update();
   }
-  prevSlide(){}
-}
 
+  prevSlide(){
+    let oldIndex = 1;
+    //TODO loop slides
+    if(oldIndex > this.slider.getActiveIndex()){
+      this.day -= this.DAY_IN_MILIS;
+      this.item3 = this.item2;
+      this.item2 = this.item1;
+      this.slider.slideTo(1,0,true);
+      this.item1 = this.prevItem();
+    }
+  }
+
+  nextItem(){
+      return this.itemsList[ (this.itemsList.length+((this.day+1)%(this.itemsList.length)))%(this.itemsList.length) ];
+    }
+
+  prevItem(){
+      return this.itemsList[(this.itemsList.length+((this.day-1)%(this.itemsList.length)))%(this.itemsList.length)];
+    }
+
+  goto0(){
+    
+  }
+  getItem(day:number):string{
+    return "This is the item for the day \n"+new Date(day).toDateString();
+  }
+
+}
+export interface IEvent{
+  name:string;
+  videoUrl?:string;
+}
 
 
 //@Component({

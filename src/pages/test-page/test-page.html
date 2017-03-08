@@ -1,27 +1,38 @@
 <ion-content>
   <ion-navbar color="primary" [hidden]="hideHeader" style="position:absolute;z-index:10">
   </ion-navbar>
-<section (tap)="hideHeader=!hideHeader">
-
-<ion-slides class="footer" #slider2 loop zoom>
-  <ion-slide  >
-    <div >Slide 1</div>
-  </ion-slide>
-   <ion-slide>
-    <div>Slide 2</div>
-  </ion-slide>
-</ion-slides>
-
-<ion-slides #slider1 loop >
-  <ion-slide>
-    <h2>Header</h2>
-    <div>Slider's slide 1</div>
-  </ion-slide>
-  <ion-slide>
-    <h2>Header</h2>
-    <div>Slider's slide 2</div>
-  </ion-slide>
-</ion-slides>
-<button ion-button (click)="next()">Click me!</button>
-</section>
+  <section>
+    
+    <ion-slides  initialSlide="1" #slider 
+    (ionSlideNextEnd)="nextSlide()"
+    (ionSlidePrevEnd)="prevSlide()"
+    >
+         <ion-slide>
+        <div>{{day-DAY_IN_MILIS|date}}</div>
+        <ion-list>
+          <ion-item *ngFor="let event of events[day+DAY_IN_MILIS]">
+        {{event.name}}
+          </ion-item>
+        </ion-list>
+      </ion-slide>
+      <ion-slide>
+        <div>{{day|date}}</div>
+        <ion-list>
+          <ion-item *ngFor="let event of events[day]">
+        {{event.name}}
+          </ion-item>
+        </ion-list>
+      </ion-slide>
+      <ion-slide>
+        <div>{{day+DAY_IN_MILIS|date}}</div>
+         <ion-list>
+          <ion-item *ngFor="let event of events[day-DAY_IN_MILIS]">
+        {{event.name}}
+          </ion-item>
+        </ion-list>
+      </ion-slide>
+    </ion-slides>
+ <dp-day-picker [class.dp-material]="true" style="z-index:10;" [(ngModel)]="selectedDate" [config]="datePikerConfig"></dp-day-picker>
+    
+  </section>
 </ion-content>

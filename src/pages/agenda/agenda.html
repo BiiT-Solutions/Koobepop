@@ -3,39 +3,91 @@
     <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
+
 <ion-content>
   <ion-grid>
     <ion-row>
-        <ion-item color="secondary">
-          <div (click)="prevArrow()" item-left clear>
-            <ion-icon name="arrow-back"></ion-icon>
-          </div>
-          <div (click)="nextArrow()" item-right clear>
-            <ion-icon name="arrow-forward"></ion-icon>
-          </div>
-          <section item-content style="width:100%;text-align: center;">{{day | date}}</section>
-        </ion-item>
+      <ion-item color="secondary" [hidden]="true">
+        <div (click)="prevArrow()" item-left clear>
+          <ion-icon name="arrow-back"></ion-icon>
+        </div>
+        <div (click)="nextArrow()" item-right clear>
+          <ion-icon name="arrow-forward"></ion-icon>
+        </div>
+        <section item-content style="width:100%;text-align: center;">{{day | date}}</section>
+      </ion-item>
     </ion-row>
+
     <ion-row>
+
       <ion-col>
-        <ion-slides #slider loop style="height:100%"
-        (ionSlideNextEnd)="onSlideNext()"
-        (ionSlidePrevEnd)="onSlidePrev()" >
-          <ion-slide class="slide" *ngFor="let items of itemsList" style="height:auto">
-            <ion-list class="inside-list" style="height:100%">
-              <ion-item *ngFor="let item of items">
-                <ion-label> {{item.name}}</ion-label>
-                <button ion-button (click)="gotoExerciseVideo(item.videoUrl)" item-right clear icon-only>
+        <section>
+          <ion-slides #slider initialSlide="1" (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
+
+            <ion-slide>
+              <ion-list class="inside-list" style="height:100%">
+                <ion-item *ngFor="let item of items">
+                  <ion-label> {{item.name}}</ion-label>
+                  <button ion-button (click)="gotoExerciseVideo(item.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
-                <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
+                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                <ion-checkbox  (ionChange)="finish(item)" color="dark"></ion-checkbox>
-              </ion-item>
-            </ion-list>
-          </ion-slide>
-        </ion-slides>
+                  <ion-checkbox (ionChange)="finish(item)" color="dark"></ion-checkbox>
+                </ion-item>
+              </ion-list>
+            </ion-slide>
+
+            <ion-slide>
+              <div>{{day - DAY_IN_MILIS|date}}</div>
+              <ion-list>
+                <ion-item *ngFor="let event of events[day+DAY_IN_MILIS]">
+                  <ion-label> {{event.name}}</ion-label>
+                  <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
+                  <ion-icon name="play"></ion-icon>
+                </button>
+                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
+                  <ion-icon name="information-circle"></ion-icon>
+                </button>
+                  <ion-checkbox (ionChange)="finish(event)" color="dark"></ion-checkbox>
+                </ion-item>
+              </ion-list>
+            </ion-slide>
+            
+            <ion-slide>
+              <div>{{day|date}}</div>
+              <ion-list>
+                <ion-item *ngFor="let event of events[day]">
+                  <ion-label> {{event.name}}</ion-label>
+                  <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
+                  <ion-icon name="play"></ion-icon>
+                </button>
+                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
+                  <ion-icon name="information-circle"></ion-icon>
+                </button>
+                  <ion-checkbox (ionChange)="finish(event)" color="dark"></ion-checkbox>
+                </ion-item>
+              </ion-list>
+            </ion-slide>
+
+            <ion-slide>
+              <div>{{day + DAY_IN_MILIS|date}}</div>
+              <ion-list>
+                <ion-item *ngFor="let event of events[day - DAY_IN_MILIS]">
+                  <ion-label> {{event.name}}</ion-label>
+                  <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
+                  <ion-icon name="play"></ion-icon>
+                </button>
+                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
+                  <ion-icon name="information-circle"></ion-icon>
+                </button>
+                  <ion-checkbox (ionChange)="finish(event)" color="dark"></ion-checkbox>
+                </ion-item>
+              </ion-list>
+            </ion-slide>
+          </ion-slides>
+        </section>
       </ion-col>
     </ion-row>
   </ion-grid>

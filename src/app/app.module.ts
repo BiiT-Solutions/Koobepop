@@ -16,6 +16,7 @@ import {ZoomableSlide} from '../components/zoomable-slide/zoomableSlide';
 import {APP_CONFIG, AppConfig} from './app.config';
 import { KnowPage } from '../pages/know/know';
 import { VideoPage } from '../pages/video/video';
+import {DpDatePickerModule} from 'ng2-date-picker';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -35,6 +36,7 @@ export function createTranslateLoader(http: Http) {
     VideoPage
   ],
   imports: [
+    DpDatePickerModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
     TranslateModule.forRoot({
