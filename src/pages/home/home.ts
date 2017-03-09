@@ -5,7 +5,7 @@ import { AboutPage } from '../about/about';
 import { TranslateService } from 'ng2-translate';
 import {ZoomPage} from '../zoom/zoom';
 import {TestPage} from '../test-page/test-page';
-import {AgendaPage} from '../agenda/agenda';
+import {AgendaPage} from '../agenda.1/agenda';
 import {ReportPage} from '../report/report';
 import { KnowPage } from '../know/know';
 @Component({

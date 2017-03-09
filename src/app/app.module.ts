@@ -9,7 +9,7 @@ import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-tran
 import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
 import {ZoomPage} from '../pages/zoom/zoom';
-import { AgendaPage } from '../pages/agenda/agenda';
+import { AgendaPage } from '../pages/agenda.1/agenda';
 import {ReportPage} from '../pages/report/report';
 import {TestPage} from '../pages/test-page/test-page';
 import {ZoomableSlide} from '../components/zoomable-slide/zoomableSlide';

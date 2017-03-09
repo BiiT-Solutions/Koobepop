@@ -21,12 +21,20 @@ export interface ITask {
   templateUrl: 'agenda.html'
 })
 export class AgendaPage {
+
+  ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   item1;
   item2;
   item3;
   today: number = Date.now();
-  day: number = Date.now();
-  ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
+  day:number = Date.now();
+  days: number[] = [
+    this.today-this.ONE_DAY_IN_MILIS*2,
+    this.today-this.ONE_DAY_IN_MILIS,
+    this.today,
+    this.today+this.ONE_DAY_IN_MILIS,
+    this.today+this.ONE_DAY_IN_MILIS*2];
+oldIndex = 2
   @ViewChild('slider') slider: Slides;
   finishedTasks = [];
   tasksPlan: ITask[] = [];
@@ -83,6 +91,7 @@ export class AgendaPage {
   }
 
   getTasks(day: number): ITask[] {
+    //console.log("Get tasks of the day: "+new Date(day).toLocaleDateString())
     // Here we get the events for the day.
     let dayTasks: ITask[] = [];
     this.tasksPlan.forEach(task => {
@@ -98,12 +107,7 @@ export class AgendaPage {
   /* Check if the task has already been performed */
   checkPerformedTask(task: ITask, day: number): boolean {
 
-    let boolean = task.performedOn.indexOf(day) >= 0;
-
-    console.log(this.day+"   "+task.performedOn+"\n")
-    console.log(task)
-    console.log(new Date(day)+" "+boolean)
-    
+    let boolean = task.performedOn.indexOf(day) >= 0;    
     return boolean;
   }
 
@@ -156,20 +160,33 @@ export class AgendaPage {
    * 
    */
   nextSlide() {
-    let oldIndex = 1;
     // Make sure we moved forward
-    if (oldIndex < this.slider.getActiveIndex()) {
+    if (this.oldIndex < this.slider.getActiveIndex()) {
       this.day += this.ONE_DAY_IN_MILIS;
-      this.slider.slideTo(1, 0, true);
+      if(this.days.indexOf(this.day+this.ONE_DAY_IN_MILIS*2)>=0){
+      }else{
+        this.days.push(this.day+this.ONE_DAY_IN_MILIS*2);
+        this.slider.slidePrev(0);
+        this.days.shift();
+        
+    }
+     this.oldIndex = this.slider.getActiveIndex();
+      //this.slider.slideTo(1, 0, true);
     }
   }
-  prevSlide() {
-    let oldIndex = 1;
+  prevSlide() {   
     // Make sure we moved backwards
-    if (oldIndex > this.slider.getActiveIndex()) {
+    if (this.oldIndex > this.slider.getActiveIndex()) {
       this.day -= this.ONE_DAY_IN_MILIS;
-      this.slider.slideTo(1, 0, true);
+      if(this.days.indexOf(this.day - this.ONE_DAY_IN_MILIS*2)>=0){
+      }else{
+        this.days.unshift(this.day-this.ONE_DAY_IN_MILIS*2);
+        this.slider.slideNext(0);
+        this.days.pop();
+      }
+     //this.slider.slideTo(1, 0, true);
     }
+     this.oldIndex = this.slider.getActiveIndex();
   }
 
   public gotoExerciseVideo(videoUrl: string) {
@@ -178,9 +195,10 @@ export class AgendaPage {
 
 
   // If the task is already done the recommended number of times in the past
-    // Show it on a different color
-  
-  pushItToTheLimit(task: ITask,day:number) {    
+    // Show it on a different color  
+  pushItToTheLimit(task: ITask, day:number) {   
+   // console.log(task.performedOn)
+    //console.log(day) 
    return (task.performedOn.length >= task.performTimes && task.performedOn.sort()[task.performTimes-1] < day )
   }
 

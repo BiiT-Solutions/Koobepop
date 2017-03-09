@@ -3,6 +3,33 @@
     <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
+
+<ion-content>
+  <ion-slides initialSlide="2" #slider  
+  (ionSlideNextEnd)="nextSlide()" 
+  (ionSlidePrevEnd)="prevSlide()">
+    <ion-slide *ngFor="let day of days">
+      <div>{{day |date}}</div>
+      <ion-list>
+        <ion-item *ngFor="let task of getTasks(day )"
+             [class.not-performed]="!pushItToTheLimit(task,day)" 
+             [class.performed]="pushItToTheLimit(task,day)">
+            >
+          <ion-label> {{task.name}}</ion-label>
+          <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
+                  <ion-icon name="play"></ion-icon>
+                </button>
+          <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
+                  <ion-icon name="information-circle"></ion-icon>
+                </button>
+          <ion-checkbox [checked]="checkPerformedTask(task,day )" [disabled]="isFuture(day)" (click)="checkMark(task,day)"  color="dark"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>
+<!--
 <ion-content>
   <ion-grid>
     <ion-row>
@@ -77,4 +104,4 @@
     </ion-row>
   </ion-grid>
   <button ion-button (click)="checkItem(day)">Click me!</button>
-</ion-content>
+</ion-content>-->
