@@ -5,6 +5,17 @@ import { VideoPage } from '../video/video';
 /**
  * 
  */
+export interface ITask {
+  name: string;
+  startDate: number;
+  dueDate: number;
+  performTimes:number
+  performedOn:number[]; //
+
+  videoUrl?: string;
+  infoUrl?: string;
+}
+
 @Component({
   selector: 'page-agenda',
   templateUrl: 'agenda.html'
@@ -12,43 +23,86 @@ import { VideoPage } from '../video/video';
 export class AgendaPage {
   item1;
   item2;
-  item3;
-  today: number;
-  day: number;
+  item3;  
+  today:number = Date.now();
+  day:number = Date.now();
   DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   @ViewChild('slider') slider: Slides;
+  finishedTasks = [];
+  tasksPlan: ITask[] = [];
+  task: ITask = {
+    name: 'Bridge with exercise ball',
+    videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A",
+    startDate: Date.now(),
+    dueDate: Date.now(),
+    performTimes: 2,
+    performedOn: []
+  }
 
-  events:{[id:number]:IEvent[];}={};
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
-    this.today = Date.now(); 
-    this.day = Date.now();
-    this.events={};
-    this.events[this.day] = [
-      { name: 'Bridge with exercise ball', videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A" },
-      { name: 'Crunches', videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw" },
-      { name: 'Push-up walkout' },
-      { name: 'Single leg lowering' }
-    ];
+        
+  }
+  ionViewDidLoad() { 
+    this.tasksPlan = [
+      {
+        name: 'Bridge with exercise ball',
+        videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A",
+        startDate: this.today,
+        dueDate: this.today + this.DAY_IN_MILIS * 5,
+        performTimes: 4,
+        performedOn: []
+      },
+      {
+        name: 'Crunches',
+        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
+        startDate: this.today - this.DAY_IN_MILIS * 2,
+        dueDate: this.today + this.DAY_IN_MILIS * 4,
+        performTimes:2,
+        performedOn:[]
+      }
 
-    this.events[this.day- this.DAY_IN_MILIS]=
-     [
-      { name: 'Core stability exercises' },
-      { name: 'Hip flexed torso rotation' },
-      { name: 'Push-up walkout' },
-      { name: 'Day -1' }
-    ];
-
-    this.events[this.day + this.DAY_IN_MILIS]=[
-      { name: 'Core stability exercises' },
-      { name: 'Hip flexed torso rotation' },
-      { name: 'Push-up walkout' },
-      { name: 'Day + 1' }
     ];
   }
 
-  ionViewDidLoad() {
-
+  getTasks(day: number): ITask[] {
+    //Here we get the events for the day.
+    let dayTasks: ITask[] = [];
+    this.tasksPlan.forEach(task => {
+      if (task.startDate <= day && task.dueDate >= day) {
+        dayTasks.push(task);
+      }
+    });
+    //We have to check if the task has already been performed for today.
+    //There would be a color change if the task is in the program
+    return dayTasks;
   }
+
+  // Check if the task is already performed
+  checkPerformedTask(task:ITask,day:number): boolean {
+    let boolean = task.performedOn.indexOf(day) >= 0;
+    console.log(task.name+" -> "+boolean);
+    return boolean;
+  }
+  // when item is clicked 
+  checkMark(task:ITask,day:number) {
+    console.log(task)
+
+    if (task.performedOn.indexOf(day)<0) {
+      task.performedOn.push(day);
+      console.log(task.name+" performed in "+new Date(day));
+      console.log(task.performedOn)
+      console.log(this.tasksPlan[1])
+    } else {
+      console.log(task.name+" <- UNperformed in -> "+new Date(day));
+      task.performedOn.splice(task.performedOn.indexOf(day));  
+     }
+  }
+  // Checks the date of the day  
+  isFuture(day: number): boolean {
+    return day > this.today;
+  }
+
 
   finish(item) {
     //this.removeItem(item)
@@ -61,7 +115,6 @@ export class AgendaPage {
     toast.present();
   }
   cancel(item) {
-    // this.removeItem(item);
     let toast = this.toastCtrl.create({
       message: item.name + ' cancelled!',
       duration: 3000,
@@ -69,43 +122,34 @@ export class AgendaPage {
     });
     toast.present();
   }
-
-  log(){
-    console.log(this.slider.getActiveIndex());
-  }
-
-  openCalendar() { }
-  
-  public nextArrow(){
+  public nextArrow() {
     this.slider.slideNext();
   }
-  public prevArrow(){
+  public prevArrow() {
     this.slider.slidePrev();
   }
 
   /**
    * ionSlide methods are triggered by slideNext() and slidePrev()
    */
-  nextSlide(){
+  nextSlide() {
     let oldIndex = 1;
     // Make sure we moved forward
-    console.log("Next. "+this.slider.getActiveIndex())
-    if(oldIndex < this.slider.getActiveIndex()){
+    if (oldIndex < this.slider.getActiveIndex()) {
       this.day += this.DAY_IN_MILIS;
-      this.slider.slideTo(1,0,true);
+      this.slider.slideTo(1, 0, true);
     }
-    this.slider.update();
+    console.log(new Date(this.day));
   }
 
-  prevSlide(){
+  prevSlide() {
     let oldIndex = 1;
     //TODO loop slides
-    console.log("Prev. "+this.slider.getActiveIndex())
-    if(oldIndex > this.slider.getActiveIndex()){
+    if (oldIndex > this.slider.getActiveIndex()) {
       this.day -= this.DAY_IN_MILIS;
-      this.slider.slideTo(1,0,true);
+      this.slider.slideTo(1, 0, true);
     }
-    this.slider.update();
+    console.log(new Date(this.day));
   }
 
   //TODO Fill with relevant data from somewhere a provider?
@@ -117,23 +161,12 @@ export class AgendaPage {
     this.navCtrl.push(VideoPage, { videoUrl: videoUrl });
   }
 
-  private removeItem(item) {
-    //for (let i = 0; i < this.itemsList[0].length; i++) {
-    //  if (this.itemsList[0][i] == item) {
-    //    this.itemsList[0].splice(i, 1);
-    //  }
-    //}
+  pushItToTheLimit(task: ITask): string {
+    if (task.performedOn.length>0) { return "dark" }
+    else { return "light" }
   }
+}
 
-  check(item){
-    console.log("Item");
-    console.log(item);
-  }
-}
-export interface IEvent{
-  name:string;
-  videoUrl?:string;
-}
 
 //TODO separate AgendaSlider from the day
 

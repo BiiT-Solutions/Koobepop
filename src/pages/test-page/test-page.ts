@@ -111,7 +111,12 @@ export class TestPage {
   check(event){
     console.log(event.checked);
     if(event.checked){
-      (this.day)
+      // Inform the server that the task has been performed
+      // Save the completed task
+
+    }else{
+      // Inform the server that the task was not performed after all
+      // Save the task as to do
     }
   }
 }

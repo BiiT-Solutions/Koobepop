@@ -3,7 +3,6 @@
     <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
   <ion-grid>
     <ion-row>
@@ -18,8 +17,9 @@
       </ion-item>
     </ion-row>
 
+              <div *ngIf = "tasksPlan.length>1">{{tasksPlan[1].name}}</div>
+              <div *ngIf = "tasksPlan.length>1">{{tasksPlan[1].performedOn}}</div>
     <ion-row>
-
       <ion-col>
         <section>
           <ion-slides initialSlide="1" #slider  
@@ -29,31 +29,32 @@
             <ion-slide>
               <div>{{day - DAY_IN_MILIS|date}}</div>
               <ion-list>
-                <ion-item *ngFor="let event of events[day - DAY_IN_MILIS]">
-                  <ion-label> {{event.name}}</ion-label>
-                  <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
+                <ion-item *ngFor="let task of getTasks(day - DAY_IN_MILIS)">                  
+                  <ion-label> {{task.name}}</ion-label>
+                  <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
                   <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                  <ion-checkbox [disabled]="day-DAY_IN_MILIS>today" color="dark"></ion-checkbox>
+                  <ion-checkbox [checked]="task.performedOn.indexOf(day - DAY_IN_MILIS) >= 0" [disabled]="isFuture(day-DAY_IN_MILIS)"  color="dark"></ion-checkbox>
                 </ion-item>
               </ion-list>
             </ion-slide>
 
             <ion-slide>
+
               <div>{{day|date}}</div>
               <ion-list>
-                <ion-item *ngFor="let event of events[day]">
-                  <ion-label> {{event.name}}</ion-label>
-                  <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
+                <ion-item *ngFor="let task of getTasks(day)">
+                  <ion-label> {{task.name}}</ion-label>
+                  <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
                   <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                  <ion-checkbox [disabled]="day>today" (ionChange)="check($event)" color="dark"></ion-checkbox>
+                  <ion-checkbox [checked]="task.performedOn.indexOf(day) >= 0" [disabled]="isFuture(day)" (click)="checkMark(task,day)" [color]="dark"></ion-checkbox>
                 </ion-item>
               </ion-list>
             </ion-slide>
@@ -61,15 +62,15 @@
             <ion-slide>
               <div>{{day + DAY_IN_MILIS|date}}</div>
               <ion-list>
-                <ion-item *ngFor="let event of events[day + DAY_IN_MILIS]">
-                  <ion-label > {{event.name}}</ion-label>
-                  <button ion-button (click)="gotoExerciseVideo(event.videoUrl)" item-right clear icon-only>
+                <ion-item *ngFor="let task of getTasks(day + DAY_IN_MILIS)">
+                  <ion-label > {{task.name}}</ion-label>
+                  <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
                   <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                  <ion-checkbox [disabled]="day+DAY_IN_MILIS>today" color="dark"></ion-checkbox>
+                  <ion-checkbox [checked]="task.performedOn.indexOf(day + DAY_IN_MILIS) >= 0"  [disabled]="isFuture(day+DAY_IN_MILIS)" color="dark"></ion-checkbox>
                 </ion-item>
               </ion-list>
             </ion-slide>
