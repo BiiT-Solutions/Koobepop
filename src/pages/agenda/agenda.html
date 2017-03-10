@@ -4,77 +4,31 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-item color="secondary" [hidden]="true">
-        <div (click)="prevArrow()" item-left clear>
-          <ion-icon name="arrow-back"></ion-icon>
-        </div>
-        <div (click)="nextArrow()" item-right clear>
-          <ion-icon name="arrow-forward"></ion-icon>
-        </div>
-        <section item-content style="width:100%;text-align: center;">{{day | date}}</section>
-      </ion-item>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <section>
-          <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
-            <ion-slide>
-              <div>{{day - ONE_DAY_IN_MILIS|date}}</div>
-              <ion-list>
-                <ion-item *ngFor="let task of getTasks(day - ONE_DAY_IN_MILIS)">
-                  <ion-label> {{task.name}}</ion-label>
-                  <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
+  <ion-slides initialSlide="2" #slider 
+  (ionSlideNextEnd)="nextSlide()" 
+  (ionSlidePrevEnd)="prevSlide()">
+    <ion-slide *ngFor="let day of days">
+      <div>{{day |date}}</div>
+      <ion-list>
+        <ion-item *ngFor="let task of getTasks(day )"
+             [class.not-performed]="!pushItToTheLimit(task,day)" 
+             [class.performed]="pushItToTheLimit(task,day)">
+            >
+          <ion-label> {{task.name}}</ion-label>
+          <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
-                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
+          <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-                  <ion-checkbox [checked]="checkPerformedTask(task,day - ONE_DAY_IN_MILIS)" [disabled]="isFuture(day-ONE_DAY_IN_MILIS)" color="dark"></ion-checkbox>
-                </ion-item>
-              </ion-list>
-            </ion-slide>
+          <ion-checkbox 
+          [checked]="checkPerformedTask(task,day)" 
+          [disabled]="isFuture(day)" 
+          (click)="checkMark(task,day)"  
+          color="dark"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ion-slide>
+  </ion-slides>
 
-            <ion-slide>
-
-              <div>{{day|date}}</div>
-              <ion-list>
-                <ion-item  *ngFor="let task of getTasks(day)" 
-                [class.not-performed]="!pushItToTheLimit(task,day)" 
-                [class.performed]="pushItToTheLimit(task,day)">
-
-                  <ion-label> {{task.name}}+{{day|date}}</ion-label>
-                  <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
-                  <ion-icon name="play"></ion-icon>
-                </button>
-                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
-                  <ion-icon name="information-circle"></ion-icon>
-                </button>
-                  <ion-checkbox [checked]="checkPerformedTask(task,day)" [disabled]="isFuture(day)" (click)="checkMark(task,day)" [color]="dark"></ion-checkbox>
-                </ion-item>
-              </ion-list>
-            </ion-slide>
-
-            <ion-slide>
-              <div>{{day + ONE_DAY_IN_MILIS|date}}</div>
-              <ion-list>
-                <ion-item *ngFor="let task of getTasks(day + ONE_DAY_IN_MILIS)">
-                  <ion-label> {{task.name}}</ion-label>
-                  <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
-                  <ion-icon name="play"></ion-icon>
-                </button>
-                  <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
-                  <ion-icon name="information-circle"></ion-icon>
-                </button>
-                  <ion-checkbox [checked]="checkPerformedTask(task,day + ONE_DAY_IN_MILIS)" [disabled]="isFuture(day+ONE_DAY_IN_MILIS)" color="dark"></ion-checkbox>
-                </ion-item>
-              </ion-list>
-            </ion-slide>
-          </ion-slides>
-        </section>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <button ion-button (click)="checkItem(day)">Click me!</button>
 </ion-content>

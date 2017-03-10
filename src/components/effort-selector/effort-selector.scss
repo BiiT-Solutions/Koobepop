@@ -1,0 +1,42 @@
+effort-selector {
+    ion-item{
+         width:100%;
+         height:100%
+
+    }
+     div.radio-container{  
+         display:table;
+         width:100%;
+         table-layout:fixed;
+        }
+    div.radio-container div{
+        display: table-cell;
+        text-align: center;
+    }
+  
+    .effort-very-easy{
+        background-color:#00a652
+        }
+    .effort-med-easy{
+        background-color:#bfd630
+        }
+    .effort-low-easy{
+        background-color:#fef200
+        }
+    .effort-low-hard{
+        background-color:#fdb813
+        }
+    .effort-med-hard{
+        background-color:#f37022
+        }    
+    .effort-very-hard{
+        background-color:#ed1b24;
+        }
+}
+
+//#54c382
+//#bae2c9
+//#dbefbd
+//#f2ed9d
+//#f4ca92
+//#e56854

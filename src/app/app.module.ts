@@ -9,7 +9,7 @@ import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-tran
 import { HttpModule,Http } from '@angular/http';
 import {AboutPage} from '../pages/about/about';
 import {ZoomPage} from '../pages/zoom/zoom';
-import { AgendaPage } from '../pages/agenda.1/agenda';
+import { AgendaPage } from '../pages/agenda/agenda';
 import {ReportPage} from '../pages/report/report';
 import {TestPage} from '../pages/test-page/test-page';
 import {ZoomableSlide} from '../components/zoomable-slide/zoomableSlide';
@@ -17,6 +17,8 @@ import {APP_CONFIG, AppConfig} from './app.config';
 import { KnowPage } from '../pages/know/know';
 import { VideoPage } from '../pages/video/video';
 import {DpDatePickerModule} from 'ng2-date-picker';
+import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
+
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -33,7 +35,8 @@ export function createTranslateLoader(http: Http) {
     AgendaPage,
     ReportPage,
     KnowPage,
-    VideoPage
+    VideoPage,
+    EffortSelectorComponent
   ],
   imports: [
     DpDatePickerModule,
@@ -56,7 +59,8 @@ export function createTranslateLoader(http: Http) {
     AgendaPage,
     ReportPage,
     KnowPage,
-    VideoPage
+    VideoPage,
+    EffortSelectorComponent
   ],
   providers: [
     CompaniesProvider,

@@ -1,10 +1,9 @@
 
-page-agenda {
-   .inside-list{
-
-   }
-   .slide{
-   }
+page-agenda {   
+  //This is so the slides don't stay on the middle of the page
+  .slide-zoom{
+    height:100%;
+  }
 }
  .good-toast {
       >div{
@@ -18,9 +17,9 @@ page-agenda {
   
       }
 
-.performed{
-    background-color:map-get($colors,lightcalm)!important;
+  .performed{
+    background-color:map-get($colors,taskPerformed)!important;
   }
   .not-performed{
-    background-color:map-get($colors,lightdanger)!important;
+    background-color:map-get($colors,taskNotPerformed)!important;
   }

@@ -1,8 +1,10 @@
 import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
 import { AppointmentsProvider } from '../../providers/appointments-provider';
-import {DpDatePickerModule} from 'ng2-date-picker';
+import { DpDatePickerModule } from 'ng2-date-picker';
 import * as moment from 'moment';
+import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
+import { PopoverController } from 'ionic-angular';
 /**
  *  This is a test page and should be removed before releasing .
  * Here you can meddle with dark magic better left alone.
@@ -18,111 +20,137 @@ export class TestPage {
   hideHeader;
   count = 0;
   datePikerConfig = {
-    format:"DD-MM-YYYY"
+    format: "DD-MM-YYYY"
   };
-  itemsList = ['item0','item1','item2','item3','item4','item5','item6','item7','item8','item9'];
+  itemsList = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5', 'item6', 'item7', 'item8', 'item9'];
   item1;
   item2;
   item3;
-  today: number =0;
+  today: number = 0;
   day: number = 0;
   DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
-  events:{[id:number]:IEvent[];};
+  events: { [id: number]: IEvent[]; };
   selectedDate;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public appointmentsProvider: AppointmentsProvider) { 
-    this.item1 = this.itemsList[this.itemsList.length-1];
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController) {
+    this.item1 = this.itemsList[this.itemsList.length - 1];
     this.item2 = this.itemsList[0];
     this.item3 = this.itemsList[1];
     this.today = Date.now();
     this.day = Date.now();
-    this.events={};
+    this.events = {};
     this.events[this.day] = [
       { name: 'Bridge with exercise ball', videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A" },
       { name: 'Crunches', videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw" },
       { name: 'Push-up walkout' },
       { name: 'Single leg lowering' }
     ];
-    this.events[this.day- this.DAY_IN_MILIS]=
-     [
+    this.events[this.day - this.DAY_IN_MILIS] =
+      [
+        { name: 'Core stability exercises' },
+        { name: 'Hip flexed torso rotation' },
+        { name: 'Push-up walkout' },
+        { name: 'Single leg lowering' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' },
+        { name: 'Core stability exercises' }
+      ];
+    this.events[this.day + this.DAY_IN_MILIS] = [
       { name: 'Core stability exercises' },
       { name: 'Hip flexed torso rotation' },
       { name: 'Push-up walkout' },
-      { name: 'Single leg lowering' }
-    ];
-    this.events[this.day + this.DAY_IN_MILIS]=[
+      { name: 'Single leg lowering' },
       { name: 'Core stability exercises' },
-      { name: 'Hip flexed torso rotation' },
-      { name: 'Push-up walkout' },
-      { name: 'Single leg lowering' }
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' },
+      { name: 'Core stability exercises' }
     ];
 
 
     this.selectedDate = moment(this.day);
   }
-  
+
   ionViewDidLoad() {
     this.hideHeader = true;
   }
 
-  plus(){    
+  plus() {
     this.count++;
   }
-  
-  nextSlide(){
+
+  nextSlide() {
     let oldIndex = 1;
     // Make sure we moved forward
-    if(oldIndex < this.slider.getActiveIndex()){
+    if (oldIndex < this.slider.getActiveIndex()) {
       this.day += this.DAY_IN_MILIS;
       this.item1 = this.item2;
       this.item2 = this.item3;
-      this.slider.slideTo(1,0,true);
+      this.slider.slideTo(1, 0, true);
       this.item3 = this.nextItem();
     }
     this.slider.update();
   }
 
-  prevSlide(){
+  prevSlide() {
     let oldIndex = 1;
     //TODO loop slides
-    if(oldIndex > this.slider.getActiveIndex()){
+    if (oldIndex > this.slider.getActiveIndex()) {
       this.day -= this.DAY_IN_MILIS;
       this.item3 = this.item2;
       this.item2 = this.item1;
-      this.slider.slideTo(1,0,true);
+      this.slider.slideTo(1, 0, true);
       this.item1 = this.prevItem();
     }
   }
 
-  nextItem(){
-      return this.itemsList[ (this.itemsList.length+((this.day+1)%(this.itemsList.length)))%(this.itemsList.length) ];
-    }
-
-  prevItem(){
-      return this.itemsList[(this.itemsList.length+((this.day-1)%(this.itemsList.length)))%(this.itemsList.length)];
-    }
-
-  goto0(){
-    
+  nextItem() {
+    return this.itemsList[(this.itemsList.length + ((this.day + 1) % (this.itemsList.length))) % (this.itemsList.length)];
   }
-  getItem(day:number):string{
-    return "This is the item for the day \n"+new Date(day).toDateString();
-  }
-  check(event){
-    console.log(event.checked);
-    if(event.checked){
-      // Inform the server that the task has been performed
-      // Save the completed task
 
-    }else{
-      // Inform the server that the task was not performed after all
-      // Save the task as to do
-    }
+  prevItem() {
+    return this.itemsList[(this.itemsList.length + ((this.day - 1) % (this.itemsList.length))) % (this.itemsList.length)];
+  }
+
+  goto0() {
+
+  }
+  getItem(day: number): string {
+    return "This is the item for the day \n" + new Date(day).toDateString();
+  }
+  check(event) {
+    // when check ask for feed-back
+    //To do so, we should transform the ion-item to show a range 
+    console.log(event)
+    let popover = this.popoverCtrl.create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover' });
+    popover.present({ ev: event });
   }
 }
-export interface IEvent{
-  name:string;
-  videoUrl?:string;
+export interface IEvent {
+  name: string;
+  videoUrl?: string;
 }
 
 
