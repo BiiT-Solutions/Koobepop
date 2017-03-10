@@ -2,6 +2,8 @@ import { Component, ViewChild, Input } from '@angular/core';
 import { NavController, NavParams, Slides } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
+import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
+import { PopoverController } from 'ionic-angular';
 /**
  * 
  */
@@ -10,7 +12,7 @@ export interface ITask {
   startDate: number;
   dueDate: number;
   performTimes: number
-  performedOn: number[]; //
+  performedOn: number[]; // sorted array of performation dates
   videoUrl?: string;
   infoUrl?: string;
 }
@@ -48,7 +50,7 @@ export class AgendaPage {
   }
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,public popoverCtrl: PopoverController) {
 
   }
   ionViewDidLoad() {
@@ -106,7 +108,6 @@ export class AgendaPage {
 
   /* Check if the task has already been performed */
   checkPerformedTask(task: ITask, day: number): boolean {
-
     let boolean = task.performedOn.indexOf(day) >= 0;    
     return boolean;
   }
@@ -115,24 +116,37 @@ export class AgendaPage {
   checkMark(task: ITask, day: number) {
     if (task.performedOn.indexOf(day) < 0) {
       task.performedOn.push(day);
+      task.performedOn = task.performedOn.sort();
+      let popover = this.popoverCtrl.create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover' }); 
+      
+      popover.onDidDismiss(e=>{
+         let toast = this.toastCtrl.create({
+      message: e + ' finished!',
+      duration: 3000,
+      cssClass: 'good-toast'
+    });
+    toast.present();
+      });
+
+      popover.present({ ev: event });
+      
     } else {
       task.performedOn.splice(task.performedOn.indexOf(day));
     }
   }
+
   // Checks the date of the day  
   isFuture(day: number): boolean {
     return day > this.today;
   }
 
-  checkItem(day){
-    if (this.tasksPlan[0].performedOn.indexOf(day) < 0) {
-      this.tasksPlan[0].performedOn.push(day);
-    } else {
-      this.tasksPlan[0].performedOn.splice(this.tasksPlan[0].performedOn.indexOf(day));
-    }
+
+  getPerformedUntilToday(task:ITask,day:number){
+    let i=0;
+    for(i;task.performedOn[i]<=day&&i<task.performedOn.length;i++){}
+    return i;
   }
   finish(item) {
-    //this.removeItem(item)
     let toast = this.toastCtrl.create({
       message: item.name + ' finished!',
       duration: 3000,
@@ -141,6 +155,7 @@ export class AgendaPage {
 
     toast.present();
   }
+
   cancel(item) {
     let toast = this.toastCtrl.create({
       message: item.name + ' cancelled!',
@@ -149,15 +164,10 @@ export class AgendaPage {
     });
     toast.present();
   }
-  public nextArrow() {
-    this.slider.slideNext();
-  }
-  public prevArrow() {
-    this.slider.slidePrev();
-  }
+  
 
   /**
-   * 
+   * Listeners for when the slides are swiped
    */
   nextSlide() {
     // Make sure we moved forward
@@ -205,6 +215,13 @@ export class AgendaPage {
   //TODO Fill with relevant data from somewhere. A provider?
   public gotoExerciseInfo() {
     window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
+  }
+
+  public nextArrow() {
+    this.slider.slideNext();
+  }
+  public prevArrow() {
+    this.slider.slidePrev();
   }
 }
 //TODO separate AgendaSlider from the day

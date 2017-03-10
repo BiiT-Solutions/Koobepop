@@ -1,8 +1,6 @@
 import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
 import { AppointmentsProvider } from '../../providers/appointments-provider';
-import { DpDatePickerModule } from 'ng2-date-picker';
-import * as moment from 'moment';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
 /**
@@ -19,9 +17,6 @@ export class TestPage {
   @ViewChild('slider') slider: Slides;
   hideHeader;
   count = 0;
-  datePikerConfig = {
-    format: "DD-MM-YYYY"
-  };
   itemsList = ['item0', 'item1', 'item2', 'item3', 'item4', 'item5', 'item6', 'item7', 'item8', 'item9'];
   item1;
   item2;
@@ -90,7 +85,6 @@ export class TestPage {
     ];
 
 
-    this.selectedDate = moment(this.day);
   }
 
   ionViewDidLoad() {

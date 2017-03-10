@@ -1,9 +1,10 @@
-<div>Difficulty</div>
+<div class="title">
 <div class="radio-container" radio-group>
-  <div class="effort-very-easy"><ion-radio></ion-radio></div>
-  <div class="effort-med-easy"><ion-radio></ion-radio></div>
-  <div class="effort-low-easy"><ion-radio></ion-radio></div>
-  <div class="effort-low-hard"><ion-radio></ion-radio></div>
-  <div class="effort-med-hard"><ion-radio></ion-radio></div>
-  <div class="effort-very-hard"><ion-radio></ion-radio></div>
+  <div class="effort-very-easy"><ion-radio (click)="close('v-easy')" ></ion-radio></div>
+  <div class="effort-med-easy"><ion-radio (click)="close('m-easy')"></ion-radio></div>
+  <div class="effort-low-easy"><ion-radio (click)="close('l-easy')"></ion-radio></div>
+  <div class="effort-low-hard"><ion-radio (click)="close('l-hard')"></ion-radio></div>
+  <div class="effort-med-hard"><ion-radio (click)="close('m-hard')"></ion-radio></div>
+  <div class="effort-very-hard"><ion-radio (click)="close('v-hard')"></ion-radio></div>
+</div>
 </div>

@@ -1,9 +1,5 @@
 effort-selector {
-    ion-item{
-         width:100%;
-         height:100%
 
-    }
      div.radio-container{  
          display:table;
          width:100%;
@@ -13,7 +9,9 @@ effort-selector {
         display: table-cell;
         text-align: center;
     }
-  
+    div.title{
+        text-align: center;
+    }
     .effort-very-easy{
         background-color:#00a652
         }

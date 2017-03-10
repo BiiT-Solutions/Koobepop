@@ -3,23 +3,32 @@ page-agenda {
   //This is so the slides don't stay on the middle of the page
   .slide-zoom{
     height:100%;
-  }
-}
- .good-toast {
-      >div{
-        background-color:map-get($colors,calm)!important;
-      }
     }
- .bad-toast {
-        >div{
-         background-color:map-get($colors,danger)!important;
-        }
-  
-      }
+
+  }
+
+  //This is global
+ .good-toast>div{
+    background-color:map-get($colors,calm)!important;
+    }    
+ .bad-toast>div{
+    background-color:map-get($colors,danger)!important;
+    }
 
   .performed{
     background-color:map-get($colors,taskPerformed)!important;
-  }
+    }
   .not-performed{
     background-color:map-get($colors,taskNotPerformed)!important;
-  }
+    }
+
+  .effort-selector-popover .popover-content{
+    width:95%;
+    }    
+    //This is so the popover doesn't appear infront of the triggrer field
+    .popover-md{
+        top:57px;
+    }
+    .popover-wp{
+        top:57px;
+    }

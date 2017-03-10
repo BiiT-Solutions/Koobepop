@@ -16,7 +16,6 @@ import {ZoomableSlide} from '../components/zoomable-slide/zoomableSlide';
 import {APP_CONFIG, AppConfig} from './app.config';
 import { KnowPage } from '../pages/know/know';
 import { VideoPage } from '../pages/video/video';
-import {DpDatePickerModule} from 'ng2-date-picker';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
 
 
@@ -39,7 +38,6 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent
   ],
   imports: [
-    DpDatePickerModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
     TranslateModule.forRoot({
