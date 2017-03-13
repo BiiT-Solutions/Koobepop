@@ -15,7 +15,7 @@
              [class.performed]="pushItToTheLimit(task,day)">
             >
           <ion-label item-content> {{task.name}}</ion-label>
-           <ion-label item-right> {{getPerformedUntilToday(task,day)}}/{{task.performTimes}}</ion-label>
+          <!-- <ion-label item-right> {{getPerformedUntilToday(task,day)}}/{{task.performTimes}}</ion-label>-->
           <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>

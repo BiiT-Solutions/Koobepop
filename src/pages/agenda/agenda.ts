@@ -120,12 +120,14 @@ export class AgendaPage {
       let popover = this.popoverCtrl.create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover' }); 
       
       popover.onDidDismiss(e=>{
+
          let toast = this.toastCtrl.create({
       message: e + ' finished!',
-      duration: 3000,
+      duration: 2000,
       cssClass: 'good-toast'
     });
     toast.present();
+    console.log(task.performedOn);
       });
 
       popover.present({ ev: event });
@@ -149,7 +151,7 @@ export class AgendaPage {
   finish(item) {
     let toast = this.toastCtrl.create({
       message: item.name + ' finished!',
-      duration: 3000,
+      duration: 2000,
       cssClass: 'good-toast'
     });
 
@@ -159,12 +161,11 @@ export class AgendaPage {
   cancel(item) {
     let toast = this.toastCtrl.create({
       message: item.name + ' cancelled!',
-      duration: 3000,
+      duration: 2000,
       cssClass: 'bad-toast'
     });
     toast.present();
-  }
-  
+  }  
 
   /**
    * Listeners for when the slides are swiped

@@ -5,9 +5,7 @@ import { ViewController } from "ionic-angular";
   templateUrl: 'effort-selector.html'
 })
 export class EffortSelectorComponent {
-
   text: string;
-
   constructor(public viewCtrl: ViewController) {
   }
   close(x) {
