@@ -15,11 +15,7 @@ import { TasksProvider } from '../../providers/tasksProvider';
   templateUrl: 'agenda.html'
 })
 export class AgendaPage {
-
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
-  item1;
-  item2;
-  item3;
   today: number = Date.now();
   day: number = Date.now();
   days: number[] = [
@@ -52,9 +48,9 @@ export class AgendaPage {
 
   }
   ionViewDidLoad() {
-    //TODO load taskPlan from a webservice this.tasksPlan = TaskProvider.getTasks();
     this.tasksPlan = this.taskProv.getTasks();
   }
+
   getTasks(day: number): ITask[] {
     //console.log("Get tasks of the day: "+new Date(day).toLocaleDateString())
     // Here we get the events for the day.
@@ -76,7 +72,7 @@ export class AgendaPage {
   }
 
   /* When item is clicked */
-  checkMark(task: ITask, day: number) {
+  checkMark(event,task: ITask, day: number) {
     if (task.performedOn.indexOf(day) < 0) {
       task.performedOn.push(day);
       task.performedOn = task.performedOn.sort();
@@ -94,7 +90,7 @@ export class AgendaPage {
         // console.log(task.performedOn);
       });
 
-      popover.present({ ev: event });
+      popover.present({ ev:event });
 
     } else {
       task.performedOn.splice(task.performedOn.indexOf(day));
@@ -170,7 +166,6 @@ export class AgendaPage {
     this.navCtrl.push(VideoPage, { videoUrl: videoUrl });
   }
 
-
   // If the task is already done the recommended number of times in the past
   // Show it on a different color  
   pushItToTheLimit(task: ITask, day: number) {
@@ -191,4 +186,3 @@ export class AgendaPage {
     this.slider.slidePrev();
   }
 }
-//TODO separate AgendaSlider from the day

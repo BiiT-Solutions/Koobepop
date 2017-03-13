@@ -134,6 +134,7 @@ export class TestPage {
   getItem(day: number): string {
     return "This is the item for the day \n" + new Date(day).toDateString();
   }
+  
   check(event) {
     // when check ask for feed-back
     //To do so, we should transform the ion-item to show a range 

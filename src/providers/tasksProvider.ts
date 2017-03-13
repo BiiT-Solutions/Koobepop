@@ -20,7 +20,7 @@ export class TasksProvider {
       {
         name: 'Crunches',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
+        startDate: today - this.ONE_DAY_IN_MILIS * 6,
         dueDate: today + this.ONE_DAY_IN_MILIS * 4,
         performTimes: 2,
         performedOn: []
