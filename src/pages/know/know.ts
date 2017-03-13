@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { ShowExerciseInfoPage } from '../show-exercise-info/show-exercise-info';
+
 /**
  * This Page displays information from some topics 
  */
@@ -20,6 +22,7 @@ export class KnowPage {
   }
   displayInfo(topic:any){
     //Show some info
+    this.navCtrl.push(ShowExerciseInfoPage)
   }
 
 }

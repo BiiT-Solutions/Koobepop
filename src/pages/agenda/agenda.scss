@@ -4,7 +4,10 @@ page-agenda {
   .slide-zoom{
     height:100%;
     }
-
+  .date-header{
+    background-color:map-get($colors,light)!important;
+    
+  }
   }
 
   //This is global

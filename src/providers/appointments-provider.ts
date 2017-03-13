@@ -2,10 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Company } from '../models/company-interfaces';
 import { APP_CONFIG, IAppConfig } from '../app/app.config';
+import { IAppointment } from '../models/appointmentI';
 
 @Injectable()
 export class AppointmentsProvider {
-  companiesList: Array<Company> = [];
   appointmentsList;
   constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig) {
   
@@ -23,10 +23,10 @@ export class AppointmentsProvider {
 
     return this.http
       .post(requestAddres, criteria, { headers: headers })
-      .map(this.extractData).map((appointments)=>{
+      .map(this.extractData).map((appointments:IAppointment[])=>{
         let response = [];
         if(appointments){
-        appointments.forEach(appointment=>{
+        appointments.forEach((appointment:IAppointment)=>{
           response = response.concat(appointment);//TODO transform to a desired object TYPES!
         })
       }

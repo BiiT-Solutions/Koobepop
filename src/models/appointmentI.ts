@@ -1,6 +1,9 @@
-export interface AppointmentI{
+export interface IAppointment{
     endTime:string;
     startTime:string;
+    sport:string;
     examinationType:string;
-    doctor:string;
+    doctorFirstName:string;
+    doctorLastName:string;
+    appointmentId:number;
 }

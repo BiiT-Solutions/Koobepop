@@ -17,6 +17,8 @@ import {APP_CONFIG, AppConfig} from './app.config';
 import { KnowPage } from '../pages/know/know';
 import { VideoPage } from '../pages/video/video';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
+import { ShowExerciseInfoPage } from '../pages/show-exercise-info/show-exercise-info';
+import { TasksProvider } from '../providers/tasksProvider';
 
 
 export function createTranslateLoader(http: Http) {
@@ -35,7 +37,8 @@ export function createTranslateLoader(http: Http) {
     ReportPage,
     KnowPage,
     VideoPage,
-    EffortSelectorComponent
+    EffortSelectorComponent,
+    ShowExerciseInfoPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -58,9 +61,11 @@ export function createTranslateLoader(http: Http) {
     ReportPage,
     KnowPage,
     VideoPage,
-    EffortSelectorComponent
+    EffortSelectorComponent,
+    ShowExerciseInfoPage
   ],
   providers: [
+    TasksProvider,
     CompaniesProvider,
     AppointmentsProvider,
     {provide:APP_CONFIG, useValue: AppConfig},

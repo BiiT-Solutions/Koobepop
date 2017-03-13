@@ -15,7 +15,7 @@
     <path
        d="m -260.88137,-18.169491 a 36.881355,32.271187 0 1 1 -73.76271,0 36.881355,32.271187 0 1 1 73.76271,0 z"
        transform="matrix(0.65441175,0,0,0.68907564,250.18146,71.638798)"
-       id="path4960-2"
+
        style="opacity:0.73662552;fill:#00aa00;fill-opacity:1;stroke:#68b0ab;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <path
        d="m -260.88137,-18.169491 a 36.881355,32.271187 0 1 1 -73.76271,0 36.881355,32.271187 0 1 1 73.76271,0 z"
@@ -162,76 +162,7 @@
             </g>
           </g>
         </g>
-        <g
-           id="g5559"
-           style="fill:#ffffff;fill-opacity:1" />
-        <g
-           id="g5563"
-           style="fill:#ffffff;fill-opacity:1" />
-        <g
-           id="g5567"
-           style="fill:#ffffff;fill-opacity:1" />
-        <g
-           id="g5571"
-           style="fill:#ffffff;fill-opacity:1" />
-        <g
-           id="g5575"
-           style="fill:#ffffff;fill-opacity:1" />
-        <g
-           id="g5579"
-           style="fill:#ffffff;fill-opacity:1" />
-        <g
-           id="g5583"
-           style="fill:#ffffff;fill-opacity:1" />
-        <g
-           id="g5587"
-           style="fill:#ffffff;fill-opacity:1" />
-      </g>
-      <g
-         id="g5591"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5593"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5595"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5597"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5599"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5601"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5603"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5605"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5607"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5609"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5611"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5613"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5615"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5617"
-         style="fill:#ffffff;fill-opacity:1" />
-      <g
-         id="g5619"
-         style="fill:#ffffff;fill-opacity:1" />
+       
     </g>
   </g>
 </svg>

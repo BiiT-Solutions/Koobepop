@@ -9,6 +9,7 @@ export class EffortSelectorComponent {
   constructor(public viewCtrl: ViewController) {
   }
   close(x) {
+    
     this.viewCtrl.dismiss(x);
   }
 

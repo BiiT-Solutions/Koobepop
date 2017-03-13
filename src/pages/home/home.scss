@@ -1,11 +1,16 @@
 page-home {
 ion-content {
-		font-family: Helvetica, sans-serif;
-}
+	// background-image: url("/assets/dummy-data/download.jpg");
+	// background-repeat: no-repeat;
+	// background-size: cover;
+	
+	font-family: Helvetica, sans-serif;}
 
 	.footer {
 	position:fixed;
 	bottom:2%;
+	}
+	.content{
 	}
 }
 

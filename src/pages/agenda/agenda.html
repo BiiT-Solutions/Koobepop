@@ -1,34 +1,26 @@
-<ion-header>
+<ion-content>
   <ion-navbar color="primary">
     <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
   </ion-navbar>
-</ion-header>
-<ion-content>
-  <ion-slides initialSlide="2" #slider 
-  (ionSlideNextEnd)="nextSlide()" 
-  (ionSlidePrevEnd)="prevSlide()">
+  <div style="height:100%;">
+  <ion-slides initialSlide="2" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
     <ion-slide *ngFor="let day of days">
-      <div >{{day |date}}</div>
+      <div class="date-header">{{day |date}}</div>
       <ion-list>
-        <ion-item *ngFor="let task of getTasks(day )"
-             [class.not-performed]="!pushItToTheLimit(task,day)" 
-             [class.performed]="pushItToTheLimit(task,day)">
-            >
+        <ion-item *ngFor="let task of getTasks(day )" [class.not-performed]="!pushItToTheLimit(task,day)" [class.performed]="pushItToTheLimit(task,day)">
+          >
           <ion-label item-content> {{task.name}}</ion-label>
-          <!-- <ion-label item-right> {{getPerformedUntilToday(task,day)}}/{{task.performTimes}}</ion-label>-->
+          <!-- <ion-label item-right> {{getPerformedUntil(task,day)}}/{{task.performTimes}}</ion-label>-->
           <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
           <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>
                   <ion-icon name="information-circle"></ion-icon>
                 </button>
-          <ion-checkbox 
-          [checked]="checkPerformedTask(task,day)" 
-          [disabled]="isFuture(day)" 
-          (click)="checkMark(task,day)"  
-          color="dark"></ion-checkbox>
+          <ion-checkbox [checked]="checkPerformedTask(task,day)" [disabled]="isFuture(day)" (click)="checkMark(task,day)" color="dark"></ion-checkbox>
         </ion-item>
       </ion-list>
     </ion-slide>
   </ion-slides>
+  </div>
 </ion-content>
