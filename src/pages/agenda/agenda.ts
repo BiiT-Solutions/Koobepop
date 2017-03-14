@@ -16,6 +16,7 @@ import { TasksProvider } from '../../providers/tasksProvider';
 })
 export class AgendaPage {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
+  ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS*7;
   today: number = Date.now();
   day: number = Date.now();
   days: number[] = [
@@ -37,16 +38,15 @@ export class AgendaPage {
 
   }
   ionViewDidLoad() {
-    this.tasksPlan = this.taskProv.getTasks();
+    this.tasksPlan = this.taskProv.getTasks();    
   }
 
   getTasks(day: number): ITask[] {
-    //console.log("Get tasks of the day: "+new Date(day).toLocaleDateString())
     // Here we get the events for the day.
     let dayTasks: ITask[] = [];
     this.tasksPlan.forEach(task => {
       // We have to check if the task has already been performed for this day.
-      if (task.startDate <= day && task.dueDate >= day) {
+      if (task.startingTime <= day && task.startingTime+this.ONE_WEEK_IN_MILIS >= day) {
         dayTasks.push(task);
       }
     });
@@ -65,11 +65,12 @@ export class AgendaPage {
     if (task.performedOn.indexOf(day) < 0) {
       task.performedOn.push(day);
       task.performedOn = task.performedOn.sort();
-      let popover = this.popoverCtrl.create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover' });
+      let popover = this.popoverCtrl
+      .create(EffortSelectorComponent,{}, { cssClass: 'effort-selector-popover', enableBackdropDismiss:false });
 
       popover.onDidDismiss(e => {
         let toast = this.toastCtrl.create({
-          message: e + ' finished!',
+          message: task.name + ' finished! difficulty: '+e,
           duration: 2000,
           cssClass: 'good-toast'
         });
@@ -157,7 +158,7 @@ export class AgendaPage {
   pushItToTheLimit(task: ITask, day: number) {
     //console.log(task.performedOn)
     //console.log(day) 
-    return (task.performedOn.length >= task.performTimes && task.performedOn.sort()[task.performTimes - 1] < day)
+    return (task.performedOn.length >= task.repetitions && task.performedOn.sort()[task.repetitions - 1] < day)
   }
 
   //TODO Fill with relevant data from somewhere. A provider?

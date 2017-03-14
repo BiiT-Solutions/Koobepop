@@ -26,15 +26,21 @@ export class HomePage {
     translate.use('en');
     localForage.config({});
     localForage.setItem('userName', 'Alejandro');
-    localForage.setItem('userId', '21008286V').then(event => {
-      localForage.getItem("userId").then((id: string) => {
-        this.appointmentsProvider.requestAppointments({ patientId: id })
-          .subscribe((res: IAppointment[]) => {
-            console.log("Appointments"+res.toString())
-            localForage.setItem("appointments", res);
-          });
-      }).catch(e => console.log(e))
-    });
+    // Initialize with the user's data
+    // Just in case something has changed
+    localForage.setItem('userId', '21008286V')
+      .then(event => {
+        localForage.getItem("userId")
+          .then((id: string) => {
+            this.appointmentsProvider.requestAppointments({ patientId: id })
+              .subscribe((res: IAppointment[]) => {
+                localForage.setItem("appointments", res);
+              
+            });
+          }).catch(e => console.log(e))
+      });
+  }
+  ionViewDidLoad() {
 
   }
   navAbout() {

@@ -1,8 +1,7 @@
 export interface ITask {
   name: string;
-  startDate: number;
-  dueDate: number;
-  performTimes: number
+  startingTime: number;
+  repetitions: number
   performedOn: number[]; // sorted array of performation dates
   videoUrl?: string;
   infoUrl?: string;

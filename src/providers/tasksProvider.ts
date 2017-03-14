@@ -12,101 +12,88 @@ export class TasksProvider {
       {
         name: 'Bridge with exercise ball',
         videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A",
-        startDate: today,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 5,
-        performTimes: 4,
+        startingTime: today,
+        repetitions: 4,
         performedOn: []
       },
       {
         name: 'Crunches',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 6,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 6,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '3',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '4',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '5',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '6',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '7',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '8',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '9',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '10',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       },
       {
         name: '11',
         videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startDate: today - this.ONE_DAY_IN_MILIS * 2,
-        dueDate: today + this.ONE_DAY_IN_MILIS * 4,
-        performTimes: 2,
+        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
+        repetitions: 2,
         performedOn: []
       }
 
     ];
   }
-  
-  //TODO retrieve from web service
+
   getTasks() {
     return this.taskList;
   }
 
-  requestTasks(criteria,callback?) {
+  requestTasks(criteria) {
     let requestAddres = this.config.usmoServer + this.config.getTasksService;
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -118,7 +105,7 @@ export class TasksProvider {
         let response:ITask[] = [];
         if(tasks){
         tasks.forEach((task:ITask) =>{
-          response = response.concat(task);//TODO transform to a desired object TYPES!
+          response = response.concat(task);
         })
       }
         return response;

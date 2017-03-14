@@ -11,7 +11,7 @@
           >
           <ion-label item-content> {{task.name}}</ion-label>
           <!-- <ion-label item-right> {{getPerformedUntil(task,day)}}/{{task.performTimes}}</ion-label>-->
-          <button ion-button (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
+          <button ion-button *ngIf="task.videoUrl!= undefined" (click)="gotoExerciseVideo(task.videoUrl)" item-right clear icon-only>
                   <ion-icon name="play"></ion-icon>
                 </button>
           <button ion-button (click)="gotoExerciseInfo()" item-right clear icon-only>

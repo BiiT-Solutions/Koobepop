@@ -15,7 +15,7 @@ export class AppointmentsProvider {
     return this.appointmentsList;
   }
 
-  public requestAppointments(criteria,callback?) {
+  public requestAppointments(criteria) {
     let requestAddres = this.config.usmoServer + this.config.getAppointmentsService;
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
