@@ -28,7 +28,7 @@ export class ReportPage {
             "dataText": {
               "date": appointment.startTime,
               "doctorName": appointment.doctorLastName+", "+appointment.doctorFirstName ,
-              "conclusion": appointment.appointmentId.toString(),
+              "conclusion": "",//appointment.appointmentId.toString(),
               "patientName": "",
               "patientBirthday": "",
               "patientMail": "",
