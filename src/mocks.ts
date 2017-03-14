@@ -83,3 +83,9 @@ export class MenuMock {
     });
   }
 }
+
+  export class AppointmentsProviderMock{
+    public getAppointments(){}
+    public requestAppointments(criteria,callback?){}
+
+  }

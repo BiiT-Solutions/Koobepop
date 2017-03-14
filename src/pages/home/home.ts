@@ -1,43 +1,63 @@
-import { Component,} from '@angular/core';
+import { Component, } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 
 import { AboutPage } from '../about/about';
 import { TranslateService } from 'ng2-translate';
-import {ZoomPage} from '../zoom/zoom';
-import {TestPage} from '../test-page/test-page';
-import {AgendaPage} from '../agenda/agenda';
-import {ReportPage} from '../report/report';
+import { ZoomPage } from '../zoom/zoom';
+import { TestPage } from '../test-page/test-page';
+import { AgendaPage } from '../agenda/agenda';
+import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
+import * as localForage from 'localforage';
+import { AppointmentsProvider } from '../../providers/appointments-provider';
+import { IAppointment } from '../../models/appointmentI';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  BOOK_HEIGHT=4;
-  constructor(public navCtrl: NavController,public platform: Platform,private translate: TranslateService) {
-  translate.use('en');  
+  //Legacy TODO remove
+  BOOK_HEIGHT = 4;
+
+  constructor(public navCtrl: NavController,
+    public platform: Platform,
+    private translate: TranslateService,
+    private appointmentsProvider: AppointmentsProvider) {
+    translate.use('en');
+    localForage.config({});
+    localForage.setItem('userName', 'Alejandro');
+    localForage.setItem('userId', '21008286V').then(event => {
+      localForage.getItem("userId").then((id: string) => {
+        this.appointmentsProvider.requestAppointments({ patientId: id })
+          .subscribe((res: IAppointment[]) => {
+            console.log("Appointments"+res.toString())
+            localForage.setItem("appointments", res);
+          });
+      }).catch(e => console.log(e))
+    });
+
   }
-  navAbout(){
+  navAbout() {
     this.navCtrl.push(AboutPage);
   }
-  navBook(){
+  navBook() {
     this.navCtrl.push(ZoomPage);
   }
-  navTest(){
+  navTest() {
     this.navCtrl.push(TestPage);
   }
-  navAgendaView(){
+  navAgendaView() {
     this.navCtrl.push(AgendaPage);
   }
-  navReportView(){
+  navReportView() {
     this.navCtrl.push(ReportPage);
   }
-  navKnow(){
+  navKnow() {
     this.navCtrl.push(KnowPage);
   }
-  navSummary(){
-   window.open("https://m3sport.biit-solutions.com/tracker"); 
+  navSummary() {
+    window.open("https://m3sport.biit-solutions.com/tracker");
   }
-  
+
 }
 

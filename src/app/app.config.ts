@@ -15,7 +15,6 @@ export interface IAppConfig {
 
 export const AppConfig: IAppConfig = {    
     koobepopServer: "https://testing.biit-solutions.com:8443/koobepop-server-0.0.25", 
-       
     getCompaniesService : "/rest/getCompanies",
     getTasksService:"/rest/getTasks",
     usmoServer:"http://192.168.1.5:8081",

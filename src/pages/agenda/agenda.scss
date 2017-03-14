@@ -25,12 +25,15 @@ page-agenda {
     }
 
   .effort-selector-popover {
+    ion-backdrop{
+      opacity: 0.2;
+    }
     .popover-content{
       width:95%;    
     }
   }  
 
-    //This is so the popover doesn't appear infront of the trigger field
+  //This is so the popover doesn't appear infront of the trigger field
   .popover-md .popover-content{
     margin-top:57px;
   }

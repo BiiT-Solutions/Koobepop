@@ -26,18 +26,7 @@ export class AgendaPage {
     this.today + this.ONE_DAY_IN_MILIS * 2];
   oldIndex = 2
   @ViewChild('slider') slider: Slides;
-  finishedTasks = [];
   tasksPlan: ITask[] = [];
-
-  task: ITask = {
-    name: 'Bridge with exercise ball',
-    videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A",
-    startDate: Date.now(),
-    dueDate: Date.now(),
-    performTimes: 2,
-    performedOn: []
-  }
-
 
   constructor(
     public navCtrl: NavController,
@@ -72,7 +61,7 @@ export class AgendaPage {
   }
 
   /* When item is clicked */
-  checkMark(event,task: ITask, day: number) {
+  checkMark(event, task: ITask, day: number) {
     if (task.performedOn.indexOf(day) < 0) {
       task.performedOn.push(day);
       task.performedOn = task.performedOn.sort();
@@ -90,7 +79,7 @@ export class AgendaPage {
         // console.log(task.performedOn);
       });
 
-      popover.present({ ev:event });
+      popover.present({ ev: event });
 
     } else {
       task.performedOn.splice(task.performedOn.indexOf(day));
@@ -141,10 +130,8 @@ export class AgendaPage {
         this.days.push(this.day + this.ONE_DAY_IN_MILIS * 2);
         this.slider.slidePrev(0);
         this.days.shift();
-
       }
       this.oldIndex = this.slider.getActiveIndex();
-      //this.slider.slideTo(1, 0, true);
     }
   }
   prevSlide() {
@@ -157,7 +144,6 @@ export class AgendaPage {
         this.slider.slideNext(0);
         this.days.pop();
       }
-      //this.slider.slideTo(1, 0, true);
     }
     this.oldIndex = this.slider.getActiveIndex();
   }

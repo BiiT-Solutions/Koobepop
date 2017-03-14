@@ -11,11 +11,11 @@ export class AppointmentsProvider {
   
   }
   //TODO Remove when infographicsJS is integrated
-  getAppointments() {
+  public getAppointments() {
     return this.appointmentsList;
   }
 
-  requestAppointments(criteria,callback?) {
+  public requestAppointments(criteria,callback?) {
     let requestAddres = this.config.usmoServer + this.config.getAppointmentsService;
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
