@@ -1,28 +1,39 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { HttpModule, Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+
+import { APP_CONFIG, AppConfig } from './app.config';
+
+//Components
+import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
+import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
+
+//Pages
 import { HomePage } from '../pages/home/home';
-import { CompaniesProvider } from '../providers/companies';
-import { AppointmentsProvider } from '../providers/appointments-provider';
-import { BookPage } from '../pages/zoom/book';
-import { TranslateModule,TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
-import { HttpModule,Http } from '@angular/http';
-import {AboutPage} from '../pages/about/about';
-import {ZoomPage} from '../pages/zoom/zoom';
+import { AboutPage } from '../pages/about/about';
 import { AgendaPage } from '../pages/agenda/agenda';
-import {ReportPage} from '../pages/report/report';
-import {TestPage} from '../pages/test-page/test-page';
-import {ZoomableSlide} from '../components/zoomable-slide/zoomableSlide';
-import {APP_CONFIG, AppConfig} from './app.config';
+import { ReportPage } from '../pages/report/report';
+import { TestPage } from '../pages/test-page/test-page';
 import { KnowPage } from '../pages/know/know';
 import { VideoPage } from '../pages/video/video';
-import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
 import { ShowExerciseInfoPage } from '../pages/show-exercise-info/show-exercise-info';
+
+import { ZoomPage } from '../pages/zoom/zoom';
+import { BookPage } from '../pages/zoom/book';
+
+//Providers REST services
+import { AppointmentsProvider } from '../providers/appointmentsProvider';
 import { TasksProvider } from '../providers/tasksProvider';
 
+import { CompaniesProvider } from '../providers/companies';
+
+//Services
+import { StorageService } from '../providers/storageService';
 
 export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, './assets/i18n', '.json');
+  return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
 @NgModule({
   declarations: [
@@ -44,10 +55,10 @@ export function createTranslateLoader(http: Http) {
     IonicModule.forRoot(MyApp),
     HttpModule,
     TranslateModule.forRoot({
-            provide: TranslateLoader,
-            useFactory: (createTranslateLoader),
-            deps: [Http]
-          })         
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -68,7 +79,8 @@ export function createTranslateLoader(http: Http) {
     TasksProvider,
     CompaniesProvider,
     AppointmentsProvider,
-    {provide:APP_CONFIG, useValue: AppConfig},
-  {provide: ErrorHandler, useClass: IonicErrorHandler}]
+    StorageService,
+    { provide: APP_CONFIG, useValue: AppConfig },
+    { provide: ErrorHandler, useClass: IonicErrorHandler }]
 })
-export class AppModule {}
+export class AppModule { }

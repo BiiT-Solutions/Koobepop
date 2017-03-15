@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Slides } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
@@ -44,13 +44,13 @@ export class AgendaPage {
   getTasks(day: number): ITask[] {
     // Here we get the events for the day.
     let dayTasks: ITask[] = [];
+
     this.tasksPlan.forEach(task => {
       // We have to check if the task has already been performed for this day.
       if (task.startingTime <= day && task.startingTime+this.ONE_WEEK_IN_MILIS >= day) {
         dayTasks.push(task);
       }
     });
-    // There should be a color change if the task is in the program
     return dayTasks;
   }
 
@@ -156,20 +156,11 @@ export class AgendaPage {
   // If the task is already done the recommended number of times in the past
   // Show it on a different color  
   pushItToTheLimit(task: ITask, day: number) {
-    //console.log(task.performedOn)
-    //console.log(day) 
     return (task.performedOn.length >= task.repetitions && task.performedOn.sort()[task.repetitions - 1] < day)
   }
 
   //TODO Fill with relevant data from somewhere. A provider?
   public gotoExerciseInfo() {
     window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
-  }
-
-  public nextArrow() {
-    this.slider.slideNext();
-  }
-  public prevArrow() {
-    this.slider.slidePrev();
   }
 }

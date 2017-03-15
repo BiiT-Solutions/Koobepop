@@ -8,9 +8,9 @@ import { TestPage } from '../test-page/test-page';
 import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
-import * as localForage from 'localforage';
-import { AppointmentsProvider } from '../../providers/appointments-provider';
+import { AppointmentsProvider } from '../../providers/appointmentsProvider';
 import { IAppointment } from '../../models/appointmentI';
+import { StorageService } from '../../providers/storageService';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -22,24 +22,23 @@ export class HomePage {
   constructor(public navCtrl: NavController,
     public platform: Platform,
     private translate: TranslateService,
-    private appointmentsProvider: AppointmentsProvider) {
+    private appointmentsProvider: AppointmentsProvider,
+    private storageService: StorageService) {
     translate.use('en');
-    localForage.config({});
-    localForage.setItem('userName', 'Alejandro');
-    // Initialize with the user's data
-    // Just in case something has changed
-    localForage.setItem('userId', '21008286V')
-      .then(event => {
-        localForage.getItem("userId")
-          .then((id: string) => {
-            this.appointmentsProvider.requestAppointments({ patientId: id })
-              .subscribe((res: IAppointment[]) => {
-                localForage.setItem("appointments", res);
-              
-            });
-          }).catch(e => console.log(e))
-      });
+
+    storageService.setUser({ name: "Alejandro", surname: "Melcón", id: "21008286V" })
+      .then((user) =>
+        storageService.getUser()
+          .then(user => {
+            appointmentsProvider.requestAppointments({"patientId":user.id})
+              .subscribe((appointments: IAppointment[]) => {
+                storageService.setAppointments(appointments);
+              })
+          }).catch(e=>console.log("Server error "+e))
+      ).catch(e=>console.log("Data storage "+e));
+
   }
+
   ionViewDidLoad() {
 
   }

@@ -1,5 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
-import { Gesture } from 'ionic-angular';@Component({
+import { Gesture, ToastController } from 'ionic-angular';@Component({
   selector: 'zoomable-slide',
   templateUrl: 'zoomableSlide.html'
 })
@@ -31,7 +31,7 @@ export class ZoomableSlide {
   @Output() zooming:EventEmitter<boolean> = new EventEmitter<boolean>();
 
   pinchString: string="";
-  constructor() { }
+  constructor(public toastCtrl: ToastController) { }
 
 
   ngAfterViewInit() {
@@ -73,11 +73,12 @@ export class ZoomableSlide {
 
   pinchEndEvent(e) {
     this.pinchString = "pinchEnd";
+
     //console.log("PINCH END EVENT")
     this.oldWidth = this.newWidth;
     this.oldHeight = this.newHeight;
 
-    if (this.newHeight <= this.MIN_WIDTH*1.1) {
+    if (this.newWidth <= this.MIN_WIDTH*1.05) {
       this.newWidth = this.MIN_WIDTH;
       this.newHeight = this.MIN_HEIGHT;
       this.oldWidth = this.MIN_WIDTH;
@@ -129,4 +130,12 @@ export class ZoomableSlide {
     this.viewMarginLeft = this.mLeft;
   }
   
+  showToast(text:string){
+    let toast = this.toastCtrl.create({
+          message:text,
+          duration: 2000,
+          cssClass: 'good-toast'
+        });
+        toast.present();
+  }
 }

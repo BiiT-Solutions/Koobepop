@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { Company } from '../models/company-interfaces';
 import { APP_CONFIG, IAppConfig } from '../app/app.config';
 import { IAppointment } from '../models/appointmentI';
 
@@ -8,9 +7,9 @@ import { IAppointment } from '../models/appointmentI';
 export class AppointmentsProvider {
   appointmentsList;
   constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig) {
-  
+
   }
-  //TODO Remove when infographicsJS is integrated
+
   public getAppointments() {
     return this.appointmentsList;
   }
@@ -23,18 +22,12 @@ export class AppointmentsProvider {
 
     return this.http
       .post(requestAddres, criteria, { headers: headers })
-      .map(this.extractData).map((appointments:IAppointment[])=>{
-        let response = [];
-        if(appointments){
-        appointments.forEach((appointment:IAppointment)=>{
-          response = response.concat(appointment);//TODO transform to a desired object TYPES!
-        })
-      }
-        return response.reverse();
+      .map(this.extractData).map((appointments: IAppointment[]) => {
+        return appointments ? appointments.reverse() : [];
       });
-    }
+  }
 
-  extractData(res: Response) {
+  extractData(res: Response): IAppointment[] {
     return res.json() || {};
   }
 }

@@ -5,11 +5,18 @@ import { ViewController } from "ionic-angular";
   templateUrl: 'effort-selector.html'
 })
 export class EffortSelectorComponent {
-  text: string;
+  //Effort intensity levels
+  public LIGHT_LOW: number = 1;
+  public LIGHT_HIGH:number = 2;
+  public MODERATE_LOW:number = 3;
+  public MODERATE_HIGH:number = 4;
+  public HEAVY_LOW:number = 5;
+  public HEAVY_HIGH:number = 6;
   constructor(public viewCtrl: ViewController) {
   }
-  close(x) {
-    
+
+  close(x) {    
+    console.log(x)
     this.viewCtrl.dismiss(x);
   }
 
