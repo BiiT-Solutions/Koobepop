@@ -11,6 +11,9 @@ import { KnowPage } from '../know/know';
 import { AppointmentsProvider } from '../../providers/appointmentsProvider';
 import { IAppointment } from '../../models/appointmentI';
 import { StorageService } from '../../providers/storageService';
+import { SummaryPage } from '../summary/summary';
+import { TasksProvider } from '../../providers/tasksProvider';
+import { ITask } from '../../models/taskI';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -23,6 +26,7 @@ export class HomePage {
     public platform: Platform,
     private translate: TranslateService,
     private appointmentsProvider: AppointmentsProvider,
+    private tasksProvider: TasksProvider,
     private storageService: StorageService) {
     translate.use('en');
 
@@ -30,12 +34,27 @@ export class HomePage {
       .then((user) =>
         storageService.getUser()
           .then(user => {
-            appointmentsProvider.requestAppointments({"patientId":user.id})
+            appointmentsProvider.requestAppointments({ "patientId": user.id })
               .subscribe((appointments: IAppointment[]) => {
                 storageService.setAppointments(appointments);
+                
+                let lastAppointment: IAppointment;
+                appointments.forEach(appointment => {
+                  if (lastAppointment == undefined) {
+                    lastAppointment = appointment;
+                  } else {
+                    if (lastAppointment.startTime < appointment.startTime) {
+                      lastAppointment = appointment;
+                    }
+                  }
+                })
+                tasksProvider.requestTasks(lastAppointment)
+                .subscribe((tasks:ITask[])=>{
+                  storageService.setTasks(tasks)
+                })     
               })
-          }).catch(e=>console.log("Server error "+e))
-      ).catch(e=>console.log("Data storage "+e));
+          }).catch(e => console.log("Server error " + e))
+      ).catch(e => console.log("Data storage " + e));
 
   }
 
@@ -61,7 +80,7 @@ export class HomePage {
     this.navCtrl.push(KnowPage);
   }
   navSummary() {
-    window.open("https://m3sport.biit-solutions.com/tracker");
+    this.navCtrl.push(SummaryPage);
   }
 
 }

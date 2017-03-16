@@ -1,3 +1,4 @@
+//TODO Do this right :)
 export class Todea {
   public name: string;
   public age: number;
@@ -87,6 +88,9 @@ export class MenuMock {
   export class AppointmentsProviderMock{
     public getAppointments(){}
     public requestAppointments(criteria,callback?){}
+  }
+  export class TaskProviderMock{
+
   }
   export class StorageServiceMock{
     

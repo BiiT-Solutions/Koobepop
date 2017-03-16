@@ -14,12 +14,10 @@ export class ZoomableSlide {
   oldHeight = 400;
   mLeft = 0;
   mTop = 0;
-
   viewWidth;
   viewHeight;
   viewMarginTop;
   viewMarginLeft;
-
   zoomActive = false;
   percentageOfImageAtPinchPointX = 0;
   percentageOfImageAtPinchPointY = 0;
@@ -27,9 +25,7 @@ export class ZoomableSlide {
   @ViewChild("svgSlide") slide;
   @Input() svg;
   intervalId;
-  
   @Output() zooming:EventEmitter<boolean> = new EventEmitter<boolean>();
-
   pinchString: string="";
   constructor(public toastCtrl: ToastController) { }
 

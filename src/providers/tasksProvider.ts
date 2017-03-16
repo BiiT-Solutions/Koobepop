@@ -95,7 +95,7 @@ export class TasksProvider {
   }
 
   //
-  requestTasks(criteria: number[]):Observable<ITask[]> {
+  requestTasks(criteria):Observable<ITask[]> {
     let requestAddres = this.config.usmoServer + this.config.getTasksService;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);

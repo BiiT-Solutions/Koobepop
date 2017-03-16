@@ -16,7 +16,6 @@ export class EffortSelectorComponent {
   }
 
   close(x) {    
-    console.log(x)
     this.viewCtrl.dismiss(x);
   }
 

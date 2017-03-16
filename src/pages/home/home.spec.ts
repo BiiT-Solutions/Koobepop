@@ -1,4 +1,4 @@
-import { NavMock, PlatformMock, TranslateServiceMock, AppointmentsProviderMock, StorageServiceMock } from '../../mocks';
+import { NavMock, PlatformMock, TranslateServiceMock, AppointmentsProviderMock, StorageServiceMock, TaskProviderMock } from '../../mocks';
 import { HomePage } from "./home"
 
 let homePage: HomePage = null
@@ -10,6 +10,7 @@ describe('Home page', () => {
       <any>new PlatformMock,
       <any>new TranslateServiceMock,
       <any>new AppointmentsProviderMock,
+      <any>new TaskProviderMock,
       <any>new StorageServiceMock);
     homePage.BOOK_HEIGHT = 2;
   })

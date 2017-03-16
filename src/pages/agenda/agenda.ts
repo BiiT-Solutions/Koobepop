@@ -6,6 +6,7 @@ import { EffortSelectorComponent } from '../../components/effort-selector/effort
 import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
 import { TasksProvider } from '../../providers/tasksProvider';
+import { StorageService } from '../../providers/storageService';
 /**
  * 
  */
@@ -18,7 +19,7 @@ export class AgendaPage {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS*7;
   today: number = Date.now();
-  day: number = Date.now();
+  actualDay: number = Date.now();
   days: number[] = [
     this.today - this.ONE_DAY_IN_MILIS * 2,
     this.today - this.ONE_DAY_IN_MILIS,
@@ -31,14 +32,21 @@ export class AgendaPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
-    public taskProv: TasksProvider) {
-
+    public taskProv: TasksProvider,
+    public storageService: StorageService) {
   }
-  ionViewDidLoad() {
-    this.tasksPlan = this.taskProv.getTasks();    
+  
+  ionViewDidLoad() { 
+    this.storageService.getTasks().then(tasks =>{
+      this.tasksPlan=tasks;
+    });
+
+    //this.tasksPlan = this.taskProv.getTasks();   
+    //this.taskProv.requestTasks({appointmentId:7}).subscribe(tasks=>{
+    //  this.tasksPlan=tasks;
+    //});
   }
 
   getTasks(day: number): ITask[] {
@@ -46,8 +54,8 @@ export class AgendaPage {
     let dayTasks: ITask[] = [];
 
     this.tasksPlan.forEach(task => {
-      // We have to check if the task has already been performed for this day.
-      if (task.startingTime <= day && task.startingTime+this.ONE_WEEK_IN_MILIS >= day) {
+      console.log("Task starting date: "+new Date(task.startingTime).toDateString()+" "+(task.startingTime <= day)+" "+new Date(day).toDateString());
+      if (task.startingTime <= day ) {
         dayTasks.push(task);
       }
     });
@@ -56,18 +64,29 @@ export class AgendaPage {
 
   /* Check if the task has already been performed */
   checkPerformedTask(task: ITask, day: number): boolean {
+
+    console.log("changes were made to this")
+    if(task.performedOn==undefined){
+      task.performedOn=[];
+      return false;
+    }else{
     let boolean = task.performedOn.indexOf(day) >= 0;
     return boolean;
+    }
   }
 
   /* When item is clicked */
   checkMark(event, task: ITask, day: number) {
+    //Init list in case it hasn't been
+    if(task.performedOn==undefined){
+      task.performedOn=[];
+    }
+
     if (task.performedOn.indexOf(day) < 0) {
       task.performedOn.push(day);
       task.performedOn = task.performedOn.sort();
       let popover = this.popoverCtrl
       .create(EffortSelectorComponent,{}, { cssClass: 'effort-selector-popover', enableBackdropDismiss:false });
-
       popover.onDidDismiss(e => {
         let toast = this.toastCtrl.create({
           message: task.name + ' finished! difficulty: '+e,
@@ -76,8 +95,6 @@ export class AgendaPage {
         });
         toast.present();
         // Store and send the data
-
-        // console.log(task.performedOn);
       });
 
       popover.present({ ev: event });
@@ -92,10 +109,16 @@ export class AgendaPage {
     return day > this.today;
   }
 
-  getPerformedUntil(task: ITask, day: number) {
-    let i = 0;
-    for (i; task.performedOn[i] <= day && i < task.performedOn.length; i++) { }
-    return i;
+  getPerformedThisWeek(task: ITask, day: number) {
+    let performedThisWeek = 0;
+    let week = Math.trunc((day-task.startingTime)/this.ONE_WEEK_IN_MILIS);
+    let actualWeekStarts = task.startingTime + week*this.ONE_DAY_IN_MILIS;
+    for (let i = 0;i < task.performedOn.length;i++) {
+      if(task.performedOn[i] > actualWeekStarts && task.performedOn[i] <= day ){
+        performedThisWeek++;
+      }
+     }
+    return performedThisWeek;
   }
 
 
@@ -124,11 +147,12 @@ export class AgendaPage {
    */
   nextSlide() {
     // Make sure we moved forward
+    console.log("Next")
     if (this.oldIndex < this.slider.getActiveIndex()) {
-      this.day += this.ONE_DAY_IN_MILIS;
-      if (this.days.indexOf(this.day + this.ONE_DAY_IN_MILIS * 2) >= 0) {
+      this.actualDay += this.ONE_DAY_IN_MILIS;
+      if (this.days.indexOf(this.actualDay + this.ONE_DAY_IN_MILIS * 2) >= 0) {
       } else {
-        this.days.push(this.day + this.ONE_DAY_IN_MILIS * 2);
+        this.days.push(this.actualDay + this.ONE_DAY_IN_MILIS * 2);
         this.slider.slidePrev(0);
         this.days.shift();
       }
@@ -137,11 +161,12 @@ export class AgendaPage {
   }
   prevSlide() {
     // Make sure we moved backwards
+    console.log("Prev")
     if (this.oldIndex > this.slider.getActiveIndex()) {
-      this.day -= this.ONE_DAY_IN_MILIS;
-      if (this.days.indexOf(this.day - this.ONE_DAY_IN_MILIS * 2) >= 0) {
+      this.actualDay -= this.ONE_DAY_IN_MILIS;
+      if (this.days.indexOf(this.actualDay - this.ONE_DAY_IN_MILIS * 2) >= 0) {
       } else {
-        this.days.unshift(this.day - this.ONE_DAY_IN_MILIS * 2);
+        this.days.unshift(this.actualDay - this.ONE_DAY_IN_MILIS * 2);
         this.slider.slideNext(0);
         this.days.pop();
       }
@@ -149,9 +174,6 @@ export class AgendaPage {
     this.oldIndex = this.slider.getActiveIndex();
   }
 
-  public gotoExerciseVideo(videoUrl: string) {
-    this.navCtrl.push(VideoPage, { videoUrl: videoUrl });
-  }
 
   // If the task is already done the recommended number of times in the past
   // Show it on a different color  
@@ -159,6 +181,9 @@ export class AgendaPage {
     return (task.performedOn.length >= task.repetitions && task.performedOn.sort()[task.repetitions - 1] < day)
   }
 
+  public gotoExerciseVideo(videoUrl: string) {
+    this.navCtrl.push(VideoPage, { videoUrl: videoUrl });
+  }
   //TODO Fill with relevant data from somewhere. A provider?
   public gotoExerciseInfo() {
     window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");

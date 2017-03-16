@@ -1,20 +1,7 @@
-<ion-content>
-  <ion-navbar color="primary">
-    <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
-  </ion-navbar>
-  <div style="height:100%;">
-    <ion-slides initialSlide="2" #slider 
-      (ionSlideNextEnd)="nextSlide()" 
-      (ionSlidePrevEnd)="prevSlide()">
-      <ion-slide *ngFor="let day of days">
-        <div class="date-header">{{day |date}}</div>
-        <ion-list>
-          <ng-container  
-            *ngFor="let task of tasksPlan">
-          <ion-item   
-            *ngIf ="task.startingTime <= day"           
-            [class.not-performed]="!pushItToTheLimit(task,day)" 
-            [class.performed]="pushItToTheLimit(task,day)">
+<ion-item   
+ *ngIf ="task.startingTime <= day"           
+ [class.not-performed]="!pushItToTheLimit(task,day)" 
+ [class.performed]="pushItToTheLimit(task,day)">
             
             <ion-label item-content> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}}) {{task.name}}</ion-label>
             <!-- <ion-label item-right> {{getPerformedThisWeek(task,day)}}/{{task.repetitions}}</ion-label>-->
@@ -34,9 +21,3 @@
             [disabled]="isFuture(day)" 
             (click)="checkMark($event,task,day)" ></ion-checkbox>
           </ion-item>
-          </ng-container>
-        </ion-list>
-      </ion-slide>
-    </ion-slides>
-  </div>
-</ion-content>
