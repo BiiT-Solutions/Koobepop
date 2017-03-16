@@ -1,23 +1,18 @@
-<ion-item   
- *ngIf ="task.startingTime <= day"           
- [class.not-performed]="!pushItToTheLimit(task,day)" 
- [class.performed]="pushItToTheLimit(task,day)">
-            
-            <ion-label item-content> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}}) {{task.name}}</ion-label>
-            <!-- <ion-label item-right> {{getPerformedThisWeek(task,day)}}/{{task.repetitions}}</ion-label>-->
-            <button ion-button item-right clear icon-only 
-              *ngIf="task.videoUrl!= undefined" 
-              (click)="gotoExerciseVideo(task.videoUrl)">
-              <ion-icon name="play"></ion-icon>
-            </button>
-            <button ion-button item-right clear icon-only
-              *ngIf="task.infoUrl!= undefined"
-              (click)="gotoExerciseInfo()">
-              <ion-icon name="information-circle"></ion-icon>
-            </button>
-            
-            <ion-checkbox color="dark"
-            [checked]="checkPerformedTask(task,day)" 
-            [disabled]="isFuture(day)" 
-            (click)="checkMark($event,task,day)" ></ion-checkbox>
-          </ion-item>
+<ion-item>
+  <ion-label item-content> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}}) {{task.name}}</ion-label>
+  <!-- <ion-label item-right> {{getPerformedThisWeek(task,day)}}/{{task.repetitions}}</ion-label>-->
+  <button ion-button item-right clear icon-only 
+    *ngIf="task.videoUrl!= undefined" 
+    (click)="video(task.videoUrl)">
+    <ion-icon name="play"></ion-icon>
+  </button>
+  <button ion-button item-right clear icon-only
+    *ngIf="task.infoUrl!= undefined"
+    (click)="info(task.infoUrl)">
+    <ion-icon name="information-circle"></ion-icon>
+  </button>
+  <ion-checkbox color="dark"
+  [checked]="isPerformed" 
+  [disabled]="isFuture()" 
+  (click)="check($event)" ></ion-checkbox>
+</ion-item>

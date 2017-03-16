@@ -17,7 +17,7 @@ import { StorageService } from '../../providers/storageService';
 })
 export class AgendaPage {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
-  ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS*7;
+  ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * 7;
   today: number = Date.now();
   actualDay: number = Date.now();
   days: number[] = [
@@ -37,68 +37,51 @@ export class AgendaPage {
     public taskProv: TasksProvider,
     public storageService: StorageService) {
   }
-  
-  ionViewDidLoad() { 
-    this.storageService.getTasks().then(tasks =>{
-      this.tasksPlan=tasks;
+
+  ionViewDidLoad() {
+    this.storageService.getTasks().then(tasks => {
+      this.tasksPlan = tasks;
     });
-
-    //this.tasksPlan = this.taskProv.getTasks();   
-    //this.taskProv.requestTasks({appointmentId:7}).subscribe(tasks=>{
-    //  this.tasksPlan=tasks;
-    //});
-  }
-
-  getTasks(day: number): ITask[] {
-    // Here we get the events for the day.
-    let dayTasks: ITask[] = [];
-
-    this.tasksPlan.forEach(task => {
-      console.log("Task starting date: "+new Date(task.startingTime).toDateString()+" "+(task.startingTime <= day)+" "+new Date(day).toDateString());
-      if (task.startingTime <= day ) {
-        dayTasks.push(task);
-      }
-    });
-    return dayTasks;
+    //TODO check por changes on tasks if possible (Online)
   }
 
   /* Check if the task has already been performed */
   checkPerformedTask(task: ITask, day: number): boolean {
 
-    console.log("changes were made to this")
-    if(task.performedOn==undefined){
-      task.performedOn=[];
+    console.log("change detections were made")
+    if (task.performedOn == undefined) {
+      task.performedOn = [];
       return false;
-    }else{
-    let boolean = task.performedOn.indexOf(day) >= 0;
-    return boolean;
+    } else {
+      let boolean = task.performedOn.indexOf(day) >= 0;
+      return boolean;
     }
   }
 
   /* When item is clicked */
   checkMark(event, task: ITask, day: number) {
     //Init list in case it hasn't been
-    if(task.performedOn==undefined){
-      task.performedOn=[];
+    if (task.performedOn == undefined) {
+      task.performedOn = [];
     }
-
     if (task.performedOn.indexOf(day) < 0) {
-      task.performedOn.push(day);
-      task.performedOn = task.performedOn.sort();
+
       let popover = this.popoverCtrl
-      .create(EffortSelectorComponent,{}, { cssClass: 'effort-selector-popover', enableBackdropDismiss:false });
-      popover.onDidDismiss(e => {
+        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
+      popover.onDidDismiss((score: number) => {
+        //Save TODO save score
+        task.performedOn.push(day);
+        task.performedOn = task.performedOn.sort();
+        
         let toast = this.toastCtrl.create({
-          message: task.name + ' finished! difficulty: '+e,
+          message: task.name + ' finished! difficulty: ' + score,
           duration: 2000,
           cssClass: 'good-toast'
         });
+        
         toast.present();
-        // Store and send the data
       });
-
       popover.present({ ev: event });
-
     } else {
       task.performedOn.splice(task.performedOn.indexOf(day));
     }
@@ -111,39 +94,19 @@ export class AgendaPage {
 
   getPerformedThisWeek(task: ITask, day: number) {
     let performedThisWeek = 0;
-    let week = Math.trunc((day-task.startingTime)/this.ONE_WEEK_IN_MILIS);
-    let actualWeekStarts = task.startingTime + week*this.ONE_DAY_IN_MILIS;
-    for (let i = 0;i < task.performedOn.length;i++) {
-      if(task.performedOn[i] > actualWeekStarts && task.performedOn[i] <= day ){
+    let week = Math.trunc((day - task.startingTime) / this.ONE_WEEK_IN_MILIS);
+    let actualWeekStarts = task.startingTime + week * this.ONE_DAY_IN_MILIS;
+    for (let i = 0; i < task.performedOn.length; i++) {
+      if (task.performedOn[i] > actualWeekStarts && task.performedOn[i] <= day) {
         performedThisWeek++;
       }
-     }
+    }
     return performedThisWeek;
-  }
-
-
-
-  finish(item) {
-    let toast = this.toastCtrl.create({
-      message: item.name + ' finished!',
-      duration: 2000,
-      cssClass: 'good-toast'
-    });
-
-    toast.present();
-  }
-
-  cancel(item) {
-    let toast = this.toastCtrl.create({
-      message: item.name + ' cancelled!',
-      duration: 2000,
-      cssClass: 'bad-toast'
-    });
-    toast.present();
   }
 
   /**
    * Listeners for when the slides are swiped
+   * 
    */
   nextSlide() {
     // Make sure we moved forward
