@@ -5,6 +5,7 @@
 </ion-header>
 <ion-content>  
   <div style="height:100%;">
+    <button ion-button full color="secondary" (click)="goToToday()">Today</button>
     <ion-slides initialSlide="2" #slider 
       (ionSlideNextEnd)="nextSlide()" 
       (ionSlidePrevEnd)="prevSlide()">

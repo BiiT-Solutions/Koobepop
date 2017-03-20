@@ -7,11 +7,9 @@ import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
 import { TasksRestProvider } from '../../providers/tasksProvider';
 import { StorageService } from '../../providers/storageService';
-
 /**
  * 
  */
-
 @Component({
   selector: 'page-agenda',
   templateUrl: 'agenda.html'
@@ -105,7 +103,17 @@ export class AgendaPage {
     this.navCtrl.push(VideoPage, { videoUrl: videoUrl });
   }
   //TODO Fill with relevant data from somewhere. A provider?
-  public gotoExerciseInfo() {
+  public gotoExerciseInfo(infoUrl: string) {
     window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
+  }
+
+  public goToToday(){
+    this.days = [
+    this.today - this.ONE_DAY_IN_MILIS * 2,
+    this.today - this.ONE_DAY_IN_MILIS,
+    this.today,
+    this.today + this.ONE_DAY_IN_MILIS,
+    this.today + this.ONE_DAY_IN_MILIS * 2];
+    this.actualDay=this.today;
   }
 }
