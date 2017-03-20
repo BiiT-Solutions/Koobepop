@@ -34,6 +34,7 @@ import { CompaniesProvider } from '../providers/companies';
 
 //Services
 import { StorageService } from '../providers/storageService';
+import { ResultsProvider } from '../providers/resultsProvider';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -85,6 +86,7 @@ export function createTranslateLoader(http: Http) {
     TasksRestProvider,
     CompaniesProvider,
     AppointmentsProvider,
+    ResultsProvider,
     StorageService,
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: ErrorHandler, useClass: IonicErrorHandler }]

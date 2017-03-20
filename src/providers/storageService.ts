@@ -7,36 +7,46 @@ import { ITask } from '../models/taskI';
 export class StorageService {
 
   constructor() { }
-  
 
-  public getAppointments():Promise<IAppointment[]>{
+
+  public getAppointments(): Promise<IAppointment[]> {
     localForage.config({});
     return localForage.getItem<IAppointment[]>("appointments");
   }
-  public setAppointments(appointments:IAppointment[]):Promise<IAppointment[]>{
+  public setAppointments(appointments: IAppointment[]): Promise<IAppointment[]> {
     localForage.config({});
-    return localForage.setItem("appointments",appointments);
+    return localForage.setItem("appointments", appointments);
   }
 
 
-  public getTasks():Promise<ITask[]>{
+  public getTasks(): Promise<ITask[]> {
     localForage.config({});
     return localForage.getItem("tasks");
   }
-  public setTasks(tasks: ITask[]):Promise<ITask[]>{
+  public setTasks(tasks: ITask[]): Promise<ITask[]> {
     localForage.config({});
-    return localForage.setItem("tasks",tasks);
+    return localForage.setItem("tasks", tasks);
   }
-  
-  
-  public getUser():Promise<IUser>{
+
+
+  public getUser(): Promise<IUser> {
     localForage.config({});
     return localForage.getItem<IUser>("user");
   }
   // Use on login
-  public setUser(user:IUser):Promise<IUser>{
-     localForage.config({});
-    return localForage.setItem("user",user);
+  public setUser(user: IUser): Promise<IUser> {
+    localForage.config({});
+    return localForage.setItem("user", user);
+  }
+
+  // TODO Type this
+  public getResults(): Promise<any> {
+    localForage.config({});
+    return localForage.getItem("results");
+  }
+  public setResults(results:Map<number,any[]>): Promise<any> {
+    localForage.config({});
+    return localForage.setItem("results", results);
   }
 
 }

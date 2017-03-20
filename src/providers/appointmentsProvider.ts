@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../app/app.config';
 import { IAppointment } from '../models/appointmentI';
+import { IUser } from '../models/userI';
 
 @Injectable()
 export class AppointmentsProvider {
@@ -14,9 +15,8 @@ export class AppointmentsProvider {
     return this.appointmentsList;
   }
 
-  public requestAppointments(criteria) {
+  public requestAppointments(criteria:IUser) {
     let requestAddres = this.config.usmoServer + this.config.getAppointmentsService;
-
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
 

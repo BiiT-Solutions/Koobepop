@@ -9,6 +9,7 @@ import { TasksRestProvider } from '../providers/tasksProvider';
 import { StorageService } from '../providers/storageService';
 import { IAppointment } from '../models/appointmentI';
 import { ITask } from '../models/taskI';
+import { ResultsProvider } from '../providers/resultsProvider';
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
@@ -18,7 +19,8 @@ export class MyApp {
   constructor(platform: Platform, private translate: TranslateService,
     private appointmentsProvider: AppointmentsProvider,
     private tasksProvider: TasksRestProvider,
-    private storageService: StorageService) {
+    private storageService: StorageService,
+    private resultsProvider: ResultsProvider) {
     platform.ready().then(() => {
 
       // Okay, so the platform is ready and our plugins are available.
@@ -26,15 +28,31 @@ export class MyApp {
 
       translate.use('en');
       // Right now this overrides the local database when it initializes, gotta fix that!
-      storageService.setUser({ name: "Alejandro", surname: "Melcón", id: "21008286V" })
+
+      storageService.setUser({ name: "Alejandro", surname: "Melcón", patientId: "21008286V" })
         .then((user) =>
           storageService.getUser()
             .then(user => {
-              appointmentsProvider.requestAppointments({ "patientId": user.id })
+              appointmentsProvider.requestAppointments(user)
                 .subscribe((appointments: IAppointment[]) => {
                   storageService.setAppointments(appointments);
+                  let resultsMap: Map<number, any[]> = new Map<number, any[]>();
                   let lastAppointment: IAppointment;
+                  let resultsBarrier = 0;
                   appointments.forEach(appointment => {
+                    resultsBarrier++;
+                     console.log("ForEach Appointment ResBarr: "+resultsBarrier);
+                    resultsProvider.requestResults(appointment)
+                      .subscribe((results: any) => {
+                        resultsMap.set(appointment.appointmentId, results);
+                        resultsBarrier--;
+                         console.log("Callback Appointment ResBarr: "+resultsBarrier);
+                        if (resultsBarrier == 0) {
+                          console.log("Saved Results")
+                          storageService.setResults(resultsMap)
+                        }
+                      });
+
                     if (lastAppointment == undefined) {
                       lastAppointment = appointment;
                     } else {
@@ -47,6 +65,7 @@ export class MyApp {
                     .subscribe((tasks: ITask[]) => {
                       storageService.setTasks(tasks)
                     })
+
                 })
             }).catch(e => console.log("Server error " + e))
         ).catch(e => console.log("Data storage error " + e));

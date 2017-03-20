@@ -28,7 +28,7 @@ export class CompaniesProvider {
   setCompanies() { }
   addCompany() { }
 
-  requestCompanies(criteria: SearchCriteria) {
+  requestCompanies(criteria:any) {
     //TODO not working ATM further investigation is needed also needed to get this data from a config file
 
     let requestAddres = this.config.koobepopServer + this.config.getCompaniesService;
