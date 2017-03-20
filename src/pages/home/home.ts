@@ -12,7 +12,7 @@ import { AppointmentsProvider } from '../../providers/appointmentsProvider';
 import { IAppointment } from '../../models/appointmentI';
 import { StorageService } from '../../providers/storageService';
 import { SummaryPage } from '../summary/summary';
-import { TasksProvider } from '../../providers/tasksProvider';
+import { TasksRestProvider } from '../../providers/tasksProvider';
 import { ITask } from '../../models/taskI';
 @Component({
   selector: 'page-home',
@@ -26,37 +26,8 @@ export class HomePage {
     public platform: Platform,
     private translate: TranslateService,
     private appointmentsProvider: AppointmentsProvider,
-    private tasksProvider: TasksProvider,
-    private storageService: StorageService) {
-    translate.use('en');
-
-    storageService.setUser({ name: "Alejandro", surname: "Melcón", id: "21008286V" })
-      .then((user) =>
-        storageService.getUser()
-          .then(user => {
-            appointmentsProvider.requestAppointments({ "patientId": user.id })
-              .subscribe((appointments: IAppointment[]) => {
-                storageService.setAppointments(appointments);
-                
-                let lastAppointment: IAppointment;
-                appointments.forEach(appointment => {
-                  if (lastAppointment == undefined) {
-                    lastAppointment = appointment;
-                  } else {
-                    if (lastAppointment.startTime < appointment.startTime) {
-                      lastAppointment = appointment;
-                    }
-                  }
-                })
-                tasksProvider.requestTasks(lastAppointment)
-                .subscribe((tasks:ITask[])=>{
-                  storageService.setTasks(tasks)
-                })     
-              })
-          }).catch(e => console.log("Server error " + e))
-      ).catch(e => console.log("Data storage " + e));
-
-  }
+    private tasksProvider: TasksRestProvider,
+    private storageService: StorageService) {  }
 
   ionViewDidLoad() {
 

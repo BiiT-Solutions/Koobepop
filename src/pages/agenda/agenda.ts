@@ -5,8 +5,9 @@ import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
-import { TasksProvider } from '../../providers/tasksProvider';
+import { TasksRestProvider } from '../../providers/tasksProvider';
 import { StorageService } from '../../providers/storageService';
+
 /**
  * 
  */
@@ -18,8 +19,8 @@ import { StorageService } from '../../providers/storageService';
 export class AgendaPage {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * 7;
-  today: number = Date.now();
-  actualDay: number = Date.now();
+  today: number = (new Date()).setHours(0,0,0,0);
+  actualDay: number = (new Date()).setHours(0,0,0,0);
   days: number[] = [
     this.today - this.ONE_DAY_IN_MILIS * 2,
     this.today - this.ONE_DAY_IN_MILIS,
@@ -34,83 +35,47 @@ export class AgendaPage {
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
-    public taskProv: TasksProvider,
-    public storageService: StorageService) {
-  }
+    public taskProv: TasksRestProvider,
+    public storageService: StorageService) {}
 
   ionViewDidLoad() {
     this.storageService.getTasks().then(tasks => {
       this.tasksPlan = tasks;
     });
-    //TODO check por changes on tasks if possible (Online)
-  }
-
-  /* Check if the task has already been performed */
-  checkPerformedTask(task: ITask, day: number): boolean {
-
-    console.log("change detections were made")
-    if (task.performedOn == undefined) {
-      task.performedOn = [];
-      return false;
-    } else {
-      let boolean = task.performedOn.indexOf(day) >= 0;
-      return boolean;
-    }
+    //TODO check for changes on tasks if possible (Online)
   }
 
   /* When item is clicked */
-  checkMark(event, task: ITask, day: number) {
-    //Init list in case it hasn't been
-    if (task.performedOn == undefined) {
-      task.performedOn = [];
+  //TODO Define event's Type
+  checkMark(event) {
+    //Init map in case it hasn't been
+    if (event.task.performedOn == undefined) {
+      event.task.performedOn = new Map<number, number>();
     }
-    if (task.performedOn.indexOf(day) < 0) {
-
+    if (!event.task.performedOn.has(event.day)) {
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
       popover.onDidDismiss((score: number) => {
-        //Save TODO save score
-        task.performedOn.push(day);
-        task.performedOn = task.performedOn.sort();
-        
+        event.task.performedOn.set(event.day, score);
+        this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks"+e));
         let toast = this.toastCtrl.create({
-          message: task.name + ' finished! difficulty: ' + score,
+          message: event.task.name + ' finished! difficulty: ' + score,
           duration: 2000,
           cssClass: 'good-toast'
         });
-        
         toast.present();
       });
-      popover.present({ ev: event });
+      popover.present({ ev: event.event });
     } else {
-      task.performedOn.splice(task.performedOn.indexOf(day));
+      event.task.performedOn.delete(event.day);
+      this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks"+e));
     }
+    //TODO Save Tasks and send to USMO ?
   }
 
-  // Checks the date of the day  
-  isFuture(day: number): boolean {
-    return day > this.today;
-  }
-
-  getPerformedThisWeek(task: ITask, day: number) {
-    let performedThisWeek = 0;
-    let week = Math.trunc((day - task.startingTime) / this.ONE_WEEK_IN_MILIS);
-    let actualWeekStarts = task.startingTime + week * this.ONE_DAY_IN_MILIS;
-    for (let i = 0; i < task.performedOn.length; i++) {
-      if (task.performedOn[i] > actualWeekStarts && task.performedOn[i] <= day) {
-        performedThisWeek++;
-      }
-    }
-    return performedThisWeek;
-  }
-
-  /**
-   * Listeners for when the slides are swiped
-   * 
-   */
+  /* Listeners for when the slides are swiped */
   nextSlide() {
     // Make sure we moved forward
-    console.log("Next")
     if (this.oldIndex < this.slider.getActiveIndex()) {
       this.actualDay += this.ONE_DAY_IN_MILIS;
       if (this.days.indexOf(this.actualDay + this.ONE_DAY_IN_MILIS * 2) >= 0) {
@@ -124,7 +89,6 @@ export class AgendaPage {
   }
   prevSlide() {
     // Make sure we moved backwards
-    console.log("Prev")
     if (this.oldIndex > this.slider.getActiveIndex()) {
       this.actualDay -= this.ONE_DAY_IN_MILIS;
       if (this.days.indexOf(this.actualDay - this.ONE_DAY_IN_MILIS * 2) >= 0) {
@@ -135,13 +99,6 @@ export class AgendaPage {
       }
     }
     this.oldIndex = this.slider.getActiveIndex();
-  }
-
-
-  // If the task is already done the recommended number of times in the past
-  // Show it on a different color  
-  pushItToTheLimit(task: ITask, day: number) {
-    return (task.performedOn.length >= task.repetitions && task.performedOn.sort()[task.repetitions - 1] < day)
   }
 
   public gotoExerciseVideo(videoUrl: string) {

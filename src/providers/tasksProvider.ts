@@ -4,91 +4,10 @@ import { APP_CONFIG, IAppConfig } from '../app/app.config';
 import { ITask } from '../models/taskI'
 import { Observable } from 'rxjs/Observable';
 @Injectable()
-export class TasksProvider {
+export class TasksRestProvider {
   ONE_DAY_IN_MILIS = 24 * 60 * 60 * 1000
   taskList: ITask[];
-  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig) {
-    let today = Date.now();
-    this.taskList = [
-      {
-        name: 'Bridge with exercise ball',
-        videoUrl: "https://www.youtube.com/embed/sesXc7GIU1A",
-        startingTime: today,
-        repetitions: 4,
-        performedOn: []
-      },
-      {
-        name: 'Crunches',
-        startingTime: today - this.ONE_DAY_IN_MILIS * 6,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '3',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '4',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '5',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '6',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '7',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '8',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '9',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '10',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      },
-      {
-        name: '11',
-        videoUrl: "https://www.youtube.com/embed/PmxpXW_vWLw",
-        startingTime: today - this.ONE_DAY_IN_MILIS * 2,
-        repetitions: 2,
-        performedOn: []
-      }
-
-    ];
-  }
+  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig) {  }
 
   getTasks() {
     return this.taskList;
@@ -102,7 +21,7 @@ export class TasksProvider {
     return this.http
       .post(requestAddres, criteria, { headers: headers })
       .map(this.extractData).map((tasks) => {
-        return tasks ? tasks: [];
+        return tasks ? tasks : [];
       });
   }
 

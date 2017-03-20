@@ -13,7 +13,6 @@ export class StorageService {
     localForage.config({});
     return localForage.getItem<IAppointment[]>("appointments");
   }
-
   public setAppointments(appointments:IAppointment[]):Promise<IAppointment[]>{
     localForage.config({});
     return localForage.setItem("appointments",appointments);

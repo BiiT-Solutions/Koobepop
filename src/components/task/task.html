@@ -1,18 +1,18 @@
 <ion-item>
-  <ion-label item-content> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}}) {{task.name}}</ion-label>
-  <!-- <ion-label item-right> {{getPerformedThisWeek(task,day)}}/{{task.repetitions}}</ion-label>-->
+  <ion-label item-content>{{task.name}}</ion-label>
+  <!-- <ion-label item-right> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}})</ion-label>-->
   <button ion-button item-right clear icon-only 
     *ngIf="task.videoUrl!= undefined" 
-    (click)="video(task.videoUrl)">
+    (click)="clickVideo()">
     <ion-icon name="play"></ion-icon>
   </button>
   <button ion-button item-right clear icon-only
     *ngIf="task.infoUrl!= undefined"
-    (click)="info(task.infoUrl)">
+    (click)="clickInfo()">
     <ion-icon name="information-circle"></ion-icon>
   </button>
   <ion-checkbox color="dark"
   [checked]="isPerformed" 
-  [disabled]="isFuture()" 
-  (click)="check($event)" ></ion-checkbox>
+  [disabled]="isDisabled" 
+  (click)="check($event)"></ion-checkbox>
 </ion-item>

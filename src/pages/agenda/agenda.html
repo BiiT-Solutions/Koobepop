@@ -1,7 +1,9 @@
-<ion-content>
+<ion-header>
   <ion-navbar color="primary">
     <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
   </ion-navbar>
+</ion-header>
+<ion-content>  
   <div style="height:100%;">
     <ion-slides initialSlide="2" #slider 
       (ionSlideNextEnd)="nextSlide()" 
@@ -11,30 +13,14 @@
         <ion-list>
           <ng-container  
             *ngFor="let task of tasksPlan">
-            <task [task]="task" [day]="day" [isPerformed]="checkPerformedTask(task,day)" ></task>
-            <!--
-          <ion-item   
-            *ngIf ="task.startingTime <= day"           
-            [class.not-performed]="!pushItToTheLimit(task,day)" 
-            [class.performed]="pushItToTheLimit(task,day)">
-            
-            <ion-label item-content> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}}) {{task.name}}</ion-label>
-            <button ion-button item-right clear  
-              *ngIf="task.videoUrl!= undefined" 
-              (click)="gotoExerciseVideo(task.videoUrl)">
-              <ion-icon name="play"></ion-icon>
-            </button>
-            <button ion-button item-right clear 
-              *ngIf="task.infoUrl!= undefined"
-              (click)="gotoExerciseInfo()">
-              <ion-icon name="information-circle"></ion-icon>
-            </button>
-            
-            <ion-checkbox color="dark"
-            [checked]="checkPerformedTask(task,day)" 
-            [disabled]="isFuture(day)" 
-            (click)="checkMark($event,task,day)" ></ion-checkbox>
-          </ion-item>-->
+            <task-component 
+            *ngIf="day>task.startingTime"
+            [task]="task" 
+            [day]="day" 
+            (checkBoxClick)="checkMark($event)"
+            (videoClick) = "gotoExerciseVideo($event)"
+            (infoClick) = "gotoExerciseInfo($event)"
+            ></task-component>
           </ng-container>
         </ion-list>
       </ion-slide>

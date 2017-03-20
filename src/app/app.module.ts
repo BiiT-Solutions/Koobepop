@@ -9,6 +9,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
 //Components
 import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
+import { TaskComponent } from '../components/task/task'
 
 //Pages
 import { HomePage } from '../pages/home/home';
@@ -27,7 +28,7 @@ import { BookPage } from '../pages/zoom/book';
 
 //Providers REST services
 import { AppointmentsProvider } from '../providers/appointmentsProvider';
-import { TasksProvider } from '../providers/tasksProvider';
+import { TasksRestProvider } from '../providers/tasksProvider';
 
 import { CompaniesProvider } from '../providers/companies';
 
@@ -52,7 +53,8 @@ export function createTranslateLoader(http: Http) {
     VideoPage,
     EffortSelectorComponent,
     ShowExerciseInfoPage,
-    SummaryPage
+    SummaryPage,
+    TaskComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -75,12 +77,12 @@ export function createTranslateLoader(http: Http) {
     ReportPage,
     KnowPage,
     VideoPage,
-    EffortSelectorComponent,
     ShowExerciseInfoPage,
-    SummaryPage
+    SummaryPage,
+    EffortSelectorComponent
   ],
   providers: [
-    TasksProvider,
+    TasksRestProvider,
     CompaniesProvider,
     AppointmentsProvider,
     StorageService,
