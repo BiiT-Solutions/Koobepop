@@ -28,7 +28,7 @@ export class AgendaPage {
   oldIndex = 2
   @ViewChild('slider') slider: Slides;
   tasksPlan: ITask[] = [];
-
+  
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,

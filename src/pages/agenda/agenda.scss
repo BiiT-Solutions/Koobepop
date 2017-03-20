@@ -16,13 +16,7 @@ page-agenda {
  .bad-toast>div{
     background-color:map-get($colors,danger)!important;
     }
-  .performed{
-    background-color:map-get($colors,taskPerformed)!important;
-    }
-  .not-performed{
-    background-color:map-get($colors,taskNotPerformed)!important;
-    }
-
+  
   .effort-selector-popover {
     ion-backdrop{
       opacity: 0.2;

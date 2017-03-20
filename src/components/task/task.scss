@@ -1,3 +1,9 @@
 task {
 
 }
+ .performed{
+    background-color:map-get($colors,taskPerformed)!important;
+    }
+  .not-performed{
+    background-color:map-get($colors,taskNotPerformed)!important;
+    }

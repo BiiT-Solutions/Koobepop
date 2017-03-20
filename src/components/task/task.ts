@@ -51,4 +51,7 @@ export class TaskComponent {
     }
     return performedThisWeek;
   }
+  private taskStyle(){
+    return {'performed':true}
+  }
 }
