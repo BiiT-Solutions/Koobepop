@@ -15,8 +15,8 @@ export class ResultsProvider {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
     return this.http.post(requestAddres, criteria, { headers: headers })
-      .map(this.extractData).map((tasks) => {
-        return tasks ? tasks : [];
+      .map(this.extractData).map((results) => {
+        return results ? results : [];
       });
   }
   extractData(res: Response) {

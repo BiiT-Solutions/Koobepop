@@ -8,7 +8,6 @@ import { IUser } from '../models/userI';
 export class AppointmentsProvider {
   appointmentsList;
   constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig) {
-
   }
 
   public getAppointments() {

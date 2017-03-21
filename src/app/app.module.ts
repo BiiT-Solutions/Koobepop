@@ -29,12 +29,13 @@ import { BookPage } from '../pages/zoom/book';
 //Providers REST services
 import { AppointmentsProvider } from '../providers/appointmentsProvider';
 import { TasksRestProvider } from '../providers/tasksProvider';
-
+import { ResultsProvider } from '../providers/resultsProvider';
 import { CompaniesProvider } from '../providers/companies';
 
 //Services
 import { StorageService } from '../providers/storageService';
-import { ResultsProvider } from '../providers/resultsProvider';
+import { PersistenceManager } from '../providers/persistenceManager';
+
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -83,6 +84,7 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent
   ],
   providers: [
+    PersistenceManager,
     TasksRestProvider,
     CompaniesProvider,
     AppointmentsProvider,

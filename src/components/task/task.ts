@@ -8,7 +8,9 @@ import { ITask } from '../../models/taskI';
 })
 export class TaskComponent {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
-  ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * 7;
+  WEEK_DAYS = 7;
+  ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * this.WEEK_DAYS;
+  
 
   @Input() task: ITask;
   @Input() day: number;
@@ -51,7 +53,31 @@ export class TaskComponent {
     }
     return performedThisWeek;
   }
-  private taskStyle(){
-    return {'performed':true}
+
+  /*Provides the style for the task */
+  private taskStyle() {
+     let performedThisWeek = 0;
+     let week = Math.trunc((this.day - this.task.startingTime) / this.ONE_WEEK_IN_MILIS);
+     let daysLeft = this.WEEK_DAYS - Math.trunc(((this.day - this.task.startingTime)%this.ONE_WEEK_IN_MILIS)/this.ONE_DAY_IN_MILIS)
+     let actualWeekStarts = this.task.startingTime + week * this.ONE_DAY_IN_MILIS;
+  
+    if (this.task.performedOn != undefined) {
+     this.task.performedOn.forEach((value, key) => {
+        if (key > actualWeekStarts && key <= this.day) {
+          performedThisWeek++;
+        }
+    });   
+    }
+    if (performedThisWeek >= this.task.repetitions) {
+      return { 'over-do-task': true }
+    }else{
+      if (this.task.repetitions-performedThisWeek > daysLeft){
+        return{'due-task':true}
+      }else if (this.task.repetitions-performedThisWeek == daysLeft){
+        return{'on-time-task':true}
+      }else{
+        return{'plenty-time-task':true}
+      }
+    }
   }
 }

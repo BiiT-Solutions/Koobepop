@@ -7,6 +7,7 @@ import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
 import { TasksRestProvider } from '../../providers/tasksProvider';
 import { StorageService } from '../../providers/storageService';
+import { PersistenceManager } from '../../providers/persistenceManager';
 /**
  * 
  */
@@ -19,12 +20,7 @@ export class AgendaPage {
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * 7;
   today: number = (new Date()).setHours(0,0,0,0);
   actualDay: number = (new Date()).setHours(0,0,0,0);
-  days: number[] = [
-    this.today - this.ONE_DAY_IN_MILIS * 2,
-    this.today - this.ONE_DAY_IN_MILIS,
-    this.today,
-    this.today + this.ONE_DAY_IN_MILIS,
-    this.today + this.ONE_DAY_IN_MILIS * 2];
+  days: number[] = [];
   oldIndex = 2
   @ViewChild('slider') slider: Slides;
   tasksPlan: ITask[] = [];
@@ -34,9 +30,11 @@ export class AgendaPage {
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
     public taskProv: TasksRestProvider,
-    public storageService: StorageService) {}
+    public storageService: StorageService,
+    public manager: PersistenceManager) {}
 
   ionViewDidLoad() {
+    this.goToToday();
     this.storageService.getTasks().then(tasks => {
       this.tasksPlan = tasks;
     });
@@ -54,8 +52,11 @@ export class AgendaPage {
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
       popover.onDidDismiss((score: number) => {
+        //
         event.task.performedOn.set(event.day, score);
+        this.manager.performTask(event.task,event.day);//TODO manage everything from the manager service :)
         this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks"+e));
+        
         let toast = this.toastCtrl.create({
           message: event.task.name + ' finished! difficulty: ' + score,
           duration: 2000,
@@ -65,6 +66,7 @@ export class AgendaPage {
       });
       popover.present({ ev: event.event });
     } else {
+       this.manager.removeTask(event.task,event.day);
       event.task.performedOn.delete(event.day);
       this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks"+e));
     }

@@ -1,9 +1,13 @@
-task {
-
-}
- .performed{
-    background-color:map-get($colors,taskPerformed)!important;
+task-component{}
+ .over-do-task{
+    background-color:map-get($colors,overDo)!important;
     }
-  .not-performed{
-    background-color:map-get($colors,taskNotPerformed)!important;
-    }
+  .due-task{
+    background-color:map-get($colors,dueTime)!important;
+  }
+  .just-in-time-task{
+    background-color:map-get($colors,justInTime)!important;
+  }
+  .plenty-time-task{
+    background-color:map-get($colors,plentyTime)!important;
+  }
