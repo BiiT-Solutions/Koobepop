@@ -5,10 +5,11 @@
 </ion-header>
 <ion-content>  
   <div style="height:100%;">
-    <button ion-button full color="secondary" (click)="goToToday()">Today</button>
-    <ion-slides initialSlide="2" #slider 
+   <!-- <button ion-button full color="secondary" (click)="goToToday()">Today Translate</button>-->
+    <ion-slides initialSlide="1" #slider 
       (ionSlideNextEnd)="nextSlide()" 
       (ionSlidePrevEnd)="prevSlide()">
+      
       <ion-slide *ngFor="let day of days">
         <div class="date-header">{{day |date}}</div>
         <ion-list>

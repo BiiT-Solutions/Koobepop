@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, Slides } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
@@ -18,23 +18,25 @@ import { PersistenceManager } from '../../providers/persistenceManager';
 export class AgendaPage {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * 7;
-  today: number = (new Date()).setHours(0,0,0,0);
-  actualDay: number = (new Date()).setHours(0,0,0,0);
+  today: number = (new Date()).setHours(0, 0, 0, 0);
+  actualDay: number = (new Date()).setHours(0, 0, 0, 0);
   days: number[] = [];
-  oldIndex = 2
+  oldIndex = 1
   @ViewChild('slider') slider: Slides;
   tasksPlan: ITask[] = [];
-  
+
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
     public taskProv: TasksRestProvider,
     public storageService: StorageService,
-    public manager: PersistenceManager) {}
+    public manager: PersistenceManager,
+    public changeDetectorRef: ChangeDetectorRef) {
+      this.goToToday();
+     }
 
   ionViewDidLoad() {
-    this.goToToday();
     this.storageService.getTasks().then(tasks => {
       this.tasksPlan = tasks;
     });
@@ -45,20 +47,20 @@ export class AgendaPage {
   //TODO Define event's Type
   checkMark(event) {
     //Init map in case it hasn't been
-    if (event.task.performedOn == undefined) {
-      event.task.performedOn = new Map<number, number>();
+    if (event.task.task.performedOn == undefined) {
+      event.task.task.performedOn = new Map<number, number>();
     }
-    if (!event.task.performedOn.has(event.day)) {
+    if (!event.task.task.performedOn.has(event.task.day)) {
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
       popover.onDidDismiss((score: number) => {
         //
-        event.task.performedOn.set(event.day, score);
-        this.manager.performTask(event.task,event.day);//TODO manage everything from the manager service :)
-        this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks"+e));
+        event.task.task.performedOn.set(event.task.day, score);
+        this.manager.performTask(event.task.task, event.task.day); //TODO manage everything from the manager service :)
         
+        this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks" + e));
         let toast = this.toastCtrl.create({
-          message: event.task.name + ' finished! difficulty: ' + score,
+          message: event.task.task.name + ' finished! difficulty: ' + score,
           duration: 2000,
           cssClass: 'good-toast'
         });
@@ -66,23 +68,23 @@ export class AgendaPage {
       });
       popover.present({ ev: event.event });
     } else {
-       this.manager.removeTask(event.task,event.day);
-      event.task.performedOn.delete(event.day);
-      this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks"+e));
-    }
+      this.manager.removeTask(event.task.task, event.task.day);
+      event.task.task.performedOn.delete(event.task.day);
+      this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks" + e));
+      }
     //TODO Save Tasks and send to USMO ?
   }
 
-  /* Listeners for when the slides are swiped */
+  /* Listeners for when the slides are swiped TODO FIX!!*/
   nextSlide() {
     // Make sure we moved forward
     if (this.oldIndex < this.slider.getActiveIndex()) {
       this.actualDay += this.ONE_DAY_IN_MILIS;
-      if (this.days.indexOf(this.actualDay + this.ONE_DAY_IN_MILIS * 2) >= 0) {
+      if (this.days.indexOf(this.actualDay + this.ONE_DAY_IN_MILIS) >= 0) {
       } else {
-        this.days.push(this.actualDay + this.ONE_DAY_IN_MILIS * 2);
-        this.slider.slidePrev(0);
+        this.days.push(this.actualDay + this.ONE_DAY_IN_MILIS);
         this.days.shift();
+        this.slider.slidePrev(0);
       }
       this.oldIndex = this.slider.getActiveIndex();
     }
@@ -91,9 +93,9 @@ export class AgendaPage {
     // Make sure we moved backwards
     if (this.oldIndex > this.slider.getActiveIndex()) {
       this.actualDay -= this.ONE_DAY_IN_MILIS;
-      if (this.days.indexOf(this.actualDay - this.ONE_DAY_IN_MILIS * 2) >= 0) {
+      if (this.days.indexOf(this.actualDay - this.ONE_DAY_IN_MILIS) >= 0) {
       } else {
-        this.days.unshift(this.actualDay - this.ONE_DAY_IN_MILIS * 2);
+        this.days.unshift(this.actualDay - this.ONE_DAY_IN_MILIS);
         this.slider.slideNext(0);
         this.days.pop();
       }
@@ -109,13 +111,14 @@ export class AgendaPage {
     window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
   }
 
-  public goToToday(){
+  public goToToday() {
     this.days = [
-    this.today - this.ONE_DAY_IN_MILIS * 2,
-    this.today - this.ONE_DAY_IN_MILIS,
-    this.today,
-    this.today + this.ONE_DAY_IN_MILIS,
-    this.today + this.ONE_DAY_IN_MILIS * 2];
-    this.actualDay=this.today;
+      // this.today - this.ONE_DAY_IN_MILIS * 2,
+      this.today - this.ONE_DAY_IN_MILIS,
+      this.today,
+      this.today + this.ONE_DAY_IN_MILIS
+      //,this.today + this.ONE_DAY_IN_MILIS * 2
+    ];
+    this.actualDay = this.today;
   }
 }

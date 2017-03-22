@@ -1,13 +1,14 @@
 task-component{}
+
  .over-do-task{
-    background-color:map-get($colors,overDo)!important;
+   // background-color:map-get($colors,overDo)!important;
     }
   .due-task{
-    background-color:map-get($colors,dueTime)!important;
+   // background-color:map-get($colors,dueTime)!important;
   }
   .just-in-time-task{
-    background-color:map-get($colors,justInTime)!important;
+   //background-color:map-get($colors,justInTime)!important;
   }
   .plenty-time-task{
-    background-color:map-get($colors,plentyTime)!important;
+    //background-color:map-get($colors,plentyTime)!important;
   }

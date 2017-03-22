@@ -32,7 +32,7 @@ export class ReportPage {
       .then((appointments: IAppointment[]) => {
         if (appointments == undefined || appointments == null || appointments.length <= 0) {
           console.log("ReportPage: Appointments is null");//TODO Error Log
-          setTimeout(this.loadReports(), 10000);
+          setTimeout(()=>{this.loadReports()}, 3000);
         } else {
           appointments.forEach((appointment: IAppointment) => {
             let reportBuilder = {

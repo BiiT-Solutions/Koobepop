@@ -26,9 +26,11 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
 
       translate.use('en');
-      // Right now this overrides the local database when it initializes, gotta fix that!
+
+      // TODO Right now this overrides the local database when it initializes, gotta fix that!
       storageService.setUser({ name: "Alejandro", surname: "Melcón", patientId: "21008286V" });
-      
+      persistenceManager.setUp();
+
       StatusBar.styleDefault();
       Splashscreen.hide();
     });
