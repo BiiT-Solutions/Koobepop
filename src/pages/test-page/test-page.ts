@@ -5,6 +5,8 @@ import { EffortSelectorComponent } from '../../components/effort-selector/effort
 import { PopoverController } from 'ionic-angular';
 import { PersistenceManager } from '../../providers/persistenceManager';
 import { StorageService } from '../../providers/storageService';
+import { Observable } from 'rxjs/Observable';
+import { ITask } from '../../models/taskI';
 /**
  *  This is a test page and should be removed before releasing .
  * Here you can meddle with dark magic better left alone.
@@ -17,8 +19,9 @@ import { StorageService } from '../../providers/storageService';
 })
 export class TestPage {
   hideHeader;
-
-
+  results: Map<number,any[]>;
+  tasksPlan: ITask[] = [];
+  day = Date.now();
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public manager: PersistenceManager,
@@ -28,11 +31,11 @@ export class TestPage {
 
   ionViewDidLoad() {
     this.hideHeader = false;
+    this.results = this.manager.getResults();
   }
 
   restart() {
-    this.storageService.resetDB();
-    this.manager.setUp();
+  
  }
 }
 export interface IEvent {

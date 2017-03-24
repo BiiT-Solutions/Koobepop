@@ -36,10 +36,8 @@ export class AgendaPage {
       this.goToToday();
      }
 
-  ionViewDidLoad() {
-    this.storageService.getTasks().then(tasks => {
-      this.tasksPlan = tasks;
-    });
+  ionViewDidLoad() {    
+    this.tasksPlan = this.manager.getActualTasks();
     //TODO check for changes on tasks if possible (Online)
   }
 
@@ -86,7 +84,6 @@ export class AgendaPage {
         this.days.shift();
         this.slider.slidePrev(0);
       }
-      this.oldIndex = this.slider.getActiveIndex();
     }
   }
   prevSlide() {
@@ -100,7 +97,6 @@ export class AgendaPage {
         this.days.pop();
       }
     }
-    this.oldIndex = this.slider.getActiveIndex();
   }
 
   public gotoExerciseVideo(videoUrl: string) {

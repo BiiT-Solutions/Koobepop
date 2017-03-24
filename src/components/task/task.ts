@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ITask } from '../../models/taskI';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'task-component',
@@ -16,17 +17,24 @@ export class TaskComponent {
   @Input() day: number;
   isPerformed = false;
   isDisabled = false;
-  style={};
+  style = {};
   @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
-  constructor( public changeDetectorRef:ChangeDetectorRef) { }
+  constructor(public changeDetectorRef: ChangeDetectorRef) {}
+  ngAfterViewInit() {
 
+  }
   ngOnChanges() {
-    console.log("TaskComponent on changes")
-    this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
-
+   //this.taskObservable.forEach(task => {
+   //  console.log("foreach " + task.name)
+   //  this.task = task;
+   //  this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
+   //  this.style = this.taskStyle();
+   //});
+    //if (this.task != undefined) console.log(this.task.name);
     this.isDisabled = this.day > Date.now() || this.day < Date.now() - this.ONE_WEEK_IN_MILIS;
+    this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
     this.style = this.taskStyle();
   }
 
@@ -58,18 +66,18 @@ export class TaskComponent {
         }
       });
     }
-    console.log(performedThisWeek+" <- -> "+ this.task.repetitions);
+    //console.log(performedThisWeek + " <- -> " + this.task.repetitions + "  " + this.task.name);
     if (performedThisWeek >= this.task.repetitions) {
       return { 'over-do-task': true };
     } else {
-      if ((this.task.repetitions - performedThisWeek) > daysLeft) {        
-        console.log("DUE");
+      if ((this.task.repetitions - performedThisWeek) > daysLeft) {
+      //  console.log("DUE");
         return { 'due-task': true };
       } else if ((this.task.repetitions - performedThisWeek) == daysLeft) {
-        console.log("ON TIME");
+      //  console.log("ON TIME");
         return { 'just-in-time-task': true };
       } else {
-        console.log("EASY");
+      //  console.log("EASY");
         return { 'plenty-time-task': true };
       }
     }

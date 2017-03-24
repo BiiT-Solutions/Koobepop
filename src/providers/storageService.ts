@@ -48,6 +48,7 @@ export class StorageService {
     localForage.config({});
     return localForage.setItem("results", results);
   }
+
   public resetDB(){
     localForage.config({});
     localForage.clear();

@@ -21,7 +21,7 @@ export const AppConfig: IAppConfig = {
     getCompaniesService : "/rest/getCompanies",
     getTasksService:"/rest/getCorrectiveExercisesToDo",
     getAppointmentsService:"/rest/getAppointments",
-    getResultsService:"/rest/getAppointmentExaminations",
+    getResultsService:"/rest/getExaminationResultsAsJson",
     addPerformedExercise:"/rest/addPerformedExercise",
     removePerformedExercise:"/rest/removePerformedExercise",
     password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU="

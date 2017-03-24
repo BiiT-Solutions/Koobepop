@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content>  
   <div style="height:100%;">
-   <!-- <button ion-button full color="secondary" (click)="goToToday()">Today Translate</button>-->
+ <button ion-button full color="secondary" (click)="goToToday()">{{"AGENDA.TODAY-BUTTON" | translate}}</button>
     <ion-slides initialSlide="1" #slider 
       (ionSlideNextEnd)="nextSlide()" 
       (ionSlidePrevEnd)="prevSlide()">

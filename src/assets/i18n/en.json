@@ -36,6 +36,7 @@
         "SEARCH-BUTTON-TEXT":"Search"
     },
     "AGENDA":{
-        "TITLE":"Tasks"
+        "TITLE":"Tasks",
+        "TODAY-BUTTON":"Today"
     }
 }

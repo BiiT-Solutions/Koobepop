@@ -21,10 +21,11 @@ import { KnowPage } from '../pages/know/know';
 import { VideoPage } from '../pages/video/video';
 import { ShowExerciseInfoPage } from '../pages/show-exercise-info/show-exercise-info';
 import { SummaryPage } from '../pages/summary/summary';
+import { LoginPage } from '../pages/login/login';
+
 
 import { ZoomPage } from '../pages/zoom/zoom';
 import { BookPage } from '../pages/zoom/book';
-
 
 //Providers REST services
 import { AppointmentsProvider } from '../providers/appointmentsProvider';
@@ -56,7 +57,9 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent,
     ShowExerciseInfoPage,
     SummaryPage,
-    TaskComponent
+    TaskComponent,
+    LoginPage
+    
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -81,6 +84,7 @@ export function createTranslateLoader(http: Http) {
     VideoPage,
     ShowExerciseInfoPage,
     SummaryPage,
+    LoginPage,
     EffortSelectorComponent
   ],
   providers: [

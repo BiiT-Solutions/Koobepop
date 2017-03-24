@@ -1,0 +1,24 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content >
+   <ion-item>
+    <ion-label color="primary" floating>ID:</ion-label>
+    <ion-input ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" floating>Password:</ion-label>
+    <ion-input type="password" [(ngModel)]="pass"></ion-input>
+  </ion-item>
+  <!--Shoudn't be necesasary-->
+  <ion-item>
+    <ion-label>{{pass}}</ion-label>
+    <ion-checkbox [(ngModel)]="pepperoni"></ion-checkbox>
+  </ion-item>
+
+  <button ion-button (click)="login()">Accept</button>
+   
+</ion-content>

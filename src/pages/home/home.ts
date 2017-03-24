@@ -9,11 +9,11 @@ import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
 import { AppointmentsProvider } from '../../providers/appointmentsProvider';
-import { IAppointment } from '../../models/appointmentI';
 import { StorageService } from '../../providers/storageService';
 import { SummaryPage } from '../summary/summary';
 import { TasksRestProvider } from '../../providers/tasksProvider';
-import { ITask } from '../../models/taskI';
+import { LoginPage } from '../login/login';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -39,7 +39,7 @@ export class HomePage {
     this.navCtrl.push(ZoomPage);
   }
   navTest() {
-    this.navCtrl.push(TestPage);
+    this.navCtrl.push(LoginPage);
   }
   navAgendaView() {
     this.navCtrl.push(AgendaPage);

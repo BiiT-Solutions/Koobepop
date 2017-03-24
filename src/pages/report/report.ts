@@ -4,6 +4,8 @@ import { AppointmentsProvider } from '../../providers/appointmentsProvider';
 import { IAppointment } from '../../models/appointmentI';
 import { StorageService } from '../../providers/storageService';
 import * as infographicjs from 'infographic-js';
+import { PersistenceManager } from '../../providers/persistenceManager';
+import { FormResult } from '../../models/results';
 /**
  * This page holds a report into a slider consisting on several pages (zoomable-slide)
  */
@@ -14,53 +16,51 @@ import * as infographicjs from 'infographic-js';
 export class ReportPage {
   testext;
   svgList = [];
+  appointments:IAppointment[];
+  results:Map<number,FormResult[]>;
   @ViewChild('slider') slider: Slides;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public appointmentsProvider: AppointmentsProvider,
     public changeDetector: ChangeDetectorRef,
-    public storageService: StorageService) {
+    public storageService: StorageService,
+    public manager: PersistenceManager) {
+    
+    this.appointments = manager.getAppointments();
+    this.results = manager.getResults();
     this.loadReports();
-  }
-  isZoomActive(zoomActive: boolean) {
-    this.testext = zoomActive;
-    this.slider.lockSwipes(zoomActive);
   }
 
   private loadReports(): void {
-    this.storageService.getAppointments()
-      .then((appointments: IAppointment[]) => {
-        if (appointments == undefined || appointments == null || appointments.length <= 0) {
-          console.log("ReportPage: Appointments is null");//TODO Error Log
-          setTimeout(()=>{this.loadReports()}, 3000);
-        } else {
-          appointments.forEach((appointment: IAppointment) => {
-            let reportBuilder = {
-              "width": 540,
-              "height": 960,
-              "dataText": {
-                "date": appointment.startTime,
-                "doctorName": appointment.doctorLastName + ", " + appointment.doctorFirstName,
-                "conclusion": "",//appointment.appointmentId.toString(),
-                "patientName": "",
-                "patientBirthday": "",
-                "patientMail": "",
-                "patientPhone": "",
-                "height": "",
-                "weight": "",
-                "bloodPressure": "",
-                "waist": "",
-                "folds": "",
-                "nextAppointmentDate": "",
-                "nextAppointmentTime": ""
-              }
-            };
-            this.svgList.push(infographicjs.fillBasicReport(reportBuilder));
-          });
-          //We check for changes because this is done outside of the regular angular detections
-          //More info: https://github.com/angular/angular/issues/10131
-          this.changeDetector.detectChanges();
+   this.appointments.forEach((appointment: IAppointment) => {
+    if(this.results.has(appointment.appointmentId)){
+     let result = this.results.get(appointment.appointmentId);
+      let reportBuilder = {
+        "width": 540,
+        "height": 960,
+        "dataText": {
+          "date": appointment.startTime,
+          "doctorName": appointment.doctorLastName + ", " + appointment.doctorFirstName,
+          "conclusion": "",//appointment.appointmentId.toString(),
+          "patientName": "",
+          "patientBirthday": "",
+          "patientMail": "",
+          "patientPhone": "",
+          "height": result[0].children[0].children[3].values[0],
+          "weight": "",
+          "bloodPressure": "",
+          "waist": "",
+          "folds": "",
+          "nextAppointmentDate": "",
+          "nextAppointmentTime": ""
         }
-      });
+      };
+      this.svgList.push(infographicjs.fillBasicReport(reportBuilder));
+    }});
+  }
+
+  isZoomActive(zoomActive: boolean) {
+    this.testext = zoomActive;
+    this.slider.lockSwipes(zoomActive);
   }
 }
