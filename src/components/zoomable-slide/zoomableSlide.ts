@@ -1,13 +1,13 @@
 import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
-import { Gesture, ToastController } from 'ionic-angular';@Component({
+import { Gesture, ToastController } from 'ionic-angular'; @Component({
   selector: 'zoomable-slide',
   templateUrl: 'zoomableSlide.html'
 })
 export class ZoomableSlide {
   private gesture: Gesture;
   @ViewChild('frame') element;
-  MIN_WIDTH=0;
-  MIN_HEIGHT=0;
+  MIN_WIDTH = 0;
+  MIN_HEIGHT = 0;
   newWidth = 300;
   newHeight = 400;
   oldWidth = 300;
@@ -25,8 +25,8 @@ export class ZoomableSlide {
   @ViewChild("svgSlide") slide;
   @Input() svg;
   intervalId;
-  @Output() zooming:EventEmitter<boolean> = new EventEmitter<boolean>();
-  pinchString: string="";
+  @Output() zooming: EventEmitter<boolean> = new EventEmitter<boolean>();
+  pinchString: string = "";
   constructor(public toastCtrl: ToastController) { }
 
 
@@ -42,9 +42,9 @@ export class ZoomableSlide {
     this.gesture.on('pinchend', e => this.pinchEndEvent(e));
     this.MIN_WIDTH = this.element.nativeElement.getBoundingClientRect().width;
     this.MIN_HEIGHT = this.element.nativeElement.getBoundingClientRect().height;
-    this.newWidth =  this.MIN_WIDTH; 
+    this.newWidth = this.MIN_WIDTH;
     this.newHeight = this.MIN_HEIGHT;
-    this.oldWidth =  this.MIN_WIDTH;
+    this.oldWidth = this.MIN_WIDTH;
     this.oldHeight = this.MIN_HEIGHT;
     this.applyResize();
     this.startRendering();
@@ -74,7 +74,7 @@ export class ZoomableSlide {
     this.oldWidth = this.newWidth;
     this.oldHeight = this.newHeight;
 
-    if (this.newWidth <= this.MIN_WIDTH*1.05) {
+    if (this.newWidth <= this.MIN_WIDTH * 1.05) {
       this.newWidth = this.MIN_WIDTH;
       this.newHeight = this.MIN_HEIGHT;
       this.oldWidth = this.MIN_WIDTH;
@@ -87,7 +87,7 @@ export class ZoomableSlide {
     if (this.zoomActive) {
       this.gesture.on('panstart', e => this.startMove(e));
       this.gesture.on('pan', e => this.moveAround(e));
-    }else{
+    } else {
       this.zooming.emit(this.zoomActive);
     }
   }
@@ -125,13 +125,13 @@ export class ZoomableSlide {
     this.viewMarginTop = this.mTop;
     this.viewMarginLeft = this.mLeft;
   }
-  
-  showToast(text:string){
+
+  showToast(text: string) {
     let toast = this.toastCtrl.create({
-          message:text,
-          duration: 2000,
-          cssClass: 'good-toast'
-        });
-        toast.present();
+      message: text,
+      duration: 2000,
+      cssClass: 'good-toast'
+    });
+    toast.present();
   }
 }

@@ -10,9 +10,11 @@ export interface IAppConfig {
     getResultsService:string;
     usmoServer:string;
     getAppointmentsService:string;
+    getAuthenticationToken:string;
     addPerformedExercise:string;
     removePerformedExercise:string;
     password: string;
+
 }
 
 export const AppConfig: IAppConfig = {    
@@ -24,5 +26,6 @@ export const AppConfig: IAppConfig = {
     getResultsService:"/rest/getExaminationResultsAsJson",
     addPerformedExercise:"/rest/addPerformedExercise",
     removePerformedExercise:"/rest/removePerformedExercise",
-    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU="
+    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar
+    getAuthenticationToken:"/rest/getAuthenticationToken"
 };

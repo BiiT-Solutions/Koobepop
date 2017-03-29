@@ -19,7 +19,7 @@ export class AgendaPage {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * 7;
   today: number = (new Date()).setHours(0, 0, 0, 0);
-  actualDay: number = (new Date()).setHours(0, 0, 0, 0);
+  actualDay: number;
   days: number[] = [];
   oldIndex = 1
   @ViewChild('slider') slider: Slides;
@@ -39,6 +39,7 @@ export class AgendaPage {
   ionViewDidLoad() {    
     this.tasksPlan = this.manager.getActualTasks();
     //TODO check for changes on tasks if possible (Online)
+
   }
 
   /* When item is clicked */
@@ -115,6 +116,9 @@ export class AgendaPage {
       this.today + this.ONE_DAY_IN_MILIS
       //,this.today + this.ONE_DAY_IN_MILIS * 2
     ];
+   // console.log(new Date(this.today - this.ONE_DAY_IN_MILIS));
+   // console.log(new Date(this.today));
+   // console.log(new Date(this.today + this.ONE_DAY_IN_MILIS));
     this.actualDay = this.today;
   }
 }

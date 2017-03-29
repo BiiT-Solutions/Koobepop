@@ -16,47 +16,67 @@ import { FormResult } from '../../models/results';
 export class ReportPage {
   testext;
   svgList = [];
-  appointments:IAppointment[];
-  results:Map<number,FormResult[]>;
+  appointments: IAppointment[];
+  results: Map<number, FormResult[]>;
   @ViewChild('slider') slider: Slides;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public appointmentsProvider: AppointmentsProvider,
     public changeDetector: ChangeDetectorRef,
     public storageService: StorageService,
     public manager: PersistenceManager) {
-    
-    this.appointments = manager.getAppointments();
-    this.results = manager.getResults();
-    this.loadReports();
+
+    let context = this;
+    this.loadAppointments(context);
+    this.loadResults(context);
+    this.loadReports(context);
   }
 
-  private loadReports(): void {
-   this.appointments.forEach((appointment: IAppointment) => {
-    if(this.results.has(appointment.appointmentId)){
-     let result = this.results.get(appointment.appointmentId);
-      let reportBuilder = {
-        "width": 540,
-        "height": 960,
-        "dataText": {
-          "date": appointment.startTime,
-          "doctorName": appointment.doctorLastName + ", " + appointment.doctorFirstName,
-          "conclusion": "",//appointment.appointmentId.toString(),
-          "patientName": "",
-          "patientBirthday": "",
-          "patientMail": "",
-          "patientPhone": "",
-          "height": result[0].children[0].children[3].values[0],
-          "weight": "",
-          "bloodPressure": "",
-          "waist": "",
-          "folds": "",
-          "nextAppointmentDate": "",
-          "nextAppointmentTime": ""
+  private loadAppointments(context) {
+    context.appointments = context.manager.getAppointments();
+    if (context.appointments == undefined || context.appointments.length <= 0) {
+      setTimeout(() => context.loadAppointments(context), 1000);
+    }
+  }
+  private loadResults(context) {
+    context.results = context.manager.getResults();
+    if (context.results == undefined || context.results.keys().length <= 0) {
+      setTimeout(() => context.loadResults(context), 1000);
+    }
+  }
+  private loadReports(context): void {
+    if (context.appointments == undefined || context.appointments.length <= 0 || context.results == undefined || context.results.keys().length <= 0) {
+      setTimeout(() => context.loadReports(context), 1000);
+    } else {
+      context.appointments.forEach((appointment: IAppointment) => {
+        if (context.results.has(appointment.appointmentId)) {
+          let result = context.results.get(appointment.appointmentId);
+
+          let reportBuilder = {
+            "width": 540,
+            "height": 960,
+            "dataText": {
+              "date": appointment.startTime,
+              "doctorName": appointment.doctorLastName + ", " + appointment.doctorFirstName,
+              "conclusion": "",//appointment.appointmentId.toString(),
+              "patientName": "",
+              "patientBirthday": "",
+              "patientMail": "",
+              "patientPhone": "",
+              "height": result[0].children[0].children[3].values[0],
+              "weight": "",
+              "bloodPressure": "",
+              "waist": "",
+              "folds": "",
+              "nextAppointmentDate": "",
+              "nextAppointmentTime": ""
+            }
+          };
+          context.svgList.push(infographicjs.fillBasicReport(reportBuilder));
         }
-      };
-      this.svgList.push(infographicjs.fillBasicReport(reportBuilder));
-    }});
+      });
+    }
   }
 
   isZoomActive(zoomActive: boolean) {

@@ -44,11 +44,7 @@ export class PersistenceManager {
     public getResults() { return this.actualResults; }
 
     public getActualTasks(): ITask[] { return this.actualTasks; }
-    public setActualTasks(tasks: ITask[]) {
-        //let newTasks: Observable<ITask>[] = [];
-        //tasks.forEach(task => { newTasks.push(Observable.of(task)); });
-        this.actualTasks = tasks;
-    }
+    public setActualTasks(tasks: ITask[]) {this.actualTasks = tasks;}
 
     public performTask(task, time) {
         this.tasksProvider.sendPerformedTask(this.actualAppointment, task, time);

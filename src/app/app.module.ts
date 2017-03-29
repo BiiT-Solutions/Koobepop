@@ -36,11 +36,13 @@ import { CompaniesProvider } from '../providers/companies';
 //Services
 import { StorageService } from '../providers/storageService';
 import { PersistenceManager } from '../providers/persistenceManager';
+import { AuthTokenService } from '../providers/authTokenService';
 
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
+
 @NgModule({
   declarations: [
     MyApp,
@@ -94,6 +96,7 @@ export function createTranslateLoader(http: Http) {
     AppointmentsProvider,
     ResultsProvider,
     StorageService,
+    AuthTokenService,
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: ErrorHandler, useClass: IonicErrorHandler }]
 })

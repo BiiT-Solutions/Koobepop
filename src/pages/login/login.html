@@ -7,7 +7,7 @@
 <ion-content >
    <ion-item>
     <ion-label color="primary" floating>ID:</ion-label>
-    <ion-input ></ion-input>
+    <ion-input [(ngModel)]="id"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label color="primary" floating>Password:</ion-label>
@@ -20,5 +20,6 @@
   </ion-item>
 
   <button ion-button (click)="login()">Accept</button>
+   <button ion-button (click)="getToken()">Get Token</button>
    
 </ion-content>

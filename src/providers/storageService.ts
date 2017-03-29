@@ -3,6 +3,7 @@ import { IAppointment } from '../models/appointmentI';
 import * as localForage from 'localforage';
 import { IUser } from '../models/userI';
 import { ITask } from '../models/taskI';
+import { IToken } from '../models/tokenI';
 @Injectable()
 export class StorageService {
 
@@ -49,6 +50,15 @@ export class StorageService {
     return localForage.setItem("results", results);
   }
 
+  public getToken():Promise<IToken>{
+    localForage.config({});
+    return localForage.getItem("token");
+  }
+  public setToken(token:IToken):Promise<IToken>{
+    localForage.config({});
+    return localForage.setItem("token", token);
+  }
+  
   public resetDB(){
     localForage.config({});
     localForage.clear();
