@@ -1,17 +1,12 @@
 import { Component, } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform, NavParams } from 'ionic-angular';
 
 import { AboutPage } from '../about/about';
-import { TranslateService } from 'ng2-translate';
 import { ZoomPage } from '../zoom/zoom';
-import { TestPage } from '../test-page/test-page';
 import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
-import { AppointmentsProvider } from '../../providers/appointmentsProvider';
-import { StorageService } from '../../providers/storageService';
 import { SummaryPage } from '../summary/summary';
-import { TasksRestProvider } from '../../providers/tasksProvider';
 import { LoginPage } from '../login/login';
 
 @Component({
@@ -22,12 +17,7 @@ export class HomePage {
   //Legacy TODO remove
   BOOK_HEIGHT = 4;
 
-  constructor(public navCtrl: NavController,
-    public platform: Platform,
-    private translate: TranslateService,
-    private appointmentsProvider: AppointmentsProvider,
-    private tasksProvider: TasksRestProvider,
-    private storageService: StorageService) {  }
+  constructor(public navCtrl: NavController) {  }
 
   ionViewDidLoad() {
 
@@ -39,6 +29,7 @@ export class HomePage {
     this.navCtrl.push(ZoomPage);
   }
   navTest() {
+    
     this.navCtrl.push(LoginPage);
   }
   navAgendaView() {

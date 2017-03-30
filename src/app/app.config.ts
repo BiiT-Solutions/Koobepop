@@ -14,6 +14,7 @@ export interface IAppConfig {
     addPerformedExercise:string;
     removePerformedExercise:string;
     password: string;
+    verifyAuthenticationToken:string;
 
 }
 
@@ -23,9 +24,10 @@ export const AppConfig: IAppConfig = {
     getCompaniesService : "/rest/getCompanies",
     getTasksService:"/rest/getCorrectiveExercisesToDo",
     getAppointmentsService:"/rest/getAppointments",
-    getResultsService:"/rest/getExaminationResultsAsJson",
+    getResultsService:"/rest/getExaminationResultsAuth",
     addPerformedExercise:"/rest/addPerformedExercise",
     removePerformedExercise:"/rest/removePerformedExercise",
-    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar
-    getAuthenticationToken:"/rest/getAuthenticationToken"
+    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
+    getAuthenticationToken:"/rest/getAuthenticationToken",
+    verifyAuthenticationToken:"/rest/verifyAuthenticationToken"
 };

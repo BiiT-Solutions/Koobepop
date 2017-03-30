@@ -4,6 +4,5 @@ export interface IToken{
     signature:string;
 }
 export interface IPayload{
-    user:string;
     exp:number;
 }

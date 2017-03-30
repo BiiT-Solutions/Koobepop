@@ -10,12 +10,11 @@ import { ShowExerciseInfoPage } from '../show-exercise-info/show-exercise-info';
   templateUrl: 'know.html'
 })
 export class KnowPage {
-  topics=
-    [
+  topics=[
     {image:'assets/icons/antropometry.svg',
       name:'anthropometry'},
     {image:'assets/icons/spirometry.svg',
-      name:'spirometry'}]
+      name:'spirometry'}];
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {

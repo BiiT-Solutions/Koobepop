@@ -27,31 +27,37 @@ export class ReportPage {
     public storageService: StorageService,
     public manager: PersistenceManager) {
 
-    let context = this;
-    this.loadAppointments(context);
-    this.loadResults(context);
-    this.loadReports(context);
+    this.manager.getAppointments().subscribe(appointments=>this.setAppointments(appointments),(error)=> this.errorMessage(error));
+    this.manager.getResults().subscribe(results=>this.setResults(results),(error)=>this.errorMessage(error));
+    this.loadReports();
+
   }
 
-  private loadAppointments(context) {
-    context.appointments = context.manager.getAppointments();
-    if (context.appointments == undefined || context.appointments.length <= 0) {
-      setTimeout(() => context.loadAppointments(context), 1000);
-    }
+  private setAppointments(appointments) {
+    this.appointments = appointments;
   }
-  private loadResults(context) {
-    context.results = context.manager.getResults();
-    if (context.results == undefined || context.results.keys().length <= 0) {
-      setTimeout(() => context.loadResults(context), 1000);
-    }
+
+  private errorMessage(error) {
+    console.error(error);
   }
-  private loadReports(context): void {
-    if (context.appointments == undefined || context.appointments.length <= 0 || context.results == undefined || context.results.keys().length <= 0) {
-      setTimeout(() => context.loadReports(context), 1000);
+
+  private setResults(results){
+    this.results = results;
+  }
+
+  private loadReports(): void {
+    console.log("loading Reports: "+this.appointments+"  "+this.results)
+    console.log(this.appointments)
+    console.log(this.results)
+
+    if (this.appointments == undefined || this.appointments.length <= 0 || this.results == undefined || this.results.size<= 0) {
+      setTimeout(() => this.loadReports(), 1000);
     } else {
-      context.appointments.forEach((appointment: IAppointment) => {
-        if (context.results.has(appointment.appointmentId)) {
-          let result = context.results.get(appointment.appointmentId);
+      this.appointments.forEach((appointment: IAppointment) => {
+        console.log("fill svg")
+        if (this.results.has(appointment.appointmentId)) {
+          console.log("has it!")
+          let result = this.results.get(appointment.appointmentId);
 
           let reportBuilder = {
             "width": 540,
@@ -73,9 +79,12 @@ export class ReportPage {
               "nextAppointmentTime": ""
             }
           };
-          context.svgList.push(infographicjs.fillBasicReport(reportBuilder));
+          this.svgList.push(infographicjs.fillBasicReport(reportBuilder));
+          //This prevents a change detection error on dev mode
+         // this.changeDetector.detectChanges();
         }
       });
+      console.log(this.svgList.length)
     }
   }
 

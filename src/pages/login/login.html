@@ -13,13 +13,6 @@
     <ion-label color="primary" floating>Password:</ion-label>
     <ion-input type="password" [(ngModel)]="pass"></ion-input>
   </ion-item>
-  <!--Shoudn't be necesasary-->
-  <ion-item>
-    <ion-label>{{pass}}</ion-label>
-    <ion-checkbox [(ngModel)]="pepperoni"></ion-checkbox>
-  </ion-item>
-
   <button ion-button (click)="login()">Accept</button>
-   <button ion-button (click)="getToken()">Get Token</button>
-   
+  <button ion-button (click)="loadData()">Load</button>
 </ion-content>

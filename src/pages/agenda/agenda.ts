@@ -1,11 +1,10 @@
-import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { NavController, NavParams, Slides } from 'ionic-angular';
+import { Component, ViewChild} from '@angular/core';
+import { NavController,  Slides } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
-import { TasksRestProvider } from '../../providers/tasksProvider';
 import { StorageService } from '../../providers/storageService';
 import { PersistenceManager } from '../../providers/persistenceManager';
 /**
@@ -29,10 +28,8 @@ export class AgendaPage {
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
-    public taskProv: TasksRestProvider,
     public storageService: StorageService,
-    public manager: PersistenceManager,
-    public changeDetectorRef: ChangeDetectorRef) {
+    public manager: PersistenceManager) {
       this.goToToday();
      }
 

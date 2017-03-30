@@ -6,12 +6,7 @@ let homePage: HomePage = null
 describe('Home page', () => {
   beforeEach(() => {
     homePage = new HomePage(
-      <any>new NavMock,
-      <any>new PlatformMock,
-      <any>new TranslateServiceMock,
-      <any>new AppointmentsProviderMock,
-      <any>new TaskProviderMock,
-      <any>new StorageServiceMock);
+      <any>new NavMock);
     homePage.BOOK_HEIGHT = 2;
   })
   it("should check if homePage width is less than 3", () => {

@@ -23,13 +23,14 @@ import { ShowExerciseInfoPage } from '../pages/show-exercise-info/show-exercise-
 import { SummaryPage } from '../pages/summary/summary';
 import { LoginPage } from '../pages/login/login';
 
-
 import { ZoomPage } from '../pages/zoom/zoom';
 import { BookPage } from '../pages/zoom/book';
+//
+import { Storage } from '@ionic/storage';
 
 //Providers REST services
 import { AppointmentsProvider } from '../providers/appointmentsProvider';
-import { TasksRestProvider } from '../providers/tasksProvider';
+import { TasksRestProvider } from '../providers/tasksRestProvider';
 import { ResultsProvider } from '../providers/resultsProvider';
 import { CompaniesProvider } from '../providers/companies';
 
@@ -90,6 +91,7 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent
   ],
   providers: [
+    Storage,
     PersistenceManager,
     TasksRestProvider,
     CompaniesProvider,

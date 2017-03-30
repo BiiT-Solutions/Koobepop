@@ -3,22 +3,28 @@ import { Http, Headers, Response } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../app/app.config';
 import { IAppointment } from '../models/appointmentI';
 import { IUser } from '../models/userI';
+import { AuthTokenService } from './authTokenService';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AppointmentsProvider {
   appointmentsList;
-  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig) {
+  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, private authService: AuthTokenService) {
   }
 
   public getAppointments() {
     return this.appointmentsList;
   }
 
-  public requestAppointments(criteria:IUser) {
+  public requestAppointments(user: IUser,token):Observable<IAppointment[]> {
     let requestAddres = this.config.usmoServer + this.config.getAppointmentsService;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
 
+    let criteria = {
+      token: token,
+      patientId: user.patientId
+    }
     return this.http
       .post(requestAddres, criteria, { headers: headers })
       .map(this.extractData).map((appointments: IAppointment[]) => {

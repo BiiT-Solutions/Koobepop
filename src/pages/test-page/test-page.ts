@@ -31,7 +31,7 @@ export class TestPage {
 
   ionViewDidLoad() {
     this.hideHeader = false;
-    this.results = this.manager.getResults();
+    //this.results = this.manager.getResults();
   }
 
   restart() {
