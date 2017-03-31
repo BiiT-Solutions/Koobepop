@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController,ToastController } from 'ionic-angular';
 import { PersistenceManager } from '../../providers/persistenceManager';
 import { HomePage } from '../home/home';
 import { Observable } from 'rxjs/Observable';
@@ -11,9 +11,12 @@ import { Observable } from 'rxjs/Observable';
 export class LoginPage {
   id = "";
   pass = "";
+  showPass:boolean = false;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public manager: PersistenceManager,
+    public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) { }
 
   ionViewDidLoad() { }
@@ -28,12 +31,23 @@ export class LoginPage {
     this.manager.loginWithUserPass(this.id,this.pass)
     .subscribe((authorized)=>{
       loading.dismiss();
-      console.log("Authorized: "+authorized);
       if(authorized){
+        let toast = this.toastCtrl.create({
+          message:"Login successfull",
+          duration: 2000,
+          cssClass: 'good-toast'
+        });
+        toast.present();
         this.navCtrl.push(HomePage)
       }    
   },error=>{
     loading.dismiss();
+    let toast = this.toastCtrl.create({
+          message:"Login fail",
+          duration: 2000,
+          cssClass: 'bad-toast'
+        });
+        toast.present();
     console.error(error);
     }
    );
@@ -57,5 +71,8 @@ export class LoginPage {
     
     this.manager.setUp();
   }
-
+  public showPassword(input: any): any {
+   input.type = input.type === 'password' ?  'text' : 'password';
+   this.showPass = input.type === 'text';
+  }
 }

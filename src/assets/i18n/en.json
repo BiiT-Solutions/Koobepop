@@ -38,5 +38,11 @@
     "AGENDA":{
         "TITLE":"Tasks",
         "TODAY-BUTTON":"Today"
+    },
+    "LOGIN":{
+        "ID-LABEL":"Id:",
+        "CODE-LABEL":"Code:",
+        "ACCEPT-BUTTON":"Accept"
     }
+
 }
