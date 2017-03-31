@@ -23,7 +23,7 @@ export const AppConfig: IAppConfig = {
     usmoServer:"http://192.168.1.5:8081",
     getCompaniesService : "/rest/getCompanies",
     getTasksService:"/rest/getCorrectiveExercisesToDo",
-    getAppointmentsService:"/rest/getAppointments",
+    getAppointmentsService:"/rest/getAppointmentsWithResults",
     getResultsService:"/rest/getExaminationResultsAuth",
     addPerformedExercise:"/rest/addPerformedExercise",
     removePerformedExercise:"/rest/removePerformedExercise",

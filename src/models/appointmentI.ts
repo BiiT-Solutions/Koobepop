@@ -1,3 +1,4 @@
+import { FormResult } from './results';
 export interface IAppointment{
     endTime:string;
     startTime:string;
@@ -6,4 +7,5 @@ export interface IAppointment{
     doctorFirstName:string;
     doctorLastName:string;
     appointmentId:number;
+    results:FormResult[];
 }

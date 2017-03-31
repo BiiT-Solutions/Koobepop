@@ -17,7 +17,8 @@ export class StorageService {
     return  this.storage.get("appointments");//localForage.getItem<IAppointment[]>("appointments");
   }
   public setAppointments(appointments: IAppointment[]): Promise<IAppointment[]> {
-   // localForage.config({});
+    console.log("Stringified Appointments: "+ JSON.stringify(appointments))
+    console.log(JSON.parse(JSON.stringify(appointments)))
     return this.storage.set("appointments", appointments);
   }
 

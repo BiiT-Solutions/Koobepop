@@ -10,7 +10,7 @@ import { IUser } from '../models/userI';
 import { FormResult, CategoryResult, QuestionResult } from '../models/results';
 import { IToken } from '../models/tokenI';
 import { AuthTokenService } from './authTokenService';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Notification } from 'rxjs/Rx';
 /**
  * Intended to manage the communication with USMO and data base access.
  * Will keep the data cached for the application views.
@@ -63,7 +63,7 @@ export class PersistenceManager {
                                 lastAppointment = appointment;
                             }
                         });
-                        this.actualAppointment=lastAppointment;
+                        this.actualAppointment = lastAppointment;
                         return lastAppointment;
                     });
 
@@ -76,7 +76,8 @@ export class PersistenceManager {
     public setActualAppointment(appointment: IAppointment) { this.actualAppointment = appointment; }
 
     public setResults(results: Map<number, FormResult[]>) {
-        this.storageService.setResults(results); this.actualResults = results;
+        this.storageService.setResults(results);
+        this.actualResults = results;
     }
     public getResults(): Observable<Map<number, FormResult[]>> {
         return Observable.of(this.actualResults)
@@ -93,15 +94,27 @@ export class PersistenceManager {
             })
             .flatMap((results) => {
                 if (results == undefined) {
-                    return this.getActualAppointment()
-                        .flatMap((appointment: IAppointment) => {
-                            return this.getToken()
-                                .flatMap((token) => {
-                                    return this.resultsProvider.requestResults(appointment, token)
-                                        .map((results) => {
-                                            this.setResults(results);
-                                            return results
-                                        });
+                    return this.getToken()
+                        .flatMap((token) => {
+                            return this.getAppointments()
+                                .map((appointments: IAppointment[]) => {
+                                    Observable.from(appointments)
+                                    .flatMap(appointment=>{
+                                        return this.resultsProvider.requestResults(appointment, token)
+                                    })
+                                    let resultsMap: Map<number, FormResult[]>
+                                    //We need to get The results forEach appoinment:
+                                    appointments.forEach((appointment: IAppointment) => {
+                                        console.log("foreach")
+
+                                        this.resultsProvider.requestResults(appointment, token)
+                                            .map((result: FormResult[]) => {
+                                                 console.log("set Result")
+                                                resultsMap.set(appointment.appointmentId, result);
+                                            });
+                                    });
+                                    return resultsMap
+
                                 });
                         });
                 } else {
@@ -109,6 +122,7 @@ export class PersistenceManager {
                 }
             });
     }
+
     public getAppointments(): Observable<IAppointment[]> {
         let observable: Observable<IAppointment[]> = Observable.of(this.appointmentsList);
 
@@ -184,14 +198,14 @@ export class PersistenceManager {
 
     private parseToString(token: IToken): Observable<string> {
         // Beware of dragons!!
-       
+
         return this.getUser().map(user => {
-             let payload = btoa('{"user":"' + user.patientId + '","uuid":"' + this.getUuid() + '","exp":' + token.payload.exp + '}');
-        // In case there's a necessary padding we remove it from the base64 encoded string
-        // Info: http://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end
-        if (payload.endsWith("==")) payload = payload.slice(0, payload.length - 2);
-        if (payload.endsWith("=")) payload = payload.slice(0, payload.length - 1);
-        let realToken = token.head + "." + payload + "." + token.signature;
+            let payload = btoa('{"user":"' + user.patientId + '","uuid":"' + this.getUuid() + '","exp":' + token.payload.exp + '}');
+            // In case there's a necessary padding we remove it from the base64 encoded string
+            // Info: http://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end
+            if (payload.endsWith("==")) payload = payload.slice(0, payload.length - 2);
+            if (payload.endsWith("=")) payload = payload.slice(0, payload.length - 1);
+            let realToken = token.head + "." + payload + "." + token.signature;
             return realToken;
         })
     }
@@ -254,9 +268,8 @@ export class PersistenceManager {
                     if (results == undefined) {
                         this.getToken().subscribe((token) => {
                             this.resultsProvider.requestResults(appointment, token)
-                                .subscribe((results: Map<number, FormResult[]>) => {
-                                    resultsMap.set(appointment.appointmentId, this.formatResults(results));
-
+                                .subscribe((results: FormResult[]) => {
+                                    resultsMap.set(appointment.appointmentId, results);
                                     resultsBarrier--;
                                     console.log("Barrier " + resultsBarrier)
                                     console.log(resultsMap)
@@ -330,7 +343,7 @@ export class PersistenceManager {
     private formatQuestion(question): QuestionResult {
         return { name: question.name, values: question.values }
     }
-    public tokenStatus():Observable<number>{
-       return this.getToken().flatMap(token=>this.authService.tokenStatus(token))
+    public tokenStatus(): Observable<number> {
+        return this.getToken().flatMap(token => this.authService.tokenStatus(token))
     }
 }
