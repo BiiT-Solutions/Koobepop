@@ -40,6 +40,7 @@
         "TODAY-BUTTON":"Today"
     },
     "LOGIN":{
+        "TITLE":"Login",
         "ID-LABEL":"Id:",
         "CODE-LABEL":"Code:",
         "ACCEPT-BUTTON":"Accept"
