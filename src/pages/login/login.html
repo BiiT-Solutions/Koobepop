@@ -1,18 +1,22 @@
 
 <ion-header>
-  <ion-navbar>
-    <ion-title>login</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>{{'LOGIN.TITLE'|translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content >
    <ion-item>
-    <ion-label color="primary" floating>ID:</ion-label>
+    <ion-label color="primary" floating>{{'LOGIN.ID-LABEL'|translate}}</ion-label>
     <ion-input [(ngModel)]="id"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label color="primary" floating>Password:</ion-label>
-    <ion-input type="password" [(ngModel)]="pass"></ion-input>
+    <ion-label color="primary" floating>{{'LOGIN.CODE-LABEL'|translate}}</ion-label>
+    <ion-input #password type="password" [(ngModel)]="pass"></ion-input>
+    <button class="eye-button" ion-button item-right icon-only (click)="showPassword(password)">
+      <ion-icon [color]="showPass ? 'primary':'light'" name="eye"></ion-icon>
+    </button>
   </ion-item>
-  <button ion-button (click)="login()">Accept</button>
-  <button ion-button (click)="loadData()">Load</button>
+  <button ion-button (click)="login()">{{'LOGIN.ACCEPT-BUTTON'|translate}}</button>
+  
+  
 </ion-content>
