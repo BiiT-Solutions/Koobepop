@@ -12,22 +12,47 @@ export class StorageService {
 
 
   public getAppointments(): Promise<IAppointment[]> {
-   // localForage.config({});
-   
-    return  this.storage.get("appointments");//localForage.getItem<IAppointment[]>("appointments");
+    return this.storage.get("appointments");//localForage.getItem<IAppointment[]>("appointments");
   }
   public setAppointments(appointments: IAppointment[]): Promise<IAppointment[]> {
-    console.log("Stringified Appointments: "+ JSON.stringify(appointments))
-    console.log(JSON.parse(JSON.stringify(appointments)))
     return this.storage.set("appointments", appointments);
   }
 
-
   public getTasks(): Promise<ITask[]> {
-    return this.storage.get("tasks");
+    return this.storage.get("tasks").then((tasks) => {
+      if (tasks!=undefined){
+      let deserializedTasks: ITask[] = [];
+      tasks.forEach(task => {
+        deserializedTasks.push({
+          name: task.name,
+          startingTime: task.startingTime,
+          repetitions: task.repetitions,
+          performedOn: new Map<number,number>(JSON.parse(task.performedOn)), // sorted array of performation dates
+          videoUrl: task.performedOn,
+          infoUrl: task.infoUrl
+        });
+      });
+      return deserializedTasks
+    }else {
+      return undefined
+    }
+    });
   }
+
   public setTasks(tasks: ITask[]): Promise<ITask[]> {
-    return this.storage.set("tasks", tasks);
+    let tasksList = []
+    tasks.forEach(task => {
+      let serializableTask = {
+        name: task.name,
+        startingTime: task.startingTime,
+        repetitions: task.repetitions,
+        performedOn: task.performedOn!=undefined ? JSON.stringify(Array.from(task.performedOn.entries())):"", // sorted array of performation dates
+        videoUrl: task.performedOn,
+        infoUrl: task.infoUrl
+      }
+      tasksList.push(serializableTask)
+    })
+    return this.storage.set("tasks", tasksList);
   }
 
 
@@ -41,10 +66,10 @@ export class StorageService {
 
   // TODO Type this
   public getResults(): Promise<any> {
-    return this.storage.get("results").then((map)=>{return new Map(JSON.parse(map))});
+    return this.storage.get("results").then((map) => { return new Map(JSON.parse(map)) });
   }
   public setResults(results: Map<number, any[]>): Promise<any> {
-     let mapSerialized =JSON.stringify(Array.from(results.entries()));
+    let mapSerialized = JSON.stringify(Array.from(results.entries()));
     return this.storage.set("results", mapSerialized);
   }
 

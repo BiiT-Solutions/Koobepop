@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController,ToastController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { PersistenceManager } from '../../providers/persistenceManager';
 import { HomePage } from '../home/home';
 import { Observable } from 'rxjs/Observable';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
 export class LoginPage {
   id = "";
   pass = "";
-  showPass:boolean = false;
+  showPass: boolean = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -19,60 +19,40 @@ export class LoginPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) { }
 
-  ionViewDidLoad() { }
 
-  login() {
+
+  public login() {
     //Send request for a token to USMO 
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Please wait...'//WAIT-FOR-LOGIN-TEXT
     });
-
     loading.present();
-    this.manager.loginWithUserPass(this.id,this.pass)
-    .subscribe((authorized)=>{
-      loading.dismiss();
-      if(authorized){
+    this.manager.loginWithUserPass(this.id, this.pass)
+      .subscribe((authorized) => {
+        loading.dismiss();
+        if (authorized) {
+          let toast = this.toastCtrl.create({
+            message: "Login successfull",//LOGIN-SUCCESSFULL-TEXT
+            duration: 2000,
+            cssClass: 'good-toast'
+          });
+          toast.present();
+          this.navCtrl.push(HomePage)
+        }
+      }, error => {
+        loading.dismiss();
         let toast = this.toastCtrl.create({
-          message:"Login successfull",
-          duration: 2000,
-          cssClass: 'good-toast'
-        });
-        toast.present();
-        this.navCtrl.push(HomePage)
-      }    
-  },error=>{
-    loading.dismiss();
-    let toast = this.toastCtrl.create({
-          message:"Login fail",
+          message: "Login fail",//LOGIN-FAIL-TEXT
           duration: 2000,
           cssClass: 'bad-toast'
         });
         toast.present();
-    console.error(error);
-    }
-   );
-    // If we recieve the token, save the user and the token
-    // From this we can load the appointments data and so on.
-
-    // Else show loggin error msg
+        console.error(error);
+      });
   }
-  presentLoadingDefault() {
-    let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
 
-    loading.present();
-
-    setTimeout(() => {
-      loading.dismiss();
-    }, 5000);
-  }
-  loadData() {
-    
-    this.manager.setUp();
-  }
   public showPassword(input: any): any {
-   input.type = input.type === 'password' ?  'text' : 'password';
-   this.showPass = input.type === 'text';
+    input.type = input.type === 'password' ? 'text' : 'password';
+    this.showPass = input.type === 'text';
   }
 }

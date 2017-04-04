@@ -38,6 +38,7 @@ import { CompaniesProvider } from '../providers/companies';
 import { StorageService } from '../providers/storageService';
 import { PersistenceManager } from '../providers/persistenceManager';
 import { AuthTokenService } from '../providers/authTokenService';
+import { ConnectivityService } from '../providers/connectivity-service';
 
 
 export function createTranslateLoader(http: Http) {
@@ -92,6 +93,7 @@ export function createTranslateLoader(http: Http) {
   ],
   providers: [
     Storage,
+    ConnectivityService,
     PersistenceManager,
     TasksRestProvider,
     CompaniesProvider,

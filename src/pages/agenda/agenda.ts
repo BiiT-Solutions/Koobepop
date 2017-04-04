@@ -1,5 +1,5 @@
-import { Component, ViewChild} from '@angular/core';
-import { NavController,  Slides } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Slides } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
@@ -30,13 +30,11 @@ export class AgendaPage {
     public popoverCtrl: PopoverController,
     public storageService: StorageService,
     public manager: PersistenceManager) {
-      this.goToToday();
-     }
+    this.goToToday();
+  }
 
-  ionViewDidLoad() {    
-    this.tasksPlan = this.manager.getActualTasks();
-    //TODO check for changes on tasks if possible (Online)
-
+  ionViewDidLoad() {
+    this.manager.getActualTasks().subscribe((tasks: ITask[]) => this.tasksPlan = tasks);
   }
 
   /* When item is clicked */
@@ -47,14 +45,14 @@ export class AgendaPage {
       event.task.task.performedOn = new Map<number, number>();
     }
     if (!event.task.task.performedOn.has(event.task.day)) {
+
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
+      
       popover.onDidDismiss((score: number) => {
-        //
         event.task.task.performedOn.set(event.task.day, score);
         this.manager.performTask(event.task.task, event.task.day); //TODO manage everything from the manager service :)
-        
-        this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks" + e));
+        this.manager.setActualTasks(this.tasksPlan);
         let toast = this.toastCtrl.create({
           message: event.task.task.name + ' finished! difficulty: ' + score,
           duration: 2000,
@@ -66,9 +64,8 @@ export class AgendaPage {
     } else {
       this.manager.removeTask(event.task.task, event.task.day);
       event.task.task.performedOn.delete(event.task.day);
-      this.storageService.setTasks(this.tasksPlan).catch(e => console.log("Error saving the tasks" + e));
-      }
-    //TODO Save Tasks and send to USMO ?
+      this.manager.setActualTasks(this.tasksPlan);
+    }
   }
 
   /* Listeners for when the slides are swiped TODO FIX!!*/
@@ -107,15 +104,10 @@ export class AgendaPage {
 
   public goToToday() {
     this.days = [
-      // this.today - this.ONE_DAY_IN_MILIS * 2,
       this.today - this.ONE_DAY_IN_MILIS,
       this.today,
       this.today + this.ONE_DAY_IN_MILIS
-      //,this.today + this.ONE_DAY_IN_MILIS * 2
-    ];
-   // console.log(new Date(this.today - this.ONE_DAY_IN_MILIS));
-   // console.log(new Date(this.today));
-   // console.log(new Date(this.today + this.ONE_DAY_IN_MILIS));
+      ];
     this.actualDay = this.today;
   }
 }

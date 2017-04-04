@@ -11,22 +11,42 @@ export class TasksRestProvider {
   constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, private authService: AuthTokenService) { }
 
 
-  public requestTasks(appointment: IAppointment,token:string): Observable<ITask[]> {
+  public requestTasks(appointment: IAppointment, token: string): Observable<ITask[]> {
     let requestAddres = this.config.usmoServer + this.config.getTasksService;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
     let criteria = {
-      token:token,
+      token: token,
       appointmentId: appointment.appointmentId
     }
     return this.http
       .post(requestAddres, criteria, { headers: headers })
       .map(this.extractData).map((tasks) => {
-        return tasks ? tasks : [];
+        if (tasks) {
+          let deserializedTasks: ITask[] = [];
+          tasks.forEach(task => {
+            let performedMap = new Map<any,any>()
+            task.performedOn.forEach((performed)=>{
+              performedMap.set(performed.time,performed.score);
+            });
+
+            deserializedTasks.push({
+              name: task.name,
+              startingTime: task.startingTime,
+              repetitions: task.repetitions,
+              performedOn: performedMap, //new Map<number, number>(JSON.parse(task.performedOn)),
+              videoUrl: task.videoUrl,
+              infoUrl: task.infoUrl
+            });
+          });
+           return deserializedTasks;
+        } else {
+          return [];
+        }
       });
   }
 
-  public sendPerformedTask(appointment: IAppointment, task: ITask, time: number,token:string) {
+  public sendPerformedTask(appointment: IAppointment, task: ITask, time: number, token: string) {
     let requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let criteria = {
@@ -37,9 +57,9 @@ export class TasksRestProvider {
       score: task.performedOn.get(time)
     }
     headers.append('Authorization', this.config.password);
-    this.http.post(requestAddres, criteria, { headers: headers }).subscribe(res => console.log(res));
+    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => res.status );
   }
-  public removePerformedTask(appointment: IAppointment, task: ITask, time: number,token:string) {
+  public removePerformedTask(appointment: IAppointment, task: ITask, time: number, token: string) {
     let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let criteria = {
@@ -50,7 +70,7 @@ export class TasksRestProvider {
       score: 0 //dummy score
     }
     headers.append('Authorization', this.config.password);
-    this.http.post(requestAddres, criteria, { headers: headers }).subscribe(res => console.log(res));
+    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => res.status );
   }
 
   extractData(res: Response) {

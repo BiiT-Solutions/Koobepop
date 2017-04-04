@@ -35,42 +35,43 @@ export class PersistenceManager {
         private authService: AuthTokenService) {
     }
 
+    /**
+     * Communicates with usmo to get a Token with some credentials 
+     * returns an Observable with a boolean
+     */
     public loginWithUserPass(id: string, code: string): Observable<any> {
         this.setUser({ patientId: id });
-        //console.log("Getting a new token with params: " + id + code + this.getUuid());
         return this.authService.requestToken(id, code, this.getUuid())
             .map((token) => {
-                console.log("The token is: " + token)
                 if (token != undefined && token.length > 0) {
                     this.setToken(this.parseToToken(token));
-                    this.initFirstPhase();
+                    this.init();
                     return true;
                 } else {
                     return false;
                 }
             });
-
     }
-
+    /**
+     * Returns an observable with the actual appointment
+     * If there's none loaded, it looks for it on the appointments list
+     */
     public getActualAppointment(): Observable<IAppointment> {
-        return Observable.of(this.actualAppointment)
-            .flatMap((appointment) => {
-                if (appointment == undefined) {
-                    return this.getAppointments().map((appointments: IAppointment[]) => {
-                        let lastAppointment: IAppointment;
-                        appointments.forEach((appointment: IAppointment) => {
-                            if (lastAppointment == undefined || lastAppointment.startTime < appointment.startTime) {
-                                lastAppointment = appointment;
-                            }
-                        });
-                        this.actualAppointment = lastAppointment;
-                        return lastAppointment;
-                    });
-
-                } else {
-                    return Observable.of(appointment);
-                }
+        if (this.actualAppointment == undefined) {
+            return this.getAppointments().map((appointments: IAppointment[]) => {
+                let lastAppointment: IAppointment;
+                appointments.forEach((appointment: IAppointment) => {
+                    if (lastAppointment == undefined || lastAppointment.startTime < appointment.startTime) {
+                        lastAppointment = appointment;
+                    }
+                });
+                this.actualAppointment = lastAppointment;
+                return lastAppointment;
             });
+        } else {
+            return Observable.of(this.actualAppointment);
+        }
+
     }
 
     public setActualAppointment(appointment: IAppointment) { this.actualAppointment = appointment; }
@@ -79,75 +80,28 @@ export class PersistenceManager {
         this.storageService.setResults(results);
         this.actualResults = results;
     }
-    public getResults(): Observable<Map<number, FormResult[]>> {
-        return Observable.of(this.actualResults)
-            .flatMap((results) => {
-                if (results == undefined) {
-                    return this.storageService.getResults()
-                        .then((results: Map<number, FormResult[]>) => {
-                            this.setResults(results);
-                            return results;
-                        });
-                } else {
-                    return Observable.of(results);
-                }
-            })
-            .flatMap((results) => {
-                if (results == undefined) {
-                    return this.getToken()
-                        .flatMap((token) => {
-                            return this.getAppointments()
-                                .map((appointments: IAppointment[]) => {
-                                    Observable.from(appointments)
-                                    .flatMap(appointment=>{
-                                        return this.resultsProvider.requestResults(appointment, token)
-                                    })
-                                    let resultsMap: Map<number, FormResult[]>
-                                    //We need to get The results forEach appoinment:
-                                    appointments.forEach((appointment: IAppointment) => {
-                                        console.log("foreach")
-
-                                        this.resultsProvider.requestResults(appointment, token)
-                                            .map((result: FormResult[]) => {
-                                                 console.log("set Result")
-                                                resultsMap.set(appointment.appointmentId, result);
-                                            });
-                                    });
-                                    return resultsMap
-
-                                });
-                        });
-                } else {
-                    return Observable.of(results);
-                }
-            });
-    }
 
     public getAppointments(): Observable<IAppointment[]> {
-        let observable: Observable<IAppointment[]> = Observable.of(this.appointmentsList);
-
-        return observable.flatMap((appointments) => {
-            if (appointments == undefined || appointments.length <= 0) {
-                return this.storageService.getAppointments();
-            } else {
-                return Observable.of(appointments);
-            }
-        }).flatMap(appointments => {
-            if (appointments == undefined || appointments.length <= 0) {
-                return this.getUser().flatMap(user => {
-                    return this.getToken().flatMap(token => {
-                        return this.appointmentsProvider.requestAppointments(user, token);
+        if (this.appointmentsList == undefined || this.appointmentsList.length <= 0) {
+            return Observable.fromPromise(this.storageService.getAppointments()).flatMap(appointments => {
+                if (appointments == undefined || appointments.length <= 0) {
+                    return this.getUser().flatMap(user => {
+                        return this.getToken().flatMap(token => {
+                            return this.appointmentsProvider.requestAppointments(user, token);
+                        });
                     });
-                });
-            } else {
-                return Observable.of(appointments);
-            }
-        });
-
+                } else {
+                    return Observable.of(appointments);
+                }
+            });
+        } else {
+            return Observable.of(this.appointmentsList);
+        }
     }
+
     public setAppointments(appointments: IAppointment[]) {
-        this.storageService.setAppointments(appointments);
         this.appointmentsList = appointments;
+        this.storageService.setAppointments(appointments);
     }
 
     public getUser(): Observable<IUser> {
@@ -165,20 +119,46 @@ export class PersistenceManager {
 
 
 
-    public getActualTasks(): ITask[] { return this.actualTasks; }
-    public setActualTasks(tasks: ITask[]) { this.actualTasks = tasks; }
+    public getActualTasks(): Observable<ITask[]> {
+        if (this.actualTasks == undefined || this.actualTasks.length <= 0) {
+            return Observable.fromPromise(this.storageService.getTasks())
+                .flatMap((tasks: ITask[]) => {
+                    console.log("Tasks from storage")
+                    console.log(tasks)
+                    if (tasks == undefined || tasks.length <= 0) {
+                        return this.getToken().flatMap((token) => {
+                            return this.getActualAppointment().flatMap((appointment) => {
+                                return this.tasksProvider.requestTasks(appointment, token);
+                            });
+                        });
+                    } else { return Observable.of(tasks); }
+                });
+        } else { return Observable.of(this.actualTasks); }
+
+    }
+
+    public setActualTasks(tasks: ITask[]) {
+        this.actualTasks = tasks;
+        this.storageService.setTasks(tasks);
+    }
 
     //TODO server feedback + check correct behaviour
-    public performTask(task, time) {
-
-        this.getToken().subscribe((token: string) =>
-            this.tasksProvider.sendPerformedTask(this.actualAppointment, task, time, token));
+    public performTask(task, time): Observable<any> {
+        return this.getToken().flatMap((token: string) => {
+            return this.getActualAppointment().flatMap(appointment => {
+                return this.tasksProvider.sendPerformedTask(appointment, task, time, token);
+            });
+        });
     }
-    public removeTask(task, time) {
 
-        this.getToken().subscribe((token: string) =>
-            this.tasksProvider.removePerformedTask(this.actualAppointment, task, time, token));
+    public removeTask(task, time): Observable<any> {
+        return this.getToken().flatMap((token: string) => {
+            return this.getActualAppointment().flatMap(appointment => {
+                return this.tasksProvider.removePerformedTask(appointment, task, time, token)
+            });
+        });
     }
+
     public setToken(token: IToken) {
         this.token = token;
         this.storageService.setToken(this.token)
@@ -198,11 +178,11 @@ export class PersistenceManager {
 
     private parseToString(token: IToken): Observable<string> {
         // Beware of dragons!!
-
         return this.getUser().map(user => {
             let payload = btoa('{"user":"' + user.patientId + '","uuid":"' + this.getUuid() + '","exp":' + token.payload.exp + '}');
-            // In case there's a necessary padding we remove it from the base64 encoded string
+            // In case there's a necessary padding we remove it from the base64 encoded string 
             // Info: http://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end
+            //If we don't do this, the signature won't match the data.
             if (payload.endsWith("==")) payload = payload.slice(0, payload.length - 2);
             if (payload.endsWith("=")) payload = payload.slice(0, payload.length - 1);
             let realToken = token.head + "." + payload + "." + token.signature;
@@ -213,6 +193,7 @@ export class PersistenceManager {
     private parseToToken(token: string): IToken {
         let splitToken: string[] = token.split(".");
         let payload = JSON.parse(atob(splitToken[1]));
+        //Here we lose some information of the token which will be gathered later when we rebuild it
         let finalToken: IToken = {
             head: splitToken[0],
             payload: {
@@ -228,86 +209,35 @@ export class PersistenceManager {
     }
 
     public setUp() {
-        this.initFirstPhase();
+        this.init();
     }
 
-    private initFirstPhase() {
+    private init() {
         // First get token if there's none
-        this.getToken().map(token => {
-            console.log("Mapeando, Token: " + token)
-            return token;
-        })
-            .subscribe((token: string) => {
-                if (token != undefined) {
-                    // Then get all patient's data
-                    this.getUser().subscribe(user => {
+        this.getToken().subscribe((token: string) => {
+            if (token != undefined) {
+                // Then get all patient's data
+                this.getUser()
+                    .subscribe(user => {
                         if (user != undefined) {
                             this.getAppointments()
                                 .subscribe((appointments: IAppointment[]) => {
-                                    console.log("Appointments: ")
-                                    console.log(appointments)
                                     this.setAppointments(appointments);
-                                    this.initSecondPhase(appointments);
+                                    this.getActualAppointment().subscribe((appointment: IAppointment) => {
+                                        this.setActualAppointment(appointment);
+                                        this.getActualTasks().subscribe((tasks: ITask[]) => {
+                                            this.setActualTasks(tasks)
+                                        });
+                                    });
                                 });
                         } else { console.error("User is not defined"); }
                     }, e => console.error("Storage error" + e));
-                } else { console.error("Token not initialized") }
-            });
+            } else { console.error("Token not initialized") }
+        });
     }
 
-    private initSecondPhase(appointments: IAppointment[]) {
-        let lastAppointment: IAppointment;
-        let resultsMap: Map<number, FormResult[]> = new Map<number, FormResult[]>();
-        //
-        let resultsBarrier = 0;
-        appointments.forEach(appointment => {
-
-            resultsBarrier++;
-            this.storageService.getResults()
-                .then((results: Map<number, FormResult[]>) => {
-                    if (results == undefined) {
-                        this.getToken().subscribe((token) => {
-                            this.resultsProvider.requestResults(appointment, token)
-                                .subscribe((results: FormResult[]) => {
-                                    resultsMap.set(appointment.appointmentId, results);
-                                    resultsBarrier--;
-                                    console.log("Barrier " + resultsBarrier)
-                                    console.log(resultsMap)
-                                    if (resultsBarrier == 0) {
-                                        this.actualResults = resultsMap;
-                                        this.storageService.setResults(this.actualResults);
-                                    }
-                                });
-                        });
-                    } else {
-                        this.actualResults = results;
-                    }
-
-                    //console.log(results);
-                }).catch(e => console.log("Error getting the examination results" + e));
-
-            if (lastAppointment == undefined || lastAppointment.startTime < appointment.startTime) {
-                lastAppointment = appointment;
-            }
-        });
-
-        this.setActualAppointment(lastAppointment);
-        this.initActualTasks();
-    }
-    private initActualTasks() {
-        this.storageService.getTasks().then((tasks: ITask[]) => {
-            if (tasks == undefined) {
-                this.getToken().subscribe(token => {
-                    this.tasksProvider.requestTasks(this.actualAppointment, token)
-                        .subscribe((tasks: ITask[]) => {
-                            this.storageService.setTasks(tasks)
-                            this.setActualTasks(tasks);
-                        });
-                });
-            } else {
-                this.setActualTasks(tasks);
-            }
-        });
+    public tokenStatus(): Observable<number> {
+        return this.getToken().flatMap(token => this.authService.tokenStatus(token))
     }
 
     private formatResults(results): FormResult[] {
@@ -343,7 +273,5 @@ export class PersistenceManager {
     private formatQuestion(question): QuestionResult {
         return { name: question.name, values: question.values }
     }
-    public tokenStatus(): Observable<number> {
-        return this.getToken().flatMap(token => this.authService.tokenStatus(token))
-    }
+
 }

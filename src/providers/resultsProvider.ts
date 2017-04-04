@@ -12,7 +12,7 @@ export class ResultsProvider {
   constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, private authService: AuthTokenService) {
   }
 
-  requestResults(appointment: IAppointment,token:string): Observable<  FormResult[]> {
+  requestResults(appointment: IAppointment,token:string): Observable<any> {
     let requestAddres = this.config.usmoServer + this.config.getResultsService;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
@@ -38,7 +38,7 @@ export class ResultsProvider {
             formResults.push(this.formatForm(result.formResult))
         );
         return formResults;
-    }
+    }    
     private formatForm(form): FormResult {
         let formChildren: CategoryResult[] = [];
         form.children.forEach(category => {
