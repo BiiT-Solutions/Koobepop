@@ -64,11 +64,11 @@ export class ReportPage {
             "patientBirthday": "",
             "patientMail": "",
             "patientPhone": "",
-            "height": "",
-            "weight": "",
-            "bloodPressure": "",
-            "waist": "",
-            "folds": "",
+            "height": appointment.results["1 antropometrie"].anthropometry.height[0],
+            "weight": appointment.results["1 antropometrie"].anthropometry.weight[0],
+            "bloodPressure": appointment.results["1 antropometrie"].anthropometry.bloodpressurediastolic[0],
+            "waist": appointment.results["1 antropometrie"].anthropometry.waistcircumference[0],
+            "folds": appointment.results["1 antropometrie"].anthropometry.skinfoldtotal[0],
             "nextAppointmentDate": "",
             "nextAppointmentTime": ""
           }

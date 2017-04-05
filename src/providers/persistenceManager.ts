@@ -86,10 +86,14 @@ export class ServicesManager {
                 if (appointments == undefined || appointments.length <= 0) {
                     return this.getUser().flatMap(user => {
                         return this.getToken().flatMap(token => {
-                            return this.appointmentsProvider.requestAppointments(user, token);
+                            return this.appointmentsProvider.requestAppointments(user, token).map(appointments=>{
+                                this.setAppointments(appointments);
+                                return appointments;
+                            });
                         });
                     });
                 } else {
+                    this.setAppointments(appointments);
                     return Observable.of(appointments);
                 }
             });

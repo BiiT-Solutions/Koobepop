@@ -48,7 +48,7 @@ export class AgendaPage {
 
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
-      
+
       popover.onDidDismiss((score: number) => {
         event.task.task.performedOn.set(event.task.day, score);
         this.manager.performTask(event.task.task, event.task.day); //TODO manage everything from the manager service :)
@@ -97,9 +97,8 @@ export class AgendaPage {
   public gotoExerciseVideo(videoUrl: string) {
     this.navCtrl.push(VideoPage, { videoUrl: videoUrl });
   }
-  //TODO Fill with relevant data from somewhere. A provider?
   public gotoExerciseInfo(infoUrl: string) {
-    window.open("https://www.sportzorg.nl/oefeningen/core-stabilityoefeningen-rompstabiliteit");
+    window.open(infoUrl);
   }
 
   public goToToday() {
@@ -107,7 +106,7 @@ export class AgendaPage {
       this.today - this.ONE_DAY_IN_MILIS,
       this.today,
       this.today + this.ONE_DAY_IN_MILIS
-      ];
+    ];
     this.actualDay = this.today;
   }
 }

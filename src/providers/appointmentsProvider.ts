@@ -28,53 +28,52 @@ export class AppointmentsProvider {
     }
     return this.http
       .post(requestAddres, criteria, { headers: headers })
-      .map(res=>this.extractData(res))
+      .map(res => this.extractData(res))
       .map((appointments: IAppointment[]) => {
         return appointments ? appointments.reverse() : [];
       });
   }
 
   private extractData(res: Response): IAppointment[] {
+    console.log("Response:")
+    console.log(res)
     let appointmentsFromResponse = res.json();
-    //console.log(appointmentsFromResponse)
-    //console.log(appointmentsFromResponse[2].results)
-    appointmentsFromResponse.forEach(appointment=>{
+    appointmentsFromResponse.forEach(appointment => {
       appointment.results = this.formatResults(appointment.results)
     });
+    console.log("Formatted:")
+    console.log(appointmentsFromResponse)
     return appointmentsFromResponse || {};
   }
 
-  private formatResults(results): FormResult[] {
-    let formResults: FormResult[] = [];
+  private formatResults(results): any {
+    let formResults = {};
     results.forEach(result =>
-      formResults.push(this.formatForm(result.formResult))
+      formResults[result.formResult.label.toLocaleLowerCase()] = this.formatForm(result.formResult)
     );
     return formResults;
   }
-  private formatForm(form): FormResult {
-    let formChildren: CategoryResult[] = [];
+  private formatForm(form): any {
+    let formChildren = {};
     form.children.forEach(category => {
-      formChildren.push(this.formatCategory(category));
+      formChildren[category.name.toLocaleLowerCase()] = this.formatCategory(category);
     });
-    return {
-      name: form.label,
-      children: formChildren
-    }
-  }
-  private formatCategory(category): CategoryResult {
-    let categoryChildren: any[] = [];
-    category.children.forEach(child => {
-      if (child.class == "com.biit.form.result.RepeatableGroupResult") {
-        categoryChildren.push(this.formatCategory(child));
-      }
-      else if (child.class == "com.biit.form.result.QuestionWithValueResult") {
-        categoryChildren.push(this.formatQuestion(child));
-      }
-    })
-    return { name: category.name, children: categoryChildren }
+    return formChildren;
   }
 
-  private formatQuestion(question): QuestionResult {
-    return { name: question.name, values: question.values }
+  private formatCategory(category): any {
+    let categoryChildren = {};
+    category.children.forEach(child => {
+      if (child.class == "com.biit.form.result.RepeatableGroupResult") {
+        categoryChildren[child.name.toLocaleLowerCase()] = this.formatCategory(child);
+      } else if (child.class == "com.biit.form.result.QuestionWithValueResult") {
+        categoryChildren[child.name.toLocaleLowerCase()] = this.formatQuestion(child);
+      }
+    });
+    return categoryChildren;
+  }
+
+  private formatQuestion(question): any {
+    return question.values;
   }
 }

@@ -24,12 +24,12 @@ export class TasksRestProvider {
       .map(this.extractData).map((tasks) => {
         if (tasks) {
           let deserializedTasks: ITask[] = [];
-          tasks.forEach(task => {
+          tasks.forEach((task) => {
             let performedMap = new Map<any,any>()
+
             task.performedOn.forEach((performed)=>{
               performedMap.set(performed.time,performed.score);
             });
-
             deserializedTasks.push({
               name: task.name,
               startingTime: task.startingTime,

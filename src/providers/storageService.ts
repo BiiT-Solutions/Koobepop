@@ -28,7 +28,7 @@ export class StorageService {
           startingTime: task.startingTime,
           repetitions: task.repetitions,
           performedOn: new Map<number,number>(JSON.parse(task.performedOn)), // sorted array of performation dates
-          videoUrl: task.performedOn,
+          videoUrl: task.videoUrl,
           infoUrl: task.infoUrl
         });
       });
@@ -47,7 +47,7 @@ export class StorageService {
         startingTime: task.startingTime,
         repetitions: task.repetitions,
         performedOn: task.performedOn!=undefined ? JSON.stringify(Array.from(task.performedOn.entries())):"", // sorted array of performation dates
-        videoUrl: task.performedOn,
+        videoUrl: task.videoUrl,
         infoUrl: task.infoUrl
       }
       tasksList.push(serializableTask)
