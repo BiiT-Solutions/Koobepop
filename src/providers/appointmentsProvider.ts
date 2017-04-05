@@ -36,8 +36,8 @@ export class AppointmentsProvider {
 
   private extractData(res: Response): IAppointment[] {
     let appointmentsFromResponse = res.json();
-    console.log(appointmentsFromResponse)
-    console.log(appointmentsFromResponse[2].results)
+    //console.log(appointmentsFromResponse)
+    //console.log(appointmentsFromResponse[2].results)
     appointmentsFromResponse.forEach(appointment=>{
       appointment.results = this.formatResults(appointment.results)
     });

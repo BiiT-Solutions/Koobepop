@@ -4,22 +4,22 @@ import { IAppointment } from '../models/appointmentI';
 import { AppointmentsProvider } from './appointmentsProvider';
 import { TasksRestProvider } from './tasksRestProvider';
 import { StorageService } from './storageService';
-import { ResultsProvider } from './resultsProvider';
 import { ITask } from '../models/taskI';
 import { IUser } from '../models/userI';
 import { FormResult, CategoryResult, QuestionResult } from '../models/results';
 import { IToken } from '../models/tokenI';
 import { AuthTokenService } from './authTokenService';
 import { Observable, Notification } from 'rxjs/Rx';
+import { Response } from '@angular/http';
 /**
- * Intended to manage the communication with USMO and data base access.
+ * Intended to manage the dataflow within the application and with USMO
  * Will keep the data cached for the application views.
  * Will provide the stored data to the application.
- * Will provide storage services to the application so it saves all the relevant data.
+ * Will provide storage services to the application so it persists all the relevant data.
  * All this data loading is async so take it into acount before using it.
  */
 @Injectable()
-export class PersistenceManager {
+export class ServicesManager {
     private appointmentsList: IAppointment[];
     private actualAppointment: IAppointment;
     private actualTasks: ITask[];
@@ -31,7 +31,6 @@ export class PersistenceManager {
         private appointmentsProvider: AppointmentsProvider,
         private tasksProvider: TasksRestProvider,
         private storageService: StorageService,
-        private resultsProvider: ResultsProvider,
         private authService: AuthTokenService) {
     }
 
@@ -52,6 +51,7 @@ export class PersistenceManager {
                 }
             });
     }
+
     /**
      * Returns an observable with the actual appointment
      * If there's none loaded, it looks for it on the appointments list
@@ -71,7 +71,6 @@ export class PersistenceManager {
         } else {
             return Observable.of(this.actualAppointment);
         }
-
     }
 
     public setActualAppointment(appointment: IAppointment) { this.actualAppointment = appointment; }
@@ -123,8 +122,6 @@ export class PersistenceManager {
         if (this.actualTasks == undefined || this.actualTasks.length <= 0) {
             return Observable.fromPromise(this.storageService.getTasks())
                 .flatMap((tasks: ITask[]) => {
-                    console.log("Tasks from storage")
-                    console.log(tasks)
                     if (tasks == undefined || tasks.length <= 0) {
                         return this.getToken().flatMap((token) => {
                             return this.getActualAppointment().flatMap((appointment) => {
@@ -134,7 +131,6 @@ export class PersistenceManager {
                     } else { return Observable.of(tasks); }
                 });
         } else { return Observable.of(this.actualTasks); }
-
     }
 
     public setActualTasks(tasks: ITask[]) {
@@ -238,6 +234,10 @@ export class PersistenceManager {
 
     public tokenStatus(): Observable<number> {
         return this.getToken().flatMap(token => this.authService.tokenStatus(token))
+    }
+
+    public sendAuthCodeSMS(patientId,language): Observable<Response>{
+        return this.authService.sendAuthCodeSMS(patientId,language);
     }
 
     private formatResults(results): FormResult[] {

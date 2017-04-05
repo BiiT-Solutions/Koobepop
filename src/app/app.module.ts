@@ -31,12 +31,11 @@ import { Storage } from '@ionic/storage';
 //Providers REST services
 import { AppointmentsProvider } from '../providers/appointmentsProvider';
 import { TasksRestProvider } from '../providers/tasksRestProvider';
-import { ResultsProvider } from '../providers/resultsProvider';
 import { CompaniesProvider } from '../providers/companies';
 
 //Services
 import { StorageService } from '../providers/storageService';
-import { PersistenceManager } from '../providers/persistenceManager';
+import { ServicesManager } from '../providers/persistenceManager';
 import { AuthTokenService } from '../providers/authTokenService';
 import { ConnectivityService } from '../providers/connectivity-service';
 
@@ -94,11 +93,10 @@ export function createTranslateLoader(http: Http) {
   providers: [
     Storage,
     ConnectivityService,
-    PersistenceManager,
+    ServicesManager,
     TasksRestProvider,
     CompaniesProvider,
     AppointmentsProvider,
-    ResultsProvider,
     StorageService,
     AuthTokenService,
     { provide: APP_CONFIG, useValue: AppConfig },

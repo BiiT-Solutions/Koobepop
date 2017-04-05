@@ -15,7 +15,7 @@ export interface IAppConfig {
     removePerformedExercise:string;
     password: string;
     verifyAuthenticationToken:string;
-
+    sendAuthCodeSMS:string;
 }
 
 export const AppConfig: IAppConfig = {    
@@ -29,5 +29,6 @@ export const AppConfig: IAppConfig = {
     removePerformedExercise:"/rest/removePerformedExercise",
     password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
     getAuthenticationToken:"/rest/getAuthenticationToken",
-    verifyAuthenticationToken:"/rest/verifyAuthenticationToken"
+    verifyAuthenticationToken:"/rest/verifyAuthenticationToken",
+    sendAuthCodeSMS:"/rest/sendAuthCodeSMS"
 };

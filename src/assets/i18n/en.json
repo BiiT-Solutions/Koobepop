@@ -43,7 +43,11 @@
         "TITLE":"Login",
         "ID-LABEL":"Id:",
         "CODE-LABEL":"Code:",
-        "ACCEPT-BUTTON":"Accept"
+        "SEND-ID-BUTTON":"Ok",
+        "SEND-CODE-BUTTON":"Ok",
+        "CHANGE-ID-BUTTON":"Change Id",
+        "BEFORE-SEND-ID-TEXT":"Introduce your id, we will provide you with a verification code via SMS.",
+        "BEFORE-SEND-CODE-TEXT":"Introduce your code."
     }
 
 }

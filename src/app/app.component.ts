@@ -5,7 +5,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { HomePage } from '../pages/home/home';
 import { TranslateService } from 'ng2-translate';
 import { StorageService } from '../providers/storageService';
-import { PersistenceManager } from '../providers/persistenceManager';
+import { ServicesManager } from '../providers/persistenceManager';
 import { LoginPage } from '../pages/login/login';
 import { ConnectivityService } from '../providers/connectivity-service';
 @Component({
@@ -18,11 +18,11 @@ export class MyApp {
   constructor(platform: Platform, private translate: TranslateService,
     private storageService: StorageService,
     private loadingCtrl: LoadingController,
-    private manager: PersistenceManager,
+    private manager: ServicesManager,
     private connectivity: ConnectivityService,
     private toastCtrl: ToastController) {
 
-    //if (connectivity.isOnline()){
+
     let loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
@@ -39,21 +39,24 @@ export class MyApp {
           this.rootPage = LoginPage;
         }
       }, error => {
+        
         loading.dismiss();
-        this.rootPage = LoginPage;
+        if (!connectivity.isOnline()) {//
+          this.rootPage = HomePage;
+        } else {          
+          this.rootPage = LoginPage;
+        }
       }
       );
-    // }else{
-    //   this.rootPage = HomePage;
-    // }
 
     platform.ready().then(() => {
+      translate.use(platform.lang());
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.      
-      translate.use('en');
+
       StatusBar.styleDefault();
-      Splashscreen.hide();
+      //Splashscreen.hide();
     });
   }
 }

@@ -6,7 +6,7 @@ import { EffortSelectorComponent } from '../../components/effort-selector/effort
 import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
 import { StorageService } from '../../providers/storageService';
-import { PersistenceManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/persistenceManager';
 /**
  * 
  */
@@ -29,7 +29,7 @@ export class AgendaPage {
     public toastCtrl: ToastController,
     public popoverCtrl: PopoverController,
     public storageService: StorageService,
-    public manager: PersistenceManager) {
+    public manager: ServicesManager) {
     this.goToToday();
   }
 

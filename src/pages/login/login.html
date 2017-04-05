@@ -1,22 +1,25 @@
-
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{'LOGIN.TITLE'|translate}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content >
-   <ion-item>
-    <ion-label color="primary" floating>{{'LOGIN.ID-LABEL'|translate}}</ion-label>
-    <ion-input [(ngModel)]="id"></ion-input>
-  </ion-item>
+<ion-content>
+  <!-- Add some informative text depending on the step you are in -->
+  <p *ngIf="!smsSent">{{'LOGIN.BEFORE-SEND-ID-TEXT'|translate}}</p>
+  <p *ngIf="smsSent">{{'LOGIN.BEFORE-SEND-CODE-TEXT'|translate}}</p>
+  
   <ion-item>
+    <ion-label color="primary" floating>{{'LOGIN.ID-LABEL'|translate}}</ion-label>
+    <ion-input [disabled]="idIsSent" [(ngModel)]="id"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="smsSent">
     <ion-label color="primary" floating>{{'LOGIN.CODE-LABEL'|translate}}</ion-label>
     <ion-input #password type="password" [(ngModel)]="pass"></ion-input>
-    <button  ion-button item-right clear icon-only (click)="showPassword(password)">
+    <button ion-button item-right clear icon-only (click)="showPassword(password)">
       <ion-icon [color]="showPass ? 'primary':'light'" name="eye"></ion-icon>
     </button>
   </ion-item>
-  <button ion-button color="secondary" (click)="login()">{{'LOGIN.ACCEPT-BUTTON'|translate}}</button>
-  
-  
+  <button *ngIf="!smsSent" [disabled]="idIsSent" ion-button color="secondary" (click)="sendId()">{{'LOGIN.SEND-ID-BUTTON'|translate}}</button>
+  <button *ngIf="smsSent" ion-button color="secondary" (click)="login()">{{'LOGIN.SEND-CODE-BUTTON'|translate}}</button>
+  <button *ngIf="smsSent" ion-button color="secondary" (click)="changeId()">{{'LOGIN.CHANGE-ID-BUTTON'|translate}}</button>
 </ion-content>

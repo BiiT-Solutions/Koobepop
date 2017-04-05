@@ -4,7 +4,7 @@ import { AppointmentsProvider } from '../../providers/appointmentsProvider';
 import { IAppointment } from '../../models/appointmentI';
 import { StorageService } from '../../providers/storageService';
 import * as infographicjs from 'infographic-js';
-import { PersistenceManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/persistenceManager';
 import { FormResult } from '../../models/results';
 /**
  * This page holds a report into a slider consisting on several pages (zoomable-slide)
@@ -26,7 +26,7 @@ export class ReportPage {
     public appointmentsProvider: AppointmentsProvider,
     public changeDetector: ChangeDetectorRef,
     public storageService: StorageService,
-    public manager: PersistenceManager,
+    public manager: ServicesManager,
     public loadingCtrl: LoadingController) {
     this.manager.getAppointments()
       .subscribe(appointments => this.setAppointments(appointments), (error) => this.errorMessage(error));

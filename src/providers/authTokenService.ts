@@ -28,5 +28,15 @@ export class AuthTokenService {
         return this.http.post(requestAddres, {token:token }, { headers: headers })
             .map((response)=>{return response.status});
     }
+
+    public sendAuthCodeSMS(patientId: string, languageId:string):Observable<Response>{
+       let requestAddres = this.config.usmoServer + this.config.sendAuthCodeSMS;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authorization', this.config.password);
+        let criteria = {patientId:patientId,language:languageId};
+
+        return this.http.post(requestAddres, criteria, { headers: headers });
+            //.map((response:Response)=>{return response.text()}); 
+    }
     
 }

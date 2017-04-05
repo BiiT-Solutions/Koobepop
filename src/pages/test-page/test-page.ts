@@ -3,7 +3,7 @@ import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
 import { AppointmentsProvider } from '../../providers/appointments-provider';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
-import { PersistenceManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/persistenceManager';
 import { StorageService } from '../../providers/storageService';
 import { Observable } from 'rxjs/Observable';
 import { ITask } from '../../models/taskI';
@@ -24,7 +24,7 @@ export class TestPage {
   day = Date.now();
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public manager: PersistenceManager,
+    public manager: ServicesManager,
     public storageService: StorageService) {
 
   }

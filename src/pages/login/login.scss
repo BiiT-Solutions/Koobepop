@@ -1,2 +1,12 @@
 page-login {
+    
+    .item-inner {
+        border-bottom-color: transparent !important;
+        box-shadow: none !important;
+    }
+    p{
+        text-align: justify;
+        padding: 12px;
+        font-size: medium;        
+    }
 }
