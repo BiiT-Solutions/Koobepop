@@ -82,11 +82,11 @@ export class TaskComponent {
    check(event) {
     console.log("Click checkbox");
     //Init map in case it hasn't been
-    if (event.task.task.performedOn == undefined) {
-      event.task.task.performedOn = new Map<number, number>();
+    if (this.task.performedOn == undefined) {
+      this.task.performedOn = new Map<number, number>();
     }
 
-    if (!event.task.task.performedOn.has(event.task.day)) {
+    if (!this.task.performedOn.has(this.day)) {
       console.log("IF");
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
@@ -94,20 +94,23 @@ export class TaskComponent {
       popover.onDidDismiss((score: number) => {
 
         if (score!=undefined){
-        event.task.task.performedOn.set(event.task.day, score);
+        this.task.performedOn.set(this.day, score);
         //Need the subscription to force the Observable 
-        this.manager.performTask(event.task.task, event.task.day).subscribe(status => {
+        this.manager.performTask(this.task, this.day).subscribe(status => {
           console.log(status)
         });
         this.toaster.goodToast(this.task.name + ' finished! difficulty: ' + score);      
       }
       });
-      popover.present({ ev: event.event });
+      popover.present({ ev: event });
     } else {
       console.log("ELSE")
       //Need the subscription to force the Observable 
-      this.manager.removeTask(event.task.task, event.task.day).subscribe(status => console.log(status));
-      event.task.task.performedOn.delete(event.task.day);
+      this.manager.removeTask(this.task, this.day).subscribe(status => console.log(status));
+      this.task.performedOn.delete(this.day);
     }
+    this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
+    
+    console.log(this.isPerformed)
   }
 }
