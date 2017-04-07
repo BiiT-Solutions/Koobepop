@@ -33,7 +33,10 @@ export class TaskComponent {
   }
 
   public check(event) {
-    this.isPerformed = !this.isPerformed;
+    if(event.checked !== this.isPerformed) {
+    // Don't toggle just yet, let it happen reactively
+    event.checked = this.isPerformed;
+  }
     this.checkBoxClick.emit({ event: event, task: this });
   }
 

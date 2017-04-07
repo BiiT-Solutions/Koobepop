@@ -4,6 +4,8 @@ var bump = require('gulp-bump');
 var argv = require('yargs').argv;
 var gulpif = require('gulp-if');
 var gutil = require('gulp-util');
+var del = require('del');
+var replace = require('gulp-replace')
 
 gulp.task('test', (done) => {
   new Server({
@@ -28,7 +30,22 @@ gulp.task('bump', () => {
     .pipe(gulpif(argv.minor, bump({ type: 'minor' }))) // _.X._
     .pipe(gulpif(argv.major, bump({ type: 'major' }))) // X._._
     .pipe(gulp.dest('./'));
-})
+}
 
-//TODO Add task to change the configuration of infographic-js 
+//TODO - Add task to change the configuration of infographic-js 
 // and copy the 'images' folder.
+)
+gulp.task('move-infographics-js',function(){
+  del(['src/assets/infographic-images']).then(string=>{
+    console.log(string)
+  gulp.src('node_modules/infographic-js/images/*')
+    .pipe(gulp.dest('src/assets/infographic-images'))
+  });
+  
+});
+
+gulp.task('change-infographics-js-properties',function(){
+  gulp.src('node_modules/infographic-js/lib/fileManagerProperties.js',{base:'./'})
+  .pipe(replace(/=.*images.*/gi,"'= assets/infographic-images/'"))
+  .pipe(gulp.dest('./'))
+});
