@@ -26,6 +26,7 @@ export class TaskComponent {
 
   }
   ngOnChanges() {
+    console.log("Changes")
     this.isDisabled = this.day > Date.now() || this.day < Date.now() - this.ONE_WEEK_IN_MILIS;
     this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
     this.style = this.taskStyle();

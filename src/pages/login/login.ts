@@ -5,6 +5,7 @@ import { HomePage } from '../home/home';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from 'ng2-translate';
 import { Response } from '@angular/http';
+import { ToastIssuer } from '../../providers/toastIssuer';
 
 @Component({
   selector: 'page-login',
@@ -20,33 +21,34 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public manager: ServicesManager,
-    public toastCtrl: ToastController,
+    public toaster: ToastIssuer,
     public loadingCtrl: LoadingController,
-    public translateService:TranslateService) { }
+    public translateService:TranslateService) { 
+      manager.getUser().subscribe(user=>{
+        console.log(user)
+        if(user!=null){
+        this.id=user.patientId
+        this.idIsSent = true;
+        this.smsSent = true; 
+      }
+    });
+    }
 
   sendId(){
     // Request Verification code
     this.idIsSent = true;
     this.manager.sendAuthCodeSMS(this.id,this.translateService.currentLang)
     .subscribe((res:Response)=>{
+      
       if(res.status ==200){
+        this.manager.setUser({patientId:this.id})
         this.smsSent = true;
       }else{
         this.idIsSent = false;
-        let toast = this.toastCtrl.create({
-            message: "res.status",//TODO change 
-            duration: 1500,
-            cssClass: 'bad-toast'
-          });
-          toast.present();
+         this.toaster.badToast( res.status.toString());
       }
-    },error=>{      
-       let toast = this.toastCtrl.create({
-            message: error.json().error,//LOGIN-SUCCESSFULL-TEXT
-            duration: 1500,
-            cssClass: 'bad-toast'
-          });
-          toast.present();
+    },error=>{   
+      this.toaster.badToast(error.json().error);
           this.idIsSent = false
     });
   }
@@ -60,23 +62,15 @@ export class LoginPage {
       .subscribe((authorized) => {
         loading.dismiss();
         if (authorized) {
-          let toast = this.toastCtrl.create({
-            message: "Login successfull",//LOGIN-SUCCESSFULL-TEXT
-            duration: 1500,
-            cssClass: 'good-toast'
-          });
-          toast.present();
+          this.toaster.goodToast("Login successfull");//LOGIN-SUCCESSFULL-TEXT
+         
           this.navCtrl.setRoot(HomePage);
           this.navCtrl.popToRoot();
         }
       }, error => {
         loading.dismiss();
-        let toast = this.toastCtrl.create({
-          message: "Login fail",//LOGIN-FAIL-TEXT
-          duration: 1500,
-          cssClass: 'bad-toast'
-        });
-        toast.present();
+        let toast = this.toaster.badToast("Login fail")//LOGIN-FAIL-TEXT
+    
         console.error(error);
       });
 
@@ -96,22 +90,12 @@ export class LoginPage {
       .subscribe((authorized) => {
         loading.dismiss();
         if (authorized) {
-          let toast = this.toastCtrl.create({
-            message: "Login successfull",//LOGIN-SUCCESSFULL-TEXT
-            duration: 2000,
-            cssClass: 'good-toast'
-          });
-          toast.present();
+          let toast = this.toaster.goodToast("Login successfull");
           this.navCtrl.setRoot(HomePage);
         }
       }, error => {
         loading.dismiss();
-        let toast = this.toastCtrl.create({
-          message: "Login fail",
-          duration: 2000,
-          cssClass: 'bad-toast'
-        });
-        toast.present();
+        this.toaster.badToast("Login error");
         console.error(error);
       });
   }

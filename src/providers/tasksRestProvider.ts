@@ -34,7 +34,7 @@ export class TasksRestProvider {
               name: task.name,
               startingTime: task.startingTime,
               repetitions: task.repetitions,
-              performedOn: performedMap, //new Map<number, number>(JSON.parse(task.performedOn)),
+              performedOn: performedMap, 
               videoUrl: task.videoUrl,
               infoUrl: task.infoUrl
             });
@@ -70,7 +70,8 @@ export class TasksRestProvider {
       score: 0 //dummy score
     }
     headers.append('Authorization', this.config.password);
-    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => res.status );
+    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => {
+      return res.status });
   }
 
   extractData(res: Response) {

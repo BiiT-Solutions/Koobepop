@@ -1,8 +1,8 @@
 page-login {
     
     .item-inner {
-        border-bottom-color: transparent !important;
-        box-shadow: none !important;
+        border-bottom-color:map-get($colors,plentyTime) !important;
+        box-shadow: inset 0 -1px 0 0 map-get($colors,calm) !important;
     }
     p{
         text-align: justify;

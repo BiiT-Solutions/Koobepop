@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides } from 'ionic-angular';
+import { NavController, Slides, Loading, LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
@@ -7,6 +7,7 @@ import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
 import { StorageService } from '../../providers/storageService';
 import { ServicesManager } from '../../providers/persistenceManager';
+import { ToastIssuer } from '../../providers/toastIssuer';
 /**
  * 
  */
@@ -23,46 +24,66 @@ export class AgendaPage {
   oldIndex = 1
   @ViewChild('slider') slider: Slides;
   tasksPlan: ITask[] = [];
-
+  loading: Loading;
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
+    public toaster: ToastIssuer,
     public popoverCtrl: PopoverController,
     public storageService: StorageService,
-    public manager: ServicesManager) {
+    public manager: ServicesManager,
+    public loadingCtrl: LoadingController) {
     this.goToToday();
   }
 
   ionViewDidLoad() {
-    this.manager.getActualTasks().subscribe((tasks: ITask[]) => this.tasksPlan = tasks);
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
+    });
+    this.loading.present();
+    this.manager.getActualTasks().subscribe((tasks: ITask[]) => {
+      this.tasksPlan = tasks
+      this.loading.dismiss();
+    });
   }
 
   /* When item is clicked */
   //TODO Define event's Type
   checkMark(event) {
+    console.log("Click checkbox");
     //Init map in case it hasn't been
     if (event.task.task.performedOn == undefined) {
       event.task.task.performedOn = new Map<number, number>();
     }
-    if (!event.task.task.performedOn.has(event.task.day)) {
 
+    if (!event.task.task.performedOn.has(event.task.day)) {
+      console.log("IF");
       let popover = this.popoverCtrl
-        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
+        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
 
       popover.onDidDismiss((score: number) => {
+
+        if (score!=undefined){
         event.task.task.performedOn.set(event.task.day, score);
-        this.manager.performTask(event.task.task, event.task.day); //TODO manage everything from the manager service :)
+        //Need the subscription to force the Observable 
+        this.manager.performTask(event.task.task, event.task.day).subscribe(status => {
+          console.log(status)
+        });
         this.manager.setActualTasks(this.tasksPlan);
+
         let toast = this.toastCtrl.create({
           message: event.task.task.name + ' finished! difficulty: ' + score,
           duration: 2000,
           cssClass: 'good-toast'
         });
         toast.present();
+      }
       });
       popover.present({ ev: event.event });
     } else {
-      this.manager.removeTask(event.task.task, event.task.day);
+      console.log("ELSE")
+      //Need the subscription to force the Observable 
+      this.manager.removeTask(event.task.task, event.task.day).subscribe(status => console.log(status));
       event.task.task.performedOn.delete(event.task.day);
       this.manager.setActualTasks(this.tasksPlan);
     }

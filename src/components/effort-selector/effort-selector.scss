@@ -13,6 +13,8 @@ effort-selector {
 
     div.title{
         text-align: center;
+        background-color: map-get($colors,primary);
+        color: white;
     }
 
 

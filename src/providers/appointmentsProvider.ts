@@ -35,14 +35,10 @@ export class AppointmentsProvider {
   }
 
   private extractData(res: Response): IAppointment[] {
-    console.log("Response:")
-    console.log(res)
     let appointmentsFromResponse = res.json();
     appointmentsFromResponse.forEach(appointment => {
       appointment.results = this.formatResults(appointment.results)
     });
-    console.log("Formatted:")
-    console.log(appointmentsFromResponse)
     return appointmentsFromResponse || {};
   }
 

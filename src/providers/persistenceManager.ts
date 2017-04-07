@@ -244,38 +244,4 @@ export class ServicesManager {
         return this.authService.sendAuthCodeSMS(patientId,language);
     }
 
-    private formatResults(results): FormResult[] {
-        let formResults: FormResult[] = [];
-        results.forEach(result =>
-            formResults.push(this.formatForm(result.formResult))
-        );
-        return formResults;
-    }
-    private formatForm(form): FormResult {
-        let formChildren: CategoryResult[] = [];
-        form.children.forEach(category => {
-            formChildren.push(this.formatCategory(category));
-        });
-        return {
-            name: form.label,
-            children: formChildren
-        }
-    }
-    private formatCategory(category): CategoryResult {
-        let categoryChildren: any[] = [];
-        category.children.forEach(child => {
-            if (child.class == "com.biit.form.result.RepeatableGroupResult") {
-                categoryChildren.push(this.formatCategory(child));
-            }
-            else if (child.class == "com.biit.form.result.QuestionWithValueResult") {
-                categoryChildren.push(this.formatQuestion(child));
-            }
-        })
-        return { name: category.name, children: categoryChildren }
-    }
-
-    private formatQuestion(question): QuestionResult {
-        return { name: question.name, values: question.values }
-    }
-
 }

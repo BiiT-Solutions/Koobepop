@@ -30,13 +30,19 @@ export class ReportPage {
     public loadingCtrl: LoadingController) {
     this.manager.getAppointments()
       .subscribe(appointments => this.setAppointments(appointments), (error) => this.errorMessage(error));
+  }
+
+  protected ionViewDidLoad() {
     this.loading = this.loadingCtrl.create({
       content: 'Loading reports'//WAIT-FOR-REPORTS-LOAD-TEXT
     });
     this.loading.present();
-    this.loadReports(this.loading);
   }
 
+  protected ionViewDidEnter() {
+    this.loadReports(this.loading, this);
+  }
+  
   private setAppointments(appointments) {
     this.appointments = appointments;
   }
@@ -48,18 +54,18 @@ export class ReportPage {
   private setResults(results) {
   }
 
-  private loadReports(loading: Loading): void {
-    if (this.appointments == undefined || this.appointments.length <= 0) {
-      this.timeout = setTimeout(() => this.loadReports(loading), 1000);
+  private loadReports(loading: Loading, context: ReportPage): void {
+    if (context.appointments == undefined || context.appointments.length <= 0) {
+      context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
     } else {
-      this.appointments.forEach((appointment: IAppointment) => {
+      context.appointments.forEach((appointment: IAppointment) => {
         let reportBuilder = {
           "width": 540,
           "height": 960,
           "dataText": {
             "date": appointment.startTime,
             "doctorName": appointment.doctorLastName + ", " + appointment.doctorFirstName,
-            "conclusion": "",//appointment.appointmentId.toString(),
+            "conclusion": "",
             "patientName": "",
             "patientBirthday": "",
             "patientMail": "",
@@ -73,11 +79,15 @@ export class ReportPage {
             "nextAppointmentTime": ""
           }
         };
-        this.svgList.push(infographicjs.fillBasicReport(reportBuilder));
+        context.svgList.push(infographicjs.fillBasicReport(reportBuilder));
       });
       //This prevents a change detection error on dev mode
-      this.changeDetector.detectChanges();
-      this.loading.dismiss();
+      try {
+        context.changeDetector.detectChanges();
+      } catch (exception) {
+        console.debug(exception);
+      }
+      context.loading.dismiss();
     }
   }
 

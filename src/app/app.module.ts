@@ -38,6 +38,7 @@ import { StorageService } from '../providers/storageService';
 import { ServicesManager } from '../providers/persistenceManager';
 import { AuthTokenService } from '../providers/authTokenService';
 import { ConnectivityService } from '../providers/connectivity-service';
+import { ToastIssuer } from '../providers/toastIssuer';
 
 
 export function createTranslateLoader(http: Http) {
@@ -100,6 +101,8 @@ export function createTranslateLoader(http: Http) {
     StorageService,
     AuthTokenService,
     { provide: APP_CONFIG, useValue: AppConfig },
-    { provide: ErrorHandler, useClass: IonicErrorHandler }]
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    ToastIssuer
+    ]
 })
 export class AppModule { }

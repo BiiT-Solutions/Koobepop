@@ -35,7 +35,6 @@ self.addEventListener('activate', (event) => {
 // Other approaches, like selectively caching based on response headers or only caching
 // responses served from a specific domain, might be more appropriate for those use cases.
 self.addEventListener('fetch', (event) => {
-
   event.respondWith(
     caches.open(CURRENT_CACHES['read-through']).then((cache) => {
       return cache.match(event.request).then((response) => {

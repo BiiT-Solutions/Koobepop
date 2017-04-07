@@ -39,9 +39,10 @@ export class MyApp {
           this.rootPage = LoginPage;
         }
       }, error => {
-        
         loading.dismiss();
-        if (!connectivity.isOnline()) {//
+        //Happens if the device is offline or if the server is down
+        //It won't happen if there's not a user and token already in the system
+        if (!connectivity.isOnline() || error.status == 0) { 
           this.rootPage = HomePage;
         } else {          
           this.rootPage = LoginPage;

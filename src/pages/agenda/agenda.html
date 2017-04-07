@@ -3,26 +3,17 @@
     <ion-title>{{"AGENDA.TITLE" | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content>  
+<ion-content>
   <div style="height:100%;">
- <button ion-button full color="secondary" (click)="goToToday()">{{"AGENDA.TODAY-BUTTON" | translate}}</button>
-    <ion-slides initialSlide="1" #slider 
-      (ionSlideNextEnd)="nextSlide()" 
-      (ionSlidePrevEnd)="prevSlide()">
-      
+    <button ion-button full color="secondary" (click)="goToToday()">{{"AGENDA.TODAY-BUTTON" | translate}}</button>
+    <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
+
       <ion-slide *ngFor="let day of days">
         <div class="date-header">{{day |date}}</div>
         <ion-list>
-          <ng-container  
-            *ngFor="let task of tasksPlan">
-            <task-component 
-            *ngIf="day>task.startingTime"
-            [task]="task" 
-            [day]="day" 
-            (checkBoxClick)="checkMark($event)"
-            (videoClick) = "gotoExerciseVideo($event)"
-            (infoClick) = "gotoExerciseInfo($event)"
-            ></task-component>
+          <ng-container *ngFor="let task of tasksPlan">
+            <task-component *ngIf="day>task.startingTime" [task]="task" [day]="day" (checkBoxClick)="checkMark($event)" (videoClick)="gotoExerciseVideo($event)"
+              (infoClick)="gotoExerciseInfo($event)"></task-component>
           </ng-container>
         </ion-list>
       </ion-slide>
