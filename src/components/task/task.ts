@@ -1,11 +1,15 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { ITask } from '../../models/taskI';
 import { Observable } from 'rxjs/Observable';
+import { ServicesManager } from '../../providers/persistenceManager';
+import { EffortSelectorComponent } from '../effort-selector/effort-selector';
+import { ToastIssuer } from '../../providers/toastIssuer';
+import { PopoverController } from 'ionic-angular';
 
 @Component({
   selector: 'task-component',
   templateUrl: 'task.html',
-  changeDetection: ChangeDetectionStrategy.OnPush //Only detects changes when they are changed
+  changeDetection: ChangeDetectionStrategy.OnPush //Only detects changes when the input changes
 })
 export class TaskComponent {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
@@ -21,7 +25,10 @@ export class TaskComponent {
   @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
-  constructor(public changeDetectorRef: ChangeDetectorRef) { }
+  constructor(public changeDetectorRef: ChangeDetectorRef,
+              public manager: ServicesManager,
+              public toaster:ToastIssuer,
+              public popoverCtrl:PopoverController) { }
   ngAfterViewInit() {
 
   }
@@ -32,11 +39,8 @@ export class TaskComponent {
     this.style = this.taskStyle();
   }
 
-  public check(event) {
-    if(event.checked !== this.isPerformed) {
-    // Don't toggle just yet, let it happen reactively
-    event.checked = this.isPerformed;
-  }
+  public checkM(event) {
+    this.isPerformed = !this.isPerformed;
     this.checkBoxClick.emit({ event: event, task: this });
   }
 
@@ -71,6 +75,39 @@ export class TaskComponent {
       } else {
         return { 'plenty-time-task': true };
       }
+    }
+  }
+
+
+   check(event) {
+    console.log("Click checkbox");
+    //Init map in case it hasn't been
+    if (event.task.task.performedOn == undefined) {
+      event.task.task.performedOn = new Map<number, number>();
+    }
+
+    if (!event.task.task.performedOn.has(event.task.day)) {
+      console.log("IF");
+      let popover = this.popoverCtrl
+        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
+
+      popover.onDidDismiss((score: number) => {
+
+        if (score!=undefined){
+        event.task.task.performedOn.set(event.task.day, score);
+        //Need the subscription to force the Observable 
+        this.manager.performTask(event.task.task, event.task.day).subscribe(status => {
+          console.log(status)
+        });
+        this.toaster.goodToast(this.task.name + ' finished! difficulty: ' + score);      
+      }
+      });
+      popover.present({ ev: event.event });
+    } else {
+      console.log("ELSE")
+      //Need the subscription to force the Observable 
+      this.manager.removeTask(event.task.task, event.task.day).subscribe(status => console.log(status));
+      event.task.task.performedOn.delete(event.task.day);
     }
   }
 }

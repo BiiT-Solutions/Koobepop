@@ -86,7 +86,7 @@ export class ServicesManager {
                 if (appointments == undefined || appointments.length <= 0) {
                     return this.getUser().flatMap(user => {
                         return this.getToken().flatMap(token => {
-                            return this.appointmentsProvider.requestAppointments(user, token).map(appointments=>{
+                            return this.appointmentsProvider.requestAppointments(user, token).map(appointments => {
                                 this.setAppointments(appointments);
                                 return appointments;
                             });
@@ -146,7 +146,11 @@ export class ServicesManager {
     public performTask(task, time): Observable<any> {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
-                return this.tasksProvider.sendPerformedTask(appointment, task, time, token);
+                return this.tasksProvider.sendPerformedTask(appointment, task, time, token)
+                    .map(status => {
+                        //TODO - save tasks with the performed one
+                        return status;
+                    });
             });
         });
     }
@@ -155,6 +159,10 @@ export class ServicesManager {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
                 return this.tasksProvider.removePerformedTask(appointment, task, time, token)
+                    .map(status => {
+                        //TODO - save tasks with the removed one
+                        return status;
+                    });
             });
         });
     }
@@ -240,8 +248,8 @@ export class ServicesManager {
         return this.getToken().flatMap(token => this.authService.tokenStatus(token))
     }
 
-    public sendAuthCodeSMS(patientId,language): Observable<Response>{
-        return this.authService.sendAuthCodeSMS(patientId,language);
+    public sendAuthCodeSMS(patientId, language): Observable<Response> {
+        return this.authService.sendAuthCodeSMS(patientId, language);
     }
 
 }

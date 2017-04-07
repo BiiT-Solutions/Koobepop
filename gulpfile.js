@@ -32,6 +32,7 @@ gulp.task('bump', () => {
     .pipe(gulp.dest('./'));
 }
 
+
 //TODO - Add task to change the configuration of infographic-js 
 // and copy the 'images' folder.
 )
@@ -46,6 +47,6 @@ gulp.task('move-infographics-js',function(){
 
 gulp.task('change-infographics-js-properties',function(){
   gulp.src('node_modules/infographic-js/lib/fileManagerProperties.js',{base:'./'})
-  .pipe(replace(/=.*images.*/gi,"'= assets/infographic-images/'"))
+  .pipe(replace(/=.*images.*/gi,"= 'assets/infographic-images/'"))
   .pipe(gulp.dest('./'))
 });
