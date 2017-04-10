@@ -6,6 +6,8 @@ import { StorageService } from '../../providers/storageService';
 import * as infographicjs from 'infographic-js';
 import { ServicesManager } from '../../providers/persistenceManager';
 import { FormResult } from '../../models/results';
+import { ToastIssuer } from '../../providers/toastIssuer';
+import { TranslateService } from 'ng2-translate';
 /**
  * This page holds a report into a slider consisting on several pages (zoomable-slide)
  */
@@ -27,10 +29,11 @@ export class ReportPage {
     public changeDetector: ChangeDetectorRef,
     public storageService: StorageService,
     public manager: ServicesManager,
-    public loadingCtrl: LoadingController) {
-    this.manager.getAppointments()
-      .subscribe(appointments => this.setAppointments(appointments), (error) => this.errorMessage(error));
-  }
+    public loadingCtrl: LoadingController,
+    public toaster: ToastIssuer,
+    public translate: TranslateService) {
+    this.setAppointments();
+   }
 
   protected ionViewDidLoad() {
     this.loading = this.loadingCtrl.create({
@@ -43,16 +46,16 @@ export class ReportPage {
     this.loadReports(this.loading, this);
   }
   
-  private setAppointments(appointments) {
-    this.appointments = appointments;
+  private setAppointments() {
+     this.manager.getAppointments()
+      .subscribe(appointments => this.appointments = appointments, (error) => this.errorMessage(error));
   }
 
   private errorMessage(error) {
+    this.translate.get("REPORT.ERROR-SETTING-APPOINTMENTS").subscribe(translation=>this.toaster.badToast(translation));
     console.error(error);
   }
 
-  private setResults(results) {
-  }
 
   private loadReports(loading: Loading, context: ReportPage): void {
     if (context.appointments == undefined || context.appointments.length <= 0) {

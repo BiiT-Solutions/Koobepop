@@ -1,5 +1,10 @@
 {
-    "ABOUT":{
+   "APP":{
+        "UNABLE-TO-CONNECT-MSG":"Unable to connect",
+        "LOAD-MESSAGE":"Please wait..."
+
+   },
+   "ABOUT":{
         "TITLE": "About",
         "AUTHORY":"BiiT sourcing solutions",
         "DESCRIPTION":"Description of the application, aim, etc.",
@@ -48,6 +53,9 @@
         "CHANGE-ID-BUTTON":"Change Id",
         "BEFORE-SEND-ID-TEXT":"Introduce your id, we will provide you with a verification code via SMS.",
         "BEFORE-SEND-CODE-TEXT":"Introduce your code."
+    },
+    "REPORT":{
+        "ERROR-SETTING-APPOINTMENTS":"Unable to load appointments"
     }
 
 }

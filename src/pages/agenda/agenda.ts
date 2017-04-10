@@ -50,7 +50,7 @@ export class AgendaPage {
   /* When item is clicked */
   //TODO Define event's Type
   checkMark(event) {
-    console.log("Click checkbox");
+    //console.log("Click checkbox");
     //Init map in case it hasn't been
     if (event.task.task.performedOn == undefined) {
       event.task.task.performedOn = new Map<number, number>();
@@ -59,25 +59,20 @@ export class AgendaPage {
     if (!event.task.task.performedOn.has(event.task.day)) {
       console.log("IF");
       let popover = this.popoverCtrl
-        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
+        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
 
       popover.onDidDismiss((score: number) => {
 
-        if (score!=undefined){
-        event.task.task.performedOn.set(event.task.day, score);
-        //Need the subscription to force the Observable 
-        this.manager.performTask(event.task.task, event.task.day).subscribe(status => {
-          console.log(status)
-        });
-        this.manager.setActualTasks(this.tasksPlan);
-
-        let toast = this.toastCtrl.create({
-          message: event.task.task.name + ' finished! difficulty: ' + score,
-          duration: 2000,
-          cssClass: 'good-toast'
-        });
-        toast.present();
-      }
+        if (score != undefined) {
+          event.task.task.performedOn.set(event.task.day, score);
+          //Need the subscription to force the Observable 
+          this.manager.performTask(event.task.task, event.task.day).subscribe(status => {
+            console.log(status)
+          });
+          this.manager.setActualTasks(this.tasksPlan);
+          
+          this.toaster.goodToast(event.task.task.name + ' finished! Difficulty: ' + score);
+        }
       });
       popover.present({ ev: event.event });
     } else {
@@ -129,5 +124,9 @@ export class AgendaPage {
       this.today + this.ONE_DAY_IN_MILIS
     ];
     this.actualDay = this.today;
+  }
+  ionViewWillLeave() {
+    this.loading.dismiss();
+    // clearTimeout(this.timeout);
   }
 }

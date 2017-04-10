@@ -33,13 +33,12 @@ export class TaskComponent {
 
   }
   ngOnChanges() {
-    console.log("Changes")
     this.isDisabled = this.day > Date.now() || this.day < Date.now() - this.ONE_WEEK_IN_MILIS;
     this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
     this.style = this.taskStyle();
   }
 
-  public checkM(event) {
+  public checkMark(event) {
     this.isPerformed = !this.isPerformed;
     this.checkBoxClick.emit({ event: event, task: this });
   }
@@ -79,7 +78,7 @@ export class TaskComponent {
   }
 
 
-   check(event) {
+/*   check(event) {
     console.log("Click checkbox");
     //Init map in case it hasn't been
     if (this.task.performedOn == undefined) {
@@ -112,5 +111,5 @@ export class TaskComponent {
     this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
     
     console.log(this.isPerformed)
-  }
+   }*/
 }
