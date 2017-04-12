@@ -1,19 +1,26 @@
-<ion-item [ngClass]="style" *ngIf="task!=undefined">
+<ion-item [ngClass]="style" *ngIf="task!=undefined"
+(click)="console.log('Click')"
+>
+  
   <ion-label item-content>{{task.name}}</ion-label>
   <!-- <ion-label item-right> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}})</ion-label>-->
-  <button ion-button item-right clear icon-only 
+   <ion-checkbox #checkBox item-left
+  color="dark"
+  [checked]="task.performedOn.has(day)" 
+  [disabled]="isDisabled" 
+  (click)="check($event)">
+  </ion-checkbox>
+  <button ion-button item-left clear icon-only 
     *ngIf="task.videoUrl!= undefined && task.videoUrl!=''" 
     (click)="clickVideo()">
     <ion-icon name="film"></ion-icon>
   </button>
-  <button ion-button item-right clear icon-only
+  <button ion-button item-left clear icon-only
     *ngIf="task.infoUrl!= undefined && task.infoUrl!=''"
     (click)="clickInfo()">
     <ion-icon name="information-circle"></ion-icon>
   </button>
-  <ion-checkbox color="dark"
-  [checked]="isPerformed" 
-  [disabled]="isDisabled" 
-  (ionChange)="checkMark($event)"
-  ></ion-checkbox>
+  
+ 
+  
 </ion-item>

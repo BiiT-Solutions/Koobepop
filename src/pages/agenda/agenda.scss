@@ -1,5 +1,5 @@
 
-page-agenda {   
+page-agenda {
   //This is so the slides don't stay on the middle of the page
   .slide-zoom{
     height:100%;
@@ -19,17 +19,29 @@ page-agenda {
   
   .effort-selector-popover {
     ion-backdrop{
-      opacity: 0.2;
+      //opacity: 0.08!important;
     }
+    
     .popover-content{
-      right:12px;
-      width:95%;    
+      right:2px;
+      left:auto!important;
+      display: inline-block;
+      width:200px;
+      background-color: transparent;
+
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-name: bounceInRight;
     }
+
   }  
-  //This is so the popover doesn't appear infront of the trigger field
+ 
   .popover-md .popover-content{
-    margin-top:57px;
+    //margin-top:57px;
   }
    .popover-wp .popover-content{
-    margin-top:57px;
+    //margin-top:57px;
+  }
+  .popover-ios .popover-content{
+   //margin-top:-45px
   }

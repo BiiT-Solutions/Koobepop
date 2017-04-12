@@ -42,15 +42,12 @@ export class MyApp {
       }, error => {
         loading.dismiss();
 
-        //this.toaster.badToast(error.status)
-        //Happens if the device is offline or if the server is down
-        //It won't happen if there's not a user and token already in the system
         if (!connectivity.isOnline()) {
           translate.get("APP.UNABLE-TO-CONNECT-MSG")
             .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
           if (error.status == 0) {
             this.rootPage = HomePage;
-          } else {
+          } else { //Another async call failed on the process 
             this.rootPage = LoginPage;
           }
         }

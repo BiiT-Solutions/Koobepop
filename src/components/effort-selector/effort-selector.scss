@@ -2,8 +2,9 @@ effort-selector {
 
      div.radio-container{  
          display:table;
-         width:100%;
          table-layout:fixed;
+         width:100%;
+         height:45px;
         }
     div.radio-container div{
         display: table-cell;
@@ -20,13 +21,13 @@ effort-selector {
 
 
     .effort-very-easy{
-        background-color:#00a652
+        background-color:#00a652;
         }
     .effort-med-easy{
         background-color:#bfd630
         }
     .effort-low-easy{
-        background-color:#fef200
+        background-color:#fdb813
         }
     .effort-low-hard{
         background-color:#fdb813
@@ -36,6 +37,12 @@ effort-selector {
         }    
     .effort-very-hard{
         background-color:#ed1b24;
+        }
+    .effort-painful{   
+        color:white;    
+        //text-align: center;
+         background-color:black;
+         
         }
 }
 

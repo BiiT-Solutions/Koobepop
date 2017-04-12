@@ -1,11 +1,38 @@
-<div >
-  <div class="title">Select exercise difficulty</div>
-<div class="radio-container" radio-group> 
-  <div class="effort-very-easy"><div style="display:block;">1</div><ion-radio (click)="close(LIGHT_LOW)"></ion-radio></div>
-  <div class="effort-med-easy"><div style="display:block;">2</div><ion-radio (click)="close(LIGHT_HIGH)"></ion-radio></div>
-  <div class="effort-low-easy"><div style="display:block;">3</div><ion-radio (click)="close(MODERATE_LOW)"></ion-radio></div>
-  <div class="effort-low-hard"><div style="display:block;">4</div><ion-radio (click)="close(MODERATE_HIGH)"></ion-radio></div>
-  <div class="effort-med-hard"><div style="display:block;">5</div><ion-radio (click)="close(HEAVY_LOW)"></ion-radio></div>
-  <div class="effort-very-hard"><div style="display:block;">6</div><ion-radio (click)="close(HEAVY_HIGH)"></ion-radio></div>
-</div>
-</div>
+
+ 
+  <div radio-group class="radio-container">
+    <div class="effort-very-easy">
+      <div style="display:block;">Easy</div>
+      <ion-radio (click)="close(LIGHT)"></ion-radio>
+    </div>
+    
+
+    <div class="effort-low-easy">
+      <div style="display:block;">Normal</div>
+      <ion-radio (click)="close(MODERATE)"></ion-radio>
+    </div>
+
+    <div class="effort-very-hard">
+      <div style="display:block;">Hard</div>
+      <ion-radio (click)="close(HEAVY)"></ion-radio>
+    </div>
+    <div class="effort-painful">
+      <div style="display:block;">Painful</div>
+      <ion-radio (click)="close(PAIN)"></ion-radio>
+    </div>
+  </div>
+<!--
+<div class="radio-container">
+<button ion-fab class="effort-very-easy" 
+(click)="close(LIGHT)"
+style="display:block;">Easy</button>
+<button ion-fab class="effort-low-easy" 
+(click)="close(LIGHT)"
+style="display:block;">Normal</button>
+<button ion-fab class="effort-very-hard" 
+(click)="close(LIGHT)"
+style="display:block;">Hard</button>
+<button ion-fab class="effort-painful" 
+(click)="close(LIGHT)"
+style="display:block;">Painful</button>
+</div>-->

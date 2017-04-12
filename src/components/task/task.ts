@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ITask } from '../../models/taskI';
-import { Observable } from 'rxjs/Observable';
 import { ServicesManager } from '../../providers/persistenceManager';
-import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { PopoverController } from 'ionic-angular';
+import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 
 @Component({
   selector: 'task-component',
@@ -19,6 +18,7 @@ export class TaskComponent {
 
   @Input() task: ITask;
   @Input() day: number;
+  @ViewChild("checkBox") checkBox;
   isPerformed = false;
   isDisabled = false;
   style = {};
@@ -26,9 +26,9 @@ export class TaskComponent {
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
   constructor(public changeDetectorRef: ChangeDetectorRef,
-              public manager: ServicesManager,
-              public toaster:ToastIssuer,
-              public popoverCtrl:PopoverController) { }
+    public manager: ServicesManager,
+    public toaster: ToastIssuer,
+    public popoverCtrl: PopoverController) { }
   ngAfterViewInit() {
 
   }
@@ -39,7 +39,11 @@ export class TaskComponent {
   }
 
   public checkMark(event) {
-    this.isPerformed = !this.isPerformed;
+    console.log(this.checkBox)
+    this.checkBox.checked = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
+    //this.isPerfomed = !this.isPerformed;
+    event.preventDefault();
+    event.stopPropagation();
     this.checkBoxClick.emit({ event: event, task: this });
   }
 
@@ -78,7 +82,9 @@ export class TaskComponent {
   }
 
 
-/*   check(event) {
+  check(event) {
+    this.checkBox.checked = this.isPerformed;
+
     console.log("Click checkbox");
     //Init map in case it hasn't been
     if (this.task.performedOn == undefined) {
@@ -89,17 +95,18 @@ export class TaskComponent {
       console.log("IF");
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
-
       popover.onDidDismiss((score: number) => {
 
-        if (score!=undefined){
-        this.task.performedOn.set(this.day, score);
-        //Need the subscription to force the Observable 
-        this.manager.performTask(this.task, this.day).subscribe(status => {
-          console.log(status)
-        });
-        this.toaster.goodToast(this.task.name + ' finished! difficulty: ' + score);      
-      }
+        if (score != undefined) {
+          this.task.performedOn.set(this.day, score);
+
+          this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
+          this.checkBox.checked = this.isPerformed;
+          //Need the subscription to force the Observable 
+          this.manager.performTask(this.task, this.day)
+          .subscribe(status => {console.log(status)});
+          this.toaster.goodToast(this.task.name + ' finished! difficulty: ' + score);
+        }
       });
       popover.present({ ev: event });
     } else {
@@ -107,9 +114,13 @@ export class TaskComponent {
       //Need the subscription to force the Observable 
       this.manager.removeTask(this.task, this.day).subscribe(status => console.log(status));
       this.task.performedOn.delete(this.day);
+      
+      this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
+      this.checkBox.checked = this.isPerformed;
     }
-    this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
-    
+
+
+
     console.log(this.isPerformed)
-   }*/
+  }
 }

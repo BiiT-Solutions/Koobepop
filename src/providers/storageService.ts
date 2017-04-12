@@ -79,6 +79,13 @@ export class StorageService {
   public setToken(token: IToken): Promise<IToken> {
     return this.storage.set("token", token);
   }
+  public getActions():Promise<any>{
+    return this.storage.get("actions")
+  }
+  public setActions(actions):Promise<any>{
+    return this.storage.set("actions",actions)
+
+  }
 
   public resetDB() {
     this.storage.clear();

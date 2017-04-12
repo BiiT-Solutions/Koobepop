@@ -50,24 +50,21 @@ export class AgendaPage {
   /* When item is clicked */
   //TODO Define event's Type
   checkMark(event) {
-    //console.log("Click checkbox");
     //Init map in case it hasn't been
     if (event.task.task.performedOn == undefined) {
       event.task.task.performedOn = new Map<number, number>();
     }
 
     if (!event.task.task.performedOn.has(event.task.day)) {
-      console.log("IF");
+      
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
-
       popover.onDidDismiss((score: number) => {
-
         if (score != undefined) {
           event.task.task.performedOn.set(event.task.day, score);
           //Need the subscription to force the Observable 
           this.manager.performTask(event.task.task, event.task.day).subscribe(status => {
-            console.log(status)
+            
           });
           this.manager.setActualTasks(this.tasksPlan);
           
@@ -76,7 +73,7 @@ export class AgendaPage {
       });
       popover.present({ ev: event.event });
     } else {
-      console.log("ELSE")
+      
       //Need the subscription to force the Observable 
       this.manager.removeTask(event.task.task, event.task.day).subscribe(status => console.log(status));
       event.task.task.performedOn.delete(event.task.day);
