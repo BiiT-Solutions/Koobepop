@@ -8,6 +8,7 @@ import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
 import { SummaryPage } from '../summary/summary';
 import { LoginPage } from '../login/login';
+import { TestPage } from '../test-page/test-page';
 
 @Component({
   selector: 'page-home',
@@ -30,7 +31,7 @@ export class HomePage {
   }
   navTest() {
     
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push(TestPage);
   }
   navAgendaView() {
     this.navCtrl.push(AgendaPage);

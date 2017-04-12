@@ -1,12 +1,22 @@
 <ion-content>
-  <ion-navbar color="primary" [hidden]="hideHeader" >
+  <ion-navbar color="primary" [hidden]="hideHeader">
   </ion-navbar>
   <section>
     <ion-list>
-      <ng-container *ngFor="let result of results">
-           <ion-item></ion-item>
-          </ng-container>
+      <ion-item-sliding #item>
+        <ion-item>
+          <button ion-button 
+          (click)="item._setOpenAmount(360)">
+          clickMe</button>
+          Item
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button (click)="item.close()">EASY</button>
+          <button ion-button (click)="item.close()">NORMAL</button>
+          <button ion-button (click)="item.close()">HARD</button>
+          <button ion-button color="danger" (click)="item.close()">PAIN</button>
+        </ion-item-options>
+      </ion-item-sliding>
     </ion-list>
-  <button ion-button (click)="restart()">Click me!</button>
   </section>
 </ion-content>

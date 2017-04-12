@@ -1,5 +1,5 @@
 import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
-import { NavController, NavParams, Gesture, Slides } from 'ionic-angular';
+import { NavController, NavParams, Gesture, Slides, ItemSliding } from 'ionic-angular';
 import { AppointmentsProvider } from '../../providers/appointments-provider';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
@@ -19,7 +19,7 @@ import { ITask } from '../../models/taskI';
 })
 export class TestPage {
   hideHeader;
-  results: Map<number,any[]>;
+  results: Map<number, any[]>;
   tasksPlan: ITask[] = [];
   day = Date.now();
   constructor(public navCtrl: NavController,
@@ -35,14 +35,21 @@ export class TestPage {
   }
 
   restart() {
-  
- }
+  }
+  public open(itemSlide: ItemSliding) {
+    console.log(itemSlide.getOpenAmount());
+  }
+  public log(item: any) {
+    console.log(item);
+  }
+  public close(itemSlide: ItemSliding) {
+    itemSlide.close();
+  }
 }
 export interface IEvent {
   name: string;
   videoUrl?: string;
 }
-
 
 //@Component({
 //  selector: 'test-zoom',

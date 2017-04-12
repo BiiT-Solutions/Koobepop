@@ -83,16 +83,14 @@ export class TaskComponent {
 
 
   check(event) {
+    //Click event overrides the checked property so we override again, not clean but works.
     this.checkBox.checked = this.isPerformed;
-
-    console.log("Click checkbox");
     //Init map in case it hasn't been
     if (this.task.performedOn == undefined) {
       this.task.performedOn = new Map<number, number>();
     }
 
     if (!this.task.performedOn.has(this.day)) {
-      console.log("IF");
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {
@@ -104,23 +102,18 @@ export class TaskComponent {
           this.checkBox.checked = this.isPerformed;
           //Need the subscription to force the Observable 
           this.manager.performTask(this.task, this.day)
-          .subscribe(status => {console.log(status)});
+          .subscribe(status => {});
           this.toaster.goodToast(this.task.name + ' finished! difficulty: ' + score);
         }
       });
       popover.present({ ev: event });
     } else {
-      console.log("ELSE")
       //Need the subscription to force the Observable 
-      this.manager.removeTask(this.task, this.day).subscribe(status => console.log(status));
+      this.manager.removeTask(this.task, this.day).subscribe(status => {});
       this.task.performedOn.delete(this.day);
       
       this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
       this.checkBox.checked = this.isPerformed;
     }
-
-
-
-    console.log(this.isPerformed)
   }
 }
