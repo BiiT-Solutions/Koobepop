@@ -66,7 +66,7 @@ export class ReportPage {
           "width": 540,
           "height": 960,
           "dataText": {
-            "date": appointment.startTime,
+            "date": new Date(appointment.startTime).toLocaleDateString(),
             "doctorName": appointment.doctorLastName + ", " + appointment.doctorFirstName,
             "conclusion": "",
             "patientName": "",

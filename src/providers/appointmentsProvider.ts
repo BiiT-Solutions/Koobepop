@@ -72,4 +72,30 @@ export class AppointmentsProvider {
   private formatQuestion(question): any {
     return question.values;
   }
+
+  public requestModifiedAppointments(appointments: IAppointment[], token:string ,patient:IUser): Observable<IAppointment[]> {
+    let requestAddres = this.config.usmoServer + this.config.getUpdatedAppointmentsService;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.config.password);
+    let appointmentsIdWithDate = [];
+    appointments.forEach((appointment: IAppointment) => {
+      appointmentsIdWithDate.push({
+        appointmentId: appointment.appointmentId,
+        updateTime: appointment.updateTime!=undefined?appointment.updateTime:0
+    });
+    });
+    let criteria = {
+      token: token,
+      appointments:appointmentsIdWithDate,
+      patientId:patient.patientId
+    }
+    console.log("Update")
+    console.log(criteria)
+    return this.http
+      .post(requestAddres, criteria, { headers: headers })
+      .map(res => this.extractData(res))
+      .map((appointments: IAppointment[]) => {
+        return appointments ? appointments.reverse() : [];
+      });
+  }
 }

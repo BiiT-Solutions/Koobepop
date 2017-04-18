@@ -41,7 +41,7 @@ export class AgendaPage {
       content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
     });
     this.loading.present();
-    this.manager.getActualTasks().subscribe((tasks: ITask[]) => {
+    this.manager.getTasks().subscribe((tasks: ITask[]) => {
       this.tasksPlan = tasks
       this.loading.dismiss();
     });

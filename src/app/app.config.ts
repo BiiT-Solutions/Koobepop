@@ -10,6 +10,7 @@ export interface IAppConfig {
     getResultsService:string;
     usmoServer:string;
     getAppointmentsService:string;
+    getUpdatedAppointmentsService:string;
     getAuthenticationToken:string;
     addPerformedExercise:string;
     removePerformedExercise:string;
@@ -30,5 +31,6 @@ export const AppConfig: IAppConfig = {
     password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
     getAuthenticationToken:"/rest/getAuthenticationToken",
     verifyAuthenticationToken:"/rest/verifyAuthenticationToken",
-    sendAuthCodeSMS:"/rest/sendAuthCodeSMS"
+    sendAuthCodeSMS:"/rest/sendAuthCodeSMS",
+    getUpdatedAppointmentsService:"/rest/getUpdatedAppointmentsWithResults"
 };

@@ -43,7 +43,7 @@ export class RestActionsController {
             let arrayAction = this.actions[i];
             if (arrayAction.content.appointmentId === action.content.appointmentId &&
                 arrayAction.content.name === action.content.name &&
-                arrayAction.content.time === action.content.time ) {
+                arrayAction.content.time === action.content.time) {
                 actionInTheList = i;
             }
         }
@@ -63,6 +63,8 @@ export class RestActionsController {
 
 
 }
+
+
 
 export interface IAction { }
 

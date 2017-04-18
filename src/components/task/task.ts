@@ -103,7 +103,7 @@ export class TaskComponent {
           //Need the subscription to force the Observable 
           this.manager.performTask(this.task, this.day)
           .subscribe(status => {});
-          this.toaster.goodToast(this.task.name + ' finished! difficulty: ' + score);
+          this.toaster.goodToast(this.task.name + ' finished! ');
         }
       });
       popover.present({ ev: event });

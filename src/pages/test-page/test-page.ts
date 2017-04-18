@@ -39,8 +39,8 @@ export class TestPage {
   public open(itemSlide: ItemSliding) {
     console.log(itemSlide.getOpenAmount());
   }
-  public log(item: any) {
-    console.log(item);
+  public update(item: any) {
+    this.manager.updateAppointments();
   }
   public close(itemSlide: ItemSliding) {
     itemSlide.close();

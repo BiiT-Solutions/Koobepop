@@ -23,7 +23,6 @@ export class ServicesManager {
     private appointmentsList: IAppointment[];
     private actualAppointment: IAppointment;
     private actualTasks: ITask[];
-    private actualResults: Map<number, FormResult[]>;
     private user: IUser;
     private token: IToken;
 
@@ -34,27 +33,12 @@ export class ServicesManager {
         private authService: AuthTokenService) {
     }
 
-    /**
-     * Communicates with usmo to get a Token with some credentials 
-     * returns an Observable with a boolean
-     */
-    public loginWithUserPass(id: string, code: string): Observable<any> {
-        this.setUser({ patientId: id });
-        return this.authService.requestToken(id, code, this.getUuid())
-            .map((token) => {
-                if (token != undefined && token.length > 0) {
-                    this.setToken(this.parseToToken(token));
-                    this.init();
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-    }
+
 
     /**
      * Returns an observable with the actual appointment
      * If there's none loaded, it looks for it on the appointments list
+     * TODO - Remove this implementation to get all the appointments of different type
      */
     public getActualAppointment(): Observable<IAppointment> {
         if (this.actualAppointment == undefined) {
@@ -73,30 +57,36 @@ export class ServicesManager {
         }
     }
 
-    public setActualAppointment(appointment: IAppointment) { this.actualAppointment = appointment; }
-
-    public setResults(results: Map<number, FormResult[]>) {
-        this.storageService.setResults(results);
-        this.actualResults = results;
+    public setActualAppointment(appointment: IAppointment) {
+        this.actualAppointment = appointment;
     }
 
+
+
+    /*Appointments*/
+    public getAppointmentsFromServer(): Observable<IAppointment[]> {
+        return this.getUser().flatMap(user => {
+            return this.getToken().flatMap(token => {
+                return this.appointmentsProvider.requestAppointments(user, token);
+            });
+        });
+    }
+
+    public getAppointmentsFromDB(): Observable<IAppointment[]> {
+        return Observable.fromPromise(this.storageService.getAppointments())
+    }
+
+    //After calling this we should save it 
     public getAppointments(): Observable<IAppointment[]> {
         if (this.appointmentsList == undefined || this.appointmentsList.length <= 0) {
-            return Observable.fromPromise(this.storageService.getAppointments()).flatMap(appointments => {
-                if (appointments == undefined || appointments.length <= 0) {
-                    return this.getUser().flatMap(user => {
-                        return this.getToken().flatMap(token => {
-                            return this.appointmentsProvider.requestAppointments(user, token).map(appointments => {
-                                this.setAppointments(appointments);
-                                return appointments;
-                            });
-                        });
-                    });
-                } else {
-                    this.setAppointments(appointments);
-                    return Observable.of(appointments);
-                }
-            });
+            return this.getAppointmentsFromDB()
+                .flatMap((appointments: IAppointment[]) => {
+                    if (appointments == undefined || appointments.length <= 0) {
+                        return this.getAppointmentsFromServer();
+                    } else {
+                        return Observable.of(appointments);
+                    }
+                });
         } else {
             return Observable.of(this.appointmentsList);
         }
@@ -104,25 +94,33 @@ export class ServicesManager {
 
     public setAppointments(appointments: IAppointment[]) {
         this.appointmentsList = appointments;
-        this.storageService.setAppointments(appointments);
+        console.log("SetAppointments")
+        console.log(this.appointmentsList)
+        this.storageService.setAppointments(appointments).then(appointments => {
+            console.log("SetAppointmentsStorageS")
+            console.log(appointments)
+        });
+
     }
 
+    /*User*/
     public getUser(): Observable<IUser> {
         if (this.user != undefined) {
             let observable: Observable<IUser> = Observable.of(this.user);
             return observable//this.user;
         } else {
-            return Observable.fromPromise(this.storageService.getUser()).map((user) => { this.user = user; return user });
+            return Observable.fromPromise(this.storageService.getUser())
+                .map((user) => { this.user = user; return user });
         }
     }
+
     public setUser(user: IUser) {
         this.user = user;
         this.storageService.setUser(user);
     }
 
-
-
-    public getActualTasks(): Observable<ITask[]> {
+    /*Tasks*/
+    public getTasks(): Observable<ITask[]> {
         if (this.actualTasks == undefined || this.actualTasks.length <= 0) {
             return Observable.fromPromise(this.storageService.getTasks())
                 .flatMap((tasks: ITask[]) => {
@@ -166,7 +164,7 @@ export class ServicesManager {
             });
         });
     }
-
+    /*Token*/
     public setToken(token: IToken) {
         this.token = token;
         this.storageService.setToken(this.token)
@@ -231,9 +229,10 @@ export class ServicesManager {
                             this.getAppointments()
                                 .subscribe((appointments: IAppointment[]) => {
                                     this.setAppointments(appointments);
+
                                     this.getActualAppointment().subscribe((appointment: IAppointment) => {
                                         this.setActualAppointment(appointment);
-                                        this.getActualTasks().subscribe((tasks: ITask[]) => {
+                                        this.getTasks().subscribe((tasks: ITask[]) => {
                                             this.setActualTasks(tasks)
                                         });
                                     });
@@ -248,8 +247,86 @@ export class ServicesManager {
         return this.getToken().flatMap(token => this.authService.tokenStatus(token))
     }
 
+    /**
+     * Ask the server for the account confirmation SMS 
+     * */
     public sendAuthCodeSMS(patientId, language): Observable<Response> {
         return this.authService.sendAuthCodeSMS(patientId, language);
     }
 
+    /**
+     * Communicates with the server to get a Token with some credentials 
+     * returns an Observable with a boolean
+     */
+    public loginWithUserPass(id: string, code: string): Observable<any> {
+        this.setUser({ patientId: id });
+        return this.authService.requestToken(id, code, this.getUuid())
+            .map((token) => {
+                if (token != undefined && token.length > 0) {
+                    this.setToken(this.parseToToken(token));
+                    this.init();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+    }
+
+    public updateAppointments() {
+        this.getUpdatedAppointments().subscribe(appointments => {
+           // console.log("Save Appointments")
+           // console.log(appointments);
+            this.setAppointments(appointments)
+        })
+    }
+
+    private getUpdatedAppointments(): Observable<IAppointment[]> {
+        return this.getAppointments()
+            .flatMap((appointments: IAppointment[]) => {
+                return this.getUser().flatMap(user => {
+                    return this.getToken()
+                        .flatMap(token => {
+                            return this.appointmentsProvider.requestModifiedAppointments(appointments, token, user)
+                                .map((updatedAppointments: IAppointment[]) => {
+
+                                    console.log("Updated");
+                                    console.log(updatedAppointments);
+                                    console.log("This");
+                                    console.log(appointments);
+
+                                    updatedAppointments.forEach(appointment => {
+                                        let index = appointments.map(a => a.appointmentId).indexOf(appointment.appointmentId)
+
+                                        if (index >= 0) {
+                                            appointments[index] = appointment;
+                                            //If the appointment is known and is the actual one, set tasks again
+                                            this.getActualAppointment()
+                                                .subscribe(actualAppointment => {
+                                                    console.log("The actual appointment %d",actualAppointment.appointmentId);
+                                                    if (appointment.appointmentId === actualAppointment.appointmentId) {
+                                                        console.log("The appointment %d is the same as %d",appointment.appointmentId,actualAppointment.appointmentId);
+                                                        
+                                                        this.tasksProvider.requestTasks(appointment, token)
+                                                            .subscribe(tasks => this.setActualTasks(tasks))
+                                                    }
+                                                });
+
+                                            console.log("appointment updated!");
+                                            console.log(appointment);
+                                        } else {
+                                            appointments.push(appointment);
+                                            console.log("appointment pushed!");
+                                            console.log(appointment);
+                                        }
+                                    });
+                                    console.log("Is not this");
+                                    console.log(appointments);
+                                    return appointments;
+                                });
+
+                        });
+                });
+
+            });
+    }
 }

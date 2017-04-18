@@ -1,7 +1,8 @@
 import { FormResult } from './results';
 export interface IAppointment{
-    endTime:string;
-    startTime:string;
+    endTime:number;
+    startTime:number;
+    updateTime:number;
     sport:string;
     examinationType:string;
     doctorFirstName:string;
