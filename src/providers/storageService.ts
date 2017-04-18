@@ -59,32 +59,26 @@ export class StorageService {
   public getUser(): Promise<IUser> {
     return this.storage.get("user");
   }
+
   // Use on login
   public setUser(user: IUser): Promise<IUser> {
     return this.storage.set("user", user);
   }
 
-  // TODO Type this
-  public getResults(): Promise<any> {
-    return this.storage.get("results").then((map) => { return new Map(JSON.parse(map)) });
-  }
-  public setResults(results: Map<number, any[]>): Promise<any> {
-    let mapSerialized = JSON.stringify(Array.from(results.entries()));
-    return this.storage.set("results", mapSerialized);
-  }
-
   public getToken(): Promise<IToken> {
     return this.storage.get("token");
   }
+
   public setToken(token: IToken): Promise<IToken> {
     return this.storage.set("token", token);
   }
+
   public getActions():Promise<any>{
     return this.storage.get("actions")
   }
+
   public setActions(actions):Promise<any>{
     return this.storage.set("actions",actions)
-
   }
 
   public resetDB() {

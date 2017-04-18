@@ -25,7 +25,7 @@ export class ServicesManager {
     private actualTasks: ITask[];
     private user: IUser;
     private token: IToken;
-
+    private updateTimeout;
     public constructor(
         private appointmentsProvider: AppointmentsProvider,
         private tasksProvider: TasksRestProvider,
@@ -94,11 +94,7 @@ export class ServicesManager {
 
     public setAppointments(appointments: IAppointment[]) {
         this.appointmentsList = appointments;
-        console.log("SetAppointments")
-        console.log(this.appointmentsList)
         this.storageService.setAppointments(appointments).then(appointments => {
-            console.log("SetAppointmentsStorageS")
-            console.log(appointments)
         });
 
     }
@@ -272,10 +268,27 @@ export class ServicesManager {
             });
     }
 
+    public startContinuousAppointmentCheck(milis: number) {
+        this.finishContinuousAppointmentCheck(); //In case there's more than one invocation
+        //this.updateAppointments();
+        
+        this.updateTimeout = setInterval(()=>{
+            try{
+            this.updateAppointments();
+        }catch(exception){
+            //TODO - Gestionar mejor
+            console.error(exception)
+        }
+    }, milis);
+    }
+
+    public finishContinuousAppointmentCheck() {
+       if(this.updateTimeout!=undefined){ clearInterval(this.updateTimeout);}
+    }
+
     public updateAppointments() {
+        console.log("Update");
         this.getUpdatedAppointments().subscribe(appointments => {
-           // console.log("Save Appointments")
-           // console.log(appointments);
             this.setAppointments(appointments)
         })
     }
@@ -288,12 +301,6 @@ export class ServicesManager {
                         .flatMap(token => {
                             return this.appointmentsProvider.requestModifiedAppointments(appointments, token, user)
                                 .map((updatedAppointments: IAppointment[]) => {
-
-                                    console.log("Updated");
-                                    console.log(updatedAppointments);
-                                    console.log("This");
-                                    console.log(appointments);
-
                                     updatedAppointments.forEach(appointment => {
                                         let index = appointments.map(a => a.appointmentId).indexOf(appointment.appointmentId)
 
@@ -302,25 +309,15 @@ export class ServicesManager {
                                             //If the appointment is known and is the actual one, set tasks again
                                             this.getActualAppointment()
                                                 .subscribe(actualAppointment => {
-                                                    console.log("The actual appointment %d",actualAppointment.appointmentId);
                                                     if (appointment.appointmentId === actualAppointment.appointmentId) {
-                                                        console.log("The appointment %d is the same as %d",appointment.appointmentId,actualAppointment.appointmentId);
-                                                        
                                                         this.tasksProvider.requestTasks(appointment, token)
                                                             .subscribe(tasks => this.setActualTasks(tasks))
                                                     }
                                                 });
-
-                                            console.log("appointment updated!");
-                                            console.log(appointment);
                                         } else {
                                             appointments.push(appointment);
-                                            console.log("appointment pushed!");
-                                            console.log(appointment);
                                         }
                                     });
-                                    console.log("Is not this");
-                                    console.log(appointments);
                                     return appointments;
                                 });
 

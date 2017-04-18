@@ -9,6 +9,7 @@ import { KnowPage } from '../know/know';
 import { SummaryPage } from '../summary/summary';
 import { LoginPage } from '../login/login';
 import { TestPage } from '../test-page/test-page';
+import { ServicesManager } from '../../providers/persistenceManager';
 
 @Component({
   selector: 'page-home',
@@ -18,11 +19,13 @@ export class HomePage {
   //Legacy TODO remove
   BOOK_HEIGHT = 4;
 
-  constructor(public navCtrl: NavController) {  }
+  constructor(public navCtrl: NavController,public manager: ServicesManager) {  }
 
   ionViewDidLoad() {
 
+    this.manager.startContinuousAppointmentCheck(30000);
   }
+
   navAbout() {
     this.navCtrl.push(AboutPage);
   }

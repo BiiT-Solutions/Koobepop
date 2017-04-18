@@ -95,3 +95,6 @@ export class MenuMock {
   export class StorageServiceMock{
     
   }
+  export class ManagerMock{
+    
+  }
