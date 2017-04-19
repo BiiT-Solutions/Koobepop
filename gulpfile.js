@@ -37,14 +37,14 @@ gulp.task('bump', () => {
 )
 gulp.task('move-infographic-js-images',function(){
   del(['src/assets/infographic-images']).then(string=>{
-    console.log(string)
+    console.log(string);
   gulp.src('node_modules/infographic-js/images/*')
     .pipe(gulp.dest('src/assets/infographic-images'))
   });
   
 });
-// Change the configuration of infographic-js 
 
+// Change the configuration of infographic-js 
 gulp.task('change-infographic-js-properties',function(){
   gulp.src('node_modules/infographic-js/lib/fileManagerProperties.js',{base:'./'})
   .pipe(replace(/=.*images.*/gi,"= 'assets/infographic-images/'"))
