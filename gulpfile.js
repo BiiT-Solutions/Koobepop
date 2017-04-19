@@ -36,8 +36,9 @@ gulp.task('bump', () => {
 // Copy the 'images' folder.
 )
 gulp.task('move-infographic-js-images',function(){
+  console.log("gulp: removing old infographic-images folder");
   del(['src/assets/infographic-images']).then(string=>{
-    console.log(string);
+  console.log("gulp: copying infographic-js images/ folder into infographic-images/");
   gulp.src('node_modules/infographic-js/images/*')
     .pipe(gulp.dest('src/assets/infographic-images'))
   });
