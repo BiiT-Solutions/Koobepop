@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { IAppointment } from '../models/appointmentI';
-import * as localForage from 'localforage';
 import { IUser } from '../models/userI';
 import { ITask } from '../models/taskI';
 import { IToken } from '../models/tokenI';

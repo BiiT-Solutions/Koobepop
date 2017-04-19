@@ -160,6 +160,7 @@ export class ServicesManager {
             });
         });
     }
+
     /*Token*/
     public setToken(token: IToken) {
         this.token = token;
@@ -276,7 +277,6 @@ export class ServicesManager {
             try{
             this.updateAppointments();
         }catch(exception){
-            //TODO - Gestionar mejor
             console.error(exception)
         }
     }, milis);
@@ -287,7 +287,6 @@ export class ServicesManager {
     }
 
     public updateAppointments() {
-        console.log("Update");
         this.getUpdatedAppointments().subscribe(appointments => {
             this.setAppointments(appointments)
         })

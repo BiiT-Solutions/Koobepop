@@ -89,8 +89,6 @@ export class AppointmentsProvider {
       appointments:appointmentsIdWithDate,
       patientId:patient.patientId
     }
-    console.log("Update")
-    console.log(criteria)
     return this.http
       .post(requestAddres, criteria, { headers: headers })
       .map(res => this.extractData(res))
