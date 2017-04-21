@@ -33,7 +33,7 @@ module.exports = function (config) {
               ? ['progress', 'coverage-istanbul']
               : ['progress', 'kjhtml'],
     port: 9876,
-    colors: true,
+    colors: false,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers:['PhantomJS'],
