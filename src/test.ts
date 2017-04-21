@@ -10,9 +10,24 @@ import 'zone.js/dist/fake-async-test';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform } from 'ionic-angular';
-import { ConfigMock, PlatformMock, ManagerMock } from './mocks';
+import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform, LoadingController, ToastController, PopoverController } from 'ionic-angular';
+import { StorageMock, ConfigMock, PlatformMock, NavMock, TranslateServiceMock, LoadingControllerMock, ConnectivityServiceMock, ToastControllerMock, SplashScreenMock, StatusBarMock, HttpMock, DeviceMock, NetworkMock, AppMock, KeyboardMock, PopoverControllerMock } from './mocks';
 import { ServicesManager } from './providers/persistenceManager';
+import { Http } from '@angular/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { StorageService } from './providers/storageService';
+import { ConnectivityService } from './providers/connectivity-service';
+import { ToastIssuer } from './providers/toastIssuer';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { AppointmentsProvider } from './providers/appointmentsProvider';
+import { IonicStorageModule, Storage } from '@ionic/storage';
+import { APP_CONFIG, AppConfig } from './app/app.config';
+import { AuthTokenService } from './providers/authTokenService';
+import { TasksRestProvider } from './providers/tasksRestProvider';
+import { Device } from '@ionic-native/device';
+import { Network } from '@ionic-native/network';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;
@@ -48,20 +63,45 @@ export class TestUtils {
             });
     }
 
+    //TODO - Change settings
     public static configureIonicTestingModule(components: Array<any>): typeof TestBed {
         return TestBed.configureTestingModule({
             declarations: [
                 ...components,
             ],
             providers: [
-                App, Form, Keyboard, DomController, MenuController, NavController,
+                App,
+                Form,
+                Keyboard,
+                DomController,
+                MenuController,
+                NavController,
+                { provide: PopoverController, useClass: PopoverControllerMock },
                 { provide: Platform, useClass: PlatformMock },
                 { provide: Config, useClass: ConfigMock },
-                { provide: ServicesManager, useClass: ManagerMock }
+                { provide: APP_CONFIG, useValue: AppConfig },
+                ServicesManager,
+                AppointmentsProvider,
+                TasksRestProvider,
+                StorageService,
+                ToastIssuer,
+                AuthTokenService,
+                ConnectivityService,
+                { provide: Storage, useClass: StorageMock },
+                { provide: Network, useClass: NetworkMock },
+                { provide: Http, useClass: HttpMock },
+                { provide: TranslateService, useClass: TranslateServiceMock },
+                { provide: LoadingController, useClass: LoadingControllerMock },
+                { provide: ToastController, useClass: ToastControllerMock },
+                { provide: SplashScreen, useClass: SplashScreenMock },
+                { provide: Device, useClass: DeviceMock },
+                { provide: StatusBar, useClass: StatusBarMock }
             ],
             imports: [
+                TranslateModule,
                 FormsModule,
                 IonicModule,
+                IonicStorageModule,
                 ReactiveFormsModule,
             ],
         });

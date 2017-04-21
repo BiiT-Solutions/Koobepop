@@ -27,7 +27,7 @@ import { LoginPage } from '../pages/login/login';
 import { ZoomPage } from '../pages/zoom/zoom';
 import { BookPage } from '../pages/zoom/book';
 //
-import { IonicStorageModule,Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
 import { Device } from '@ionic-native/device';
 
@@ -82,6 +82,7 @@ export function createTranslateLoader(http: Http) {
         deps: [Http]
       }
     })
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [

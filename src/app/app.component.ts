@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen} from '@ionic-native/splash-screen';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../providers/storageService';
@@ -23,7 +23,7 @@ export class MyApp {
     private manager: ServicesManager,
     private connectivity: ConnectivityService,
     private toaster: ToastIssuer,
-    private splashscreen:SplashScreen,
+    private splashscreen: SplashScreen,
     private statusBar: StatusBar) {
 
     let loading = this.loadingCtrl.create({
@@ -63,10 +63,11 @@ export class MyApp {
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.      
-      try{
-      this.statusBar.styleDefault();
-      this.splashscreen.hide();
-      }catch(e){
+      try {
+        this.statusBar.styleDefault();
+        this.splashscreen.hide();
+      } catch (e) {
+        console.error("#################ERROR################")
         console.error(e);
       }
     });
