@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { NavController, Gesture } from 'ionic-angular';
 import { CompaniesProvider } from '../../providers/companies'
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import * as infographicjs from 'infographic-js';
 /**
  * Here we manage the book page 

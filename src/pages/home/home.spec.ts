@@ -1,16 +1,19 @@
-import { NavMock, PlatformMock, TranslateServiceMock, AppointmentsProviderMock, StorageServiceMock, TaskProviderMock, ManagerMock } from '../../mocks';
-import { HomePage } from "./home"
+import { ComponentFixture, async } from '@angular/core/testing';
+import { HomePage } from './home';
+import { TestUtils } from '../../test';
 
-let homePage: HomePage = null
+let fixture: ComponentFixture<HomePage> = null;
+let instance: any = null;
 
 describe('Home page', () => {
-  beforeEach(() => {
-    homePage = new HomePage(
-      <any>new NavMock,<any> new ManagerMock);
-    homePage.BOOK_HEIGHT = 2;
-  })
-  it("should check if homePage width is less than 3", () => {
-    expect(homePage.BOOK_HEIGHT).toBeLessThan(3);
+   beforeEach(async(() => TestUtils.beforeEachCompiler([HomePage]).then(compiled => {
+    fixture = compiled.fixture;
+    instance = compiled.instance;
+  })));
+
+  
+  it('should create the home page', async() => {
+     expect(instance).toBeTruthy();
   })
 })
 
@@ -19,7 +22,10 @@ describe('Home page', () => {
 
 
 
-
+//beforeEach(() => {
+//    homePage = new HomePage(<any>new NavMock,<any> new ManagerMock);
+//    homePage.BOOK_HEIGHT = 2;
+//  })
 
 
 

@@ -2,8 +2,9 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
-
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { BrowserModule } from '@angular/platform-browser';
 import { APP_CONFIG, AppConfig } from './app.config';
 
 //Components
@@ -26,7 +27,9 @@ import { LoginPage } from '../pages/login/login';
 import { ZoomPage } from '../pages/zoom/zoom';
 import { BookPage } from '../pages/zoom/book';
 //
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule,Storage } from '@ionic/storage';
+import { Network } from '@ionic-native/network';
+import { Device } from '@ionic-native/device';
 
 //Providers REST services
 import { AppointmentsProvider } from '../providers/appointmentsProvider';
@@ -39,10 +42,12 @@ import { ServicesManager } from '../providers/persistenceManager';
 import { AuthTokenService } from '../providers/authTokenService';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 
 
 export function createTranslateLoader(http: Http) {
-  return new TranslateStaticLoader(http, './assets/i18n', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -63,15 +68,19 @@ export function createTranslateLoader(http: Http) {
     SummaryPage,
     TaskComponent,
     LoginPage
-    
+
   ],
   imports: [
     IonicModule.forRoot(MyApp),
+    BrowserModule,
     HttpModule,
+    IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      }
     })
   ],
   bootstrap: [IonicApp],
@@ -92,7 +101,11 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent
   ],
   providers: [
-    Storage,
+   // Storage,
+   StatusBar,
+   SplashScreen,
+   Network,
+    Device,
     ConnectivityService,
     ServicesManager,
     TasksRestProvider,
@@ -103,6 +116,6 @@ export function createTranslateLoader(http: Http) {
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ToastIssuer
-    ]
+  ]
 })
 export class AppModule { }

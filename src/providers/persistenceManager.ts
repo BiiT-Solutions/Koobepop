@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Device } from 'ionic-native';
+import { Device } from '@ionic-native/device';
 import { IAppointment } from '../models/appointmentI';
 import { AppointmentsProvider } from './appointmentsProvider';
 import { TasksRestProvider } from './tasksRestProvider';
 import { StorageService } from './storageService';
 import { ITask } from '../models/taskI';
 import { IUser } from '../models/userI';
-import { FormResult, CategoryResult, QuestionResult } from '../models/results';
+
 import { IToken } from '../models/tokenI';
 import { AuthTokenService } from './authTokenService';
-import { Observable, Notification } from 'rxjs/Rx';
+import { Observable} from 'rxjs/Rx';
 import { Response } from '@angular/http';
 /**
  * Intended to manage the dataflow within the application and with USMO
@@ -18,6 +18,7 @@ import { Response } from '@angular/http';
  * Will provide storage services to the application so it persists all the relevant data.
  * All this data loading is async so take it into acount before using it.
  */
+
 @Injectable()
 export class ServicesManager {
     private appointmentsList: IAppointment[];
@@ -30,7 +31,8 @@ export class ServicesManager {
         private appointmentsProvider: AppointmentsProvider,
         private tasksProvider: TasksRestProvider,
         private storageService: StorageService,
-        private authService: AuthTokenService) {
+        private authService: AuthTokenService,
+        private device: Device) {
     }
 
 
@@ -182,12 +184,14 @@ export class ServicesManager {
     private parseToString(token: IToken): Observable<string> {
         // Beware of dragons!!
         return this.getUser().map(user => {
-            let payload = btoa('{"user":"' + user.patientId + '","uuid":"' + this.getUuid() + '","exp":' + token.payload.exp + '}');
+            let payload: string = btoa('{"user":"' + user.patientId + '","uuid":"' + this.getUuid() + '","exp":' + token.payload.exp + '}');
             // In case there's a necessary padding we remove it from the base64 encoded string 
             // Info: http://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end
             //If we don't do this, the signature won't match the data.
-            if (payload.endsWith("==")) payload = payload.slice(0, payload.length - 2);
-            if (payload.endsWith("=")) payload = payload.slice(0, payload.length - 1);
+            let suffix: string = "=="
+            if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 2); }
+            suffix = "=";
+            if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 1); }
             let realToken = token.head + "." + payload + "." + token.signature;
             return realToken;
         })
@@ -208,7 +212,7 @@ export class ServicesManager {
     }
 
     private getUuid() {
-        return Device.uuid == undefined ? "This device has no uuid" : Device.uuid;
+        return this.device.uuid == undefined ? "This device has no uuid" : this.device.uuid;
     }
 
     public setUp() {
@@ -272,18 +276,18 @@ export class ServicesManager {
     public startContinuousAppointmentCheck(milis: number) {
         this.finishContinuousAppointmentCheck(); //In case there's more than one invocation
         //this.updateAppointments();
-        
-        this.updateTimeout = setInterval(()=>{
-            try{
-            this.updateAppointments();
-        }catch(exception){
-            console.error(exception)
-        }
-    }, milis);
+
+        this.updateTimeout = setInterval(() => {
+            try {
+                this.updateAppointments();
+            } catch (exception) {
+                console.error(exception)
+            }
+        }, milis);
     }
 
     public finishContinuousAppointmentCheck() {
-       if(this.updateTimeout!=undefined){ clearInterval(this.updateTimeout);}
+        if (this.updateTimeout != undefined) { clearInterval(this.updateTimeout); }
     }
 
     public updateAppointments() {

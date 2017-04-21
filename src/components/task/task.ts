@@ -57,8 +57,8 @@ export class TaskComponent {
   /*Provides the style for the task */
   public taskStyle() {
     let performedThisWeek = 0;
-    let week = Math.trunc((this.day - this.task.startingTime) / this.ONE_WEEK_IN_MILIS);
-    let daysLeft = this.WEEK_DAYS - Math.trunc(((this.day - this.task.startingTime) % this.ONE_WEEK_IN_MILIS) / this.ONE_DAY_IN_MILIS)
+    let week = Math.floor((this.day - this.task.startingTime) / this.ONE_WEEK_IN_MILIS);
+    let daysLeft = this.WEEK_DAYS - Math.floor(((this.day - this.task.startingTime) % this.ONE_WEEK_IN_MILIS) / this.ONE_DAY_IN_MILIS)
     let actualWeekStarts = this.task.startingTime + week * this.ONE_WEEK_IN_MILIS;
 
     if (this.task.performedOn != undefined) {

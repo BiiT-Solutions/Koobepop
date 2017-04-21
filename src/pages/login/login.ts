@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ServicesManager } from '../../providers/persistenceManager';
 import { HomePage } from '../home/home';
-import { Observable } from 'rxjs/Observable';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { Response } from '@angular/http';
 import { ToastIssuer } from '../../providers/toastIssuer';
 
@@ -69,7 +68,7 @@ export class LoginPage {
         }
       }, error => {
         loading.dismiss();
-        let toast = this.toaster.badToast("Login fail")//LOGIN-FAIL-TEXT
+        this.toaster.badToast("Login fail")//LOGIN-FAIL-TEXT
     
         console.error(error);
       });
@@ -90,7 +89,7 @@ export class LoginPage {
       .subscribe((authorized) => {
         loading.dismiss();
         if (authorized) {
-          let toast = this.toaster.goodToast("Login successfull");
+           this.toaster.goodToast("Login successfull");
           this.navCtrl.setRoot(HomePage);
         }
       }, error => {

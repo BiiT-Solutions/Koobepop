@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { NavController, Platform, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
 import { AboutPage } from '../about/about';
 import { ZoomPage } from '../zoom/zoom';
@@ -7,7 +7,6 @@ import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
 import { SummaryPage } from '../summary/summary';
-import { LoginPage } from '../login/login';
 import { TestPage } from '../test-page/test-page';
 import { ServicesManager } from '../../providers/persistenceManager';
 
@@ -19,7 +18,8 @@ export class HomePage {
   //Legacy TODO remove
   BOOK_HEIGHT = 4;
 
-  constructor(public navCtrl: NavController,public manager: ServicesManager) {  }
+  constructor(public navCtrl: NavController,
+              public manager: ServicesManager) {  }
 
   ionViewDidLoad() {
 
