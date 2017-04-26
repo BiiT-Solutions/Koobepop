@@ -5,7 +5,6 @@ import { IAppointment } from '../models/appointmentI';
 import { IUser } from '../models/userI';
 import { AuthTokenService } from './authTokenService';
 import { Observable } from 'rxjs/Observable';
-import { FormResult, CategoryResult, QuestionResult } from '../models/results';
 
 @Injectable()
 export class AppointmentsProvider {

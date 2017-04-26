@@ -67,7 +67,7 @@ export class MyApp {
         this.statusBar.styleDefault();
         this.splashscreen.hide();
       } catch (e) {
-        console.error("#################ERROR################")
+        console.error(this+" ERROR");
         console.error(e);
       }
     });

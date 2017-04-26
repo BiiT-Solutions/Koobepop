@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { IAppConfig, APP_CONFIG } from '../app/app.config';
-import { IToken } from '../models/tokenI';
 import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AuthTokenService {

@@ -272,11 +272,9 @@ export class ServicesManager {
                 }
             });
     }
-
+/**Starts to search for changes on the dataset */
     public startContinuousAppointmentCheck(milis: number) {
         this.finishContinuousAppointmentCheck(); //In case there's more than one invocation
-        //this.updateAppointments();
-
         this.updateTimeout = setInterval(() => {
             try {
                 this.updateAppointments();
@@ -285,7 +283,7 @@ export class ServicesManager {
             }
         }, milis);
     }
-
+/**Finishes the continuous search */
     public finishContinuousAppointmentCheck() {
         if (this.updateTimeout != undefined) { clearInterval(this.updateTimeout); }
     }

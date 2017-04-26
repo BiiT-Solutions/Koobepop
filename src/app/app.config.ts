@@ -18,18 +18,20 @@ export interface IAppConfig {
     sendAuthCodeSMS:string;
 }
 
-export const AppConfig: IAppConfig = {    
+export const AppConfig: IAppConfig = {  
+    //Server configuration  
     koobepopServer: "https://testing.biit-solutions.com:8443/koobepop-server-0.0.25", 
     usmoServer:"http://192.168.1.5:8081",
+    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
+    //Services
     getCompaniesService : "/rest/getCompanies",
     getTasksService:"/rest/getCorrectiveExercisesAuth",
-    getAppointmentsService:"/rest/getAppointmentsWithResults",
+    getAppointmentsService:"/rest/getAppointmentsAuth",
     getResultsService:"/rest/getExaminationResultsAuth",
-    addPerformedExercise:"/rest/addPerformedExercise",
-    removePerformedExercise:"/rest/removePerformedExercise",
-    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
+    addPerformedExercise:"/rest/addPerformedExerciseAuth",
+    removePerformedExercise:"/rest/removePerformedExerciseAuth",   
     getAuthenticationToken:"/rest/getAuthenticationToken",
     verifyAuthenticationToken:"/rest/verifyAuthenticationToken",
     sendAuthCodeSMS:"/rest/sendAuthCodeSMS",
-    getUpdatedAppointmentsService:"/rest/getUpdatedAppointmentsWithResults"
+    getUpdatedAppointmentsService:"/rest/getUpdatedAppointmentsAuth"
 };

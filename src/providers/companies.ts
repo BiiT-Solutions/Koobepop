@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { SearchCriteria } from '../models/search-criteria';
 import { Company } from '../models/company-interfaces';
 import { APP_CONFIG, IAppConfig } from '../app/app.config';
 

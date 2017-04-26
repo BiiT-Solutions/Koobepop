@@ -1,11 +1,7 @@
-import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
-import { NavController, NavParams, Gesture, Slides, ItemSliding } from 'ionic-angular';
-import { AppointmentsProvider } from '../../providers/appointments-provider';
-import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
-import { PopoverController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, NavParams, ItemSliding } from 'ionic-angular';
 import { ServicesManager } from '../../providers/persistenceManager';
 import { StorageService } from '../../providers/storageService';
-import { Observable } from 'rxjs/Observable';
 import { ITask } from '../../models/taskI';
 /**
  *  This is a test page and should be removed before releasing .

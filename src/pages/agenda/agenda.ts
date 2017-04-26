@@ -25,6 +25,7 @@ export class AgendaPage {
   @ViewChild('slider') slider: Slides;
   tasksPlan: ITask[] = [];
   loading: Loading;
+  
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
@@ -122,6 +123,7 @@ export class AgendaPage {
     ];
     this.actualDay = this.today;
   }
+
   ionViewWillLeave() {
     this.loading.dismiss();
     // clearTimeout(this.timeout);
