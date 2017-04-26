@@ -4,7 +4,7 @@ import { AppointmentsProvider } from '../../providers/appointmentsProvider';
 import { IAppointment } from '../../models/appointmentI';
 import { StorageService } from '../../providers/storageService';
 import * as infographicjs from 'infographic-js';
-import { ServicesManager } from '../../providers/persistenceManager'
+import { ServicesManager } from '../../providers/servicesManager'
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 /**

@@ -5,6 +5,7 @@ import { ITask } from '../models/taskI';
 import { Observable } from 'rxjs/Observable';
 import { IAppointment } from '../models/appointmentI';
 import { AuthTokenService } from './authTokenService';
+import { TaskAction } from './tasksManager';
 @Injectable()
 export class TasksRestProvider {
   ONE_DAY_IN_MILIS = 24 * 60 * 60 * 1000;
@@ -25,21 +26,21 @@ export class TasksRestProvider {
         if (tasks) {
           let deserializedTasks: ITask[] = [];
           tasks.forEach((task) => {
-            let performedMap = new Map<any,any>()
+            let performedMap = new Map<any, any>()
 
-            task.performedOn.forEach((performed)=>{
-              performedMap.set(performed.time,performed.score);
+            task.performedOn.forEach((performed) => {
+              performedMap.set(performed.time, performed.score);
             });
             deserializedTasks.push({
               name: task.name,
               startingTime: task.startingTime,
               repetitions: task.repetitions,
-              performedOn: performedMap, 
+              performedOn: performedMap,
               videoUrl: task.videoUrl,
               infoUrl: task.infoUrl
             });
           });
-           return deserializedTasks;
+          return deserializedTasks;
         } else {
           return [];
         }
@@ -57,9 +58,9 @@ export class TasksRestProvider {
       score: task.performedOn.get(time)
     }
     headers.append('Authorization', this.config.password);
-    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => res.status );
+    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => res.status);
   }
-  public removePerformedTask(appointment: IAppointment, task: ITask, time: number, token: string) {
+  public removePerformedTask(appointment: IAppointment, task: ITask, time: number, token: string): Observable<number> {
     let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let criteria = {
@@ -71,7 +72,20 @@ export class TasksRestProvider {
     }
     headers.append('Authorization', this.config.password);
     return this.http.post(requestAddres, criteria, { headers: headers }).map(res => {
-      return res.status });
+      return res.status
+    });
+  }
+  
+  public sendTasks(actions: TaskAction[]): Observable<number> {
+    //TODO
+    let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.config.password);
+    let criteria ={}
+
+    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => {
+      return res.status
+    });
   }
 
   extractData(res: Response) {

@@ -6,7 +6,7 @@ import { EffortSelectorComponent } from '../../components/effort-selector/effort
 import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
 import { StorageService } from '../../providers/storageService';
-import { ServicesManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 /**
  * 
@@ -43,6 +43,8 @@ export class AgendaPage {
     });
     this.loading.present();
     this.manager.getTasks().subscribe((tasks: ITask[]) => {
+      console.log("Get tasks")
+      console.log(tasks)
       this.tasksPlan = tasks
       this.loading.dismiss();
     });
@@ -55,9 +57,7 @@ export class AgendaPage {
     if (event.task.task.performedOn == undefined) {
       event.task.task.performedOn = new Map<number, number>();
     }
-
     if (!event.task.task.performedOn.has(event.task.day)) {
-      
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
       popover.onDidDismiss((score: number) => {
@@ -74,7 +74,6 @@ export class AgendaPage {
       });
       popover.present({ ev: event.event });
     } else {
-      
       //Need the subscription to force the Observable 
       this.manager.removeTask(event.task.task, event.task.day).subscribe(status => console.log(status));
       event.task.task.performedOn.delete(event.task.day);

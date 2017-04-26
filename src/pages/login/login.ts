@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-import { ServicesManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/servicesManager';
 import { HomePage } from '../home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { Response } from '@angular/http';

@@ -12,7 +12,7 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform, LoadingController, ToastController, PopoverController } from 'ionic-angular';
 import { StorageMock, ConfigMock, PlatformMock, TranslateServiceMock, LoadingControllerMock, ToastControllerMock, SplashScreenMock, StatusBarMock, HttpMock, DeviceMock, NetworkMock, PopoverControllerMock } from './mocks';
-import { ServicesManager } from './providers/persistenceManager';
+import { ServicesManager } from './providers/servicesManager';
 import { Http } from '@angular/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { StorageService } from './providers/storageService';

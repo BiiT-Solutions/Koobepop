@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../providers/storageService';
-import { ServicesManager } from '../providers/persistenceManager';
+import { ServicesManager } from '../providers/servicesManager';
 import { LoginPage } from '../pages/login/login';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';

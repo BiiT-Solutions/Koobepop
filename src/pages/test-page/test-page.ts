@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ItemSliding } from 'ionic-angular';
-import { ServicesManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/servicesManager';
 import { StorageService } from '../../providers/storageService';
 import { ITask } from '../../models/taskI';
 /**

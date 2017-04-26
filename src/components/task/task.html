@@ -6,7 +6,7 @@
   color="dark"
   [checked]="task.performedOn.has(day)" 
   [disabled]="isDisabled" 
-  (click)="check($event)">
+  (click)="checkMark($event)">
   </ion-checkbox>
   <button ion-button item-left clear icon-only 
     *ngIf="task.videoUrl!= undefined && task.videoUrl!=''" 

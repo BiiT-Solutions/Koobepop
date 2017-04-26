@@ -8,7 +8,7 @@ import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
 import { SummaryPage } from '../summary/summary';
 import { TestPage } from '../test-page/test-page';
-import { ServicesManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/servicesManager';
 
 @Component({
   selector: 'page-home',

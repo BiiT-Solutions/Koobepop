@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ITask } from '../../models/taskI';
-import { ServicesManager } from '../../providers/persistenceManager';
+import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { PopoverController } from 'ionic-angular';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';

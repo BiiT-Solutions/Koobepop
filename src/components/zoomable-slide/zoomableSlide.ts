@@ -29,7 +29,6 @@ export class ZoomableSlide {
   pinchString: string = "";
   constructor(public toastCtrl: ToastController) { }
 
-
   ngAfterViewInit() {
     this.slide.nativeElement.innerHTML = this.svg;
     //create gesture obj w/ ref to DOM element

@@ -38,7 +38,7 @@ import { CompaniesProvider } from '../providers/companies';
 
 //Services
 import { StorageService } from '../providers/storageService';
-import { ServicesManager } from '../providers/persistenceManager';
+import { ServicesManager } from '../providers/servicesManager';
 import { AuthTokenService } from '../providers/authTokenService';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';

@@ -35,8 +35,6 @@ export class ServicesManager {
         private device: Device) {
     }
 
-
-
     /**
      * Returns an observable with the actual appointment
      * If there's none loaded, it looks for it on the appointments list
@@ -62,8 +60,6 @@ export class ServicesManager {
     public setActualAppointment(appointment: IAppointment) {
         this.actualAppointment = appointment;
     }
-
-
 
     /*Appointments*/
     public getAppointmentsFromServer(): Observable<IAppointment[]> {
@@ -139,7 +135,7 @@ export class ServicesManager {
     }
 
     //TODO server feedback + check correct behaviour
-    public performTask(task, time): Observable<any> {
+    public performTask(task:ITask, time): Observable<any> {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
                 return this.tasksProvider.sendPerformedTask(appointment, task, time, token)
@@ -151,7 +147,7 @@ export class ServicesManager {
         });
     }
 
-    public removeTask(task, time): Observable<any> {
+    public removeTask(task:ITask, time): Observable<any> {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
                 return this.tasksProvider.removePerformedTask(appointment, task, time, token)
