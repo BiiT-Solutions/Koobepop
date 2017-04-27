@@ -12,8 +12,11 @@
         <div class="date-header">{{day |date}}</div>
         <ion-list>
           <ng-container *ngFor="let task of tasksPlan">
-            <task-component *ngIf="day>task.startingTime" [task]="task" [day]="day" (checkBoxClick)="checkMark($event)" (videoClick)="gotoExerciseVideo($event)"
-              (infoClick)="gotoExerciseInfo($event)"></task-component>
+            <task-component *ngIf="day>task.startingTime" 
+              [task]="task" [day]="day" 
+              [onChangeTrigger]="onChangeTrigger"
+              (checkBoxClick)="checkMark($event)" 
+              (infoClick)="gotoExerciseInfo(task)"></task-component>
           </ng-container>
         </ion-list>
       </ion-slide>

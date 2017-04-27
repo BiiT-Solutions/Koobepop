@@ -4,5 +4,5 @@ export interface ITask {
   repetitions: number
   performedOn: Map<number,number>; // sorted array of performation dates
   videoUrl?: string;
-  infoUrl?: string;
+  content?: string; //Some HTML content
 }

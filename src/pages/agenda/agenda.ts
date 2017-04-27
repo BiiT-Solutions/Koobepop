@@ -25,7 +25,8 @@ export class AgendaPage {
   @ViewChild('slider') slider: Slides;
   tasksPlan: ITask[] = [];
   loading: Loading;
-  
+
+  onChangeTrigger = true;
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
@@ -40,14 +41,22 @@ export class AgendaPage {
   ionViewDidLoad() {
     this.loading = this.loadingCtrl.create({
       content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
+      //,dismissOnPageChange: true
     });
-    this.loading.present();
-    this.manager.getTasks().subscribe((tasks: ITask[]) => {
-      console.log("Get tasks")
-      console.log(tasks)
-      this.tasksPlan = tasks
-      this.loading.dismiss();
+
+    this.loading.present().then(() => {
+      this.manager.getTasks().subscribe((tasks: ITask[]) => {
+        this.tasksPlan = tasks
+        this.loading.dismiss()          
+          .catch(error => {console.log(error) });
+
+      }, error => {
+        console.error("ERROR in Agenda on getTasks subscription")
+        console.error(error)
+      });
     });
+
+
   }
 
   /* When item is clicked */
@@ -61,23 +70,34 @@ export class AgendaPage {
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: false });
       popover.onDidDismiss((score: number) => {
+
         if (score != undefined) {
+          //This is a hack and should be fixed :) triggers onChanges on tasks
+          this.onChangeTrigger = !this.onChangeTrigger;
+          
           event.task.task.performedOn.set(event.task.day, score);
           //Need the subscription to force the Observable 
-          this.manager.performTask(event.task.task, event.task.day).subscribe(status => {
+          this.manager.performTask(event.task.task, event.task.day)
+          .subscribe(status => {
             
           });
           this.manager.setActualTasks(this.tasksPlan);
-          
+
           this.toaster.goodToast(event.task.task.name + ' finished! Difficulty: ' + score);
+        } else {
+
         }
       });
       popover.present({ ev: event.event });
     } else {
+      //This is a hack and should be fixed :)
+      this.onChangeTrigger = !this.onChangeTrigger;
       //Need the subscription to force the Observable 
-      this.manager.removeTask(event.task.task, event.task.day).subscribe(status => console.log(status));
+      this.manager.removeTask(event.task.task, event.task.day)
+      .subscribe(status => {});
       event.task.task.performedOn.delete(event.task.day);
       this.manager.setActualTasks(this.tasksPlan);
+
     }
   }
 
@@ -107,11 +127,11 @@ export class AgendaPage {
     }
   }
 
-  public gotoExerciseVideo(videoUrl: string) {
-    this.navCtrl.push(VideoPage, { videoUrl: videoUrl });
+  public gotoExerciseVideo(task: ITask) {
+    this.navCtrl.push(VideoPage, task);
   }
-  public gotoExerciseInfo(infoUrl: string) {
-    window.open(infoUrl);
+  public gotoExerciseInfo(task: ITask) {
+    this.navCtrl.push(VideoPage, task);
   }
 
   public goToToday() {
@@ -125,6 +145,5 @@ export class AgendaPage {
 
   ionViewWillLeave() {
     this.loading.dismiss();
-    // clearTimeout(this.timeout);
   }
 }

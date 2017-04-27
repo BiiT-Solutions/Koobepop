@@ -14,13 +14,13 @@ export class TaskComponent {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   WEEK_DAYS = 7;
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * this.WEEK_DAYS;
-
-
+  @Input() onChangeTrigger;
   @Input() task: ITask;
   @Input() day: number;
   @ViewChild("checkBox") checkBox;
   isPerformed = false;
   isDisabled = false;
+  showMoreInfo = false;
   style = {};
   @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
@@ -29,10 +29,13 @@ export class TaskComponent {
     public manager: ServicesManager,
     public toaster: ToastIssuer,
     public popoverCtrl: PopoverController) { }
-  ngAfterViewInit() {
 
+  ngOnInit() {
+    this.showMoreInfo = (this.task.content!= undefined && this.task.content!='')
+                      || (this.task.videoUrl!=undefined && this.task.videoUrl!='');
   }
   ngOnChanges() {
+    console.log("Task OnChanges")
     this.isDisabled = this.day > Date.now() || this.day < Date.now() - this.ONE_WEEK_IN_MILIS;
     this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
     this.style = this.taskStyle();
@@ -48,10 +51,11 @@ export class TaskComponent {
   }
 
   public clickVideo() {
-    this.videoClick.emit(this.task.videoUrl);
+    this.videoClick.emit();
   }
+
   public clickInfo() {
-    this.infoClick.emit(this.task.infoUrl);
+    this.infoClick.emit();
   }
 
   /*Provides the style for the task */

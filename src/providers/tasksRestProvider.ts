@@ -37,7 +37,7 @@ export class TasksRestProvider {
               repetitions: task.repetitions,
               performedOn: performedMap,
               videoUrl: task.videoUrl,
-              infoUrl: task.infoUrl
+              content: task.content
             });
           });
           return deserializedTasks;

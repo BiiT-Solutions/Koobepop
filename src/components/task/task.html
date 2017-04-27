@@ -8,13 +8,8 @@
   [disabled]="isDisabled" 
   (click)="checkMark($event)">
   </ion-checkbox>
-  <button ion-button item-left clear icon-only 
-    *ngIf="task.videoUrl!= undefined && task.videoUrl!=''" 
-    (click)="clickVideo()">
-    <ion-icon name="film"></ion-icon>
-  </button>
   <button ion-button item-left clear icon-only
-    *ngIf="task.infoUrl!= undefined && task.infoUrl!=''"
+    *ngIf="showMoreInfo"
     (click)="clickInfo()">
     <ion-icon name="information-circle"></ion-icon>
   </button>
