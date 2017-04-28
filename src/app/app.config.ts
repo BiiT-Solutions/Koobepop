@@ -22,8 +22,8 @@ export const AppConfig: IAppConfig = {
     //Server configuration  
     koobepopServer: "https://testing.biit-solutions.com:8443/koobepop-server-0.0.25", 
     usmoServer:
-    //"https://testing.biit-solutions.com:8443/usmo-1.3.74",
-    "http://192.168.1.5:8081",
+    "https://testing.biit-solutions.com:8443/usmo-1.3.79",
+    //"http://192.168.1.5:8081",
     password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
     //Services
     getCompaniesService : "/rest/getCompanies",
