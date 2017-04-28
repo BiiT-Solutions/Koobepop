@@ -14,11 +14,10 @@ export class TaskComponent {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   WEEK_DAYS = 7;
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * this.WEEK_DAYS;
-  @Input() onChangeTrigger;
   @Input() task: ITask;
   @Input() day: number;
+  @Input() isPerformed = false;
   @ViewChild("checkBox") checkBox;
-  isPerformed = false;
   isDisabled = false;
   showMoreInfo = false;
   style = {};
@@ -35,18 +34,12 @@ export class TaskComponent {
                       || (this.task.videoUrl!=undefined && this.task.videoUrl!='');
   }
   ngOnChanges() {
-    console.log("Task OnChanges")
     this.isDisabled = this.day > Date.now() || this.day < Date.now() - this.ONE_WEEK_IN_MILIS;
-    this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
     this.style = this.taskStyle();
-  }
+    }
 
   public checkMark(event) {
-    console.log(this.checkBox)
     this.checkBox.checked = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
-    //this.isPerfomed = !this.isPerformed;
-    event.preventDefault();
-    event.stopPropagation();
     this.checkBoxClick.emit({ event: event, task: this });
   }
 
@@ -85,7 +78,6 @@ export class TaskComponent {
     }
   }
 
-
   check(event) {
     //Click event overrides the checked property so we override again, not clean but works.
     this.checkBox.checked = this.isPerformed;
@@ -101,7 +93,6 @@ export class TaskComponent {
 
         if (score != undefined) {
           this.task.performedOn.set(this.day, score);
-
           this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
           this.checkBox.checked = this.isPerformed;
           //Need the subscription to force the Observable 
@@ -114,8 +105,7 @@ export class TaskComponent {
     } else {
       //Need the subscription to force the Observable 
       this.manager.removeTask(this.task, this.day).subscribe(status => {});
-      this.task.performedOn.delete(this.day);
-      
+      this.task.performedOn.delete(this.day);  
       this.isPerformed = this.task.performedOn == undefined ? false : this.task.performedOn.has(this.day);
       this.checkBox.checked = this.isPerformed;
     }

@@ -26,7 +26,7 @@ export class AgendaPage {
   tasksPlan: ITask[] = [];
   loading: Loading;
 
-  onChangeTrigger = true;
+ // onChangeTrigger = true;
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
@@ -60,7 +60,6 @@ export class AgendaPage {
   }
 
   /* When item is clicked */
-  //TODO Define event's Type
   checkMark(event) {
     //Init map in case it hasn't been
     if (event.task.task.performedOn == undefined) {
@@ -73,16 +72,13 @@ export class AgendaPage {
 
         if (score != undefined) {
           //This is a hack and should be fixed :) triggers onChanges on tasks
-          this.onChangeTrigger = !this.onChangeTrigger;
+          event.task.isPerformed = true;
           
           event.task.task.performedOn.set(event.task.day, score);
           //Need the subscription to force the Observable 
           this.manager.performTask(event.task.task, event.task.day)
-          .subscribe(status => {
-            
-          });
+          .subscribe(status => {});
           this.manager.setActualTasks(this.tasksPlan);
-
           this.toaster.goodToast(event.task.task.name + ' finished! Difficulty: ' + score);
         } else {
 
@@ -91,7 +87,7 @@ export class AgendaPage {
       popover.present({ ev: event.event });
     } else {
       //This is a hack and should be fixed :)
-      this.onChangeTrigger = !this.onChangeTrigger;
+       event.task.isPerformed = false;
       //Need the subscription to force the Observable 
       this.manager.removeTask(event.task.task, event.task.day)
       .subscribe(status => {});

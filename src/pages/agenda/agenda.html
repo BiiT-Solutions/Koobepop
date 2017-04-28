@@ -13,8 +13,9 @@
         <ion-list>
           <ng-container *ngFor="let task of tasksPlan">
             <task-component *ngIf="day>task.startingTime" 
-              [task]="task" [day]="day" 
-              [onChangeTrigger]="onChangeTrigger"
+              [task]="task" 
+              [day]="day" 
+              [isPerformed]="task.performedOn.has(day)"
               (checkBoxClick)="checkMark($event)" 
               (infoClick)="gotoExerciseInfo(task)"></task-component>
           </ng-container>
