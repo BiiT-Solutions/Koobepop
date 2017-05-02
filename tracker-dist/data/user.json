@@ -1,0 +1,17 @@
+{
+    "name": "Henny van Doorn",
+    "avatarUrl": "resources/user-avatar.jpg",
+    "goals": [{
+        "assessment": "body health",
+        "type": "score",
+        "goal": 70
+    }, {
+        "assessment": "mental health",
+        "type": "score",
+        "goal": 60
+    }, {
+        "assessment": "food style",
+        "type": "score",
+        "goal": 50
+    }]
+}
