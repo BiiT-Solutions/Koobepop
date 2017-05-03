@@ -461,7 +461,6 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
                     <h1><content select=".h1"></content></h1>
                     <h2><content select=".h2"></content></h2>
                 </div>
-                <user-avatar user="[[user]]"></user-avatar>
             </div>
             <div class="flex bottom">
                 <div class="details"><content select=".details"></content></div>
@@ -490,9 +489,7 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
 <dom-module id="fitness-tracker" assetpath="./">
     <template>
         <style>#about img{float:left;padding-right:8px;}#about h1{color:#004d40;font-size:22px;line-height:22px;white-space:nowrap;margin-top:30px;}#about a,#about a:hover,#about a:visited,#about button{text-decoration:none;color:#004d40;font-weight:bold;}#about button{width:100%;font-size:18px;cursor:pointer;border:none !important;outline:none !important;background:transparent;}paper-toast{left:12px;right:12px;font-size:14px;z-index:10;}</style>
-
-        <iron-ajax auto="" url="[[dataUrl(week)]]" handle-as="json" last-response="{{weekData}}" on-error="ajaxError"></iron-ajax>
-        <iron-ajax auto="" url="data/user.json" handle-as="json" last-response="{{user}}"></iron-ajax>
+        <script>var weekData,user;</script>
         
 
         <neon-animated-pages id="pages" selected="[[selected]]" attr-for-selected="name">
@@ -501,6 +498,8 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
         </neon-animated-pages>
         <paper-toast id="toast"></paper-toast>
     </template>
-    <script>Polymer({is:"fitness-tracker",properties:{selected:{type:String,value:"summary"},week:{type:Number,value:1},minWeek:{type:Number,value:1},maxWeek:{type:Number,value:5}},dataUrl:function(e){return"data/week-"+e+".json"},ajaxError:function(e){this.showToast("Sorry, couldn't load data. Please try again later.")},showToast:function(e){this.$.toast.text=e,this.$.toast.show()},ready:function(){this.$.pages.addEventListener("neon-animation-finish",function(e){e.detail.toPage.pageTransitionFinished&&e.detail.toPage.pageTransitionFinished()}),this.addEventListener("navigate",function(e){this.selected=e.detail}),this.addEventListener("about",function(e){this.$.about.open()}),this.addEventListener("next-week",function(e){this.week<this.maxWeek?this.week++:this.showToast("Sorry, no data available for week "+(this.week+1)+".")}),this.addEventListener("prev-week",function(e){this.week>this.minWeek?this.week--:this.showToast("Sorry, no data available for week "+(this.week-1)+".")})}});</script>
-</dom-module>
-</div></body></html>
+    <script>Polymer({is:"fitness-tracker",properties:{selected:{type:String,value:"summary"},week:{type:Number,value:1},minWeek:{type:Number,value:1},maxWeek:{type:Number,value:5}},dataUrl:function(e){return"data/week-"+e+".json"},ajaxError:function(e){this.showToast("Sorry, couldn't load data. Please try again later.")},showToast:function(e){this.$.toast.text=e,this.$.toast.show()},
+    ready:function(){
+        localContext = this;window.parent.addEventListener("tracker-user",function(e){localContext.user=e.detail}),window.parent.addEventListener("tracker-week",function(e){localContext.weekData=e.detail,localContext.week = e.detail.weekNumber}),        this.$.pages.addEventListener("neon-animation-finish",function(e){e.detail.toPage.pageTransitionFinished&&e.detail.toPage.pageTransitionFinished()}),this.addEventListener("navigate",function(e){this.selected=e.detail}),this.addEventListener("about",function(e){this.$.about.open()}),
+this.addEventListener("next-week",function(e){this.week<this.maxWeek?(window.parent.dispatchEvent(new Event("next-week"))):this.showToast("Sorry, no data available for week "+(this.week+1)+".")}),this.addEventListener("prev-week",function(e){this.week>this.minWeek?(window.parent.dispatchEvent(new Event("prev-week"))):this.showToast("Sorry, no data available for week "+(this.week-1)+".")}),window.parent.dispatchEvent(new Event("tracker-ready"))}});</script>
+</dom-module></div></body></html>

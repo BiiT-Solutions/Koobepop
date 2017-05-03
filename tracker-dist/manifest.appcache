@@ -67,12 +67,6 @@ bower_components/moment/min/moment-with-locales.js
 bower_components/moment/min/moment-with-locales.min.js
 bower_components/moment/min/moment.min.js
 bower_components/moment/min/tests.js
-bower_components/moment/src/moment.js
-bower_components/moment/templates/amd-named.js
-bower_components/moment/templates/amd.js
-bower_components/moment/templates/globals.js
-bower_components/moment/templates/locale-header.js
-bower_components/moment/templates/test-header.js
 bower_components/moment/locale/af.js
 bower_components/moment/locale/ar-ma.js
 bower_components/moment/locale/ar-sa.js
@@ -158,6 +152,12 @@ bower_components/moment/locale/uz.js
 bower_components/moment/locale/vi.js
 bower_components/moment/locale/zh-cn.js
 bower_components/moment/locale/zh-tw.js
+bower_components/moment/src/moment.js
+bower_components/moment/templates/amd-named.js
+bower_components/moment/templates/amd.js
+bower_components/moment/templates/globals.js
+bower_components/moment/templates/locale-header.js
+bower_components/moment/templates/test-header.js
 bower_components/vaadin-grid/demo/angular-demo-embed.html
 bower_components/vaadin-grid/demo/angular-grid-dom.js
 bower_components/vaadin-grid/demo/angular-grid-dom.ts
@@ -289,6 +289,17 @@ bower_components/vaadin-grid/demo/js_dependencies/http.dev.js
 bower_components/vaadin-grid/demo/js_dependencies/react.min.js
 bower_components/vaadin-grid/demo/js_dependencies/system.js
 bower_components/vaadin-grid/demo/js_dependencies/typescript.js
+bower_components/moment/src/lib/duration/abs.js
+bower_components/moment/src/lib/duration/add-subtract.js
+bower_components/moment/src/lib/duration/as.js
+bower_components/moment/src/lib/duration/bubble.js
+bower_components/moment/src/lib/duration/constructor.js
+bower_components/moment/src/lib/duration/create.js
+bower_components/moment/src/lib/duration/duration.js
+bower_components/moment/src/lib/duration/get.js
+bower_components/moment/src/lib/duration/humanize.js
+bower_components/moment/src/lib/duration/iso-string.js
+bower_components/moment/src/lib/duration/prototype.js
 bower_components/moment/src/lib/create/check-overflow.js
 bower_components/moment/src/lib/create/date-from-array.js
 bower_components/moment/src/lib/create/from-anything.js
@@ -301,17 +312,6 @@ bower_components/moment/src/lib/create/local.js
 bower_components/moment/src/lib/create/parsing-flags.js
 bower_components/moment/src/lib/create/utc.js
 bower_components/moment/src/lib/create/valid.js
-bower_components/moment/src/lib/duration/abs.js
-bower_components/moment/src/lib/duration/add-subtract.js
-bower_components/moment/src/lib/duration/as.js
-bower_components/moment/src/lib/duration/bubble.js
-bower_components/moment/src/lib/duration/constructor.js
-bower_components/moment/src/lib/duration/create.js
-bower_components/moment/src/lib/duration/duration.js
-bower_components/moment/src/lib/duration/get.js
-bower_components/moment/src/lib/duration/humanize.js
-bower_components/moment/src/lib/duration/iso-string.js
-bower_components/moment/src/lib/duration/prototype.js
 bower_components/moment/src/lib/format/format.js
 bower_components/moment/src/lib/locale/calendar.js
 bower_components/moment/src/lib/locale/constructor.js
@@ -381,4 +381,4 @@ bower_components/moment/src/lib/utils/zero-fill.js
 NETWORK:
 *
 
-# hash: b6d1231783dc2c5efe9ca11923d8ed59798d69933fd1b35cf2b05d39c6ea29da
+# hash: cad9cfc133695b07fc551e20c204bd0445c19adf1b29faa1c488820842deb923

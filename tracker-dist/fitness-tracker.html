@@ -5,6 +5,7 @@
                 float: left;
                 padding-right: 8px;
             }
+            
             #about h1 {
                 color: #004d40;
                 font-size: 22px;
@@ -12,6 +13,7 @@
                 white-space: nowrap;
                 margin-top: 30px;
             }
+            
             #about a,
             #about a:hover,
             #about a:visited,
@@ -20,6 +22,7 @@
                 color: #004d40;
                 font-weight: bold;
             }
+            
             #about button {
                 width: 100%;
                 font-size: 18px;
@@ -28,6 +31,7 @@
                 outline: none !important;
                 background: transparent;
             }
+            
             paper-toast {
                 left: 12px;
                 right: 12px;
@@ -35,9 +39,10 @@
                 z-index: 10;
             }
         </style>
-
-        <iron-ajax auto url="[[dataUrl(week)]]" handle-as="json" last-response="{{weekData}}" on-error="ajaxError" /></iron-ajax>
-        <iron-ajax auto url="data/user.json" handle-as="json" last-response="{{user}}"></iron-ajax>
+        <script>
+            var weekData;
+            var user;
+        </script>
         <!-- <paper-dialog id="about" modal>
             <img src="resources/app-icon-192x192.png" width="32" height="32" />
             <h1>Fitness Tracker</h1>
@@ -59,68 +64,82 @@
         <paper-toast id="toast"></paper-toast>
     </template>
     <script>
-        Polymer({
-            is: 'fitness-tracker',
+            Polymer({
+                is: 'fitness-tracker',
 
-            properties: {
-                selected: {
-                    type: String,
-                    value: 'summary'
+                properties: {
+                    selected: {
+                        type: String,
+                        value: 'summary'
+                    },
+                    week: {
+                        type: Number,
+                        value: 1
+                    },
+                    minWeek: {
+                        type: Number,
+                        value: 1
+                    },
+                    maxWeek: {
+                        type: Number,
+                        value: 5
+                    }
                 },
-                week: {
-                    type: Number,
-                    value: 1
+
+                dataUrl: function (week) {
+                    return 'data/week-' + week + '.json';
                 },
-                minWeek: {
-                    type: Number,
-                    value: 1
+
+                ajaxError: function (err) {
+                    this.showToast('Sorry, couldn\'t load data. Please try again later.');
                 },
-                maxWeek: {
-                    type: Number,
-                    value: 5
+
+                showToast: function (text) {
+                    this.$.toast.text = text;
+                    this.$.toast.show();
+                },
+
+                ready: function () {
+                    window.parent.addEventListener("tracker-user", function (ev) {
+                        console.log("User recieved!!!")
+                        console.log(ev)
+                        this.user = ev.detail;
+                    });
+                    window.parent.addEventListener("tracker-week", function (ev){
+                        console.log("Week recieved!!!")
+                        this.weekData = ev.detail;
+                        //this.week = ev.detail.weekNumber;
+                    });
+
+                    this.$.pages.addEventListener('neon-animation-finish', function (e) {
+                        if (e.detail.toPage.pageTransitionFinished) {
+                            e.detail.toPage.pageTransitionFinished();
+                        }
+                    });
+                    this.addEventListener('navigate', function (e) {
+                        this.selected = e.detail;
+                    });
+                    this.addEventListener('about', function (e) {
+                        this.$.about.open();
+                    });
+                    this.addEventListener('next-week', function (e) {
+                        if (this.week < this.maxWeek) {
+                            this.week++;
+                            window.parent.dispatchEvent(new Event(("next-week")));
+                        } else {
+                            this.showToast('Sorry, no data available for week ' + (this.week + 1) + '.');
+                        }
+                    });
+                    this.addEventListener('prev-week', function (e) {
+                        if (this.week > this.minWeek) {
+                            this.week--;
+                            window.parent.dispatchEvent(new Event(("prev-week")));
+                        } else {
+                            this.showToast('Sorry, no data available for week ' + (this.week - 1) + '.');
+                        }
+                    });
+                 window.parent.dispatchEvent(new Event("tracker-ready"));
                 }
-            },
-
-            dataUrl: function(week) {
-                return 'data/week-' + week + '.json';
-            },
-
-            ajaxError: function(err) {
-                this.showToast('Sorry, couldn\'t load data. Please try again later.');
-            },
-
-            showToast: function(text) {
-                this.$.toast.text = text;
-                this.$.toast.show();
-            },
-
-            ready: function() {
-                this.$.pages.addEventListener('neon-animation-finish', function(e) {
-                    if (e.detail.toPage.pageTransitionFinished) {
-                        e.detail.toPage.pageTransitionFinished();
-                    }
-                });
-                this.addEventListener('navigate', function(e) {
-                    this.selected = e.detail;
-                });
-                this.addEventListener('about', function(e) {
-                    this.$.about.open();
-                });
-                this.addEventListener('next-week', function(e) {
-                    if (this.week < this.maxWeek) {
-                        this.week++;
-                    } else {
-                        this.showToast('Sorry, no data available for week ' + (this.week + 1) + '.');
-                    }
-                });
-                this.addEventListener('prev-week', function(e) {
-                    if (this.week > this.minWeek) {
-                        this.week--;
-                    } else {
-                        this.showToast('Sorry, no data available for week ' + (this.week - 1) + '.');
-                    }
-                });
-            }
-        });
+            });
     </script>
 </dom-module>
