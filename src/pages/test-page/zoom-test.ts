@@ -1,7 +1,7 @@
 import { Component, ViewChild,ViewChildren} from '@angular/core';
 import { NavController, NavParams, Gesture } from 'ionic-angular';
-import { CompaniesProvider } from '../../providers/companies';
 import * as infographicjs from 'infographic-js';
+
 @Component({
   selector: 'page-zoom',
   templateUrl: 'zoom-test.html'
@@ -32,7 +32,7 @@ export class ZoomPage {
         "pngElements": [{ "id": "bitIcon", "attributes": { "width": "150", "height": "150", "x": "10", "y": "300" } }]
     };
     svg;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public companiesProvider: CompaniesProvider) { }
+  constructor(public navCtrl: NavController, public navParams: NavParams) { }
 
 
    ngAfterViewInit() {

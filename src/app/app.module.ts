@@ -10,7 +10,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
 //Components
 import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
-import { TaskComponent } from '../components/task/task'
+import { TaskItemComponent } from '../components/task/taskItem'
 
 //Pages
 import { HomePage } from '../pages/home/home';
@@ -24,8 +24,6 @@ import { ShowExerciseInfoPage } from '../pages/show-exercise-info/show-exercise-
 import { SummaryPage } from '../pages/summary/summary';
 import { LoginPage } from '../pages/login/login';
 
-import { ZoomPage } from '../pages/zoom/zoom';
-import { BookPage } from '../pages/zoom/book';
 //
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
@@ -34,7 +32,6 @@ import { Device } from '@ionic-native/device';
 //Providers REST services
 import { AppointmentsProvider } from '../providers/appointmentsProvider';
 import { TasksRestProvider } from '../providers/tasksRestProvider';
-import { CompaniesProvider } from '../providers/companies';
 
 //Services
 import { StorageService } from '../providers/storageService';
@@ -54,9 +51,7 @@ export function createTranslateLoader(http: Http) {
   declarations: [
     MyApp,
     HomePage,
-    BookPage,
     AboutPage,
-    ZoomPage,
     TestPage,
     ZoomableSlide,
     AgendaPage,
@@ -66,7 +61,7 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent,
     ShowExerciseInfoPage,
     SummaryPage,
-    TaskComponent,
+    TaskItemComponent,
     LoginPage
 
   ],
@@ -88,9 +83,7 @@ export function createTranslateLoader(http: Http) {
   entryComponents: [
     MyApp,
     HomePage,
-    BookPage,
     AboutPage,
-    ZoomPage,
     TestPage,
     AgendaPage,
     ReportPage,
@@ -110,7 +103,6 @@ export function createTranslateLoader(http: Http) {
     ConnectivityService,
     ServicesManager,
     TasksRestProvider,
-    CompaniesProvider,
     AppointmentsProvider,
     StorageService,
     AuthTokenService,

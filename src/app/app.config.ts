@@ -5,7 +5,6 @@ export let APP_CONFIG = new OpaqueToken('app.config');
 export interface IAppConfig {
     koobepopServer: string;
     getTasksService:string;
-    getCompaniesService: string;
     getResultsService:string;
     usmoServer:string;
     getAppointmentsService:string;
@@ -26,7 +25,6 @@ export const AppConfig: IAppConfig = {
     "http://192.168.1.5:8081",
     password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
     //Services
-    getCompaniesService : "/rest/getCompanies",
     getTasksService:"/rest/getCorrectiveExercisesAuth",
     getAppointmentsService:"/rest/getAppointmentsAuth",
     getResultsService:"/rest/getExaminationResultsAuth",

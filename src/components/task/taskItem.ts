@@ -10,7 +10,7 @@ import { EffortSelectorComponent } from '../effort-selector/effort-selector';
   templateUrl: 'task.html',
   changeDetection: ChangeDetectionStrategy.OnPush //Only detects changes when the input changes
 })
-export class TaskComponent {
+export class TaskItemComponent {
   ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
   WEEK_DAYS = 7;
   ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * this.WEEK_DAYS;

@@ -2,7 +2,6 @@ import { Component, } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { AboutPage } from '../about/about';
-import { ZoomPage } from '../zoom/zoom';
 import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
@@ -29,22 +28,23 @@ export class HomePage {
   navAbout() {
     this.navCtrl.push(AboutPage);
   }
-  navBook() {
-    this.navCtrl.push(ZoomPage);
-  }
+
   navTest() {
-    
     this.navCtrl.push(TestPage);
   }
+
   navAgendaView() {
     this.navCtrl.push(AgendaPage);
   }
+
   navReportView() {
     this.navCtrl.push(ReportPage);
   }
+
   navKnow() {
     this.navCtrl.push(KnowPage);
   }
+  
   navSummary() {
     this.navCtrl.push(SummaryPage);
   }
