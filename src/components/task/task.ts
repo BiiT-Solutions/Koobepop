@@ -57,7 +57,6 @@ export class TaskComponent {
     let week = Math.floor((this.day - this.task.startingTime) / this.ONE_WEEK_IN_MILIS);
     let daysLeft = this.WEEK_DAYS - Math.floor(((this.day - this.task.startingTime) % this.ONE_WEEK_IN_MILIS) / this.ONE_DAY_IN_MILIS)
     let actualWeekStarts = this.task.startingTime + week * this.ONE_WEEK_IN_MILIS;
-
     if (this.task.performedOn != undefined) {
       this.task.performedOn.forEach((value, key) => {
         if (key > actualWeekStarts && key <= this.day) {

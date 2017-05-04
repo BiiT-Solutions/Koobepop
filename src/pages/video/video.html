@@ -1,15 +1,11 @@
-<ion-content>  
-    <ion-navbar color="primary" >
-      <ion-title>
-      </ion-title>
-    </ion-navbar>
-    <div *ngIf="videoUrl!=undefined" class="video-container">
-      <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
-    </div>
-    <div *ngIf="navParams.data.videoUrl==undefined">
-      <!--Make it a translate-->
-      The resource is not avaliable at the moment      
-      </div>
-      <div [innerHTML]="task.content">
-      </div>
+<ion-content>
+  <ion-navbar color="primary">
+    <ion-title>
+    </ion-title>
+  </ion-navbar>
+  <div *ngIf="videoUrl!=undefined" class="video-container">
+    <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <div [innerHTML]="task.content">
+  </div>
 </ion-content>

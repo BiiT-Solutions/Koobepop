@@ -324,25 +324,27 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
                     <colgroup>
                         <col width="50" name="assessment" header-text="" sortable="">
                         <col name="date" sortable="">
+                        <col name="name" sortable="">
                         <col name="health" sortable="">
                         <col name="sleep" sortable="">
                         <col name="memory" sortable="">
                         <col name="happiness" sortable="">
                         <col name="fruit" sortable="">
                         <col name="vegetables" sortable="">
-			<col name="water" sortable="">
+			            <col name="water" sortable="">
                     </colgroup>
                     <thead>
                         <tr>
                             <th class="assessment"></th>
                             <th class="date">DATE</th>
+                            <th class="name">NAME</th>
                             <th class="health">HEALTH</th>
                             <th class="sleep">SLEEP</th>
                             <th class="memory">MEMORY</th>
                             <th class="happiness">HAPPINESS</th>
                             <th class="fruit"># FRUIT</th>
                             <th class="vegetables"># VEGETABLES</th>
-			    <th class="water">WATER</th>
+			                <th class="water">WATER</th>
                         </tr>
                     </thead>
                 </table>
@@ -352,14 +354,14 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
 	<div style="color:#0000FF;width: 100%;background-color: #a7ffeb;">&nbsp;</div>
     </template>
 
-    <script>Polymer({is:"workouts-view",behaviors:[Polymer.NeonAnimatableBehavior],properties:{animationConfig:{value:function(){return{entry:{name:"slide-from-right-animation",node:this},exit:{name:"slide-right-animation",node:this}}}},user:Object,weekData:{type:Object,observer:"_weekDataChanged"}},visibleRowDetails:[],_navigateBack:function(){this.fire("navigate","summary")},pageTransitionFinished:function(){this.$.workoutGrid.items=this.weekData.workouts},ready:function(){var e=this.$.workoutGrid,t=this,n={date:function(e){e.element.innerHTML=Formatters.dateActualAndFromNow(e.data)},health:function(e){e.element.innerHTML=Formatters.score(e.data)},sleep:function(e){e.element.innerHTML=Formatters.score(e.data)},memory:function(e){e.element.innerHTML=Formatters.score(e.data)},happiness:function(e){e.element.innerHTML=Formatters.score(e.data)},fruit:function(e){e.element.innerHTML=Formatters.unity(e.data)},vegetables:function(e){e.element.innerHTML=Formatters.unity(e.data)},water:function(e){e.element.innerHTML=Formatters.volume(e.data)},assessment:function(e){e.element.innerHTML='<img class="sport-icon" src="resources/health-icons/'+e.data+"/"+e.data+'-75.png" />'}};e.columns.forEach(function(e){n[e.name]&&(e.renderer=n[e.name])}),e.cellClassGenerator=function(e){return e.columnName};var a=-1;e.addEventListener("selected-items-changed",function(){e.setRowDetailsVisible(a,!1);var t=e.selection.selected();1===t.length&&(a=t[0],e.setRowDetailsVisible(a,!0))}),e.addEventListener("sort-order-changed",function(){var n=e.sortOrder[0],a=e.columns[n.column].name,r=n.direction;t.weekData.workouts.sort(function(e,t){var n;return console.log(e[a]),void 0===e[a]?1:void 0===t[a]?-1:(n=isNaN(e[a])?e[a].localeCompare(t[a]):parseInt(e[a.toLowerCase()],10)-parseInt(t[a.toLowerCase()],10),"desc"===r&&(n*=-1),n)})})},_weekDataChanged:function(){visibleRowDetails=[];var e=this.weekData.workouts;e.sort(function(e,t){return moment(e.date).isAfter(moment(t.date))?1:moment(t.date).isAfter(moment(e.date))?-1:0}),this.$.workoutGrid.items=e}});</script>
+    <script>Polymer({is:"workouts-view",behaviors:[Polymer.NeonAnimatableBehavior],properties:{animationConfig:{value:function(){return{entry:{name:"slide-from-right-animation",node:this},exit:{name:"slide-right-animation",node:this}}}},user:Object,weekData:{type:Object,observer:"_weekDataChanged"}},visibleRowDetails:[],_navigateBack:function(){this.fire("navigate","summary")},pageTransitionFinished:function(){this.$.workoutGrid.items=this.weekData.workouts},ready:function(){var e=this.$.workoutGrid,t=this,n={date:function(e){e.element.innerHTML=Formatters.dateDay(e.data)},name:function(e){e.element.innerHTML=e.data},health:function(e){e.element.innerHTML=Formatters.score(e.data)},sleep:function(e){e.element.innerHTML=Formatters.score(e.data)},memory:function(e){e.element.innerHTML=Formatters.score(e.data)},happiness:function(e){e.element.innerHTML=Formatters.score(e.data)},fruit:function(e){e.element.innerHTML=Formatters.unity(e.data)},vegetables:function(e){e.element.innerHTML=Formatters.unity(e.data)},water:function(e){e.element.innerHTML=Formatters.volume(e.data)},assessment:function(e){e.element.innerHTML='<img class="sport-icon" src="resources/health-icons/'+e.data+"/"+e.data+'-75.png" />'}};e.columns.forEach(function(e){n[e.name]&&(e.renderer=n[e.name])}),e.cellClassGenerator=function(e){return e.columnName};var a=-1;e.addEventListener("selected-items-changed",function(){e.setRowDetailsVisible(a,!1);var t=e.selection.selected();1===t.length&&(a=t[0],e.setRowDetailsVisible(a,!0))}),e.addEventListener("sort-order-changed",function(){var n=e.sortOrder[0],a=e.columns[n.column].name,r=n.direction;t.weekData.workouts.sort(function(e,t){var n;return console.log(e[a]),void 0===e[a]?1:void 0===t[a]?-1:(n=isNaN(e[a])?e[a].localeCompare(t[a]):parseInt(e[a.toLowerCase()],10)-parseInt(t[a.toLowerCase()],10),"desc"===r&&(n*=-1),n)})})},_weekDataChanged:function(){visibleRowDetails=[];var e=this.weekData.workouts;e.sort(function(e,t){return moment(e.date).isAfter(moment(t.date))?1:moment(t.date).isAfter(moment(e.date))?-1:0}),this.$.workoutGrid.items=e}});</script>
 </dom-module>
 
 <dom-module id="summary-view" assetpath="./">
     <template>
         <style include="app-theme"></style>
         <style>:host{display:block;}#prev,#next{outline:none;cursor:pointer;color:var(--text-primary-color);background:none;border:none;border-bottom:1px solid transparent;font-size:12px;text-transform:uppercase;font-weight:bold;margin:8px;position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;z-index:10;}#prev{float:left;padding:5px;}#next iron-icon,#prev iron-icon{fill:#00bfa5;--iron-icon-height:18px;--iron-icon-width:18px;}#next{float:right;padding:5px;}#controls::after{content:"";display:block;clear:both;}summary-rings{position:relative;z-index:9;}@media (max-width:839px){#summary-tables{@apply(--layout-vertical);}#summary-tables summary-table{margin:10px 0 20px 0;}}@media (min-width:840px){#summary-tables{@apply(--layout-horizontal);@apply(--layout-wrap);}#summary-tables summary-table{width:50%;padding:10px 20px;box-sizing:border-box;}}</style>
-        <app-toolbar user="[[user]]">
+        <app-toolbar>
             <span class="h1">Summary</span>
             <span class="h2">Selected week <span class="circle">[[weekData.weekNumber]]</span></span>
             <span class="details">
@@ -378,18 +380,18 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
                 <iron-icon icon="app-icons:chevron-right"></iron-icon>
             </div>
         </div>
-        <summary-rings id="summary" summary-rows="[[_goalSummary(weekData, user)]]" on-tap="_showDetails"></summary-rings>
+        <summary-rings id="summary" summary-rows="[[_goalSummary(weekData,user)]]" on-tap="_showDetails"></summary-rings>
 
         <div id="summary-tables" on-tap="_showDetails">
             <template is="dom-repeat" items="[[_workoutsByAssessment(weekData)]]">
-                <summary-table workouts="[[item]]" goals="[[_goalSummary(weekData, user)]]"></summary-table>
+                <summary-table workouts="[[item]]" goals="[[_goalSummary(weekData,user)]]"></summary-table>
             </template>
         </div>
 	<div>&nbsp;</div>
 	<div style="color:#0000FF;width: 100%;background-color: #a7ffeb;">&nbsp;</div>
     </template>
 
-    <script>Polymer({is:"summary-view",behaviors:[Polymer.NeonAnimatableBehavior],properties:{user:Object,weekData:Object,animationConfig:{value:function(){return{entry:{name:"slide-from-left-animation",node:this},exit:{name:"slide-left-animation",node:this}}}}},_goalSummary:function(e,t){var n=this._totalsBySport(e);return t.goals.map(function(e){var t=0,s=0;return n[e.assessment]&&(s=n[e.assessment][e.type],t=Math.round(s/e.goal*100)),{goal:e,value:t,left:Math.max(0,e.goal-s)}})},_uniqueAssessment:function(e){return e.workouts.reduce(function(e,t){return-1===e.indexOf(t.assessment)&&e.push(t.assessment),e},[])},_totalsBySport:function(e){var t={};return e.workouts.forEach(function(e){t[e.assessment]||(t[e.assessment]={duration:0,distance:0,score:0}),t[e.assessment].duration+=e.duration,t[e.assessment].distance+=e.distance,t[e.assessment].score+=e.score}),t},_workoutsByAssessment:function(e){var t=this._uniqueAssessment(e),n=[];e.workouts.forEach(function(e){var s=t.indexOf(e.assessment);n[s]||(n[s]=[]),n[s].push(e)});for(var s=0;s<n.length;s++)n[s].sort(function(e,t){return moment(e.date).isAfter(moment(t.date))?1:moment(t.date).isAfter(moment(e.date))?-1:0});return n},_weekStartDate:function(e){return moment().week(e).startOf("week").format("Do MMMM")},_weekEndDate:function(e){return moment().week(e).endOf("week").format("Do MMMM")},_nextWeek:function(){this.fire("next-week")},_prevWeek:function(){this.fire("prev-week")},_getTotal:function(e){return e[0].value+"%"},_showDetails:function(){this.fire("navigate","details")}});</script>
+    <script>Polymer({is:"summary-view",behaviors:[Polymer.NeonAnimatableBehavior],properties:{weekData:Object,animationConfig:{value:function(){return{entry:{name:"slide-from-left-animation",node:this},exit:{name:"slide-left-animation",node:this}}}}},_goalSummary:function(e,t){var n=this._totalsBySport(e);return t.goals.map(function(e){var t=0,s=0;return n[e.assessment]&&(s=n[e.assessment][e.type],t=Math.round(s/e.goal*100)),{goal:e,value:t,left:Math.max(0,e.goal-s)}})},_uniqueAssessment:function(e){return e.workouts.reduce(function(e,t){return-1===e.indexOf(t.assessment)&&e.push(t.assessment),e},[])},_totalsBySport:function(e){var t={};return e.workouts.forEach(function(e){t[e.assessment]||(t[e.assessment]={duration:0,distance:0,score:0}),t[e.assessment].duration+=e.duration,t[e.assessment].distance+=e.distance,t[e.assessment].score+=e.score}),t},_workoutsByAssessment:function(e){var t=this._uniqueAssessment(e),n=[];e.workouts.forEach(function(e){var s=t.indexOf(e.assessment);n[s]||(n[s]=[]),n[s].push(e)});for(var s=0;s<n.length;s++)n[s].sort(function(e,t){return moment(e.date).isAfter(moment(t.date))?1:moment(t.date).isAfter(moment(e.date))?-1:0});return n},_weekStartDate:function(e){return moment().week(e).startOf("week").format("Do MMMM")},_weekEndDate:function(e){return moment().week(e).endOf("week").format("Do MMMM")},_nextWeek:function(){this.fire("next-week")},_prevWeek:function(){this.fire("prev-week")},_getTotal:function(e){return e[0].value+"%"},_showDetails:function(){this.fire("navigate","details")}});</script>
 </dom-module>
 <dom-module id="summary-table" assetpath="./">
     <template>
@@ -411,7 +413,8 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
         <table cellpadding="0" cellspacing="0">
             <template is="dom-repeat" items="[[workouts]]">
                 <tr>
-                    <td>[[_formatDate(item.date)]]</td>
+                    <td class="left">[[_formatDate(item.date)]]</td>
+                    <td>[[_formatName(item.name)]]</td>
                     <template is="dom-if" if="[[isAssessment]]">
                         <td class="right">[[_formatScore(item.score)]]</td>
                     </template>
@@ -422,7 +425,7 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
             </template>
         </table>
     </template>
-    <script>Polymer({is:"summary-table",properties:{workouts:Array,goals:Array,assessment:{type:String,computed:"_computeAssessment(workouts)"},totalScore:{type:Number,computed:"_computeTotalScore(workouts)"},totalDuration:{type:Number,computed:"_computeTotalDuration(workouts)"},isAssessment:{type:Boolean,computed:"_computeScore(goals, assessment)"}},_getGoal:function(t,e){for(var o=0;o<t.length;o++)if(t[o].goal.assessment===e)return t[o]},_goalStatus:function(t,e){var o=this._getGoal(t,e);if(o){var r=o.value,n=r+"% complete – ";return"score"===o.goal.type?n+=Formatters.score(Math.max(0,o.left)):n+=Formatters.duration(Math.max(0,o.left)),n+=" to goal"}return"No goal set"},_formatDate:function(t){return Formatters.dateActualAndFromNow(t)},_formatDistance:function(t){return Formatters.distance(t)},_formatDuration:function(t){return Formatters.duration(t,!0)},_formatScore:function(t){return Formatters.score(t,!0)},_computeAssessment:function(t){return t[0].assessment},_computeScore:function(t,e){var o=this._getGoal(t,e);return!!o&&"score"===o.goal.type},_computeTotalDuration:function(t){return t.reduce(function(t,e){return t+=e.duration},0)},_computeTotalScore:function(t){return t.reduce(function(t,e){return t+=e.score},0)},_iconUrl:function(t){return"resources/health-icons/"+t+"/"+t+"-128.png"}});</script>
+    <script>Polymer({is:"summary-table",properties:{workouts:Array,goals:Array,assessment:{type:String,computed:"_computeAssessment(workouts)"},totalScore:{type:Number,computed:"_computeTotalScore(workouts)"},totalDuration:{type:Number,computed:"_computeTotalDuration(workouts)"},isAssessment:{type:Boolean,computed:"_computeScore(goals, assessment)"}},_getGoal:function(t,e){for(var o=0;o<t.length;o++)if(t[o].goal.assessment===e)return t[o]},_goalStatus:function(t,e){var o=this._getGoal(t,e);if(o){var r=o.value,n=r+"% complete – ";return"score"===o.goal.type?n+=Formatters.score(Math.max(0,o.left)):n+=Formatters.duration(Math.max(0,o.left)),n+=" to goal"}return"No goal set"},_formatDate:function(t){return Formatters.dateDay(t)},_formatName:function(t){return t||""},_formatDistance:function(t){return Formatters.distance(t)},_formatDuration:function(t){return Formatters.duration(t,!0)},_formatScore:function(t){return Formatters.score(t,!0)},_computeAssessment:function(t){return t[0].assessment},_computeScore:function(t,e){var o=this._getGoal(t,e);return!!o&&"score"===o.goal.type},_computeTotalDuration:function(t){return t.reduce(function(t,e){return t+=e.duration},0)},_computeTotalScore:function(t){return t.reduce(function(t,e){return t+=e.score},0)},_iconUrl:function(t){return"resources/health-icons/"+t+"/"+t+"-128.png"}});</script>
 </dom-module>
 <dom-module id="summary-rings" assetpath="./">
     <template>
@@ -498,8 +501,5 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
         </neon-animated-pages>
         <paper-toast id="toast"></paper-toast>
     </template>
-    <script>Polymer({is:"fitness-tracker",properties:{selected:{type:String,value:"summary"},week:{type:Number,value:1},minWeek:{type:Number,value:1},maxWeek:{type:Number,value:5}},dataUrl:function(e){return"data/week-"+e+".json"},ajaxError:function(e){this.showToast("Sorry, couldn't load data. Please try again later.")},showToast:function(e){this.$.toast.text=e,this.$.toast.show()},
-    ready:function(){
-        localContext = this;window.parent.addEventListener("tracker-user",function(e){localContext.user=e.detail}),window.parent.addEventListener("tracker-week",function(e){localContext.weekData=e.detail,localContext.week = e.detail.weekNumber}),        this.$.pages.addEventListener("neon-animation-finish",function(e){e.detail.toPage.pageTransitionFinished&&e.detail.toPage.pageTransitionFinished()}),this.addEventListener("navigate",function(e){this.selected=e.detail}),this.addEventListener("about",function(e){this.$.about.open()}),
-this.addEventListener("next-week",function(e){(window.parent.dispatchEvent(new Event("next-week")))}),this.addEventListener("prev-week",function(e){this.week>this.minWeek?(window.parent.dispatchEvent(new Event("prev-week"))):this.showToast("Sorry, no data available for week "+(this.week-1)+".")}),window.parent.dispatchEvent(new Event("tracker-ready"))}});</script>
+    <script>Polymer({is:"fitness-tracker",properties:{selected:{type:String,value:"summary"},week:{type:Number,value:1},minWeek:{type:Number,value:1},maxWeek:{type:Number,value:5}},dataUrl:function(e){return"data/week-"+e+".json"},ajaxError:function(e){this.showToast("Sorry, couldn't load data. Please try again later.")},showToast:function(e){this.$.toast.text=e,this.$.toast.show()},ready:function(){localContext=this,window.parent.addEventListener("tracker-user",function(e){localContext.user=e.detail}),window.parent.addEventListener("tracker-week",function(e){localContext.weekData=e.detail,localContext.week=e.detail.weekNumber}),this.$.pages.addEventListener("neon-animation-finish",function(e){e.detail.toPage.pageTransitionFinished&&e.detail.toPage.pageTransitionFinished()}),this.addEventListener("navigate",function(e){this.selected=e.detail}),this.addEventListener("about",function(e){this.$.about.open()}),this.addEventListener("next-week",function(e){window.parent.dispatchEvent(new Event("next-week"))}),this.addEventListener("prev-week",function(e){this.week>this.minWeek?window.parent.dispatchEvent(new Event("prev-week")):this.showToast("Sorry, no data available for week "+(this.week-1)+".")}),window.parent.dispatchEvent(new Event("tracker-ready"))}});</script>
 </dom-module></div></body></html>

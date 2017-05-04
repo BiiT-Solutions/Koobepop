@@ -289,17 +289,6 @@ bower_components/vaadin-grid/demo/js_dependencies/http.dev.js
 bower_components/vaadin-grid/demo/js_dependencies/react.min.js
 bower_components/vaadin-grid/demo/js_dependencies/system.js
 bower_components/vaadin-grid/demo/js_dependencies/typescript.js
-bower_components/moment/src/lib/duration/abs.js
-bower_components/moment/src/lib/duration/add-subtract.js
-bower_components/moment/src/lib/duration/as.js
-bower_components/moment/src/lib/duration/bubble.js
-bower_components/moment/src/lib/duration/constructor.js
-bower_components/moment/src/lib/duration/create.js
-bower_components/moment/src/lib/duration/duration.js
-bower_components/moment/src/lib/duration/get.js
-bower_components/moment/src/lib/duration/humanize.js
-bower_components/moment/src/lib/duration/iso-string.js
-bower_components/moment/src/lib/duration/prototype.js
 bower_components/moment/src/lib/create/check-overflow.js
 bower_components/moment/src/lib/create/date-from-array.js
 bower_components/moment/src/lib/create/from-anything.js
@@ -312,6 +301,17 @@ bower_components/moment/src/lib/create/local.js
 bower_components/moment/src/lib/create/parsing-flags.js
 bower_components/moment/src/lib/create/utc.js
 bower_components/moment/src/lib/create/valid.js
+bower_components/moment/src/lib/duration/abs.js
+bower_components/moment/src/lib/duration/add-subtract.js
+bower_components/moment/src/lib/duration/as.js
+bower_components/moment/src/lib/duration/bubble.js
+bower_components/moment/src/lib/duration/constructor.js
+bower_components/moment/src/lib/duration/create.js
+bower_components/moment/src/lib/duration/duration.js
+bower_components/moment/src/lib/duration/get.js
+bower_components/moment/src/lib/duration/humanize.js
+bower_components/moment/src/lib/duration/iso-string.js
+bower_components/moment/src/lib/duration/prototype.js
 bower_components/moment/src/lib/format/format.js
 bower_components/moment/src/lib/locale/calendar.js
 bower_components/moment/src/lib/locale/constructor.js
@@ -381,4 +381,4 @@ bower_components/moment/src/lib/utils/zero-fill.js
 NETWORK:
 *
 
-# hash: cad9cfc133695b07fc551e20c204bd0445c19adf1b29faa1c488820842deb923
+# hash: 746727530dc95db1e7357d741bf87bf2e5a5e4d96fa2dc62d9c583f16ac706b1

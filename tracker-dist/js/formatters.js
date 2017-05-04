@@ -26,6 +26,10 @@ var Formatters = {
 	return moment(date).format('Do MMMM YYYY')
     },
 
+    dateDay: function(date){
+        return moment(date). format('ddd')
+    },
+
     dateFromNow: function(date) {
         return moment(date).fromNow().toUpperCase();
     },

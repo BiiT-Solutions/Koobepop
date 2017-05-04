@@ -5,15 +5,19 @@ import { ITask } from '../../models/taskI';
 import { IAppointment } from '../../models/appointmentI';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'page-summary',
   templateUrl: 'summary.html'
 })
 export class SummaryPage {
-  firstWeek = 0;
-  actualWeek = 0;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public manager: ServicesManager) {
+  firstWeek:number = 0;
+  actualWeek:number = 0;
+  trackerPath:SafeResourceUrl;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public manager: ServicesManager, private sanitizer:DomSanitizer) {
+    this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
     this.setFirstWeek();
     this.setActualWeek();
     window.addEventListener("tracker-ready", () => {
@@ -35,8 +39,6 @@ export class SummaryPage {
         let event = new CustomEvent("tracker-week", { detail: details });
         window.dispatchEvent(event);
       });
-
-
     });
 
     window.addEventListener("next-week", () => {
@@ -50,15 +52,13 @@ export class SummaryPage {
 
   public setFirstWeek() {
     this.manager.getActualAppointment().subscribe((appointment: IAppointment) => {
-      console.log(this.firstWeek);
       this.firstWeek = moment(appointment.startTime).week();
-      console.log(this.firstWeek);
     })
   }
+
   public setActualWeek() {
-    console.log(this.actualWeek);
     this.actualWeek = moment().week();
-    console.log(this.actualWeek);
+
   }
 
   ionViewDidLeave() {
@@ -83,14 +83,13 @@ export class SummaryPage {
         let result = iterable.next();
         while (!result.done) {
           if (result.value > firstWeekDay && result.value < lastWeekDay) {//If the date is enclosed into the week
-            //console.log(task.name);
             workouts.push({
               "date": result.value,
               "name": task.name,
               "assessment": "body health",//TODO - AppointmentType
               "health": 0,
               "sleep": 0,
-              "score": 1
+              "score": 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
             });
           }
           result = iterable.next();
@@ -104,8 +103,6 @@ export class SummaryPage {
         "workouts": workouts
       }
     });
-
-
   }
 
   detailsFromUser(): Observable<any> {
@@ -115,6 +112,7 @@ export class SummaryPage {
       tasks.forEach((task: ITask) => {
         bodyHealthGoal += task.repetitions;
       });
+
       let user = {
         "name": "Henny van Doorn",
         "avatarUrl": "",
@@ -131,8 +129,8 @@ export class SummaryPage {
           "type": "score",
           "goal": 0
         }]
-      }
-      return user
+      };
+      return user;
     });
 
   }

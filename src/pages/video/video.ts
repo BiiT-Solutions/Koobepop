@@ -19,8 +19,6 @@ export class VideoPage {
       this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.task.videoUrl);
     }
     if (this.task.content) {
-      console.log("Content exists")
-     
     }
   }
 }

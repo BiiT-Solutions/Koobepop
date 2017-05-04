@@ -40,8 +40,8 @@
             }
         </style>
         <script>
-            var weekData;
-            var user;
+            var weekData=0;
+            var user={};
         </script>
         <!-- <paper-dialog id="about" modal>
             <img src="resources/app-icon-192x192.png" width="32" height="32" />
@@ -100,15 +100,16 @@
                 },
 
                 ready: function () {
+                    //We save a reference to the object
+                    localContext = this;
+
                     window.parent.addEventListener("tracker-user", function (ev) {
-                        console.log("User recieved!!!")
-                        console.log(ev)
-                        this.user = ev.detail;
+                        localContext.user = ev.detail;
                     });
+
                     window.parent.addEventListener("tracker-week", function (ev){
-                        console.log("Week recieved!!!")
-                        this.weekData = ev.detail;
-                        //this.week = ev.detail.weekNumber;
+                        localContext.weekData = ev.detail;
+                        localContext.week = ev.detail.weekNumber;
                     });
 
                     this.$.pages.addEventListener('neon-animation-finish', function (e) {
@@ -116,28 +117,27 @@
                             e.detail.toPage.pageTransitionFinished();
                         }
                     });
+
                     this.addEventListener('navigate', function (e) {
                         this.selected = e.detail;
                     });
+
                     this.addEventListener('about', function (e) {
                         this.$.about.open();
                     });
+
                     this.addEventListener('next-week', function (e) {
-                        if (this.week < this.maxWeek) {
-                            this.week++;
                             window.parent.dispatchEvent(new Event(("next-week")));
-                        } else {
-                            this.showToast('Sorry, no data available for week ' + (this.week + 1) + '.');
-                        }
                     });
+
                     this.addEventListener('prev-week', function (e) {
                         if (this.week > this.minWeek) {
-                            this.week--;
                             window.parent.dispatchEvent(new Event(("prev-week")));
                         } else {
                             this.showToast('Sorry, no data available for week ' + (this.week - 1) + '.');
                         }
                     });
+
                  window.parent.dispatchEvent(new Event("tracker-ready"));
                 }
             });

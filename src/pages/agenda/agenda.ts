@@ -8,6 +8,7 @@ import { ITask } from '../../models/taskI';
 import { StorageService } from '../../providers/storageService';
 import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
+import * as moment from 'moment';
 /**
  * 
  */
@@ -16,8 +17,6 @@ import { ToastIssuer } from '../../providers/toastIssuer';
   templateUrl: 'agenda.html'
 })
 export class AgendaPage {
-  ONE_DAY_IN_MILIS: number = 24 * 60 * 60 * 1000;
-  ONE_WEEK_IN_MILIS: number = this.ONE_DAY_IN_MILIS * 7;
   today: number = (new Date()).setHours(0, 0, 0, 0);
   actualDay: number;
   days: number[] = [];
@@ -26,7 +25,7 @@ export class AgendaPage {
   tasksPlan: ITask[] = [];
   loading: Loading;
 
- // onChangeTrigger = true;
+  // onChangeTrigger = true;
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
@@ -41,15 +40,12 @@ export class AgendaPage {
   ionViewDidLoad() {
     this.loading = this.loadingCtrl.create({
       content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
-      //,dismissOnPageChange: true
     });
-
     this.loading.present().then(() => {
       this.manager.getTasks().subscribe((tasks: ITask[]) => {
         this.tasksPlan = tasks
-        this.loading.dismiss()          
-          .catch(error => {console.log(error) });
-
+        this.loading.dismiss()
+          .catch(error => { console.error(error) });
       }, error => {
         console.error("ERROR in Agenda on getTasks subscription")
         console.error(error)
@@ -71,13 +67,11 @@ export class AgendaPage {
       popover.onDidDismiss((score: number) => {
 
         if (score != undefined) {
-          //This is a hack and should be fixed :) triggers onChanges on tasks
           event.task.isPerformed = true;
-          
           event.task.task.performedOn.set(event.task.day, score);
-          //Need the subscription to force the Observable 
+          //Need the subscription to force the Observable?
           this.manager.performTask(event.task.task, event.task.day)
-          .subscribe(status => {});
+            .subscribe(status => { });
           this.manager.setActualTasks(this.tasksPlan);
           this.toaster.goodToast(event.task.task.name + ' finished! Difficulty: ' + score);
         } else {
@@ -87,36 +81,37 @@ export class AgendaPage {
       popover.present({ ev: event.event });
     } else {
       //This is a hack and should be fixed :)
-       event.task.isPerformed = false;
+      event.task.isPerformed = false;
       //Need the subscription to force the Observable 
       this.manager.removeTask(event.task.task, event.task.day)
-      .subscribe(status => {});
+        .subscribe(status => { });
       event.task.task.performedOn.delete(event.task.day);
       this.manager.setActualTasks(this.tasksPlan);
 
     }
   }
 
-  /* Listeners for when the slides are swiped TODO FIX!!*/
+  /* Listeners for when the slides are swiped */
   nextSlide() {
     // Make sure we moved forward
     if (this.oldIndex < this.slider.getActiveIndex()) {
-      this.actualDay += this.ONE_DAY_IN_MILIS;
-      if (this.days.indexOf(this.actualDay + this.ONE_DAY_IN_MILIS) >= 0) {
+      this.actualDay = moment(this.actualDay).add(1,"days").valueOf();
+      if (this.days.indexOf(moment(this.actualDay).add(1,"days").valueOf()) >= 0) {
       } else {
-        this.days.push(this.actualDay + this.ONE_DAY_IN_MILIS);
+        this.days.push(moment(this.actualDay).add(1,"days").valueOf());
         this.days.shift();
         this.slider.slidePrev(0);
       }
     }
   }
+
   prevSlide() {
     // Make sure we moved backwards
     if (this.oldIndex > this.slider.getActiveIndex()) {
-      this.actualDay -= this.ONE_DAY_IN_MILIS;
-      if (this.days.indexOf(this.actualDay - this.ONE_DAY_IN_MILIS) >= 0) {
+      this.actualDay = moment(this.actualDay).add(-1,"days").valueOf();
+      if (this.days.indexOf( moment(this.actualDay).add(-1,"days").valueOf()) >= 0) {
       } else {
-        this.days.unshift(this.actualDay - this.ONE_DAY_IN_MILIS);
+        this.days.unshift( moment(this.actualDay).add(-1,"days").valueOf());
         this.slider.slideNext(0);
         this.days.pop();
       }
@@ -132,9 +127,9 @@ export class AgendaPage {
 
   public goToToday() {
     this.days = [
-      this.today - this.ONE_DAY_IN_MILIS,
+      moment(this.today).add(-1, "days").valueOf(),
       this.today,
-      this.today + this.ONE_DAY_IN_MILIS
+      moment(this.today).add(1, "days").valueOf()
     ];
     this.actualDay = this.today;
   }
