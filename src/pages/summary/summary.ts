@@ -6,17 +6,18 @@ import { IAppointment } from '../../models/appointmentI';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { IUser } from '../../models/userI';
 
 @Component({
   selector: 'page-summary',
   templateUrl: 'summary.html'
 })
 export class SummaryPage {
-  firstWeek:number = 0;
-  actualWeek:number = 0;
-  trackerPath:SafeResourceUrl;
+  firstWeek: number = 0;
+  actualWeek: number = 0;
+  trackerPath: SafeResourceUrl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public manager: ServicesManager, private sanitizer:DomSanitizer) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public manager: ServicesManager, private sanitizer: DomSanitizer) {
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
     this.setFirstWeek();
     this.setActualWeek();
@@ -106,33 +107,36 @@ export class SummaryPage {
   }
 
   detailsFromUser(): Observable<any> {
-    return this.manager.getTasks().map((tasks: ITask[]) => {
-      //TODO-For each task of each appointment kind add the goal for the week
-      let bodyHealthGoal = 0;
-      tasks.forEach((task: ITask) => {
-        bodyHealthGoal += task.repetitions;
+    return this.manager.getUser().flatMap((storedUser:IUser) => {
+      return this.manager.getTasks().map((tasks: ITask[]) => {
+        //TODO-For each task of each appointment kind add the goal for the week
+        let bodyHealthGoal = 0;
+        let mentalHealthGoal = 0;
+        let fooodStyleGoal = 0;
+
+        tasks.forEach((task: ITask) => {
+          bodyHealthGoal += task.repetitions;
+        });
+
+        let trackerUser = {
+          "name": storedUser.name,
+          "avatarUrl": "",
+          "goals": [{
+            "assessment": "body health",
+            "type": "score",
+            "goal": bodyHealthGoal
+          }, {
+            "assessment": "mental health",
+            "type": "score",
+            "goal": mentalHealthGoal
+          }, {
+            "assessment": "food style",
+            "type": "score",
+            "goal": fooodStyleGoal
+          }]
+        };
+        return trackerUser;
       });
-
-      let user = {
-        "name": "Henny van Doorn",
-        "avatarUrl": "",
-        "goals": [{
-          "assessment": "body health",
-          "type": "score",
-          "goal": bodyHealthGoal
-        }, {
-          "assessment": "mental health",
-          "type": "score",
-          "goal": 0
-        }, {
-          "assessment": "food style",
-          "type": "score",
-          "goal": 0
-        }]
-      };
-      return user;
     });
-
   }
-
 }

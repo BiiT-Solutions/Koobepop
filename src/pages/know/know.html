@@ -11,7 +11,7 @@
   <ion-infinite-scroll style="width:100%">
     <ion-grid>
       <ion-row>
-        <ion-col width-33 *ngFor="let topic of topics">
+        <ion-col width-25 *ngFor="let topic of topics">
           <button class="square" (click)="displayInfo(topic)">
             <img  [src]="topic.image"/>
             {{topic.name}}

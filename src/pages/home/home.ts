@@ -14,14 +14,10 @@ import { ServicesManager } from '../../providers/servicesManager';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  //Legacy TODO remove
-  BOOK_HEIGHT = 4;
-
   constructor(public navCtrl: NavController,
               public manager: ServicesManager) {  }
 
   ionViewDidLoad() {
-
     this.manager.startContinuousAppointmentCheck(30000);
   }
 

@@ -80,6 +80,7 @@ export class PlatformMock {
     return new Promise((resolve) => {
       resolve('READY');
     });
+    
   }
 
   public registerBackButtonAction(fn: Function, priority?: number): Function {
@@ -134,6 +135,9 @@ export class PlatformMock {
   public getActiveElement(): any {
     return document['activeElement'];
   }
+  public lang(){
+      return 'en';//default for testing
+    }
 }
 
 export class DeviceMock { }
@@ -165,6 +169,8 @@ export class HttpMock { }
 export class StorageMock {
   get(any) { }
 }
-export class NetworkMock { }
+declare var Connection; //From plugin :/
+export class NetworkMock {
+ }
 export class KeyboardMock { }
 export class PopoverControllerMock{}

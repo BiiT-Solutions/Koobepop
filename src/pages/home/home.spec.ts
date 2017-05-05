@@ -15,25 +15,8 @@ describe('Home page', () => {
   it('should create the home page', async () => {
     expect(instance).toBeTruthy();
   })
-  it('should check if anything is testeable', async () => {
-    instance.BOOK_HEIGHT = 2;
-    expect(instance.BOOK_HEIGHT).toBeGreaterThanOrEqual(1)
-    expect(instance.BOOK_HEIGHT).toBeGreaterThanOrEqual(2)
-    expect(instance.BOOK_HEIGHT).toBeLessThanOrEqual(2)
-    expect(instance.BOOK_HEIGHT).toBeLessThanOrEqual(3)
-  })
+  
 })
-
-
-
-
-
-
-
-//beforeEach(() => {
-//    homePage = new HomePage(<any>new NavMock,<any> new ManagerMock);
-//    homePage.BOOK_HEIGHT = 2;
-//  })
 
 
 

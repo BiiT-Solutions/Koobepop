@@ -19,5 +19,4 @@ export class ToastIssuer {
         });
         toast.present();
     }
-
 }

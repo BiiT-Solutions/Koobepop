@@ -9,4 +9,5 @@ export interface IAppointment{
     doctorLastName:string;
     appointmentId:number;
     results:FormResult[];
+    type?:string;
 }

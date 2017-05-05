@@ -10,7 +10,7 @@ import 'zone.js/dist/fake-async-test';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform, LoadingController, ToastController, PopoverController } from 'ionic-angular';
+import { App, Config, Form, IonicModule, Keyboard, DomController, MenuController, NavController, Platform, LoadingController, ToastController, PopoverController, GestureController } from 'ionic-angular';
 import { StorageMock, ConfigMock, PlatformMock, TranslateServiceMock, LoadingControllerMock, ToastControllerMock, SplashScreenMock, StatusBarMock, HttpMock, DeviceMock, NetworkMock, PopoverControllerMock } from './mocks';
 import { ServicesManager } from './providers/servicesManager';
 import { Http } from '@angular/http';
@@ -75,6 +75,7 @@ export class TestUtils {
                 DomController,
                 MenuController,
                 NavController,
+                GestureController,
                 { provide: PopoverController, useClass: PopoverControllerMock },
                 { provide: Platform, useClass: PlatformMock },
                 { provide: Config, useClass: ConfigMock },

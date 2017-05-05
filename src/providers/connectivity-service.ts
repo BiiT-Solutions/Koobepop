@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network';
 import 'rxjs/add/operator/map';
 import { Platform } from 'ionic-angular';
-declare var Connection;//From a plugin :)
+declare var Connection; //From a plugin :)
 
 @Injectable()
 export class ConnectivityService {
