@@ -4,6 +4,7 @@ import { IAppointment } from '../models/appointmentI';
 import { IUser } from '../models/userI';
 import { ITask } from '../models/taskI';
 import { IToken } from '../models/tokenI';
+import { IPerformance } from '../models/performation';
 @Injectable()
 export class StorageService {
 
@@ -26,7 +27,7 @@ export class StorageService {
           name: task.name,
           startingTime: task.startingTime,
           repetitions: task.repetitions,
-          performedOn: new Map<number,number>(JSON.parse(task.performedOn)), // sorted array of performation dates
+          performedOn: new Map<number,IPerformance[]>(JSON.parse(task.performedOn)), // sorted array of performation dates
           videoUrl: task.videoUrl,
           content: task.content
         });

@@ -11,6 +11,7 @@ import { IToken } from '../models/tokenI';
 import { AuthTokenService } from './authTokenService';
 import { Observable} from 'rxjs/Rx';
 import { Response } from '@angular/http';
+import * as moment from 'moment';
 /**
  * Intended to manage the dataflow within the application and with USMO
  * Will keep the data cached for the application views.
@@ -135,10 +136,10 @@ export class ServicesManager {
     }
 
     //TODO server feedback + check correct behaviour
-    public performTask(task:ITask, time): Observable<any> {
+    public performTask(task:ITask, time,score): Observable<any> {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
-                return this.tasksProvider.sendPerformedTask(appointment, task, time, token)
+                return this.tasksProvider.sendPerformedTask(appointment.appointmentId, task.name, time,score, token)
                     .map(status => {
                         //TODO - save tasks with the performed one
                         return status;
@@ -150,7 +151,7 @@ export class ServicesManager {
     public removeTask(task:ITask, time): Observable<any> {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
-                return this.tasksProvider.removePerformedTask(appointment, task, time, token)
+                return this.tasksProvider.removePerformedTask(appointment.appointmentId, task.name, time, token)
                     .map(status => {
                         //TODO - save tasks with the removed one
                         return status;

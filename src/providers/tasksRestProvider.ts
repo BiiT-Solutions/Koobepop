@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { IAppointment } from '../models/appointmentI';
 import { AuthTokenService } from './authTokenService';
 import { TaskAction } from './tasksManager';
+import * as moment from 'moment';
+import { IPerformance } from '../models/performation';
 @Injectable()
 export class TasksRestProvider {
   ONE_DAY_IN_MILIS = 24 * 60 * 60 * 1000;
@@ -26,11 +28,19 @@ export class TasksRestProvider {
         if (tasks) {
           let deserializedTasks: ITask[] = [];
           tasks.forEach((task) => {
-            let performedMap = new Map<any, any>()
+            //Map of performed exercises by week 
+            let performedMap = new Map<number, IPerformance[]>();
 
             task.performedOn.forEach((performed) => {
-              performedMap.set(performed.time, performed.score);
+              let week: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+              let performance: IPerformance = { date: performed.time, score: performed.score };
+              if (!performedMap.has(week)) {
+                performedMap.set(week, [performance]);
+              } else {
+                performedMap.get(week).push(performance);
+              }
             });
+
             deserializedTasks.push({
               name: task.name,
               startingTime: task.startingTime,
@@ -40,6 +50,7 @@ export class TasksRestProvider {
               content: task.content
             });
           });
+
           return deserializedTasks;
         } else {
           return [];
@@ -47,26 +58,27 @@ export class TasksRestProvider {
       });
   }
 
-  public sendPerformedTask(appointment: IAppointment, task: ITask, time: number, token: string) {
+  public sendPerformedTask(appointmentId: number, taskName: string, time: number, score: number, token: string) {
     let requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let criteria = {
       token: token,
-      appointmentId: appointment.appointmentId,
-      name: task.name,
+      appointmentId: appointmentId,
+      name: taskName,
       time: time,
-      score: task.performedOn.get(time)
+      score: score
     }
     headers.append('Authorization', this.config.password);
     return this.http.post(requestAddres, criteria, { headers: headers }).map(res => res.status);
   }
-  public removePerformedTask(appointment: IAppointment, task: ITask, time: number, token: string): Observable<number> {
+
+  public removePerformedTask(appointmentId: number, taskName: string, time: number, token: string): Observable<number> {
     let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let criteria = {
       token: token,
-      appointmentId: appointment.appointmentId,
-      name: task.name,
+      appointmentId: appointmentId,
+      name: taskName,
       time: time,
       score: 0 //dummy score
     }
@@ -75,21 +87,21 @@ export class TasksRestProvider {
       return res.status
     });
   }
-  
-  public sendTasks(actions: TaskAction[]): Observable<number> {
-    //TODO
-    let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
-    let criteria ={}
 
-    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => {
-      return res.status
-    });
-  }
 
   extractData(res: Response) {
     return res.json() || {};
   }
 
+
+  public sendTasks(actions: TaskAction[]): Observable<number> {
+    //TODO
+    let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.config.password);
+    let criteria = {}
+    return this.http.post(requestAddres, criteria, { headers: headers }).map(res => {
+      return res.status
+    });
+  }
 }

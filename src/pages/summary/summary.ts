@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { IUser } from '../../models/userI';
+import { IPerformance } from '../../models/performation';
 
 @Component({
   selector: 'page-summary',
@@ -80,21 +81,17 @@ export class SummaryPage {
       let lastWeekDay: number = moment().week(week).endOf("week").valueOf();   //sunday
       // console.log(firstWeekDay+" #### "+lastWeekDay);
       tasks.forEach(task => {
-        let iterable: IterableIterator<number> = task.performedOn.keys();
-        let result = iterable.next();
-        while (!result.done) {
-          if (result.value > firstWeekDay && result.value < lastWeekDay) {//If the date is enclosed into the week
-            workouts.push({
-              "date": result.value,
-              "name": task.name,
-              "assessment": "body health",//TODO - AppointmentType
-              "health": 0,
-              "sleep": 0,
-              "score": 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
-            });
-          }
-          result = iterable.next();
-        }
+        let performations: IPerformance[] = task.performedOn.get(firstWeekDay);
+        performations.forEach((performance) => {
+          workouts.push({
+            "date": performance.date,
+            "name": task.name,
+            "assessment": "body health",//TODO - AppointmentType
+            "health": 0,
+            "sleep": 0,
+            "score": 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
+          });
+        });
       });
 
 
@@ -107,7 +104,7 @@ export class SummaryPage {
   }
 
   detailsFromUser(): Observable<any> {
-    return this.manager.getUser().flatMap((storedUser:IUser) => {
+    return this.manager.getUser().flatMap((storedUser: IUser) => {
       return this.manager.getTasks().map((tasks: ITask[]) => {
         //TODO-For each task of each appointment kind add the goal for the week
         let bodyHealthGoal = 0;
