@@ -77,21 +77,28 @@ export class SummaryPage {
     return this.manager.getTasks().map((tasks: ITask[]) => {
       let workouts = []
 
-      let firstWeekDay: number = moment().week(week).startOf("week").valueOf();  //monday
-      let lastWeekDay: number = moment().week(week).endOf("week").valueOf();   //sunday
+      let firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
+      console.log("First WeekDay "+firstWeekDay)
+      let lastWeekDay: number = moment().week(week).endOf("isoWeek").valueOf();   //sunday
       // console.log(firstWeekDay+" #### "+lastWeekDay);
       tasks.forEach(task => {
+        console.log(task.name+" performed on:")
+        console.log(task.performedOn)
         let performations: IPerformance[] = task.performedOn.get(firstWeekDay);
+        if (performations!=undefined){
         performations.forEach((performance) => {
+          let timesPerformed = 0;
           workouts.push({
             "date": performance.date,
             "name": task.name,
             "assessment": "body health",//TODO - AppointmentType
             "health": 0,
             "sleep": 0,
-            "score": 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
+            "score": timesPerformed >= task.repetitions ? 0 : 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
           });
+          timesPerformed++;
         });
+      }
       });
 
 
