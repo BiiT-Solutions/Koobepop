@@ -6,4 +6,5 @@ export interface ITask {
   performedOn: Map<number,IPerformance[]>; // sorted array of performation dates
   videoUrl?: string;
   content?: string; //Some HTML content
+  type:string;
 }

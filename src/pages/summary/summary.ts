@@ -23,7 +23,6 @@ export class SummaryPage {
     this.setFirstWeek();
     this.setActualWeek();
     window.addEventListener("tracker-ready", () => {
-      //console.log("TrackerReady")
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
         let event = new CustomEvent("tracker-week", { detail: details });
         window.dispatchEvent(event);
@@ -69,75 +68,64 @@ export class SummaryPage {
     window.removeEventListener("next-week");
   }
   ionViewDidLoad() {
-    //console.log("Detais From week: "+week);
 
   }
 
   detailsFromWeek(week: number): Observable<any> {
     return this.manager.getTasks().map((tasks: ITask[]) => {
       let workouts = []
-
       let firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
-      console.log("First WeekDay "+firstWeekDay)
       let lastWeekDay: number = moment().week(week).endOf("isoWeek").valueOf();   //sunday
-      // console.log(firstWeekDay+" #### "+lastWeekDay);
       tasks.forEach(task => {
-        console.log(task.name+" performed on:")
-        console.log(task.performedOn)
         let performations: IPerformance[] = task.performedOn.get(firstWeekDay);
-        if (performations!=undefined){
-        performations.forEach((performance) => {
+        if (performations != undefined) {
           let timesPerformed = 0;
-          workouts.push({
-            "date": performance.date,
-            "name": task.name,
-            "assessment": "body health",//TODO - AppointmentType
-            "health": 0,
-            "sleep": 0,
-            "score": timesPerformed >= task.repetitions ? 0 : 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
+          performations.forEach((performance) => {
+              workouts.push({
+              "date": performance.date,
+              "name": task.name,
+              "assessment": task.type,
+              "health": 0,
+              "sleep": 0,
+              "score": timesPerformed >= task.repetitions ? 0 : 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
+            });
+            timesPerformed++;
           });
-          timesPerformed++;
-        });
-      }
+        }
       });
-
-
       return {
         "year": "2017",
         "weekNumber": week,
         "workouts": workouts
-      }
+             }
     });
   }
 
   detailsFromUser(): Observable<any> {
     return this.manager.getUser().flatMap((storedUser: IUser) => {
       return this.manager.getTasks().map((tasks: ITask[]) => {
-        //TODO-For each task of each appointment kind add the goal for the week
-        let bodyHealthGoal = 0;
-        let mentalHealthGoal = 0;
-        let fooodStyleGoal = 0;
+   
+        let taskTypesGoals:Map<string,number> = new Map();
 
         tasks.forEach((task: ITask) => {
-          bodyHealthGoal += task.repetitions;
+          if(!taskTypesGoals.has(task.type)){
+            taskTypesGoals.set(task.type,0);
+          }
+          taskTypesGoals.set(task.type,taskTypesGoals.get(task.type)+task.repetitions);
         });
 
+        let goals = [];
+        taskTypesGoals.forEach((num,key)=>{
+          goals.push({
+            "assessment": key,
+            "type": "score",
+            "goal": num
+          })
+        });
         let trackerUser = {
           "name": storedUser.name,
           "avatarUrl": "",
-          "goals": [{
-            "assessment": "body health",
-            "type": "score",
-            "goal": bodyHealthGoal
-          }, {
-            "assessment": "mental health",
-            "type": "score",
-            "goal": mentalHealthGoal
-          }, {
-            "assessment": "food style",
-            "type": "score",
-            "goal": fooodStyleGoal
-          }]
+          "goals": goals
         };
         return trackerUser;
       });

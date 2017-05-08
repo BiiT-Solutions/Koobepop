@@ -19,7 +19,7 @@ export class StorageService {
   }
 
   public getTasks(): Promise<ITask[]> {
-    return this.storage.get("tasks").then((tasks) => {
+    return this.storage.get("tasks").then((tasks:any[]) => {
       if (tasks!=undefined){
       let deserializedTasks: ITask[] = [];
       tasks.forEach(task => {
@@ -29,7 +29,8 @@ export class StorageService {
           repetitions: task.repetitions,
           performedOn: new Map<number,IPerformance[]>(JSON.parse(task.performedOn)), // sorted array of performation dates
           videoUrl: task.videoUrl,
-          content: task.content
+          content: task.content,
+          type:task.type
         });
       });
       return deserializedTasks
@@ -48,7 +49,8 @@ export class StorageService {
         repetitions: task.repetitions,
         performedOn: task.performedOn!=undefined ? JSON.stringify(Array.from(task.performedOn.entries())):"", 
         videoUrl: task.videoUrl,
-        content: task.content
+        content: task.content,
+        type:task.type
       }
       tasksList.push(serializableTask)
     })

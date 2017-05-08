@@ -47,7 +47,8 @@ export class TasksRestProvider {
               repetitions: task.repetitions,
               performedOn: performedMap,
               videoUrl: task.videoUrl,
-              content: task.content
+              content: task.content,
+              type:appointment.type
             });
           });
 

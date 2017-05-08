@@ -40,7 +40,7 @@ export class TaskItemComponent {
   }
 
   ngOnChanges() {
-    this.isDisabled = this.day > Date.now() || this.day < moment(Date.now()).startOf('isoWeek').valueOf();
+    this.isDisabled = this.day > Date.now() || this.day < moment(Date.now()).add(-7,'day').startOf('isoWeek').valueOf();
     this.style = this.taskStyle();
 
   }
