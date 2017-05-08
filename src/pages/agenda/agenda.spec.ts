@@ -7,7 +7,7 @@ let fixture: ComponentFixture<AgendaPage> = null;
 let instance: any = null;
 
 describe('Home page', () => {
-  beforeEach(async(() => TestUtils.beforeEachCompiler([TaskItemComponent,AgendaPage]).then(compiled => {
+  beforeEach(async(() => TestUtils.beforeEachCompiler([TaskItemComponent,AgendaPage]).then((compiled:{ fixture: any, instance: any }) => {
     fixture = compiled.fixture;
     instance = compiled.instance;
   })));

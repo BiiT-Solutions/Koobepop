@@ -20,10 +20,7 @@ data/week-5.json
 data/week-6.json
 js/formatters.js
 resources/app-icon-192x192.png
-resources/app-icon-192x192_old.png
 resources/app-icon-transparent.png
-resources/app-icon-transparent_old.png
-resources/user-avatar.jpg
 bower_components/moment/CHANGELOG.md
 bower_components/moment/LICENSE
 bower_components/moment/README.md
@@ -56,7 +53,7 @@ resources/health-icons/body-health.svg
 resources/health-icons/food%20style.svg
 resources/health-icons/mental%20health.svg
 resources/health-icons-invert/body%20health-75.png
-resources/health-icons-invert/body-health.svg
+resources/health-icons-invert/body%20health.svg
 resources/health-icons-invert/food%20style-75.png
 resources/health-icons-invert/food%20style.svg
 resources/health-icons-invert/mental%20health-75.png
@@ -381,4 +378,4 @@ bower_components/moment/src/lib/utils/zero-fill.js
 NETWORK:
 *
 
-# hash: 746727530dc95db1e7357d741bf87bf2e5a5e4d96fa2dc62d9c583f16ac706b1
+# hash: c9606e3240fb0250d6c6f0f77e338e8cd06d2167ca01974cf43930f59e50c1bc

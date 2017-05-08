@@ -5,11 +5,12 @@ import { IAppointment } from '../models/appointmentI';
 import { IUser } from '../models/userI';
 import { AuthTokenService } from './authTokenService';
 import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class AppointmentsProvider {
   appointmentsList;
-  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, private authService: AuthTokenService) {
+  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, private authService: AuthTokenService,private translate: TranslateService) {
   }
 
   public getAppointments() {
@@ -32,11 +33,11 @@ export class AppointmentsProvider {
         return appointments ? appointments.reverse() : [];
       });
   }
-
   private extractData(res: Response): IAppointment[] {
     let appointmentsFromResponse = res.json();
     appointmentsFromResponse.forEach(appointment => {
-      appointment.results = this.formatResults(appointment.results)
+      appointment.results = this.formatResults(appointment.results); 
+      appointment.type = this.translate.instant("TRACKER-TAG."+appointment.type)
     });
     return appointmentsFromResponse || {};
   }

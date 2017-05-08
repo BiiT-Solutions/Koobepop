@@ -43,18 +43,14 @@ export class MyApp {
         }
       }, error => {
         loading.dismiss();
-
+        if (error.status == 0) {
+          this.rootPage = HomePage;
+        } else { //Another async call failed on the process 
+          this.rootPage = LoginPage;
+        }
         if (!connectivity.isOnline()) {
           translate.get("APP.UNABLE-TO-CONNECT-MSG")
-            .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
-          if (error.status == 0) {
-            this.rootPage = HomePage;
-          } else { //Another async call failed on the process 
-            this.rootPage = LoginPage;
-          }
-        }
-        else {
-          this.rootPage = LoginPage;
+            .subscribe((translation: string) => this.toaster.badToast(translation, 2500))  
         }
       });
 
@@ -67,7 +63,7 @@ export class MyApp {
         this.statusBar.styleDefault();
         this.splashscreen.hide();
       } catch (e) {
-        console.error(this+" ERROR");
+        console.error(this + " ERROR");
         console.error(e);
       }
     });

@@ -9,9 +9,11 @@ import { IUser } from '../models/userI';
 
 import { IToken } from '../models/tokenI';
 import { AuthTokenService } from './authTokenService';
-import { Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
 import * as moment from 'moment';
+import { ToastIssuer } from './toastIssuer';
+import { TranslateService } from '@ngx-translate/core';
 /**
  * Intended to manage the dataflow within the application and with USMO
  * Will keep the data cached for the application views.
@@ -33,7 +35,9 @@ export class ServicesManager {
         private tasksProvider: TasksRestProvider,
         private storageService: StorageService,
         private authService: AuthTokenService,
-        private device: Device) {
+        private device: Device,
+        private toaster: ToastIssuer,
+        private translate: TranslateService) {
     }
 
     /**
@@ -136,10 +140,10 @@ export class ServicesManager {
     }
 
     //TODO server feedback + check correct behaviour
-    public performTask(task:ITask, time,score): Observable<any> {
+    public performTask(task: ITask, time, score): Observable<any> {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
-                return this.tasksProvider.sendPerformedTask(appointment.appointmentId, task.name, time,score, token)
+                return this.tasksProvider.sendPerformedTask(appointment.appointmentId, task.name, time, score, token)
                     .map(status => {
                         //TODO - save tasks with the performed one
                         return status;
@@ -148,7 +152,7 @@ export class ServicesManager {
         });
     }
 
-    public removeTask(task:ITask, time): Observable<any> {
+    public removeTask(task: ITask, time): Observable<any> {
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
                 return this.tasksProvider.removePerformedTask(appointment.appointmentId, task.name, time, token)
@@ -269,7 +273,7 @@ export class ServicesManager {
                 }
             });
     }
-/**Starts to search for changes on the dataset */
+    /**Starts to search for changes on the dataset */
     public startContinuousAppointmentCheck(milis: number) {
         this.finishContinuousAppointmentCheck(); //In case there's more than one invocation
         this.updateTimeout = setInterval(() => {
@@ -280,14 +284,17 @@ export class ServicesManager {
             }
         }, milis);
     }
-/**Finishes the continuous search */
+    /**Finishes the continuous search */
     public finishContinuousAppointmentCheck() {
         if (this.updateTimeout != undefined) { clearInterval(this.updateTimeout); }
     }
 
     public updateAppointments() {
         this.getUpdatedAppointments().subscribe(appointments => {
-            this.setAppointments(appointments)
+            if (appointments.length>0) {
+                  this.setAppointments(appointments)
+                  this.translate.get("TEXTS.APPOINTMENTS-UPDATED").subscribe(text=>this.toaster.goodToast(text));
+            }
         })
     }
 
@@ -298,27 +305,29 @@ export class ServicesManager {
                     return this.getToken()
                         .flatMap(token => {
                             return this.appointmentsProvider.requestModifiedAppointments(appointments, token, user)
-                                .map((updatedAppointments: IAppointment[]) => {
-                                    updatedAppointments.forEach(appointment => {
-                                        let index = appointments.map(a => a.appointmentId).indexOf(appointment.appointmentId)
-
-                                        if (index >= 0) {
-                                            appointments[index] = appointment;
-                                            //If the appointment is known and is the actual one, set tasks again
-                                            this.getActualAppointment()
-                                                .subscribe(actualAppointment => {
-                                                    if (appointment.appointmentId === actualAppointment.appointmentId) {
-                                                        this.tasksProvider.requestTasks(appointment, token)
-                                                            .subscribe(tasks => this.setActualTasks(tasks))
-                                                    }
-                                                });
-                                        } else {
-                                            appointments.push(appointment);
-                                        }
-                                    });
-                                    return appointments;
+                                                            .map((updatedAppointments: IAppointment[]) => {
+                                    if (updatedAppointments.length>0){
+                                        updatedAppointments.forEach(appointment => {
+                                            let index = appointments.map(a => a.appointmentId).indexOf(appointment.appointmentId)
+                                            if (index >= 0) {
+                                                appointments[index] = appointment;
+                                                //If the appointment is known and is the actual one, set tasks again
+                                                this.getActualAppointment()
+                                                    .subscribe(actualAppointment => {
+                                                        if (appointment.appointmentId === actualAppointment.appointmentId) {
+                                                            this.tasksProvider.requestTasks(appointment, token)
+                                                                       .subscribe(tasks => this.setActualTasks(tasks))
+                                                         }
+                                                    });
+                                            } else {
+                                                   appointments.push(appointment);
+                                             }
+                                        });
+                                         return appointments;
+                                        }else{
+                                              return [];
+                                                 }
                                 });
-
                         });
                 });
 
