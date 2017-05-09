@@ -34,7 +34,7 @@
     "@ionic/storage": "2.0.1",
     "@ngx-translate/core": "^6.0.1",
     "@ngx-translate/http-loader": "0.0.3",
-    "infographic-js": "^0.1.4",
+    "infographic-js": "^0.1.19",
     "ionic-angular": "3.0.1",
     "ionicons": "3.0.0",
     "moment": "^2.18.1",

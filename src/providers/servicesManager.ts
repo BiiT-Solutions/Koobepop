@@ -145,7 +145,6 @@ export class ServicesManager {
             return this.getActualAppointment().flatMap(appointment => {
                 return this.tasksProvider.sendPerformedTask(appointment.appointmentId, task.name, time, score, token)
                     .map(status => {
-                        //TODO - save tasks with the performed one
                         return status;
                     });
             });
@@ -153,11 +152,12 @@ export class ServicesManager {
     }
 
     public removeTask(task: ITask, time): Observable<any> {
+        //console.log("Remove task: "+task.name)
         return this.getToken().flatMap((token: string) => {
             return this.getActualAppointment().flatMap(appointment => {
                 return this.tasksProvider.removePerformedTask(appointment.appointmentId, task.name, time, token)
                     .map(status => {
-                        //TODO - save tasks with the removed one
+                        //console.log("Task "+task.name+" removed with status "+status);
                         return status;
                     });
             });
@@ -189,7 +189,7 @@ export class ServicesManager {
             // In case there's a necessary padding we remove it from the base64 encoded string 
             // Info: http://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end
             //If we don't do this, the signature won't match the data.
-            let suffix: string = "=="
+            let suffix: string = "==";
             if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 2); }
             suffix = "=";
             if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 1); }
@@ -293,7 +293,7 @@ export class ServicesManager {
         this.getUpdatedAppointments().subscribe(appointments => {
             if (appointments.length>0) {
                   this.setAppointments(appointments)
-                  this.translate.get("TEXTS.APPOINTMENTS-UPDATED").subscribe(text=>this.toaster.goodToast(text));
+                  this.translate.get("TEXTS.APPOINTMENTS-UPDATED").subscribe(text=>this.toaster.goodToast(text,2500));
             }
         })
     }
@@ -305,7 +305,7 @@ export class ServicesManager {
                     return this.getToken()
                         .flatMap(token => {
                             return this.appointmentsProvider.requestModifiedAppointments(appointments, token, user)
-                                                            .map((updatedAppointments: IAppointment[]) => {
+                                .map((updatedAppointments: IAppointment[]) => {
                                     if (updatedAppointments.length>0){
                                         updatedAppointments.forEach(appointment => {
                                             let index = appointments.map(a => a.appointmentId).indexOf(appointment.appointmentId)
@@ -326,7 +326,7 @@ export class ServicesManager {
                                          return appointments;
                                         }else{
                                               return [];
-                                                 }
+                                        }
                                 });
                         });
                 });

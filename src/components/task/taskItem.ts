@@ -21,6 +21,7 @@ export class TaskItemComponent {
   @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
+  performed = ""
   constructor(public changeDetectorRef: ChangeDetectorRef,
     public manager: ServicesManager,
     public toaster: ToastIssuer,
@@ -61,16 +62,15 @@ export class TaskItemComponent {
   public isTaskPerformed():boolean{
     let weekIsSaved: boolean = this.task.performedOn == undefined ? false :
       this.task.performedOn.has(moment(this.day).startOf('isoWeek').valueOf());
-    let isTaskPerformed = false;
-    if (weekIsSaved) {
-      let performations: IPerformance[] = this.task.performedOn.get(moment(this.day).startOf('isoWeek').valueOf());
-      for (let i = 0; i < performations.length; i++) {
-        if (performations[i].date == this.day) {
-          isTaskPerformed = true;
+      if (weekIsSaved) {
+      let performedTasks: IPerformance[] = this.task.performedOn.get(moment(this.day).startOf('isoWeek').valueOf());
+      for (let i = 0; i < performedTasks.length; i++) {
+        if (performedTasks[i].date == this.day) {
+          return true
         }
       }
     }
-    return isTaskPerformed;
+    return false;
   }
   /*Provides the style for the task */
   public taskStyle() {

@@ -42,7 +42,6 @@ gulp.task('move-infographic-js-images', function () {
       .pipe(flatten())
       .pipe(gulp.dest('src/assets/infographic-images'))
   });
-
 });
 
 // Change the configuration of infographic-js 

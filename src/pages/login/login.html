@@ -7,7 +7,7 @@
   <!-- Add some informative text depending on the step you are in -->
   <p *ngIf="!smsSent">{{'LOGIN.BEFORE-SEND-ID-TEXT'|translate}}</p>
   <p *ngIf="smsSent">{{'LOGIN.BEFORE-SEND-CODE-TEXT'|translate}}</p>
-  
+
   <ion-item>
     <ion-label color="primary" floating>{{'LOGIN.ID-LABEL'|translate}}</ion-label>
     <ion-input [disabled]="idIsSent" [(ngModel)]="id"></ion-input>
@@ -19,7 +19,19 @@
       <ion-icon [color]="showPass ? 'primary':'light'" name="eye"></ion-icon>
     </button>
   </ion-item>
-  <button *ngIf="!smsSent" [disabled]="idIsSent" ion-button color="secondary" (click)="sendId()">{{'LOGIN.SEND-ID-BUTTON'|translate}}</button>
-  <button *ngIf="smsSent" ion-button color="secondary" (click)="login()">{{'LOGIN.SEND-CODE-BUTTON'|translate}}</button>
-  <button *ngIf="smsSent" ion-button color="secondary" (click)="changeId()">{{'LOGIN.CHANGE-ID-BUTTON'|translate}}</button>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-25>
+        <button *ngIf="!smsSent" [disabled]="idIsSent" ion-button full color="secondary" (click)="sendId()">{{'LOGIN.SEND-ID-BUTTON'|translate}}</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-25>
+        <button *ngIf="smsSent" ion-button full color="secondary" (click)="login()">{{'LOGIN.SEND-CODE-BUTTON'|translate}}</button>
+      </ion-col>
+      <ion-col width-25>
+        <button *ngIf="smsSent" ion-button full color="secondary" (click)="changeId()">{{'LOGIN.CHANGE-ID-BUTTON'|translate}}</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
