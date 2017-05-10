@@ -116,7 +116,7 @@ export class ReportPage {
         yCell: 0,
         element: {
             type: 'text',
-            text: 'Adviesrapport',
+            text: 'Advisory report',
             verticalAlign: 'middle',
             attributes: { x: 10, "font-size": "80px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
         }
@@ -150,7 +150,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 80, y1: 49.8, x2: 190, y2: 49.8, style: 'stroke:#ffffff;stroke-width:6.5;' }
+                        attributes: { x1: 80, y1: 49.8, x2: 190, y2: 49.8, style: 'stroke:#f7fcf9;stroke-width:6.5;' }
                     }
                     ],
                     svgElements: [{
@@ -160,8 +160,13 @@ export class ReportPage {
                     ],
                     textElements: [{
                         id: 'testName',
-                        contentText: 'Longfunctie',
+                        contentText: 'Lung ',
                         attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    },
+                    {
+                        id: 'testName',
+                        contentText: 'function',
+                        attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }
                     ],
                 },
@@ -180,7 +185,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.9;' }
                     }
                     ],
                     svgElements: [{
@@ -190,12 +195,12 @@ export class ReportPage {
                     ],
                     textElements: [{
                         id: 'testName',
-                        contentText: 'Lichaams',
+                        contentText: 'Body',
                         attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }, {
                         id: 'name',
-                        contentText: 'samenstelling',
-                        attributes: { x: 220, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                        contentText: 'composition',
+                        attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }
                     ],
                 },
@@ -214,7 +219,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ffb33b' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:6;' }
                     }
                     ],
                     svgElements: [{
@@ -224,8 +229,12 @@ export class ReportPage {
                     ],
                     textElements: [{
                         id: 'testName',
-                        contentText: 'Hartfunctie',
+                        contentText: 'Heart ',
                         attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    },{
+                        id: 'testName',
+                        contentText: 'function',
+                        attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }
                     ],
                 },
@@ -244,7 +253,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
                     }
                     ],
                     svgElements: [{
@@ -254,7 +263,7 @@ export class ReportPage {
                     ],
                     textElements: [{
                         id: 'testName',
-                        contentText: 'Slaap',
+                        contentText: 'Sleep',
                         attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }
                     ],
@@ -274,7 +283,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
                     }
                     ],
                     svgElements: [{
@@ -284,8 +293,12 @@ export class ReportPage {
                     ],
                     textElements: [{
                         id: 'testName',
-                        contentText: 'Bewegingsfunctie',
-                        attributes: { x: 150, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                        contentText: 'Movement ',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    },{
+                        id: 'testName',
+                        contentText: 'function',
+                        attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }
                     ],
                 },
@@ -304,7 +317,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ffb33b' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
                     }
                     ],
                     svgElements: [{
@@ -314,8 +327,12 @@ export class ReportPage {
                     ],
                     textElements: [{
                         id: 'testName',
-                        contentText: 'Energiebalans',
-                        attributes: { x: 210, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                        contentText: 'Energy ',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    },{
+                        id: 'testName',
+                        contentText: 'balance',
+                        attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }
                     ],
                 },
@@ -334,7 +351,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ff0000' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
                     }
                     ],
                     svgElements: [{
@@ -344,12 +361,8 @@ export class ReportPage {
                     ],
                     textElements: [{
                         id: 'testName',
-                        contentText: 'Fysieke',
-                        attributes: { x: 280, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                    }, {
-                        id: 'testName',
-                        contentText: 'belastbaarheid',
-                        attributes: { x: 220, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                        contentText: 'Condition',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
                     }
                     ],
                 },
@@ -368,7 +381,7 @@ export class ReportPage {
                         attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ff0000' }
                     }, {
                         tag: 'line',
-                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
                     }
                     ],
                     svgElements: [{

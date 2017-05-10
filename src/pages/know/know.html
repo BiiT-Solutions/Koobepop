@@ -10,7 +10,8 @@
 <ion-content>
   <ion-infinite-scroll >
         <div class="buttons-grid"  >
-          <button class="square" *ngFor="let topic of topics" (click)="displayInfo(topic)" >
+          <button class="square" *ngFor="let topic of topics" (click)="displayInfo(topic)" 
+          [style.backgroundColor]="randomColor()" >
             <img   [src]="topic.image"/>
             {{topic.name}}
            </button>
