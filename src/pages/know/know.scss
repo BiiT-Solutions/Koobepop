@@ -1,9 +1,17 @@
 page-know {
+   .buttons-grid{
+        flex-direction:row;
+        flex-wrap:wrap;
+        display:flex;        
+   }
     .square {
-        //width: 100% !important;
-        //height:0 !important;
-        //padding: 0 0 100% 0 !important;
-    }
+        width: 25% !important;
+        flex: 0 0 25%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        }
+        
     button.square{
         background-color:map-get($colors , light);
     }

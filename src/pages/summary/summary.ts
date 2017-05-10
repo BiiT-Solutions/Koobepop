@@ -79,6 +79,7 @@ export class SummaryPage {
       tasks.forEach(task => {
         let performations: IPerformance[] = task.performedOn.get(firstWeekDay);
         if (performations != undefined) {
+        performations = performations.concat().sort((p1:IPerformance,p2:IPerformance)=>(p1.date-p2.date));
           let timesPerformed = 0;
           performations.forEach((performance) => {
               workouts.push({

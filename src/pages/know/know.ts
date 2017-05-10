@@ -14,14 +14,6 @@ export class KnowPage {
     {image:'assets/icons/antropometry.svg',
       name:'anthropometry'},
     {image:'assets/icons/spirometry.svg',
-      name:'spirometry'},
-      {image:'assets/icons/spirometry.svg',
-      name:'spirometry'},
-      {image:'assets/icons/spirometry.svg',
-      name:'spirometry'},
-      {image:'assets/icons/spirometry.svg',
-      name:'spirometry'},
-      {image:'assets/icons/spirometry.svg',
       name:'spirometry'}];
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 

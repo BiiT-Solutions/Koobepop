@@ -61,7 +61,7 @@ export class ReportPage {
       context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
     } else {
       context.appointments.forEach((appointment: IAppointment) => {
-        let reportBuilder = {
+       /* let reportBuilder = {
           "width": 540,
           "height": 960,
           "dataText": {
@@ -80,8 +80,11 @@ export class ReportPage {
             "nextAppointmentDate": "",
             "nextAppointmentTime": ""
           }
+          
         };
         context.svgList.push(infographicjs.fillBasicReport(reportBuilder));
+        */
+        this.setReport(context)
       });
       //This prevents a change detection error on dev mode
       try {
@@ -100,5 +103,294 @@ export class ReportPage {
   ionViewWillLeave() {
     this.loading.dismiss();
     clearTimeout(this.timeout);
+  }
+  setReport(context){
+    var reportBuilder = {
+    width: 960,
+    height: 2300,
+    type: 'gridLayout',
+    columns: 1,
+    rows: 10,
+    cells: [{
+        xCell: 0,
+        yCell: 0,
+        element: {
+            type: 'text',
+            text: 'Adviesrapport',
+            verticalAlign: 'middle',
+            attributes: { x: 10, "font-size": "80px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
+        }
+    }, {
+        xCell: 0,
+        yCell: 0,
+        element: {
+            type: 'basicShape',
+            tag: 'line',
+            attributes: { x1: 0, y1: 200, x2: 960, y2: 200, style: 'stroke:#800600;stroke-width:10;' }
+        }
+    }, {
+        xCell: 0,
+        yCell: 1,
+        element: {
+            type: 'gridLayout',
+            columns: 2,
+            rows: 1,
+            cells: [{
+                xCell: 0,
+                yCell: 0,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0'}
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 80, y1: 49.8, x2: 190, y2: 49.8, style: 'stroke:#ffffff;stroke-width:6.5;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'lungs',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Longfunctie',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }, {
+                xCell: 1,
+                yCell: 0,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'bodyComposition',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Lichaams',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }, {
+                        id: 'name',
+                        contentText: 'samenstelling',
+                        attributes: { x: 220, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }, {
+                xCell: 0,
+                yCell: 1,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style:'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ffb33b' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'heart',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Hartfunctie',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }, {
+                xCell: 1,
+                yCell: 1,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'sleep',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Slaap',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }, {
+                xCell: 0,
+                yCell: 2,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'movement',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Bewegingsfunctie',
+                        attributes: { x: 150, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }, {
+                xCell: 1,
+                yCell: 2,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ffb33b' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'energyBalance',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Energiebalans',
+                        attributes: { x: 210, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }, {
+                xCell: 0,
+                yCell: 3,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style:'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ff0000' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'condition',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Fysieke',
+                        attributes: { x: 280, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }, {
+                        id: 'testName',
+                        contentText: 'belastbaarheid',
+                        attributes: { x: 220, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }, {
+                xCell: 1,
+                yCell: 3,
+                element: {
+                    type: 'freeLayout',
+                    width: 560,
+                    height: 270,
+                    svgShapes: [{
+                        tag: 'rect',
+                        attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
+                    }, {
+                        tag: 'rect',
+                        attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ff0000' }
+                    }, {
+                        tag: 'line',
+                        attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#ffffff;stroke-width:5.2;' }
+                    }
+                    ],
+                    svgElements: [{
+                        id: 'stress',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 10 }
+                    },
+                    ],
+                    textElements: [{
+                        id: 'testName',
+                        contentText: 'Stress',
+                        attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
+                    }
+                    ],
+                },
+            }]
+
+
+
+        }
+    }]
+
+}
+    context.svgList.push(infographicjs.newLayout(reportBuilder));
   }
 }

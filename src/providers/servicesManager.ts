@@ -293,7 +293,7 @@ export class ServicesManager {
         this.getUpdatedAppointments().subscribe(appointments => {
             if (appointments.length>0) {
                   this.setAppointments(appointments)
-                  this.translate.get("TEXTS.APPOINTMENTS-UPDATED").subscribe(text=>this.toaster.goodToast(text,2500));
+                 // this.translate.get("TEXTS.APPOINTMENTS-UPDATED").subscribe(text=>this.toaster.goodToast(text,2500));
             }
         })
     }
