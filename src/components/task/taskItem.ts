@@ -31,12 +31,11 @@ export class TaskItemComponent {
 
   ngOnInit() {
     this.showMoreInfo = (this.task.content != undefined && this.task.content != '')
-      || (this.task.videoUrl != undefined && this.task.videoUrl != '');
-      //We do this just for the first time, later we manage it from the agenda
-      
+      || (this.task.videoUrl != undefined && this.task.videoUrl != '');      
   }
 
   ngAfterViewInit() {
+    //We do this just for the initialization, later we manage it from the agenda
     this.checkBox.checked = this.isTaskPerformed();
   }
 

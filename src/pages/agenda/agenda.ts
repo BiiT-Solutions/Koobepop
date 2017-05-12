@@ -90,7 +90,7 @@ export class AgendaPage {
           alreadyPerformed = true;
         }
       }
-
+     //Insert the day into the week
      if (!alreadyPerformed) {
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
@@ -111,7 +111,7 @@ export class AgendaPage {
       alreadyPerformed = true;
     }
     }
-
+    //Insert week with the day
     if (!alreadyPerformed) {
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });

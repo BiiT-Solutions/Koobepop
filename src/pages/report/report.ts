@@ -18,7 +18,6 @@ export class ReportPage {
     testext;
     svgList = [];
     appointments: IAppointment[];
-    // results: Map<number, FormResult[]>;
     @ViewChild('slider') slider: Slides;
     loading: Loading;
     timeout;
@@ -462,14 +461,7 @@ export class ReportPage {
                         type: 'basicShape',
                         tag: 'rect',
                         attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:none' }
-                    }],
-                    textElements: [
-                        {
-                            id: 'heartFunctionText',
-                            contentText: 'There are many different tests to find out how your heart is doing or to diagnose a condition. Heart tests give you and your doctor more information about the condition of your heart and can help you find out which treatment(s) may be best for you',
-                            attributes: { x: 10, "font-size": "15px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
-                        }
-                    ],
+                    }],                    
                     svgElements: [{
                                 id: 'heart2',
                                 attributes: { width: 'default', height: 'default', x: 60, y: 60,style: 'fill:#FFFFFF' }
@@ -538,6 +530,7 @@ export class ReportPage {
 
             ]
         }
+
         context.svgList.push(infographicjs.newLayout(reportBuilder));
     }
 }

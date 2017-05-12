@@ -66,5 +66,12 @@
     },
     "TRACKER-TAG":{
         "PHYSICAL_CHECK":"body health"
+    },
+    "EFFORT-SELECTOR":{
+        "TEXT":"This exercise was:",
+        "EASY":"Easy",
+        "NORMAL":"Normal",
+        "HARD":"Hard",
+        "PAIN":"Painful"
     }
 }

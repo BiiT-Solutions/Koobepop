@@ -1,9 +1,12 @@
 effort-selector {
-
+    div.effort-selector-container{
+        display: flex;
+    }
+    
      div.radio-container{  
          display:table;
          table-layout:fixed;
-         width:100%;
+         width:60%;
          height:45px;
         }
     div.radio-container div{

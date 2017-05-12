@@ -19,15 +19,13 @@ export class ZoomableSlide {
   viewHeight;
   viewMarginTop;
   viewMarginLeft;
-  zoomActive = false;
   percentageOfImageAtPinchPointX = 0;
   percentageOfImageAtPinchPointY = 0;
-  hideHeader;
   @ViewChild("svgSlide") slide;
   @Input() svg;
   intervalId;
   @Output() zooming: EventEmitter<boolean> = new EventEmitter<boolean>();
-  pinchString: string = "";
+  
   constructor(public toastCtrl: ToastController) { }
 
   ngAfterViewInit() {
@@ -52,7 +50,7 @@ export class ZoomableSlide {
     this.newHeight = this.MIN_SLIDE_HEIGHT;
     this.oldWidth = this.FRAME_WIDTH;
     this.oldHeight = this.MIN_SLIDE_HEIGHT;
-    this.applyResize();
+    this.applyViewChanges();
     this.startRendering();
   }
 
@@ -84,12 +82,6 @@ export class ZoomableSlide {
     }
     this.gesture.on('panstart', e => this.startMove(e));
     this.gesture.on('pan', e => this.moveAround(e));
-    /*if (this.zoomActive) {
-      this.gesture.on('panstart', e => this.startMove(e));
-      this.gesture.on('pan', e => this.moveAround(e));
-    } else {
-      this.zooming.emit(this.zoomActive);
-    }*/
   }
 
   startMove(e) {
@@ -117,21 +109,13 @@ export class ZoomableSlide {
 
   /* We change the image once every 1/25 of second while zoom is changing so it's not processor dependent*/
   render() {
-    this.applyResize();
+    this.applyViewChanges();
   }
-  applyResize() {
+
+  applyViewChanges() {
     this.viewHeight = this.newHeight;
     this.viewWidth = this.newWidth;
     this.viewMarginTop = this.mTop;
     this.viewMarginLeft = this.mLeft;
-  }
-
-  showToast(text: string) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 2000,
-      cssClass: 'good-toast'
-    });
-    toast.present();
   }
 }
