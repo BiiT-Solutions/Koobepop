@@ -88,7 +88,7 @@ export class SummaryPage {
               "assessment": task.type,
               "health": 0,
               "sleep": 0,
-              "score": timesPerformed >= task.repetitions ? 0 : 1//TODO - If an exercise is already performed it's maximum times, it should score 0.
+              "score": timesPerformed >= task.repetitions ? 0 : 1
             });
             timesPerformed++;
           });

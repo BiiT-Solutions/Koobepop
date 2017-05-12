@@ -1,8 +1,12 @@
 effort-selector {
     div.effort-selector-container{
         display: flex;
+        justify-content: space-between;
     }
-    
+    div.explain-text{
+        //display:flex;
+       // align-items: center;
+    }
      div.radio-container{  
          display:table;
          table-layout:fixed;
@@ -48,10 +52,34 @@ effort-selector {
          
         }
 }
+.effort-selector-popover {
+    ion-backdrop{
+      opacity: 0.1!important;
+    }
+    
+    .popover-content{
+      right:0px;
+      left:auto!important;
+      display: inline-block;
+      width:320px;
 
-//#54c382
-//#bae2c9
-//#dbefbd
-//#f2ed9d
-//#f4ca92
-//#e56854
+      animation-duration: 0.5s;
+      animation-fill-mode: both;
+      animation-name: slideInRight;
+    }
+
+  }  
+ 
+  .popover-md .popover-content{
+    //margin-top:57px;
+  }
+  .popover-wp .popover-content{
+    //margin-top:57px;
+  }
+  
+  .popover-ios .popover-arrow::after{
+    background-color:transparent;
+  }
+  .popover-ios .popover-content{
+   margin-top:-54px
+  }

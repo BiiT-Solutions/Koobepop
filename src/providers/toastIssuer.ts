@@ -13,7 +13,7 @@ export class ToastIssuer {
     }
     private toast(text: string, time: number, cssClass: string) {
         let toast = this.toastCtrl.create({
-            message: text,//TODO change 
+            message: text,
             duration: time,
             cssClass: cssClass
         });

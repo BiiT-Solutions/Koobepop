@@ -60,36 +60,14 @@ export class ReportPage {
             context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
         } else {
             context.appointments.forEach((appointment: IAppointment) => {
-                /* let reportBuilder = {
-                   "width": 540,
-                   "height": 960,
-                   "dataText": {
-                     "date": new Date(appointment.startTime).toLocaleDateString(),
-                     "doctorName": appointment.doctorLastName + ", " + appointment.doctorFirstName,
-                     "conclusion": "",
-                     "patientName": "",
-                     "patientBirthday": "",
-                     "patientMail": "",
-                     "patientPhone": "",
-                     "height": appointment.results["1 antropometrie"].anthropometry.height[0],
-                     "weight": appointment.results["1 antropometrie"].anthropometry.weight[0],
-                     "bloodPressure": appointment.results["1 antropometrie"].anthropometry.bloodpressurediastolic[0],
-                     "waist": appointment.results["1 antropometrie"].anthropometry.waistcircumference[0],
-                     "folds": appointment.results["1 antropometrie"].anthropometry.skinfoldtotal[0],
-                     "nextAppointmentDate": "",
-                     "nextAppointmentTime": ""
-                   }
-                   
-                 };
-                 context.svgList.push(infographicjs.fillBasicReport(reportBuilder));
-                 */
-                this.setReport(context)
+                console.log(appointment.results)
+                this.addReport(context)
             });
             //This prevents a change detection error on dev mode
             try {
                 context.changeDetector.detectChanges();
             } catch (exception) {
-                console.debug(exception);
+                console.error(exception);
             }
             context.loading.dismiss();
         }
@@ -103,7 +81,7 @@ export class ReportPage {
         this.loading.dismiss();
         clearTimeout(this.timeout);
     }
-    setReport(context) {
+    addReport(context) {
         var reportBuilder = {
             width: 960,
             height: 2300,

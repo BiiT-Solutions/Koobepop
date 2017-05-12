@@ -1,7 +1,7 @@
 import { ITask } from '../models/taskI';
 import { Injectable } from '@angular/core';
 import { TasksRestProvider } from './tasksRestProvider';
-
+//TODO - Integrate on the app
 @Injectable()
 export class TasksManager{
     private taskActions:TaskAction[] = [];

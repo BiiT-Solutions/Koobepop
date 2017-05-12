@@ -62,7 +62,7 @@ export class TestUtils {
             });
     }
 
-    //TODO - Change settings
+    //TODO - Change settings to use testing ones
     public static configureIonicTestingModule(components: Array<any>): typeof TestBed {
         return TestBed.configureTestingModule({
             declarations: [

@@ -96,7 +96,7 @@ export class TasksRestProvider {
 
 
   public sendTasks(actions: TaskAction[]): Observable<number> {
-    //TODO
+    //TODO - finish this with USMO's webService
     let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
     let headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);

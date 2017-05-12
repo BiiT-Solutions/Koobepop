@@ -25,11 +25,15 @@ export class MyApp {
     private toaster: ToastIssuer,
     private splashscreen: SplashScreen,
     private statusBar: StatusBar) {
-
-    let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+    let loading;
+    translate.setDefaultLang('en');
+    translate.get("APP.LOAD-MESSAGE").subscribe((message) =>{
+      loading = this.loadingCtrl.create({
+        content: message
+      });
+      loading.present();
     });
-    loading.present();
+    
 
     this.manager.tokenStatus()
       .subscribe((status) => {
@@ -50,7 +54,7 @@ export class MyApp {
         }
         if (!connectivity.isOnline()) {
           translate.get("APP.UNABLE-TO-CONNECT-MSG")
-            .subscribe((translation: string) => this.toaster.badToast(translation, 2500))  
+            .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
         }
       });
 
