@@ -34,7 +34,10 @@ export class AppointmentsProvider {
       });
   }
   private extractData(res: Response): IAppointment[] {
+   
     let appointmentsFromResponse = res.json();
+     console.log("AppoinmentsProvider extract data:")
+    console.log(res.json());
     appointmentsFromResponse.forEach(appointment => {
       appointment.results = this.formatResults(appointment.results); 
       appointment.type = this.translate.instant("TRACKER-TAG."+appointment.type)
