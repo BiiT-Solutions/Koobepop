@@ -20,6 +20,7 @@ export class TestPage {
   results: Map<number, any[]>;
   tasksPlan: ITask[] = [];
   day = Date.now();
+  
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public manager: ServicesManager,
