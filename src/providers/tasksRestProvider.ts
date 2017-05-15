@@ -13,7 +13,6 @@ export class TasksRestProvider {
   ONE_DAY_IN_MILIS = 24 * 60 * 60 * 1000;
   constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, private authService: AuthTokenService) { }
 
-
   public requestTasks(appointment: IAppointment, token: string): Observable<ITask[]> {
     let requestAddres = this.config.usmoServer + this.config.getTasksService;
     let headers = new Headers({ 'Content-Type': 'application/json' });

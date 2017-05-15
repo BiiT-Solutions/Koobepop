@@ -10,6 +10,7 @@ import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
 import { IPerformance } from '../../models/performation';
+import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
 /**
  * 
  */
@@ -55,7 +56,7 @@ export class AgendaPage {
 
   /* When item is clicked */
   public checkMark(event) {
-     //Init map in case it hasn't been
+    //Init map in case it hasn't been
     if (event.taskComp.task.performedOn == undefined) {
       event.taskComp.task.performedOn = new Map<number, IPerformance[]>();
     }
@@ -67,49 +68,60 @@ export class AgendaPage {
     if (event.taskComp.task.performedOn.has(weekStartingTime)) {
       //Check if the date is also there
       let weekPerformances: IPerformance[] = event.taskComp.task.performedOn.get(weekStartingTime);
-      
+
       for (let i = 0; i < weekPerformances.length; i++) {
         if (weekPerformances[i].date == event.taskComp.day) {
-          
-          //Need the subscription to force the resolution of the Observable 
-          this.manager.removeTask(event.taskComp.task, event.taskComp.day)//TODO manage it all from the manager
-            .subscribe(status => { });
-          
-          let index = event.taskComp.task.performedOn
-            .get(weekStartingTime)
-            .map((performance: IPerformance) => performance.date)
-            .indexOf(event.taskComp.day);
+          console.log("Unsel")
 
-          event.taskComp.task.performedOn
-            .get(weekStartingTime)
-            .splice(index, 1);
+          let popover = this.popoverCtrl
+            .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
+          popover.onDidDismiss((unsel) => {
+            if(unsel){
+              console.log("Unsel Confirm")
+            //Need the subscription to force the resolution of the Observable 
+            this.manager.removeTask(event.taskComp.task, event.taskComp.day)//TODO manage it all from the manager
+              .subscribe(status => { });
 
-          this.manager.setActualTasks(this.tasksPlan);
+            let index = event.taskComp.task.performedOn
+              .get(weekStartingTime)
+              .map((performance: IPerformance) => performance.date)
+              .indexOf(event.taskComp.day);
 
-          event.taskComp.checkBox.checked = false;
+            event.taskComp.task.performedOn
+              .get(weekStartingTime)
+              .splice(index, 1);
+            this.manager.setActualTasks(this.tasksPlan);
+            event.taskComp.checkBox.checked = false;
+          }else{            
+            event.taskComp.checkBox.checked = true;//??? TODO - Fix
+              console.log("Unsel Deny")
+            }
+          });
+          popover.present({ ev: event.event });
           alreadyPerformed = true;
+
         }
       }
-     //Insert the day into the week
-     if (!alreadyPerformed) {
-      let popover = this.popoverCtrl
-        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
-      popover.onDidDismiss((score: number) => {
-        if (score != undefined) {
-          event.taskComp.task.performedOn.get(weekStartingTime).push({ date: event.taskComp.day, score: score });
-          //Need the subscription to force the Observable?
-          this.manager.performTask(event.taskComp.task, event.taskComp.day, score)
-            .subscribe(status => { });
-          this.manager.setActualTasks(this.tasksPlan);
-          this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
-          event.taskComp.checkBox.checked = true;
-        } else {
-          //If the popup is just dismissed it won't do anything
-        }
-      });
-      popover.present({ ev: event.event });
-      alreadyPerformed = true;
-    }
+      //Insert the day into the week
+      if (!alreadyPerformed) {
+        let popover = this.popoverCtrl
+          .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
+        popover.onDidDismiss((score: number) => {
+          if (score != undefined) {
+            event.taskComp.task.performedOn.get(weekStartingTime).push({ date: event.taskComp.day, score: score });
+            //Need the subscription to force the Observable?
+            this.manager.performTask(event.taskComp.task, event.taskComp.day, score)
+              .subscribe(status => { });
+            this.manager.setActualTasks(this.tasksPlan);
+            this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
+            event.taskComp.checkBox.checked = true;
+          } else {
+            //If the popup is just dismissed it won't do anything
+          }
+        });
+        popover.present({ ev: event.event });
+        alreadyPerformed = true;
+      }
     }
     //Insert week with the day
     if (!alreadyPerformed) {

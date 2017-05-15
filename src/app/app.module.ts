@@ -10,6 +10,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
 //Components
 import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
+import { UnselConfirmationComponent } from '../components/unsel-confirmation/unsel-confirmation';
 import { TaskItemComponent } from '../components/task/taskItem'
 
 //Pages
@@ -42,7 +43,6 @@ import { ToastIssuer } from '../providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -59,6 +59,7 @@ export function createTranslateLoader(http: Http) {
     KnowPage,
     VideoPage,
     EffortSelectorComponent,
+    UnselConfirmationComponent,
     ShowExerciseInfoPage,
     SummaryPage,
     TaskItemComponent,
@@ -92,10 +93,10 @@ export function createTranslateLoader(http: Http) {
     ShowExerciseInfoPage,
     SummaryPage,
     LoginPage,
-    EffortSelectorComponent
+    EffortSelectorComponent,
+    UnselConfirmationComponent
   ],
   providers: [
-   // Storage,
    StatusBar,
    SplashScreen,
    Network,

@@ -73,5 +73,10 @@
         "NORMAL":"Normal",
         "HARD":"Hard",
         "PAIN":"Painful"
+    },
+    "UNSEL-CONFIRMATION":{
+        "YES":"Yes",
+        "NO":"No",
+        "TEXT":"Undo this exercise?"
     }
 }
