@@ -10,16 +10,18 @@ export class StorageService {
 
   constructor(public storage: Storage) { }
 
-
+//APPOINTMENTS
   public getAppointments(): Promise<IAppointment[]> {
-    return this.storage.get("appointments");//localForage.getItem<IAppointment[]>("appointments");
+    return this.storage.get("appointments");
   }
   public setAppointments(appointments: IAppointment[]): Promise<IAppointment[]> {
     return this.storage.set("appointments", appointments);
   }
 
+//TASKS
   public getTasks(): Promise<ITask[]> {
     return this.storage.get("tasks").then((tasks:any[]) => {
+      
       if (tasks!=undefined){
       let deserializedTasks: ITask[] = [];
       tasks.forEach(task => {
@@ -37,6 +39,7 @@ export class StorageService {
     }else {
       return undefined
     }
+    
     });
   }
 
@@ -57,16 +60,16 @@ export class StorageService {
     return this.storage.set("tasks", tasksList);
   }
 
-
+//USER
   public getUser(): Promise<IUser> {
     return this.storage.get("user");
   }
 
-  // Use on login
   public setUser(user: IUser): Promise<IUser> {
     return this.storage.set("user", user);
   }
 
+//TOKEN
   public getToken(): Promise<IToken> {
     return this.storage.get("token");
   }
@@ -75,6 +78,7 @@ export class StorageService {
     return this.storage.set("token", token);
   }
 
+//ACTIONS - TODO
   public getActions():Promise<any>{
     return this.storage.get("actions")
   }

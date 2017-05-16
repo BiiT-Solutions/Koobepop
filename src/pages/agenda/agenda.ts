@@ -71,14 +71,12 @@ export class AgendaPage {
 
       for (let i = 0; i < weekPerformances.length; i++) {
         if (weekPerformances[i].date == event.taskComp.day) {
-          console.log("Unsel")
-
+          
           let popover = this.popoverCtrl
             .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
           popover.onDidDismiss((unsel) => {
             if(unsel){
-              console.log("Unsel Confirm")
-            //Need the subscription to force the resolution of the Observable 
+             //Need the subscription to force the resolution of the Observable 
             this.manager.removeTask(event.taskComp.task, event.taskComp.day)//TODO manage it all from the manager
               .subscribe(status => { });
 
@@ -94,7 +92,6 @@ export class AgendaPage {
             event.taskComp.checkBox.checked = false;
           }else{            
             event.taskComp.checkBox.checked = true;//??? TODO - Fix
-              console.log("Unsel Deny")
             }
           });
           popover.present({ ev: event.event });

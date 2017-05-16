@@ -39,7 +39,7 @@ export class TestPage {
     console.log(itemSlide.getOpenAmount());
   }
   public update(item: any) {
-    this.manager.updateAppointments();
+    //this.manager.updateAppointments();
   }
   public close(itemSlide: ItemSliding) {
     itemSlide.close();

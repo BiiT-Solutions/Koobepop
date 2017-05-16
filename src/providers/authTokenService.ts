@@ -6,16 +6,16 @@ import { Observable } from 'rxjs/Observable';
 export class AuthTokenService {
     constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig) { }
    
-    /** Recuest the authentication  token to the server */
+    /** Request the authentication  token to the server */
     public requestToken(id: string, code: string,uuid:string):Observable<string> {
         //Here we request the token to the server with the sms code, the id and the uuid
         let requestAddres = this.config.usmoServer + this.config.getAuthenticationToken;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-
-        return this.http.post(requestAddres, { user: id, authCode: code, uuid: uuid }, { headers: headers })
+        return this.http.post(requestAddres, { user: id, authCode: code,organizationName:this.config.organizationName, uuid: uuid }, { headers: headers })
             .map(this.extractData);
     }
+
     private extractData(res: Response): string {
         return res.text() || "";
     }
@@ -32,7 +32,7 @@ export class AuthTokenService {
        let requestAddres = this.config.usmoServer + this.config.sendAuthCodeSMS;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-        let criteria = {patientId:patientId,language:languageId};
+        let criteria = {patientId:patientId,organizationName:this.config.organizationName,language:languageId};
 
         return this.http.post(requestAddres, criteria, { headers: headers });
             //.map((response:Response)=>{return response.text()}); 

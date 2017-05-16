@@ -15,15 +15,19 @@ export interface IAppConfig {
     password: string;
     verifyAuthenticationToken:string;
     sendAuthCodeSMS:string;
+    organizationName:string;
 }
 
 export const AppConfig: IAppConfig = {  
     //Server configuration  
     koobepopServer: "https://testing.biit-solutions.com:8443/koobepop-server-0.0.25", 
     usmoServer:
-    //"https://testing.biit-solutions.com:8443/usmo-1.3.79",
+    //"https://testing.biit-solutions.com:8443/usmo-1.3.95",
     "http://192.168.1.5:8081",
     password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
+    organizationName:
+    "UsmoOrganization",
+    //"Orbis Sport",
     //Services
     getTasksService:"/rest/getCorrectiveExercisesAuth",
     getAppointmentsService:"/rest/getAppointmentsAuth",

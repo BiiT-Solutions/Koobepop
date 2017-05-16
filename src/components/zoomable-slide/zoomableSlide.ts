@@ -1,5 +1,7 @@
 import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
-import { Gesture, ToastController } from 'ionic-angular'; @Component({
+import { Gesture, ToastController } from 'ionic-angular'; 
+
+@Component({
   selector: 'zoomable-slide',
   templateUrl: 'zoomableSlide.html'
 })

@@ -11,15 +11,16 @@ import { IToken } from '../models/tokenI';
 import { AuthTokenService } from './authTokenService';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
-import * as moment from 'moment';
 import { ToastIssuer } from './toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
+import { AppointmentsRestService } from './rest/appointmentsRestService';
+import { TasksRestService } from './rest/tasksRestService';
+import { TaskProvider } from './storage/taskProvider';
 /**
  * Intended to manage the dataflow within the application and with USMO
- * Will keep the data cached for the application views.
- * Will provide the stored data to the application.
- * Will provide storage services to the application so it persists all the relevant data.
- * All this data loading is async so take it into acount before using it.
+ * Will pass the data from the Providers to the app
+ * Will pass the data from the RestServices to the Providers
+ * 
  */
 
 @Injectable()
@@ -37,7 +38,12 @@ export class ServicesManager {
         private authService: AuthTokenService,
         private device: Device,
         private toaster: ToastIssuer,
-        private translate: TranslateService) {
+        private translate: TranslateService,
+
+        private appointmentsRestService: AppointmentsRestService,
+        private tasksRestService: TasksRestService,
+        private taskProvider: TaskProvider
+    ) {
     }
 
     /**
@@ -273,30 +279,7 @@ export class ServicesManager {
                 }
             });
     }
-    /**Starts to search for changes on the dataset */
-    public startContinuousAppointmentCheck(milis: number) {
-        this.finishContinuousAppointmentCheck(); //In case there's more than one invocation
-        this.updateTimeout = setInterval(() => {
-            try {
-                this.updateAppointments();
-            } catch (exception) {
-                console.error(exception)
-            }
-        }, milis);
-    }
-    /**Finishes the continuous search */
-    public finishContinuousAppointmentCheck() {
-        if (this.updateTimeout != undefined) { clearInterval(this.updateTimeout); }
-    }
-
-    public updateAppointments() {
-        this.getUpdatedAppointments().subscribe(appointments => {
-            if (appointments.length>0) {
-                  this.setAppointments(appointments)
-                 // this.translate.get("TEXTS.APPOINTMENTS-UPDATED").subscribe(text=>this.toaster.goodToast(text,2500));
-            }
-        })
-    }
+   
 
     private getUpdatedAppointments(): Observable<IAppointment[]> {
         return this.getAppointments()
@@ -306,7 +289,7 @@ export class ServicesManager {
                         .flatMap(token => {
                             return this.appointmentsProvider.requestModifiedAppointments(appointments, token, user)
                                 .map((updatedAppointments: IAppointment[]) => {
-                                    if (updatedAppointments.length>0){
+                                    if (updatedAppointments.length > 0) {
                                         updatedAppointments.forEach(appointment => {
                                             let index = appointments.map(a => a.appointmentId).indexOf(appointment.appointmentId)
                                             if (index >= 0) {
@@ -316,21 +299,110 @@ export class ServicesManager {
                                                     .subscribe(actualAppointment => {
                                                         if (appointment.appointmentId === actualAppointment.appointmentId) {
                                                             this.tasksProvider.requestTasks(appointment, token)
-                                                                       .subscribe(tasks => this.setActualTasks(tasks))
-                                                         }
+                                                                .subscribe(tasks => this.setActualTasks(tasks))
+                                                        }
                                                     });
                                             } else {
-                                                   appointments.push(appointment);
-                                             }
+                                                appointments.push(appointment);
+                                            }
                                         });
-                                         return appointments;
-                                        }else{
-                                              return [];
-                                        }
+                                        return appointments;
+                                    } else {
+                                        return [];
+                                    }
                                 });
                         });
                 });
 
             });
     }
+
+    /** On login */
+    init2() {
+        //User?
+        //Token
+        //init Appointments
+        //this.initAppointments();
+        //then init Tasks
+       // this.initTasks();
+    }
+
+    /**Starts to search for changes on the dataset */
+    public startContinuousAppointmentCheck(milis: number) {
+        this.finishContinuousAppointmentCheck(); //In case there's another invocation
+        this.update();
+        this.updateTimeout = setInterval(() => {
+            try {
+                this.update();
+            } catch (exception) {
+                console.error(exception);
+            }
+        }, milis);
+    }
+
+    /**Finishes the continuous search */
+    public finishContinuousAppointmentCheck() {
+        if (this.updateTimeout != undefined) { clearInterval(this.updateTimeout); }
+    }
+
+    /** Replace all data from the server's data */
+    update() {
+        this.appointmentsRestService.getAppointments()
+            .map(this.updateAppointments)
+            .map(this.updateTasks);
+    }
+    
+    updateAppointments(newAppointments: IAppointment[]): Observable<IAppointment[]> {
+        //Get storage appointments, compare to the new appointments, add new ones substitute the old ones
+        // and keep those which don't change
+        return this.appointmentsProvider.getAppointments()
+            .map((actualAppointments: IAppointment[]) => {
+                if (newAppointments.length > 0) {
+                    newAppointments.forEach(appointment => {
+                        let index = actualAppointments.map(a => a.appointmentId).indexOf(appointment.appointmentId);
+                        if (index >= 0) {
+                            actualAppointments[index] = appointment;
+                        } else {
+                            actualAppointments.push(appointment);
+                        }
+                    });
+                }
+                return actualAppointments;
+            });
+    }
+
+    updateTasks(appointments: IAppointment[]) {
+        //Get the las appoinment of each 'type'
+        let lastAppointments: IAppointment[] = [];
+        appointments.forEach((appointment: IAppointment) => {
+            let index = lastAppointments.map(appoinment => appointment.type).indexOf(appointment.type)
+            if (index > 0) {
+                if (lastAppointments[index].startTime < appointment.startTime) {
+                    lastAppointments[index] = appointment;
+                }
+            } else {
+                lastAppointments.push(appointment);
+            }
+        });
+
+        //Get the tasks for those appoinments
+        let tasksRequests: Observable<ITask[]> = Observable.create();
+        lastAppointments.forEach(appointment => {
+            //We have an observable that will emit the result of the request
+            //And we merge it with the others into one Observable
+            tasksRequests.merge(this.tasksRestService.requestTasks(appointment));
+        });
+
+        tasksRequests.bufferCount(lastAppointments.length)
+            .map((tasksList: ITask[][]) => {
+                let newTasks: ITask[] = []
+                tasksList.forEach((taskList: ITask[]) => {
+                    taskList.forEach((task: ITask) => {
+                        newTasks.push(task);
+                    });
+                });
+                //Save them
+                this.taskProvider.setTasks(newTasks)
+            });
+        }
 }

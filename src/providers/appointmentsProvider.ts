@@ -24,7 +24,8 @@ export class AppointmentsProvider {
 
     let criteria = {
       token: token,
-      patientId: user.patientId
+      patientId: user.patientId,
+      organizationName: this.config.organizationName
     }
     return this.http
       .post(requestAddres, criteria, { headers: headers })
@@ -33,11 +34,9 @@ export class AppointmentsProvider {
         return appointments ? appointments.reverse() : [];
       });
   }
+
   private extractData(res: Response): IAppointment[] {
-   
     let appointmentsFromResponse = res.json();
-     console.log("AppoinmentsProvider extract data:")
-    console.log(res.json());
     appointmentsFromResponse.forEach(appointment => {
       appointment.results = this.formatResults(appointment.results); 
       appointment.type = this.translate.instant("TRACKER-TAG."+appointment.type)
@@ -90,7 +89,8 @@ export class AppointmentsProvider {
     let criteria = {
       token: token,
       appointments:appointmentsIdWithDate,
-      patientId:patient.patientId
+      patientId:patient.patientId,
+      organizationName: this.config.organizationName
     }
     return this.http
       .post(requestAddres, criteria, { headers: headers })

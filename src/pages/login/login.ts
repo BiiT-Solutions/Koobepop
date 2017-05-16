@@ -5,6 +5,7 @@ import { HomePage } from '../home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { Response } from '@angular/http';
 import { ToastIssuer } from '../../providers/toastIssuer';
+import { UserProvider } from '../../providers/storage/userProvider';
 
 @Component({
   selector: 'page-login',
@@ -22,9 +23,9 @@ export class LoginPage {
     public manager: ServicesManager,
     public toaster: ToastIssuer,
     public loadingCtrl: LoadingController,
-    public translateService:TranslateService) { 
-      manager.getUser().subscribe(user=>{
-        console.log(user)
+    public translateService:TranslateService,
+    public userProvider:UserProvider) { 
+      userProvider.getUser().subscribe(user=>{
         if(user!=null){
         this.id=user.patientId
         this.idIsSent = true;
@@ -36,6 +37,7 @@ export class LoginPage {
   sendId(){
     // Request Verification code
     this.idIsSent = true;
+
     this.manager.sendAuthCodeSMS(this.id,this.translateService.currentLang)
     .subscribe((res:Response)=>{
       
@@ -44,7 +46,7 @@ export class LoginPage {
         this.smsSent = true;
       }else{
         this.idIsSent = false;
-         this.toaster.badToast( res.status.toString());
+        this.toaster.badToast( res.status.toString());
       }
     },error=>{   
       this.toaster.badToast(error.json().error);

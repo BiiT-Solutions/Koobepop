@@ -8,6 +8,13 @@ page-agenda {
   .date-header{
     background-color:map-get($colors,light)!important;
   }
+ /* //Color even/odd rows
+  task-component > ion-item{
+       background-color: $background-color !important;
+    }
+  task-component:nth-child(even) > ion-item {
+        background-color: map-get($colors,overDo) !important;
+    }*/
   }
 
   //This is global -> TODO - change it to somewhere else 
