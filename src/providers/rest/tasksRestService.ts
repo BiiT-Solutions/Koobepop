@@ -56,7 +56,8 @@ export class TasksRestService extends KppRestService {
                     performedOn: performedMap,
                     videoUrl: task.videoUrl,
                     content: task.content,
-                    type: appointment.type
+                    type: appointment.type,
+                    appointmentId: appointment.appointmentId
                 });
             });
             return deserializedTasks;
@@ -66,27 +67,27 @@ export class TasksRestService extends KppRestService {
     }
 
     /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
-    public sendPerformedTask(appointmentId: number, taskName: string, perf: IPerformance) {
+    public sendPerformedTask(appointmentId: number, taskName: string, date: number, score: number) {
         let requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let body = {
             appointmentId: appointmentId,
             name: taskName,
-            time: perf.date,
-            score: perf.score
+            time: date,
+            score: score
         }
         headers.append('Authorization', this.config.password);
         return super.request(requestAddres, body, headers).map(res => res.status);
     }
 
-    public removePerformedTask(appointmentId: number, taskName: string, perf: IPerformance): Observable<number> {
+    public removePerformedTask(appointmentId: number, taskName: string, date: number): Observable<number> {
         let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let body = {
             appointmentId: appointmentId,
             name: taskName,
-            time: perf.date,
-            score: perf.score
+            time: date,
+            score: 0
         }
         headers.append('Authorization', this.config.password);
         return super.request(requestAddres, body, headers).map(res => res.status);

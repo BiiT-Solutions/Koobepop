@@ -16,6 +16,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppointmentsRestService } from './rest/appointmentsRestService';
 import { TasksRestService } from './rest/tasksRestService';
 import { TaskProvider } from './storage/taskProvider';
+import { AuthTokenRestService } from './rest/authTokenRestService';
+import { TokenProvider } from './storage/tokenProvider';
+import { UserProvider } from './storage/userProvider';
+import * as moment from 'moment';
+import { IPerformance } from '../models/performation';
 /**
  * Intended to manage the dataflow within the application and with USMO
  * Will pass the data from the Providers to the app
@@ -42,7 +47,10 @@ export class ServicesManager {
 
         private appointmentsRestService: AppointmentsRestService,
         private tasksRestService: TasksRestService,
-        private taskProvider: TaskProvider
+        private taskProvider: TaskProvider,
+        private tokenRestService: AuthTokenRestService,
+        private tokenProvider: TokenProvider,
+        private userProvider: UserProvider,
     ) {
     }
 
@@ -140,34 +148,32 @@ export class ServicesManager {
         } else { return Observable.of(this.actualTasks); }
     }
 
-    public setActualTasks(tasks: ITask[]) {
-        this.actualTasks = tasks;
-        this.storageService.setTasks(tasks);
-    }
+   
 
-    //TODO server feedback + check correct behaviour
-    public performTask(task: ITask, time, score): Observable<any> {
-        return this.getToken().flatMap((token: string) => {
-            return this.getActualAppointment().flatMap(appointment => {
-                return this.tasksProvider.sendPerformedTask(appointment.appointmentId, task.name, time, score, token)
-                    .map(status => {
-                        return status;
-                    });
+    public performTask(task: ITask, perf: IPerformance): Observable<any> {
+        //perform = save performation on the week with the tasks
+        this.taskProvider.getTasks()
+            .subscribe((tasks: ITask[]) => {
+                let taskIndex = tasks.map(task => task.name).indexOf(task.name);
+                if (taskIndex >= 0) {
+                    let weekStart = moment(perf.date).startOf('isoWeek').valueOf();
+                    if (task.performedOn.has(weekStart)) {
+                        task.performedOn.get(weekStart).push(perf);
+                    } else {
+                        task.performedOn.set(weekStart, [perf]);
+                    }
+                    //TODO - remove if not necessary
+                    console.log(tasks[taskIndex] === task);
+                    tasks[taskIndex] = task
+                    this.taskProvider.setTasks(tasks).subscribe();
+                }
             });
-        });
+        return this.tasksRestService.sendPerformedTask(task.appointmentId, task.name, perf.date, perf.score);
     }
 
+    //TODO - Remove from storage
     public removeTask(task: ITask, time): Observable<any> {
-        //console.log("Remove task: "+task.name)
-        return this.getToken().flatMap((token: string) => {
-            return this.getActualAppointment().flatMap(appointment => {
-                return this.tasksProvider.removePerformedTask(appointment.appointmentId, task.name, time, token)
-                    .map(status => {
-                        //console.log("Task "+task.name+" removed with status "+status);
-                        return status;
-                    });
-            });
-        });
+        return this.tasksRestService.removePerformedTask(task.appointmentId, task.name, time);
     }
 
     /*Token*/
@@ -176,155 +182,41 @@ export class ServicesManager {
         this.storageService.setToken(this.token)
     }
 
-    /**Get the authentication token as a string*/
-    private getToken(): Observable<string> {
-        if (this.token != undefined) {
-            return this.parseToString(this.token);
-        } else {
-            return Observable.fromPromise(this.storageService.getToken()).flatMap(token => {
-                this.token = token;
-                return this.parseToString(token)
-            });
-        }
-    }
 
-    private parseToString(token: IToken): Observable<string> {
-        // Beware of dragons!!
-        return this.getUser().map(user => {
-            let payload: string = btoa('{"user":"' + user.patientId + '","uuid":"' + this.getUuid() + '","exp":' + token.payload.exp + '}');
-            // In case there's a necessary padding we remove it from the base64 encoded string 
-            // Info: http://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end
-            //If we don't do this, the signature won't match the data.
-            let suffix: string = "==";
-            if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 2); }
-            suffix = "=";
-            if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 1); }
-            let realToken = token.head + "." + payload + "." + token.signature;
-            return realToken;
-        })
-    }
 
-    private parseToToken(token: string): IToken {
-        let splitToken: string[] = token.split(".");
-        let payload = JSON.parse(atob(splitToken[1]));
-        //Here we lose some information of the token which will be gathered later when we rebuild it
-        let finalToken: IToken = {
-            head: splitToken[0],
-            payload: {
-                exp: payload.exp
-            },
-            signature: splitToken[2]
-        };
-        return finalToken;
-    }
-
-    private getUuid() {
-        return this.device.uuid == undefined ? "This device has no uuid" : this.device.uuid;
-    }
-
-    public setUp() {
-        this.init();
-    }
-
-    private init() {
-        // First get token if there's none
-        this.getToken().subscribe((token: string) => {
-            if (token != undefined) {
-                // Then get all patient's data
-                this.getUser()
-                    .subscribe(user => {
-                        if (user != undefined) {
-                            this.getAppointments()
-                                .subscribe((appointments: IAppointment[]) => {
-                                    this.setAppointments(appointments);
-
-                                    this.getActualAppointment().subscribe((appointment: IAppointment) => {
-                                        this.setActualAppointment(appointment);
-                                        this.getTasks().subscribe((tasks: ITask[]) => {
-                                            this.setActualTasks(tasks)
-                                        });
-                                    });
-                                });
-                        } else { console.error("User is not defined"); }
-                    }, e => console.error("Storage error" + e));
-            } else { console.error("Token not initialized") }
-        });
-    }
-
+    /** 
+     * Ask the server if the actual token is a valid one
+     */
     public tokenStatus(): Observable<number> {
-        return this.getToken().flatMap(token => this.authService.tokenStatus(token))
+        return this.tokenRestService.tokenStatus();
     }
 
     /**
      * Ask the server for the account confirmation SMS 
      * */
     public sendAuthCodeSMS(patientId, language): Observable<Response> {
-        return this.authService.sendAuthCodeSMS(patientId, language);
+        return this.tokenRestService.requestSendAuthCodeSMS(patientId, language)
+            .map((response) => {
+                this.userProvider.setUser({ patientId: patientId });
+                return response;
+            });
     }
 
     /**
      * Communicates with the server to get a Token with some credentials 
      * returns an Observable with a boolean
      */
-    public loginWithUserPass(id: string, code: string): Observable<any> {
+    public loginWithUserPass(id: string, code: string): Observable<boolean> {
         this.setUser({ patientId: id });
-        return this.authService.requestToken(id, code, this.getUuid())
+        return this.tokenRestService.requestToken(id, code)
             .map((token) => {
                 if (token != undefined && token.length > 0) {
-                    this.setToken(this.parseToToken(token));
-                    this.init();
+                    this.tokenProvider.setToken(token);
                     return true;
                 } else {
                     return false;
                 }
             });
-    }
-   
-
-    private getUpdatedAppointments(): Observable<IAppointment[]> {
-        return this.getAppointments()
-            .flatMap((appointments: IAppointment[]) => {
-                return this.getUser().flatMap(user => {
-                    return this.getToken()
-                        .flatMap(token => {
-                            return this.appointmentsProvider.requestModifiedAppointments(appointments, token, user)
-                                .map((updatedAppointments: IAppointment[]) => {
-                                    if (updatedAppointments.length > 0) {
-                                        updatedAppointments.forEach(appointment => {
-                                            let index = appointments.map(a => a.appointmentId).indexOf(appointment.appointmentId)
-                                            if (index >= 0) {
-                                                appointments[index] = appointment;
-                                                //If the appointment is known and is the actual one, set tasks again
-                                                this.getActualAppointment()
-                                                    .subscribe(actualAppointment => {
-                                                        if (appointment.appointmentId === actualAppointment.appointmentId) {
-                                                            this.tasksProvider.requestTasks(appointment, token)
-                                                                .subscribe(tasks => this.setActualTasks(tasks))
-                                                        }
-                                                    });
-                                            } else {
-                                                appointments.push(appointment);
-                                            }
-                                        });
-                                        return appointments;
-                                    } else {
-                                        return [];
-                                    }
-                                });
-                        });
-                });
-
-            });
-    }
-
-    /** On login */
-    init2() {
-        //User?
-        //Token
-        //init Appointments
-        //this.initAppointments();
-        //then init Tasks
-       // this.initTasks();
     }
 
     /**Starts to search for changes on the dataset */
@@ -351,7 +243,7 @@ export class ServicesManager {
             .map(this.updateAppointments)
             .map(this.updateTasks);
     }
-    
+
     updateAppointments(newAppointments: IAppointment[]): Observable<IAppointment[]> {
         //Get storage appointments, compare to the new appointments, add new ones substitute the old ones
         // and keep those which don't change
@@ -404,5 +296,5 @@ export class ServicesManager {
                 //Save them
                 this.taskProvider.setTasks(newTasks)
             });
-        }
+    }
 }

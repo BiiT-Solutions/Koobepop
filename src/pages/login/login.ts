@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Response } from '@angular/http';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { UserProvider } from '../../providers/storage/userProvider';
+import { AuthTokenRestService } from '../../providers/rest/authTokenRestService';
 
 @Component({
   selector: 'page-login',
@@ -19,12 +20,12 @@ export class LoginPage {
   smsSent:boolean = false;
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
     public manager: ServicesManager,
     public toaster: ToastIssuer,
     public loadingCtrl: LoadingController,
     public translateService:TranslateService,
     public userProvider:UserProvider) { 
+
       userProvider.getUser().subscribe(user=>{
         if(user!=null){
         this.id=user.patientId
@@ -37,45 +38,23 @@ export class LoginPage {
   sendId(){
     // Request Verification code
     this.idIsSent = true;
-
     this.manager.sendAuthCodeSMS(this.id,this.translateService.currentLang)
     .subscribe((res:Response)=>{
-      
       if(res.status ==200){
-        this.manager.setUser({patientId:this.id})
         this.smsSent = true;
       }else{
         this.idIsSent = false;
+        this.smsSent = false;
         this.toaster.badToast( res.status.toString());
       }
     },error=>{   
       this.toaster.badToast(error.json().error);
-          this.idIsSent = false
+          this.idIsSent = false;
+          this.smsSent = false;
     });
   }
 
-  sendCode(){
-     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'//WAIT-FOR-LOGIN-TEXT
-    });
-    loading.present();
-    this.manager.loginWithUserPass(this.id, this.pass)
-      .subscribe((authorized) => {
-        loading.dismiss();
-        if (authorized) {
-          this.toaster.goodToast("Login successfull");//LOGIN-SUCCESSFULL-TEXT
-         
-          this.navCtrl.setRoot(HomePage);
-          this.navCtrl.popToRoot();
-        }
-      }, error => {
-        loading.dismiss();
-        this.toaster.badToast("Login fail")//LOGIN-FAIL-TEXT
-    
-        console.error(error);
-      });
 
-  }
   changeId(){
     this.idIsSent = false;
     this.smsSent = false;
@@ -84,9 +63,10 @@ export class LoginPage {
   public login() {
     //Send request for a token to USMO 
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'//WAIT-FOR-LOGIN-TEXT
+      content: this.translateService.instant('LOGIN.WAIT-MSG')
     });
     loading.present();
+
     this.manager.loginWithUserPass(this.id, this.pass)
       .subscribe((authorized) => {
         loading.dismiss();
@@ -101,6 +81,7 @@ export class LoginPage {
       });
   }
 
+  
   public showPassword(input: any): any {
     input.type = input.type === 'password' ? 'text' : 'password';
     this.showPass = input.type === 'text';

@@ -4,16 +4,18 @@ import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { Observable } from 'rxjs/Rx';
 import { KppRestService } from './kppRestService';
 import { AuthTokenProvider } from '../authTokenProvider';
+import { Device } from '@ionic-native/device';
 @Injectable()
 export class AuthTokenRestService extends KppRestService {
     constructor(protected http: Http,
         @Inject(APP_CONFIG) protected config: IAppConfig,
-        protected tokenProvider: AuthTokenProvider) {
+        protected tokenProvider: AuthTokenProvider,
+        protected device:Device) {
         super(http, config, tokenProvider)
     }
 
     /** Request the authentication  token to the server */
-    public requestToken(id: string, code: string, uuid: string): Observable<string> {
+    public requestToken(id: string, code: string): Observable<string> {
         //Here we request the token to the server with the sms code, the id and the uuid
         let requestAddres = this.config.usmoServer + this.config.getAuthenticationToken;
         let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -21,7 +23,7 @@ export class AuthTokenRestService extends KppRestService {
         let body = {
             user: id,
             authCode: code,
-            uuid: uuid
+            uuid: this.getUuid()
         };
 
         return super.requestWithoutToken(requestAddres,body,headers)
@@ -41,7 +43,7 @@ export class AuthTokenRestService extends KppRestService {
     }
 
     /** Checks if the token is a valid one*/
-    public tokenStatus(token): Observable<number> {
+    public tokenStatus(): Observable<number> {
         let requestAddres = this.config.usmoServer + this.config.verifyAuthenticationToken;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
@@ -51,5 +53,9 @@ export class AuthTokenRestService extends KppRestService {
 
     private extractData(res: Response): string {
         return res.text() || "";
+    }
+
+    private getUuid() {
+        return this.device.uuid == undefined ? "This device has no uuid" : this.device.uuid;
     }
 }
