@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ItemSliding } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
-import { StorageService } from '../../providers/storageService';
 import { ITask } from '../../models/taskI';
 import { VideoPage } from '../video/video';
 import { IPerformance } from '../../models/performation';
@@ -23,8 +22,7 @@ export class TestPage {
   
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public manager: ServicesManager,
-    public storageService: StorageService) {
+    public manager: ServicesManager) {
 
   }
 
@@ -52,7 +50,7 @@ export class TestPage {
                +'<p><img alt="Trunk Stability Push-Up Corrective Exercise (Dinamic Image)" src="https://liferay.biit-solutions.com:9443/documents/26348/0/Trunk+Stability+Push-Up+Corrective+Exercise+Progression+%28Animated%29/2e987a8e-1121-4c9d-8743-9455d94f3348?t=1468481372232" style="width: 985px; height: 697px;" /></p>'
                
     let videoUrl = "https://www.youtube.com/embed/FyDNr1sfj3w"
-    let task:ITask = {name:"Test task 1",startingTime:0,repetitions:1,performedOn:new Map<number,IPerformance[]>(),videoUrl:videoUrl,content:content,type:"bananas?"};
+    let task:ITask = {name:"Test task 1",startingTime:0,repetitions:1,performedOn:new Map<number,IPerformance[]>(),videoUrl:videoUrl,content:content,type:"bananas?",appointmentId:1};
    
     this.navCtrl.push(VideoPage,task)
 }

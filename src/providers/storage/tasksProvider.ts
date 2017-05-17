@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { IPerformance } from '../../models/performation';
 
 @Injectable()
-export class TaskProvider extends StorageServiceProvider {
+export class TasksProvider extends StorageServiceProvider {
     private tasks: ITask[];
     constructor(public storage: Storage) {
         super(storage);
@@ -33,10 +33,11 @@ export class TaskProvider extends StorageServiceProvider {
     }
 
     private setAllocTasks(tasks: ITask[]) {
-        this.tasks = tasks;
+        this.tasks = tasks==undefined?[]:tasks;
         return this.tasks;
     }
 
+    /**We serialize and deserialize because the map object won't be stored properly if we don't do it */
     private deserializeTasks(tasks: any[]) {
         let deserializedTasks: ITask[] = [];
         if (tasks != undefined) {
@@ -48,7 +49,8 @@ export class TaskProvider extends StorageServiceProvider {
                     performedOn: new Map<number, IPerformance[]>(JSON.parse(task.performedOn)), // sorted array of performation dates
                     videoUrl: task.videoUrl,
                     content: task.content,
-                    type: task.type
+                    type: task.type,
+                    appointmentId:task.appointmentId
                 });
             });
         }
@@ -65,7 +67,8 @@ export class TaskProvider extends StorageServiceProvider {
                 performedOn: task.performedOn != undefined ? JSON.stringify(Array.from(task.performedOn.entries())) : "",
                 videoUrl: task.videoUrl,
                 content: task.content,
-                type: task.type
+                type: task.type,
+                appointmentId:task.appointmentId
             }
             tasksList.push(serializableTask);
         });

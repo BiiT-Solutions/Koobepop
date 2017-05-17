@@ -1,20 +1,20 @@
 
 import { Injectable, Inject } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
-import { Http, Response } from '@angular/http';
-import { AuthTokenProvider } from '../authTokenProvider';
+import { Http, Response, Headers } from '@angular/http';
 import { IUser } from '../../models/userI';
 import { Observable } from 'rxjs/Observable';
 import { IAppointment } from '../../models/appointmentI';
 import { TranslateService } from '@ngx-translate/core';
 import { KppRestService } from './kppRestService';
+import { TokenProvider } from '../storage/tokenProvider';
 
 @Injectable()
 export class AppointmentsRestService extends KppRestService {
     appointmentsList;
     constructor(protected http: Http,
         @Inject(APP_CONFIG) protected config: IAppConfig,
-        protected tokenProvider: AuthTokenProvider,
+        protected tokenProvider: TokenProvider,
         protected translate: TranslateService) {
         super(http, config, tokenProvider);
     }
@@ -31,9 +31,8 @@ export class AppointmentsRestService extends KppRestService {
             patientId: user.patientId
         }
         return super.request(requestAddres, body, headers)
-            .map(this.extractData)
+            .map((res:Response)=>this.extractData(res))
             .map((appointments: IAppointment[]) => { return appointments ? appointments.reverse() : []; })
-            //.map((appointments:IAppointment[])=>this.appointmentsList = appointments)
             ;
     }
 

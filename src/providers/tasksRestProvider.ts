@@ -4,14 +4,15 @@ import { APP_CONFIG, IAppConfig } from '../app/app.config';
 import { ITask } from '../models/taskI';
 import { Observable } from 'rxjs/Observable';
 import { IAppointment } from '../models/appointmentI';
-import { AuthTokenService } from './authTokenService';
 import { TaskAction } from './tasksManager';
 import * as moment from 'moment';
 import { IPerformance } from '../models/performation';
+import { TokenProvider } from './storage/tokenProvider';
 @Injectable()
 export class TasksRestProvider {
   ONE_DAY_IN_MILIS = 24 * 60 * 60 * 1000;
-  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, private authService: AuthTokenService) { }
+  constructor(public http: Http, @Inject(APP_CONFIG) private config: IAppConfig, 
+  private authService:TokenProvider) { }
 
   /*Requests the tasks for a given appointment*/
   public requestTasks(appointment: IAppointment, token: string): Observable<ITask[]> {
@@ -48,7 +49,8 @@ export class TasksRestProvider {
               performedOn: performedMap,
               videoUrl: task.videoUrl,
               content: task.content,
-              type:appointment.type
+              type:appointment.type,
+              appointmentId:task.appointmentId
             });
           });
 

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
 import { ITask } from '../../models/taskI';
-import { IAppointment } from '../../models/appointmentI';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -14,13 +13,15 @@ import { IPerformance } from '../../models/performation';
   templateUrl: 'summary.html'
 })
 export class SummaryPage {
-  firstWeek: number = 0;
   actualWeek: number = 0;
   trackerPath: SafeResourceUrl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public manager: ServicesManager, private sanitizer: DomSanitizer) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public manager: ServicesManager,
+    private sanitizer: DomSanitizer) {
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
-    this.setFirstWeek();
+
     this.setActualWeek();
     window.addEventListener("tracker-ready", () => {
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
@@ -51,12 +52,6 @@ export class SummaryPage {
     });
   }
 
-  public setFirstWeek() {
-    this.manager.getActualAppointment().subscribe((appointment: IAppointment) => {
-      this.firstWeek = moment(appointment.startTime).week();
-    })
-  }
-
   public setActualWeek() {
     this.actualWeek = moment().week();
 
@@ -75,14 +70,14 @@ export class SummaryPage {
     return this.manager.getTasks().map((tasks: ITask[]) => {
       let workouts = []
       let firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
-      let lastWeekDay: number = moment().week(week).endOf("isoWeek").valueOf();   //sunday
+      //let lastWeekDay: number = moment().week(week).endOf("isoWeek").valueOf();   //sunday
       tasks.forEach(task => {
         let performations: IPerformance[] = task.performedOn.get(firstWeekDay);
         if (performations != undefined) {
-        performations = performations.concat().sort((p1:IPerformance,p2:IPerformance)=>(p1.date-p2.date));
+          performations = performations.concat().sort((p1: IPerformance, p2: IPerformance) => (p1.date - p2.date));
           let timesPerformed = 0;
           performations.forEach((performance) => {
-              workouts.push({
+            workouts.push({
               "date": performance.date,
               "name": task.name,
               "assessment": task.type,
@@ -98,25 +93,25 @@ export class SummaryPage {
         "year": "2017",
         "weekNumber": week,
         "workouts": workouts
-             }
+      }
     });
   }
 
   detailsFromUser(): Observable<any> {
     return this.manager.getUser().flatMap((storedUser: IUser) => {
       return this.manager.getTasks().map((tasks: ITask[]) => {
-   
-        let taskTypesGoals:Map<string,number> = new Map();
+
+        let taskTypesGoals: Map<string, number> = new Map();
 
         tasks.forEach((task: ITask) => {
-          if(!taskTypesGoals.has(task.type)){
-            taskTypesGoals.set(task.type,0);
+          if (!taskTypesGoals.has(task.type)) {
+            taskTypesGoals.set(task.type, 0);
           }
-          taskTypesGoals.set(task.type,taskTypesGoals.get(task.type)+task.repetitions);
+          taskTypesGoals.set(task.type, taskTypesGoals.get(task.type) + task.repetitions);
         });
 
         let goals = [];
-        taskTypesGoals.forEach((num,key)=>{
+        taskTypesGoals.forEach((num, key) => {
           goals.push({
             "assessment": key,
             "type": "score",

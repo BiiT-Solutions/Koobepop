@@ -19,7 +19,7 @@ export class AppointmentsProvider extends StorageServiceProvider {
         }
     }
 
-    public setAppointments(appointments: IAppointment[]): Observable<IAppointment> {
+    public setAppointments(appointments: IAppointment[]): Observable<IAppointment[]> {
         this.setAllocAppointmnts(appointments);
         return super.storeItem(StorageServiceProvider.APPOINTMENTS_STORAGE_ID, appointments);
     }
@@ -29,7 +29,7 @@ export class AppointmentsProvider extends StorageServiceProvider {
     }
 
     private setAllocAppointmnts(appointments: IAppointment[]): IAppointment[] {
-        this.appointments = appointments;
+        this.appointments = appointments==undefined?[]:appointments;
         return this.appointments;
     }
 }

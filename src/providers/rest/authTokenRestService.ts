@@ -1,15 +1,15 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { Observable } from 'rxjs/Rx';
 import { KppRestService } from './kppRestService';
-import { AuthTokenProvider } from '../authTokenProvider';
 import { Device } from '@ionic-native/device';
+import { TokenProvider } from '../storage/tokenProvider';
 @Injectable()
 export class AuthTokenRestService extends KppRestService {
     constructor(protected http: Http,
         @Inject(APP_CONFIG) protected config: IAppConfig,
-        protected tokenProvider: AuthTokenProvider,
+        protected tokenProvider: TokenProvider,
         protected device:Device) {
         super(http, config, tokenProvider)
     }
@@ -47,6 +47,7 @@ export class AuthTokenRestService extends KppRestService {
         let requestAddres = this.config.usmoServer + this.config.verifyAuthenticationToken;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
+        
         return super.request(requestAddres,{},headers)
             .map((response) => { return response.status });
     }

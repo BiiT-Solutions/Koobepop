@@ -10,12 +10,13 @@ export class StorageServiceProvider {
     public static TOKEN_STORAGE_ID = "token";
     public static USER_STORAGE_ID = "user";
     constructor(public storage: Storage) { }
+    
     public storeItem(name: string, item: any): Observable<any> {
-        return Observable.fromPromise(this.storage.set(name, item));
+        return Observable.fromPromise(this.storage.set(name, item).then(item=>{return item;}));
     }
 
     public retrieveItem(name: string): Observable<any> {
-        return Observable.fromPromise(this.storage.get(name));
+        return Observable.fromPromise(this.storage.get(name).then(item=>{return item}));
     }
 
     public resetDB() {

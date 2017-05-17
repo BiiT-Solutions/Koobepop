@@ -6,6 +6,9 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_CONFIG, AppConfig } from './app.config';
+import { IonicStorageModule } from '@ionic/storage';
+import { Network } from '@ionic-native/network';
+import { Device } from '@ionic-native/device';
 
 //Components
 import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
@@ -25,23 +28,24 @@ import { ShowExerciseInfoPage } from '../pages/show-exercise-info/show-exercise-
 import { SummaryPage } from '../pages/summary/summary';
 import { LoginPage } from '../pages/login/login';
 
-//
-import { IonicStorageModule } from '@ionic/storage';
-import { Network } from '@ionic-native/network';
-import { Device } from '@ionic-native/device';
+//REST services
+import { AppointmentsRestService } from '../providers/rest/appointmentsRestService';
+import { TasksRestService } from '../providers/rest/tasksRestService';
+import { AuthTokenRestService } from '../providers/rest/authTokenRestService';
 
-//Providers REST services
-import { AppointmentsProvider } from '../providers/appointmentsProvider';
-import { TasksRestProvider } from '../providers/tasksRestProvider';
+//Storage providers
+import { AppointmentsProvider } from '../providers/storage/appointmentsProvider';
+import { TasksProvider } from '../providers/storage/tasksProvider';
+import { TokenProvider } from '../providers/storage/tokenProvider';
+import { UserProvider } from '../providers/storage/userProvider';
 
 //Services
-import { StorageService } from '../providers/storageService';
 import { ServicesManager } from '../providers/servicesManager';
-import { AuthTokenService } from '../providers/authTokenService';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -102,14 +106,17 @@ export function createTranslateLoader(http: Http) {
    Network,
     Device,
     ConnectivityService,
-    ServicesManager,
-    TasksRestProvider,
-    AppointmentsProvider,
-    StorageService,
-    AuthTokenService,
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    ToastIssuer
+    ToastIssuer,
+    ServicesManager,
+    AppointmentsRestService,
+    AppointmentsProvider,
+    TasksRestService,
+    TasksProvider,
+    AuthTokenRestService,
+    TokenProvider,
+    UserProvider
   ]
 })
 export class AppModule { }

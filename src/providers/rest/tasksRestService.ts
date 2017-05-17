@@ -1,22 +1,20 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
-import { AuthTokenService } from '../authTokenService';
-import { AuthTokenProvider } from '../authTokenProvider';
 import { IAppointment } from '../../models/appointmentI';
 import { Observable } from 'rxjs/Rx';
 import { ITask } from '../../models/taskI';
 import { IPerformance } from '../../models/performation';
 import * as moment from 'moment';
 import { KppRestService } from './kppRestService';
+import { TokenProvider } from '../storage/tokenProvider';
 
 @Injectable()
 export class TasksRestService extends KppRestService {
 
     constructor(protected http: Http,
         @Inject(APP_CONFIG) protected config: IAppConfig,
-        protected authService: AuthTokenService,
-        protected tokenProvider: AuthTokenProvider) {
+        protected tokenProvider: TokenProvider) {
         super(http, config, tokenProvider);
     }
 

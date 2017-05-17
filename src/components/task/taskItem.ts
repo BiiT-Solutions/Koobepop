@@ -22,10 +22,7 @@ export class TaskItemComponent {
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
   performed = ""
-  constructor(public changeDetectorRef: ChangeDetectorRef,
-    public manager: ServicesManager,
-    public toaster: ToastIssuer,
-    public popoverCtrl: PopoverController) {
+  constructor() {
 
   }
 

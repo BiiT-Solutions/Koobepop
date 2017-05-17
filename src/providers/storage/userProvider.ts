@@ -11,7 +11,7 @@ export class UserProvider extends StorageServiceProvider {
         super(storage);
     }
     getUser(): Observable<IUser> {
-        if (this.getAllocUser()) {
+        if (this.getAllocUser() == undefined) {
             return super.retrieveItem(StorageServiceProvider.USER_STORAGE_ID)
                 .map(this.setAllocUser);
         } else {

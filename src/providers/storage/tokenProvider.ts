@@ -4,20 +4,21 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Rx';
 import { IToken } from '../../models/tokenI';
 import { Device } from '@ionic-native/device';
+import { UserProvider } from './userProvider';
 
 
 @Injectable()
 export class TokenProvider extends StorageServiceProvider {
     private token: string;
-    constructor(public storage: Storage, protected device: Device) {
+    constructor(public storage: Storage, protected device: Device,public userProvider:UserProvider) {
         super(storage);
     }
 
     public getToken(): Observable<string> {
         if (this.getAllocToken() == undefined) {
             return super.retrieveItem(StorageServiceProvider.TOKEN_STORAGE_ID)
-                .flatMap(this.tokenToString)
-                .map(this.setAllocToken);
+                .flatMap(token=>{return this.tokenToString(token)})
+                .map(token=>this.setAllocToken(token));
         } else {
             return Observable.of(this.getAllocToken());
         }
@@ -26,6 +27,7 @@ export class TokenProvider extends StorageServiceProvider {
     public setToken(token: string) {
         this.setAllocToken(token);
         return super.storeItem(StorageServiceProvider.TOKEN_STORAGE_ID,this.stringToToken(token))
+
     }
 
     private getAllocToken(): string {
@@ -39,7 +41,7 @@ export class TokenProvider extends StorageServiceProvider {
 
     private tokenToString(token: IToken): Observable<string> {
         // Beware of dragons!!
-        return super.retrieveItem(StorageServiceProvider.USER_STORAGE_ID)
+        return this.userProvider.retrieveItem(StorageServiceProvider.USER_STORAGE_ID)
             .map(user => {
                 let payload: string =
                     btoa('{"user":"' + user.patientId +'"'
@@ -53,6 +55,7 @@ export class TokenProvider extends StorageServiceProvider {
                 suffix = "=";
                 if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 1); }
                 let realToken = token.head + "." + payload + "." + token.signature;
+                //####
                 return realToken;
             })
     }

@@ -1,8 +1,6 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { NavController, NavParams, Slides, LoadingController, Loading } from 'ionic-angular';
-import { AppointmentsProvider } from '../../providers/appointmentsProvider';
 import { IAppointment } from '../../models/appointmentI';
-import { StorageService } from '../../providers/storageService';
 import * as infographicjs from 'infographic-js';
 import { ServicesManager } from '../../providers/servicesManager'
 import { ToastIssuer } from '../../providers/toastIssuer';
@@ -23,9 +21,7 @@ export class ReportPage {
     timeout;
     constructor(public navCtrl: NavController,
         public navParams: NavParams,
-        public appointmentsProvider: AppointmentsProvider,
         public changeDetector: ChangeDetectorRef,
-        public storageService: StorageService,
         public manager: ServicesManager,
         public loadingCtrl: LoadingController,
         public toaster: ToastIssuer,

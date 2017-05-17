@@ -5,7 +5,6 @@ import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
 import { ITask } from '../../models/taskI';
-import { StorageService } from '../../providers/storageService';
 import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
@@ -32,7 +31,6 @@ export class AgendaPage {
     public toastCtrl: ToastController,
     public toaster: ToastIssuer,
     public popoverCtrl: PopoverController,
-    public storageService: StorageService,
     public manager: ServicesManager,
     public loadingCtrl: LoadingController) {
     this.goToToday();
@@ -71,27 +69,18 @@ export class AgendaPage {
 
       for (let i = 0; i < weekPerformances.length; i++) {
         if (weekPerformances[i].date == event.taskComp.day) {
-          
+
           let popover = this.popoverCtrl
             .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
           popover.onDidDismiss((unsel) => {
-            if(unsel){
-             //Need the subscription to force the resolution of the Observable 
-            this.manager.removeTask(event.taskComp.task, event.taskComp.day)//TODO manage it all from the manager
-              .subscribe(status => { });
+            if (unsel) {
+              //Need the subscription to force the resolution of the Observable 
+              this.manager.removeTask(event.taskComp.task, event.taskComp.day)
+                .subscribe(status => { });
 
-            let index = event.taskComp.task.performedOn
-              .get(weekStartingTime)
-              .map((performance: IPerformance) => performance.date)
-              .indexOf(event.taskComp.day);
-
-            event.taskComp.task.performedOn
-              .get(weekStartingTime)
-              .splice(index, 1);
-            this.manager.setActualTasks(this.tasksPlan);
-            event.taskComp.checkBox.checked = false;
-          }else{            
-            event.taskComp.checkBox.checked = true;//??? TODO - Fix
+              event.taskComp.checkBox.checked = false;
+            } else {
+              event.taskComp.checkBox.checked = true;//??? TODO - Fix
             }
           });
           popover.present({ ev: event.event });
@@ -99,21 +88,18 @@ export class AgendaPage {
 
         }
       }
+
       //Insert the day into the week
       if (!alreadyPerformed) {
         let popover = this.popoverCtrl
           .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((score: number) => {
           if (score != undefined) {
-            event.taskComp.task.performedOn.get(weekStartingTime).push({ date: event.taskComp.day, score: score });
             //Need the subscription to force the Observable?
-            this.manager.performTask(event.taskComp.task, event.taskComp.day, score)
+            this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
               .subscribe(status => { });
-            this.manager.setActualTasks(this.tasksPlan);
             this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
             event.taskComp.checkBox.checked = true;
-          } else {
-            //If the popup is just dismissed it won't do anything
           }
         });
         popover.present({ ev: event.event });
@@ -126,15 +112,11 @@ export class AgendaPage {
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {
         if (score != undefined) {
-          event.taskComp.task.performedOn.set(weekStartingTime, [{ date: event.taskComp.day, score: score }]);
           //Need the subscription to force the Observable?
-          this.manager.performTask(event.taskComp.task, event.taskComp.day, score)
+          this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
             .subscribe(status => { });
-          this.manager.setActualTasks(this.tasksPlan);
           this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
           event.taskComp.checkBox.checked = true;
-        } else {
-          //If the popup is just dismissed it won't do anything
         }
       });
       popover.present({ ev: event.event });
