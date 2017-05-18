@@ -189,7 +189,7 @@ export class ServicesManager {
         let lastAppointments: IAppointment[] = [];
         appointments.forEach((appointment: IAppointment) => {
             let index = lastAppointments.map(appoinment => appointment.type).indexOf(appointment.type)
-            if (index > 0) {
+            if (index >= 0) {
                 if (lastAppointments[index].startTime < appointment.startTime) {
                     lastAppointments[index] = appointment;
                 }
@@ -201,14 +201,11 @@ export class ServicesManager {
         //Get the tasks for those appoinments
         let tasksRequests: Observable<ITask[]> ;
         lastAppointments.forEach(appointment => {
-
             if(tasksRequests == undefined){
                 tasksRequests = this.tasksRestService.requestTasks(appointment)
             }else{
                 tasksRequests = tasksRequests.merge(this.tasksRestService.requestTasks(appointment));
             }
-            //We have an observable that will emit the result of the request
-            //And we merge it with the others into one Observable
         });
         tasksRequests.bufferCount(lastAppointments.length)
             .subscribe((tasksList: ITask[][]) => {

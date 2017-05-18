@@ -66,7 +66,6 @@ export class AgendaPage {
     if (event.taskComp.task.performedOn.has(weekStartingTime)) {
       //Check if the date is also there
       let weekPerformances: IPerformance[] = event.taskComp.task.performedOn.get(weekStartingTime);
-
       for (let i = 0; i < weekPerformances.length; i++) {
         if (weekPerformances[i].date == event.taskComp.day) {
 
@@ -108,6 +107,7 @@ export class AgendaPage {
     }
     //Insert week with the day
     if (!alreadyPerformed) {
+
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {

@@ -33,7 +33,7 @@ export class TasksProvider extends StorageServiceProvider {
     }
 
     private setAllocTasks(tasks: ITask[]) {
-        this.tasks = tasks==undefined?[]:tasks;
+        this.tasks = tasks == undefined ? [] : tasks;
         return this.tasks;
     }
 
@@ -50,7 +50,7 @@ export class TasksProvider extends StorageServiceProvider {
                     videoUrl: task.videoUrl,
                     content: task.content,
                     type: task.type,
-                    appointmentId:task.appointmentId
+                    appointmentId: task.appointmentId
                 });
             });
         }
@@ -68,10 +68,33 @@ export class TasksProvider extends StorageServiceProvider {
                 videoUrl: task.videoUrl,
                 content: task.content,
                 type: task.type,
-                appointmentId:task.appointmentId
+                appointmentId: task.appointmentId
             }
             tasksList.push(serializableTask);
         });
         return tasksList;
+    }
+
+    private stringifyMap(map: Map<number, Map<number, number>>): string {
+        let arrayFromMap = [];
+        map.forEach((value, key) => {
+            arrayFromMap.push([key, Array.from(value.entries())])
+        });
+        let stringified = JSON.stringify(arrayFromMap);
+        return stringified;
+    }
+
+    private parseStringifiedMap(stringifiedMap: string): Map<number, Map<number, number>> {
+
+        let coolRebuiltMap = new Map<number, Map<number, number>>();
+        if(stringifiedMap == undefined || stringifiedMap == ""){
+            console.debug("TasksProvider: parseStringifiedMap: string void ")
+            return coolRebuiltMap;
+        }
+        let reParsed = JSON.parse(stringifiedMap);
+        reParsed.forEach(map => {
+            coolRebuiltMap.set(map[0], new Map<number, number>(map[1]))
+        });
+        return coolRebuiltMap;
     }
 }
