@@ -116,7 +116,7 @@ export class ServicesManager {
     public sendAuthCodeSMS(patientId, language): Observable<Response> {
         return this.tokenRestService.requestSendAuthCodeSMS(patientId, language)
             .map((response) => {
-                this.userProvider.setUser({ patientId: patientId });
+                this.userProvider.setUser({ patientId: patientId }).subscribe();
                 return response;
             });
     }
@@ -130,7 +130,7 @@ export class ServicesManager {
         return this.tokenRestService.requestToken(id, code)
             .map((token) => {
                 if (token != undefined && token.length > 0) {
-                    this.tokenProvider.setToken(token);
+                    this.tokenProvider.setToken(token).subscribe();
                     return true;
                 } else {
                     return false;

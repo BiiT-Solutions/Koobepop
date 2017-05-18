@@ -18,7 +18,7 @@ export class HomePage {
               public manager: ServicesManager) {  }
 
   ionViewDidLoad() {
-    this.manager.startContinuousAppointmentCheck(30000);
+    this.manager.startContinuousAppointmentCheck(1000*60*30);//check every 30 minutes
   }
 
   navAbout() {

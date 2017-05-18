@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from 'ionic-angular';
+/**Util class to provide toasts with predefined structures*/
 @Injectable()
 export class ToastIssuer {
     GOOD_TOAST_CLASS = 'good-toast'

@@ -31,7 +31,7 @@ export class ReportPage {
 
     protected ionViewDidLoad() {
         this.loading = this.loadingCtrl.create({
-            content: 'Loading reports'//WAIT-FOR-REPORTS-LOAD-TEXT
+            content: this.translate.instant('REPORT.REPORTS-LOADING-TEXT')
         });
         this.loading.present();
     }
@@ -56,7 +56,6 @@ export class ReportPage {
             context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
         } else {
             context.appointments.forEach((appointment: IAppointment) => {
-                console.log(appointment.results)
                 this.addReport(context)
             });
             //This prevents a change detection error on dev mode
@@ -73,10 +72,12 @@ export class ReportPage {
         this.testext = zoomActive;
         this.slider.lockSwipes(zoomActive);
     }
+
     ionViewWillLeave() {
         this.loading.dismiss();
         clearTimeout(this.timeout);
     }
+
     addReport(context) {
         var reportBuilder = {
             width: 960,

@@ -56,7 +56,8 @@
         "WAIT-MSG":"Please wait..."
     },
     "REPORT":{
-        "ERROR-SETTING-APPOINTMENTS":"Unable to load appointments"
+        "ERROR-SETTING-APPOINTMENTS":"Unable to load appointments",
+        "REPORTS-LOADING-TEXT":"Loading reports..."
     },
     "EXERCISE-INFO":{
         "TITLE":"Info"

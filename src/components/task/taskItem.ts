@@ -1,8 +1,5 @@
-import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ViewChild } from '@angular/core';
 import { ITask } from '../../models/taskI';
-import { ServicesManager } from '../../providers/servicesManager';
-import { ToastIssuer } from '../../providers/toastIssuer';
-import { PopoverController } from 'ionic-angular';
 import * as moment from 'moment';
 import { IPerformance } from '../../models/performation';
 @Component({

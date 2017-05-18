@@ -1,11 +1,12 @@
 import { ITask } from '../models/taskI';
 import { Injectable } from '@angular/core';
-import { TasksRestProvider } from './tasksRestProvider';
+import { TasksRestService } from './rest/tasksRestService';
 //TODO - Integrate on the app
+/* This class is suposed to manage the sending of performed and removed tasks to the server*/
 @Injectable()
 export class TasksManager{
     private taskActions:TaskAction[] = [];
-    public constructor(public tasksServices:TasksRestProvider){
+    public constructor(public tasksServices:TasksRestService){
     }
 
     public  finishTask(task:ITask,time:number,score:number){
@@ -19,7 +20,7 @@ export class TasksManager{
         this.removeTaskAction(action);
     }
 
-    public sendStagedActions(){
+   /* public sendStagedActions(){
         this.tasksServices.sendTasks(this.taskActions).subscribe((status)=>{
             if(status == 200){
             console.log("Success sending tasks");
@@ -28,9 +29,8 @@ export class TasksManager{
             console.log("Error sending tasks")
         }
         },error=>console.log("Error sending tasks"));
-    }
-
-
+    }*/
+    
     private addTaskAction(taskAction:TaskAction){
         //Get actions with the same name and time
         let alreadyStagedActions: TaskAction[] = this.taskActions.filter((action:TaskAction)=>{
