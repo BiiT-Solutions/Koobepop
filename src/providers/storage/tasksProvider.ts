@@ -85,7 +85,6 @@ export class TasksProvider extends StorageServiceProvider {
     }
 
     private parseStringifiedMap(stringifiedMap: string): Map<number, Map<number, number>> {
-
         let coolRebuiltMap = new Map<number, Map<number, number>>();
         if(stringifiedMap == undefined || stringifiedMap == ""){
             console.debug("TasksProvider: parseStringifiedMap: string void ")

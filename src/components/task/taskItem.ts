@@ -40,7 +40,8 @@ export class TaskItemComponent {
   }
 
   public checkMark(event) {
-    this.checkBox.checked = false;
+    console.log(this)
+    this.checkBox.checked = this.isTaskPerformed();
     this.checkBoxClick.emit({ event: event, taskComp: this });
   }
 

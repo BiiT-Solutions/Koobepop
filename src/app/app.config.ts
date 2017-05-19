@@ -22,12 +22,12 @@ export const AppConfig: IAppConfig = {
     //Server configuration  
     koobepopServer: "https://testing.biit-solutions.com:8443/koobepop-server-0.0.25", 
     usmoServer:
-    //"https://testing.biit-solutions.com/usmo/service-it",   //usmo-1.3.98",
-    "http://192.168.1.5:8081",
+    "https://testing.biit-solutions.com:9443/usmo/webservices",   //usmo-1.3.98",
+    //"http://192.168.1.5:8081",
     password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
     organizationName:
-    "UsmoOrganization",
-    //"Orbis Sport",
+    //"UsmoOrganization",
+    "Orbis Sport",
     //Services
     getTasksService:"/rest/getCorrectiveExercisesAuth",
     getAppointmentsService:"/rest/getAppointmentsAuth",

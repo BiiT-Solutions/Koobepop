@@ -6,10 +6,7 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'show-exercise-info.html'
 })
 export class ShowExerciseInfoPage {
-
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
-
   ionViewDidLoad() {
   }
-
 }

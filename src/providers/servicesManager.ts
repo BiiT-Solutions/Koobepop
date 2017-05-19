@@ -160,6 +160,7 @@ export class ServicesManager {
     public update() {
         this.userProvider.getUser()
         .subscribe((user)=>{
+            //TODO - use request ModifiedAppointments instead
         this.appointmentsRestService.requestAppointments(user)
             .flatMap((appointments:IAppointment[])=>{return this.updateAppointments(appointments)})
             .subscribe((appointments:IAppointment[])=>{this.updateTasks(appointments)});});

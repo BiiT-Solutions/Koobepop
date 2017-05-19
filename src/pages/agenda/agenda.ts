@@ -68,23 +68,20 @@ export class AgendaPage {
       let weekPerformances: IPerformance[] = event.taskComp.task.performedOn.get(weekStartingTime);
       for (let i = 0; i < weekPerformances.length; i++) {
         if (weekPerformances[i].date == event.taskComp.day) {
-
           let popover = this.popoverCtrl
             .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
           popover.onDidDismiss((unsel) => {
             if (unsel) {
               //Need the subscription to force the resolution of the Observable 
               this.manager.removeTask(event.taskComp.task, event.taskComp.day)
-                .subscribe(status => { });
-
+                .subscribe();
               event.taskComp.checkBox.checked = false;
             } else {
-              event.taskComp.checkBox.checked = true;//??? TODO - Fix
+              event.taskComp.checkBox.checked = true;
             }
           });
           popover.present({ ev: event.event });
           alreadyPerformed = true;
-
         }
       }
 
@@ -96,7 +93,7 @@ export class AgendaPage {
           if (score != undefined) {
             //Need the subscription to force the Observable?
             this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
-              .subscribe(status => { });
+              .subscribe();
             this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
             event.taskComp.checkBox.checked = true;
           }
@@ -112,9 +109,9 @@ export class AgendaPage {
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {
         if (score != undefined) {
-          //Need the subscription to force the Observable?
+          //Need the subscription to force the Observable resolution
           this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
-            .subscribe(status => { });
+            .subscribe();
           this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
           event.taskComp.checkBox.checked = true;
         }

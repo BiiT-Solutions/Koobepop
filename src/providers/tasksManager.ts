@@ -15,7 +15,6 @@ export class TasksManager{
     }
     
     public unfinishTask(task:ITask,time:number){
-
         let action:TaskAction = new TaskAction(task.name,time,0,TaskFlag.TASK_UNFINISHED)
         this.removeTaskAction(action);
     }

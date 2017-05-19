@@ -20,11 +20,8 @@ import { ConnectivityService } from './providers/connectivity-service';
 import { ToastIssuer } from './providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { AppointmentsProvider } from './providers/appointmentsProvider';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { APP_CONFIG, AppConfig } from './app/app.config';
-import { AuthTokenService } from './providers/authTokenService';
-import { TasksRestProvider } from './providers/tasksRestProvider';
 import { Device } from '@ionic-native/device';
 import { Network } from '@ionic-native/network';
 
@@ -81,11 +78,8 @@ export class TestUtils {
                 { provide: Config, useClass: ConfigMock },
                 { provide: APP_CONFIG, useValue: AppConfig },
                 ServicesManager,
-                AppointmentsProvider,
-                TasksRestProvider,
                 StorageService,
                 ToastIssuer,
-                AuthTokenService,
                 ConnectivityService,
                 { provide: Storage, useClass: StorageMock },
                 { provide: Network, useClass: NetworkMock },
