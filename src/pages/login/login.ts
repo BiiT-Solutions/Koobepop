@@ -12,11 +12,11 @@ import { UserProvider } from '../../providers/storage/userProvider';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  id = "";
-  pass = "";
-  showPass: boolean = false;
-  idIsSent: boolean = false;
-  smsSent: boolean = false;
+  private id = "";
+  private pass = "";
+  private showPass: boolean = false;
+  private idIsSent: boolean = false;
+  private smsSent: boolean = false;
 
   constructor(public navCtrl: NavController,
     public manager: ServicesManager,
@@ -53,8 +53,7 @@ export class LoginPage {
       });
   }
 
-
-  changeId() {
+  public changeId() {
     this.idIsSent = false;
     this.smsSent = false;
   }

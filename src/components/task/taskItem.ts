@@ -18,9 +18,8 @@ export class TaskItemComponent {
   @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
-  performed = ""
+  
   constructor() {
-
   }
 
   ngOnInit() {
@@ -66,6 +65,7 @@ export class TaskItemComponent {
     }
     return false;
   }
+  
   /*Provides the style for the task */
   public taskStyle() {
     let actualWeekStarts = moment(this.day).startOf('isoWeek').valueOf();

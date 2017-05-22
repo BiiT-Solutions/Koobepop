@@ -56,7 +56,9 @@ export class ReportPage {
             context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
         } else {
             context.appointments.forEach((appointment: IAppointment) => {
+                try{
                 this.addReport(context)
+            }catch(e){console.error(e)}
             });
             //This prevents a change detection error on dev mode
             try {

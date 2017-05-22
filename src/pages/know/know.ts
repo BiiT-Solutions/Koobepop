@@ -21,6 +21,7 @@ export class KnowPage {
       name:'spirometry'},
     {image:'assets/icons/spirometry.svg',
       name:'spirometry'}];
+      color = "#e56854"
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
@@ -31,14 +32,16 @@ export class KnowPage {
   }
   //TODO - Make a component for the button
   public randomColor():string{
-   let color = "#8bef8b"
+   let color = this.color
     let oldR = Number.parseInt(color.slice(1,3),16)
     let oldG = Number.parseInt(color.slice(3,5),16)
     let oldB = Number.parseInt(color.slice(5,7),16)
     let r = (Math.round((Math.random()* 255 + oldR*2)/3)).toString(16);
     let g = (Math.round((Math.random()* 255 + oldG*2)/3)).toString(16);
     let b = (Math.round((Math.random()* 255 + oldB*2)/3)).toString(16);
-    return '#' + r + g + b;
+    color = '#' + r + g + b;
+    this.color = color
+    return color;
   }
 
 }

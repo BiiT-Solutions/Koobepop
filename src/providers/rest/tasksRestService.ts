@@ -8,6 +8,7 @@ import { IPerformance } from '../../models/performation';
 import * as moment from 'moment';
 import { KppRestService } from './kppRestService';
 import { TokenProvider } from '../storage/tokenProvider';
+import { TaskAction } from '../tasksManager';
 
 @Injectable()
 export class TasksRestService extends KppRestService {
@@ -89,5 +90,15 @@ export class TasksRestService extends KppRestService {
         }
         headers.append('Authorization', this.config.password);
         return super.request(requestAddres, body, headers).map(res => res.status);
+    }
+    public sendTasks(tasks:TaskAction[]):Observable<Response>{
+        let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
+        
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authorization', this.config.password);
+        let body = {
+           tasks: tasks
+        }
+        return super.request(requestAddres, body, headers);
     }
 }

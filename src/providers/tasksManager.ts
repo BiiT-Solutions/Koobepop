@@ -10,25 +10,25 @@ export class TasksManager{
     }
 
     public  finishTask(task:ITask,time:number,score:number){
-        let action:TaskAction = new TaskAction(task.name,time,score,TaskFlag.TASK_FINISHED)
+        let action:TaskAction = new TaskAction(task.name,time,score,TaskFlag.TASK_FINISHED,task.appointmentId)
         this.addTaskAction(action);
     }
     
     public unfinishTask(task:ITask,time:number){
-        let action:TaskAction = new TaskAction(task.name,time,0,TaskFlag.TASK_UNFINISHED)
+        let action:TaskAction = new TaskAction(task.name,time,0,TaskFlag.TASK_UNFINISHED,task.appointmentId)
         this.removeTaskAction(action);
     }
 
-   /* public sendStagedActions(){
-        this.tasksServices.sendTasks(this.taskActions).subscribe((status)=>{
-            if(status == 200){
+    public sendStagedActions(){
+        this.tasksServices.sendTasks(this.taskActions).subscribe((res)=>{
+            if(res.status == 200){
             console.log("Success sending tasks");
             this.taskActions = [];
         }else{
             console.log("Error sending tasks")
         }
         },error=>console.log("Error sending tasks"));
-    }*/
+    }
     
     private addTaskAction(taskAction:TaskAction){
         //Get actions with the same name and time
@@ -67,11 +67,13 @@ export class TaskAction{
     time:number;
     score:number;
     action:TaskFlag;
-    constructor(name:string,time:number,score:number,action:TaskFlag){
+    appointmentId:number;
+    constructor(name:string,time:number,score:number,action:TaskFlag,appointmentId:number){
         this.name = name;
         this.time = time;
         this.score = score;
         this.action = action;
+        this.appointmentId = appointmentId;
     }
 }
 export enum TaskFlag{
