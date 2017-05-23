@@ -248,7 +248,7 @@ export class ReportPage {
                                     attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
                                 }, {
                                     tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ffb33b' }
+                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                                 }, {
                                     tag: 'line',
                                     attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:6;' }
@@ -357,7 +357,7 @@ export class ReportPage {
                                     attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
                                 }, {
                                     tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ffb33b' }
+                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                                 }, {
                                     tag: 'line',
                                     attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
@@ -402,7 +402,7 @@ export class ReportPage {
                                     attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
                                 }, {
                                     tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ff0000' }
+                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                                 }, {
                                     tag: 'line',
                                     attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
@@ -432,7 +432,7 @@ export class ReportPage {
                                     attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
                                 }, {
                                     tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#ff0000' }
+                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
                                 }, {
                                     tag: 'line',
                                     attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
