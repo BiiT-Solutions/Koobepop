@@ -77,6 +77,6 @@ export class TaskAction{
     }
 }
 export enum TaskFlag{
-TASK_FINISHED,
-TASK_UNFINISHED
+TASK_FINISHED = 1,
+TASK_UNFINISHED = 0
 }

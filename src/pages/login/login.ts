@@ -34,7 +34,7 @@ export class LoginPage {
     });
   }
 
-  public sendId() {
+  public sendId():void {
     // Request Verification code
     this.idIsSent = true;
     this.manager.sendAuthCodeSMS(this.id, this.translateService.currentLang)
@@ -53,12 +53,12 @@ export class LoginPage {
       });
   }
 
-  public changeId() {
+  public changeId():void {
     this.idIsSent = false;
     this.smsSent = false;
   }
 
-  public login() {
+  public login():void {
     //Send request for a token to USMO 
     let loading = this.loadingCtrl.create({
       content: this.translateService.instant('LOGIN.WAIT-MSG')
@@ -80,7 +80,7 @@ export class LoginPage {
   }
 
 
-  public showPassword(input: any): any {
+  public showPassword(input: any):void {
     input.type = input.type === 'password' ? 'text' : 'password';
     this.showPass = input.type === 'text';
   }

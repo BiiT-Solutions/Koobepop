@@ -61,10 +61,10 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.      
       try {
-        this.statusBar.styleDefault();
+        //this.statusBar.styleDefault();
         this.splashscreen.hide();
       } catch (e) {
-        console.error(this + " ERROR");
+        console.error(this + " ERROR:");
         console.error(e);
       }
     });

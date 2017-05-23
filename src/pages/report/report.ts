@@ -506,8 +506,13 @@ export class ReportPage {
             }
 
             ]
-        }
+        };
 
+        //Show reports 
+        //1st- General idea
         context.svgList.push(infographicjs.newLayout(reportBuilder));
+        //2nd- Specifics about each examination
+        
+
     }
 }

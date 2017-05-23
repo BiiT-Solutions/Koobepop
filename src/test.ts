@@ -89,7 +89,8 @@ export class TestUtils {
                 { provide: ToastController, useClass: ToastControllerMock },
                 { provide: SplashScreen, useClass: SplashScreenMock },
                 { provide: Device, useClass: DeviceMock },
-                { provide: StatusBar, useClass: StatusBarMock }
+                { provide: StatusBar, useClass: StatusBarMock },
+                ServicesManager
             ],
             imports: [
                 TranslateModule,

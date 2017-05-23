@@ -91,13 +91,13 @@ export class TasksRestService extends KppRestService {
         headers.append('Authorization', this.config.password);
         return super.request(requestAddres, body, headers).map(res => res.status);
     }
+
     public sendTasks(tasks:TaskAction[]):Observable<Response>{
-        let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
-        
+        let requestAddres = this.config.usmoServer + this.config.performActions;        
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
         let body = {
-           tasks: tasks
+           taskActions: tasks
         }
         return super.request(requestAddres, body, headers);
     }

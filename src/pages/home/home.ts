@@ -1,6 +1,5 @@
 import { Component, } from '@angular/core';
 import { NavController } from 'ionic-angular';
-
 import { AboutPage } from '../about/about';
 import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';

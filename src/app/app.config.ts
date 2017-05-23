@@ -3,7 +3,6 @@ export let APP_CONFIG = new OpaqueToken('app.config');
 
 
 export interface IAppConfig {
-    koobepopServer: string;
     getTasksService:string;
     getResultsService:string;
     usmoServer:string;
@@ -16,15 +15,19 @@ export interface IAppConfig {
     verifyAuthenticationToken:string;
     sendAuthCodeSMS:string;
     organizationName:string;
+    performActions:string;
 }
 
 export const AppConfig: IAppConfig = {  
-    //Server configuration  
-    koobepopServer: "https://testing.biit-solutions.com:8443/koobepop-server-0.0.25", 
+    //Server configuration 
     usmoServer:
-    "https://testing.biit-solutions.com:9443/usmo/webservices",   //usmo-1.3.98",
-    //"http://192.168.1.5:8081",
-    password:"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=",//Despedazar (?)
+    //"http://192.168.1.5:8081",    //LOCAL server
+    //"https://testing.biit-solutions.com:10443/usmo/webservices", //TESTING server
+    "https://m3sport.biit-solutions.com:10443/usmo/webservices",    
+    
+    password:
+    //"Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=", //LOCAL & TESTING 
+    btoa("webservice@biit-solutions.com:PSIdn3L93pAib7k"),      //M3Sport
     organizationName:
     //"UsmoOrganization",
     "Orbis Sport",
@@ -37,5 +40,6 @@ export const AppConfig: IAppConfig = {
     getAuthenticationToken:"/rest/getAuthenticationToken",
     verifyAuthenticationToken:"/rest/verifyAuthenticationToken",
     sendAuthCodeSMS:"/rest/sendAuthCodeSMS",
-    getUpdatedAppointmentsService:"/rest/getUpdatedAppointmentsAuth"
+    getUpdatedAppointmentsService:"/rest/getUpdatedAppointmentsAuth",
+    performActions:"/rest/performExercisesActionsAuth"
 };

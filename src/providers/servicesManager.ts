@@ -114,9 +114,11 @@ export class ServicesManager {
      * Ask the server for the account confirmation SMS 
      * */
     public sendAuthCodeSMS(patientId, language): Observable<Response> {
+        //console.log("################## SEND AUTH CODE SMS")
         return this.tokenRestService.requestSendAuthCodeSMS(patientId, language)
             .map((response) => {
                 this.userProvider.setUser({ patientId: patientId }).subscribe();
+                //console.log("################## AUTH CODE SMS SENT? "+response.status)
                 return response;
             });
     }
@@ -208,6 +210,7 @@ export class ServicesManager {
                 tasksRequests = tasksRequests.merge(this.tasksRestService.requestTasks(appointment));
             }
         });
+        if(tasksRequests!=undefined){
         tasksRequests.bufferCount(lastAppointments.length)
             .subscribe((tasksList: ITask[][]) => {
                 let newTasks: ITask[] = []
@@ -219,5 +222,6 @@ export class ServicesManager {
                 //Save them
                 this.tasksProvider.setTasks(newTasks)
             });
+        }
     }
 }
