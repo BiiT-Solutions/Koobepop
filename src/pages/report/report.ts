@@ -56,9 +56,9 @@ export class ReportPage {
             context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
         } else {
             context.appointments.forEach((appointment: IAppointment) => {
-                try{
-                this.addReport(context)
-            }catch(e){console.error(e)}
+                try {
+                    this.addReport(context, appointment)
+                } catch (e) { console.error(e) }
             });
             //This prevents a change detection error on dev mode
             try {
@@ -80,7 +80,41 @@ export class ReportPage {
         clearTimeout(this.timeout);
     }
 
-    addReport(context) {
+    addReport(context, appointment: IAppointment) {
+       // console.log("Add Report")
+        let results = appointment.results;
+       // console.log(results)
+        let mentalExam = results['epworthslaperigheidsschaal'];
+        let sleepScore = 0;
+
+        if (mentalExam != undefined) {
+            //console.log(mentalExam)
+            //For each key 
+            for (let element in mentalExam.situatie) {
+               // console.log(mentalExam.situatie[element][0]);
+                sleepScore += parseInt(mentalExam.situatie[element][0])
+            }
+            console.log("SCORE:")
+            console.log(sleepScore)
+        }
+        //Init color depending on the score
+        let sleepColor;
+        let sleepScoreString;
+        if(sleepScore<11){
+            sleepColor = "#00aa00"
+            sleepScoreString = "normal healthy sleep"
+        } else if (sleepScore<15){
+            sleepColor = "#fcd453"
+            sleepScoreString = "mild insomnia"
+        } else if (sleepScore < 18){
+            sleepColor = "#ffb33b"
+            sleepScoreString = "strong insomnia"
+        }else {
+            sleepColor = "#ff0000"
+            sleepScoreString = "severe insomnia"
+        }
+        
+
         var reportBuilder = {
             width: 960,
             height: 2300,
@@ -98,6 +132,16 @@ export class ReportPage {
                     attributes: { x: 10, "font-size": "80px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
                 }
             }, {
+                xCell: 0,
+                yCell: 0,
+                element: {
+                    type: 'text',
+                    text: new Date(appointment.startTime).toLocaleDateString(),
+                    verticalAlign: 'middle',
+                    attributes: { x: 10, y: 50, "font-size": "60px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
+                }
+            },
+            {
                 xCell: 0,
                 yCell: 0,
                 element: {
@@ -238,7 +282,7 @@ export class ReportPage {
                                     attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
                                 }, {
                                     tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
+                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: sleepColor }
                                 }, {
                                     tag: 'line',
                                     attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
@@ -437,33 +481,33 @@ export class ReportPage {
                     svgShapes: [{
                         type: 'basicShape',
                         tag: 'rect',
-                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:none' }
-                    }],                    
+                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#006680;fill-opacity:1;fill-rule:evenodd;stroke:none' }
+                    }],
                     svgElements: [{
-                                id: 'heart2',
-                                attributes: { width: 'default', height: 'default', x: 60, y: 60,style: 'fill:#FFFFFF' }
-                            },
-                            ]
+                        id: 'sleep2',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 60, style: 'fill:#FFFFFF' }
+                    },
+                    ]
                 }
             }, {
                 xCell: 0,
                 yCell: 6,
                 element: {
                     type: 'text',
-                    maxLineSize: 70,
-                    text: 'There are many different tests to find out how your heart is doing or to diagnose a condition. Heart tests give you and your doctor more information about the condition of your heart and can help you find out which treatment(s) may be best for you',
+                    maxLineSize: 40,
+                    text: 'Your actual sleep score is: '+sleepScore+' points. Which means '+sleepScoreString+".",
                     verticalAlign: 'middle',
-                    attributes: { x: 250, "font-size": "17px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
+                    attributes: { x: 250, "font-size": "20px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
 
                 }
-            },{
+            }, {
                 xCell: 0,
                 yCell: 6,
                 element: {
                     type: 'text',
-                    text: 'Heart function',
+                    text: 'Sleep',
                     verticalAlign: 'top',
-                    attributes: { y:1450,x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
+                    attributes: { y: 1450, x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
                 }
             }, {
                 xCell: 0,
@@ -475,13 +519,13 @@ export class ReportPage {
                     svgShapes: [{
                         type: 'basicShape',
                         tag: 'rect',
-                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#800000;fill-opacity:1;fill-rule:evenodd;stroke:none' }
+                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#006680;fill-opacity:1;fill-rule:evenodd;stroke:none' }
                     }],
                     svgElements: [{
-                                id: 'lungs2',
-                                attributes: { width: 'default', height: 'default', x: 60, y: 60, style: 'fill:#FFFFFF' }
-                            },
-                            ]
+                        id: 'lungs2',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 60, style: 'fill:#FFFFFF' }
+                    },
+                    ]
                 }
             }, {
                 xCell: 0,
@@ -494,14 +538,53 @@ export class ReportPage {
                     attributes: { x: 250, "font-size": "17px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
 
                 }
-            },{
+            }, {
                 xCell: 0,
                 yCell: 7,
                 element: {
                     type: 'text',
-                    text: 'Long function',
+                    text: 'Lung function',
                     verticalAlign: 'top',
-                    attributes: { y:1680, x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
+                    attributes: { y: 1680, x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
+                }
+            },
+            {
+                xCell: 0,
+                yCell: 8,
+                element: {
+                    type: 'freeLayout',
+                    width: 920,
+                    height: 250,
+                    svgShapes: [{
+                        type: 'basicShape',
+                        tag: 'rect',
+                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#006680;fill-opacity:1;fill-rule:evenodd;stroke:none' }
+                    }],
+                    svgElements: [{
+                        id: 'heart2',
+                        attributes: { width: 'default', height: 'default', x: 60, y: 60, style: 'fill:#FFFFFF' }
+                    },
+                    ]
+                }
+            }, {
+                xCell: 0,
+                yCell: 8,
+                element: {
+                    type: 'text',
+                    maxLineSize: 70,
+                    text: 'There are many different tests to find out how your heart is doing or to diagnose a condition. Heart tests give you and your doctor more information about the condition of your heart and can help you find out which treatment(s) may be best for you',
+                    verticalAlign: 'middle',
+                    attributes: { x: 250, "font-size": "17px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
+
+                }
+            }, {
+                xCell: 0,
+                yCell: 8,
+                element: {
+                    type: 'text',
+                    text: 'Heart function',
+                    verticalAlign: 'top',
+                    attributes: { y: 1910, x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
                 }
             }
 
@@ -512,7 +595,7 @@ export class ReportPage {
         //1st- General idea
         context.svgList.push(infographicjs.newLayout(reportBuilder));
         //2nd- Specifics about each examination
-        
+
 
     }
 }

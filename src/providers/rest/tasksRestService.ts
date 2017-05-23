@@ -30,7 +30,12 @@ export class TasksRestService extends KppRestService {
     }
 
     extractData(res: Response) {
-        return res.json() || {};
+        try {
+            return res.json() || {};
+        } catch (exception) {
+            console.debug(exception)
+            return undefined;
+        }
     }
 
     private formatTasks(appointment: IAppointment, tasks: any): ITask[] {
@@ -92,12 +97,12 @@ export class TasksRestService extends KppRestService {
         return super.request(requestAddres, body, headers).map(res => res.status);
     }
 
-    public sendTasks(tasks:TaskAction[]):Observable<Response>{
-        let requestAddres = this.config.usmoServer + this.config.performActions;        
+    public sendTasks(tasks: TaskAction[]): Observable<Response> {
+        let requestAddres = this.config.usmoServer + this.config.performActions;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
         let body = {
-           taskActions: tasks
+            taskActions: tasks
         }
         return super.request(requestAddres, body, headers);
     }
