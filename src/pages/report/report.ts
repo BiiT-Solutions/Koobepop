@@ -6,7 +6,7 @@ import { ServicesManager } from '../../providers/servicesManager'
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 /**
- * This page holds a report into a slider consisting on several pages (zoomable-slide)
+ * This page holds reports into a slider consisting on several pages (zoomable-slide)
  */
 @Component({
     selector: 'page-report',

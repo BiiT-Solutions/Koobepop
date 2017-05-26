@@ -4,11 +4,10 @@ import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
-import { ITask } from '../../models/taskI';
+import { TaskModel } from '../../models/taskI';
 import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
-import { IPerformance } from '../../models/performation';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
 /**
  * 
@@ -23,7 +22,7 @@ export class AgendaPage {
   days: number[] = [];
   oldIndex = 1
   @ViewChild('slider') slider: Slides;
-  tasksPlan: ITask[] = [];
+  tasksPlan: TaskModel[] = [];
   loading: Loading;
 
   constructor(
@@ -41,7 +40,7 @@ export class AgendaPage {
       content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
     });
     this.loading.present().then(() => {
-      this.manager.getTasks().subscribe((tasks: ITask[]) => {
+      this.manager.getTasks().subscribe((tasks: TaskModel[]) => {
         this.tasksPlan = tasks
         this.loading.dismiss()
           .catch(error => { console.error(error) });
@@ -56,37 +55,28 @@ export class AgendaPage {
   public checkMark(event) {
     //Init map in case it hasn't been
     if (event.taskComp.task.performedOn == undefined) {
-      event.taskComp.task.performedOn = new Map<number, IPerformance[]>();
+      event.taskComp.task.performedOn = new Map<number, Map<number, number>>();
     }
-
     let weekStartingTime = moment(event.taskComp.day).startOf('isoWeek').valueOf();
     let alreadyPerformed = false;
-
-    //If the week is in there    
-    if (event.taskComp.task.performedOn.has(weekStartingTime)) {
-      //Check if the date is also there
-      let weekPerformances: IPerformance[] = event.taskComp.task.performedOn.get(weekStartingTime);
-      for (let i = 0; i < weekPerformances.length; i++) {
-        if (weekPerformances[i].date == event.taskComp.day) {
-          let popover = this.popoverCtrl
-            .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
-          popover.onDidDismiss((unsel) => {
-            if (unsel) {
-              //Need the subscription to force the resolution of the Observable 
-              this.manager.removeTask(event.taskComp.task, event.taskComp.day)
-                .subscribe();
-              event.taskComp.checkBox.checked = false;
-            } else {
-              event.taskComp.checkBox.checked = true;
-            }
-          });
-          popover.present({ ev: event.event });
-          alreadyPerformed = true;
-        }
-      }
-
-      //Insert the day into the week
-      if (!alreadyPerformed) {
+    let weekPerformed: Map<number, number> = event.taskComp.task.performedOn.get(weekStartingTime);
+    if (weekPerformed != undefined) {
+      let performation = weekPerformed.get(event.taskComp.day);
+      if (performation != undefined) {
+        let popover = this.popoverCtrl
+          .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
+        popover.onDidDismiss((unsel) => {
+          if (unsel) {
+            //Need the subscription to force the resolution of the Observable 
+            this.manager.removeTask(event.taskComp.task, event.taskComp.day)
+              .subscribe();
+            event.taskComp.checkBox.checked = false;
+          } else {
+            event.taskComp.checkBox.checked = true;
+          }
+        });
+        popover.present({ ev: event.event });
+      } else {
         let popover = this.popoverCtrl
           .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((score: number) => {
@@ -99,12 +89,8 @@ export class AgendaPage {
           }
         });
         popover.present({ ev: event.event });
-        alreadyPerformed = true;
       }
-    }
-    //Insert week with the day
-    if (!alreadyPerformed) {
-
+    } else {
       let popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {
@@ -147,11 +133,11 @@ export class AgendaPage {
     }
   }
 
-  public gotoExerciseVideo(task: ITask) {
+  public gotoExerciseVideo(task: TaskModel) {
     this.navCtrl.push(VideoPage, task);
   }
 
-  public gotoExerciseInfo(task: ITask) {
+  public gotoExerciseInfo(task: TaskModel) {
     this.navCtrl.push(VideoPage, task);
   }
 
@@ -162,6 +148,11 @@ export class AgendaPage {
       moment(this.today).add(1, "days").valueOf()
     ];
     this.actualDay = this.today;
+  }
+
+  public isPerformed(task: TaskModel, day: number) {
+    let week: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
+    return week == undefined ? false : week.has(day);
   }
 
   ionViewWillLeave() {

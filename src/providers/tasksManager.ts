@@ -1,4 +1,4 @@
-import { ITask } from '../models/taskI';
+import { TaskModel } from '../models/taskI';
 import { Injectable } from '@angular/core';
 import { TasksRestService } from './rest/tasksRestService';
 //TODO - Integrate on the app
@@ -9,12 +9,12 @@ export class TasksManager{
     public constructor(public tasksServices:TasksRestService){
     }
 
-    public  finishTask(task:ITask,time:number,score:number){
+    public  finishTask(task:TaskModel,time:number,score:number){
         let action:TaskAction = new TaskAction(task.name,time,score,TaskFlag.TASK_FINISHED,task.appointmentId)
         this.addTaskAction(action);
     }
     
-    public unfinishTask(task:ITask,time:number){
+    public unfinishTask(task:TaskModel,time:number){
         let action:TaskAction = new TaskAction(task.name,time,0,TaskFlag.TASK_UNFINISHED,task.appointmentId)
         this.removeTaskAction(action);
     }

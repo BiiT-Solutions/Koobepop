@@ -14,6 +14,7 @@
             <task-component *ngIf="day>task.startingTime" 
               [task]="task" 
               [day]="day" 
+              [checked]="isPerformed(task,day)"
               (checkBoxClick)="checkMark($event)" 
               (infoClick)="gotoExerciseInfo(task)"></task-component>
           </ng-container>

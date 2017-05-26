@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IAppointment } from '../models/appointmentI';
 import { AppointmentsProvider } from './storage/appointmentsProvider';
-import { ITask } from '../models/taskI';
+import { TaskModel } from '../models/taskI';
 import { IUser } from '../models/userI';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
@@ -59,42 +59,41 @@ export class ServicesManager {
     }
 
     /*Tasks*/
-    public getTasks(): Observable<ITask[]> {
+    public getTasks(): Observable<TaskModel[]> {
         return this.tasksProvider.getTasks();
     }
 
 
 
-    public performTask(task: ITask, perf: IPerformance): Observable<any> {
+    public performTask(task: TaskModel, perf: IPerformance): Observable<any> {
         //perform = save performation on the week with the tasks
         this.tasksProvider.getTasks()
-            .subscribe((tasks: ITask[]) => {
+            .subscribe((tasks: TaskModel[]) => {
                 let taskIndex = tasks.map(task => task.name).indexOf(task.name);
                 if (taskIndex >= 0) {
                     let weekStart = moment(perf.date).startOf('isoWeek').valueOf();
                     if (task.performedOn.has(weekStart)) {
-                        task.performedOn.get(weekStart).push(perf);
+                        task.performedOn.get(weekStart).set(perf.date,perf.score);
                     } else {
-                        task.performedOn.set(weekStart, [perf]);
+                        let week:Map<number,number> = new Map();
+                        week.set(perf.date,perf.score);
+                        task.performedOn.set(weekStart,week);
                     }
-                    tasks[taskIndex] = task
+                    tasks[taskIndex] = task;
                     this.tasksProvider.setTasks(tasks).subscribe();
                 }
             });
         return this.tasksRestService.sendPerformedTask(task.appointmentId, task.name, perf.date, perf.score);
     }
 
-    public removeTask(task: ITask, time): Observable<any> {
+    public removeTask(task: TaskModel, time): Observable<any> {
         this.tasksProvider.getTasks()
-            .subscribe((tasks: ITask[]) => {
+            .subscribe((tasks: TaskModel[]) => {
                 let taskIndex = tasks.map(task => task.name).indexOf(task.name);
                 if (taskIndex >= 0) {
                     let weekStart = moment(time).startOf('isoWeek').valueOf();
                     if (task.performedOn.has(weekStart)) {
-                        let performedIndex = task.performedOn.get(weekStart).map(performed => performed.date).indexOf(time);
-                        if (performedIndex >= 0) {
-                            task.performedOn.get(weekStart).splice(performedIndex, 1);
-                        }
+                        task.performedOn.get(weekStart).delete(time);
                     }
                     this.tasksProvider.setTasks(tasks).subscribe();
                 }
@@ -202,7 +201,7 @@ export class ServicesManager {
         });
 
         //Get the tasks for those appoinments
-        let tasksRequests: Observable<ITask[]> ;
+        let tasksRequests: Observable<TaskModel[]> ;
         lastAppointments.forEach(appointment => {
             if(tasksRequests == undefined){
                 tasksRequests = this.tasksRestService.requestTasks(appointment)
@@ -212,15 +211,15 @@ export class ServicesManager {
         });
         if(tasksRequests!=undefined){
         tasksRequests.bufferCount(lastAppointments.length)
-            .subscribe((tasksList: ITask[][]) => {
-                let newTasks: ITask[] = []
-                tasksList.forEach((taskList: ITask[]) => {
-                    taskList.forEach((task: ITask) => {
+            .subscribe((tasksList: TaskModel[][]) => {
+                let newTasks: TaskModel[] = []
+                tasksList.forEach((taskList: TaskModel[]) => {
+                    taskList.forEach((task: TaskModel) => {
                         newTasks.push(task);
                     });
                 });
                 //Save them
-                this.tasksProvider.setTasks(newTasks)
+                this.tasksProvider.setTasks(newTasks).subscribe();
             });
         }
     }

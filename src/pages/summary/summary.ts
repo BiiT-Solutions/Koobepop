@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
-import { ITask } from '../../models/taskI';
+import { TaskModel } from '../../models/taskI';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { IUser } from '../../models/userI';
-import { IPerformance } from '../../models/performation';
 
 @Component({
   selector: 'page-summary',
@@ -67,18 +66,16 @@ export class SummaryPage {
   }
 
   detailsFromWeek(week: number): Observable<any> {
-    return this.manager.getTasks().map((tasks: ITask[]) => {
+    return this.manager.getTasks().map((tasks: TaskModel[]) => {
       let workouts = []
       let firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
-      //let lastWeekDay: number = moment().week(week).endOf("isoWeek").valueOf();   //sunday
       tasks.forEach(task => {
-        let performations: IPerformance[] = task.performedOn.get(firstWeekDay);
+        let performations: Map<number,number>= task.performedOn.get(firstWeekDay);
         if (performations != undefined) {
-          performations = performations.concat().sort((p1: IPerformance, p2: IPerformance) => (p1.date - p2.date));
           let timesPerformed = 0;
-          performations.forEach((performance) => {
+          performations.forEach((score,date) => {
             workouts.push({
-              "date": performance.date,
+              "date": date,
               "name": task.name,
               "assessment": task.type,
               "health": 0,
@@ -99,11 +96,11 @@ export class SummaryPage {
 
   detailsFromUser(): Observable<any> {
     return this.manager.getUser().flatMap((storedUser: IUser) => {
-      return this.manager.getTasks().map((tasks: ITask[]) => {
+      return this.manager.getTasks().map((tasks: TaskModel[]) => {
 
         let taskTypesGoals: Map<string, number> = new Map();
 
-        tasks.forEach((task: ITask) => {
+        tasks.forEach((task: TaskModel) => {
           if (!taskTypesGoals.has(task.type)) {
             taskTypesGoals.set(task.type, 0);
           }

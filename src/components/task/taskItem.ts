@@ -1,30 +1,34 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ViewChild } from '@angular/core';
-import { ITask } from '../../models/taskI';
+import { TaskModel } from '../../models/taskI';
 import * as moment from 'moment';
-import { IPerformance } from '../../models/performation';
 @Component({
   selector: 'task-component',
   templateUrl: 'task.html',
   changeDetection: ChangeDetectionStrategy.OnPush //Only detects changes when the input changes
 })
 export class TaskItemComponent {
-  
-  @Input() task: ITask;
+  //Inputs
+  @Input() task: TaskModel;
   @Input() day: number;
+  @Input() checked: boolean;
+
+  //Outputs (events)
+  @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
+  @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
+  @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
+
   @ViewChild("checkBox") checkBox;
   isDisabled = false;
   showMoreInfo = false;
   style = {};
-  @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
-  @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
-  @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
-  
+
+
   constructor() {
   }
 
   ngOnInit() {
     this.showMoreInfo = (this.task.content != undefined && this.task.content != '')
-      || (this.task.videoUrl != undefined && this.task.videoUrl != '');      
+      || (this.task.videoUrl != undefined && this.task.videoUrl != '');
   }
 
   ngAfterViewInit() {
@@ -33,12 +37,14 @@ export class TaskItemComponent {
   }
 
   ngOnChanges() {
-    this.isDisabled = this.day > Date.now() || this.day < moment(Date.now()).add(-7,'day').startOf('isoWeek').valueOf();
+    this.isDisabled = this.day > Date.now() || this.day < moment(Date.now()).add(-7, 'day').startOf('isoWeek').valueOf();
     this.style = this.taskStyle();
 
   }
 
   public checkMark(event) {
+    //When a checkbox is clicked, it changes it's checked property 
+    //So we reset it to the apropriate value
     this.checkBox.checked = this.isTaskPerformed();
     this.checkBoxClick.emit({ event: event, taskComp: this });
   }
@@ -51,24 +57,17 @@ export class TaskItemComponent {
     this.infoClick.emit();
   }
 
-  public isTaskPerformed():boolean{
+  public isTaskPerformed(): boolean {
+    let weekStarts: number = moment(this.day).startOf('isoWeek').valueOf();
     let weekIsSaved: boolean = this.task.performedOn == undefined ? false :
-      this.task.performedOn.has(moment(this.day).startOf('isoWeek').valueOf());
-      if (weekIsSaved) {
-      let performedTasks: IPerformance[] = this.task.performedOn.get(moment(this.day).startOf('isoWeek').valueOf());
-      for (let i = 0; i < performedTasks.length; i++) {
-        if (performedTasks[i].date == this.day) {
-          return true
-        }
-      }
-    }
-    return false;
+      this.task.performedOn.has(weekStarts);
+    return weekIsSaved ? this.task.performedOn.get(weekStarts).has(this.day) : false;
   }
-  
+
   /*Provides the style for the task */
   public taskStyle() {
     let actualWeekStarts = moment(this.day).startOf('isoWeek').valueOf();
-    let performedThisWeek = this.task.performedOn.get(actualWeekStarts) != undefined ? this.task.performedOn.get(actualWeekStarts).length : 0;
+    let performedThisWeek = this.task.performedOn.has(actualWeekStarts) ? this.task.performedOn.get(actualWeekStarts).size : 0;
     let daysLeft = moment(this.day).diff(moment(this.day).endOf('isoWeek'), 'days');
 
     if (performedThisWeek >= this.task.repetitions) {

@@ -3,8 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { IAppointment } from '../../models/appointmentI';
 import { Observable } from 'rxjs/Rx';
-import { ITask } from '../../models/taskI';
-import { IPerformance } from '../../models/performation';
+import { TaskModel } from '../../models/taskI';
 import * as moment from 'moment';
 import { KppRestService } from './kppRestService';
 import { TokenProvider } from '../storage/tokenProvider';
@@ -19,7 +18,7 @@ export class TasksRestService extends KppRestService {
         super(http, config, tokenProvider);
     }
 
-    public requestTasks(appointment: IAppointment): Observable<ITask[]> {
+    public requestTasks(appointment: IAppointment): Observable<TaskModel[]> {
         let requestAddres = this.config.usmoServer + this.config.getTasksService;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
@@ -38,21 +37,27 @@ export class TasksRestService extends KppRestService {
         }
     }
 
-    private formatTasks(appointment: IAppointment, tasks: any): ITask[] {
+    private formatTasks(appointment: IAppointment, tasks: any): TaskModel[] {
+        console.log("TaskREstService")
+        console.log(tasks)
         if (tasks) {
-            let deserializedTasks: ITask[] = [];
+            let deserializedTasks: TaskModel[] = [];
+             console.log("DeserializedTasks1")
+            console.log(deserializedTasks)
             tasks.forEach((task) => {
                 //Map of performed exercises by week 
-                let performedMap = new Map<number, IPerformance[]>();
+                let performedMap = new Map<number, Map<number, number>>();
                 task.performedOn.forEach((performed) => {
-                    let week: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
-                    let performance: IPerformance = { date: performed.time, score: performed.score };
-                    if (!performedMap.has(week)) {
-                        performedMap.set(week, [performance]);
+                    let weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+                    if (!performedMap.has(weekKey)) {
+                        let weekValue: Map<number, number> = new Map();
+                        weekValue.set(performed.time, performed.score);
+                        performedMap.set(weekKey, weekValue);
                     } else {
-                        performedMap.get(week).push(performance);
+                        performedMap.get(weekKey).set(performed.time, performed.score);
                     }
                 });
+                console.log(performedMap);
                 deserializedTasks.push({
                     name: task.name,
                     startingTime: task.startingTime,
@@ -64,6 +69,8 @@ export class TasksRestService extends KppRestService {
                     appointmentId: appointment.appointmentId
                 });
             });
+            console.log("DeserializedTasks2")
+            console.log(deserializedTasks)
             return deserializedTasks;
         } else {
             return [];
