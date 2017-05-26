@@ -11,23 +11,24 @@ export class KppRestService {
         protected tokenProvider: TokenProvider) { }
 
     /**General method for requests via posting*/
-    public request(requestAddress:string, requestBody:any, headers:Headers): Observable<Response> {
+    public request(requestAddress: string, requestBody: any, headers: Headers): Observable<Response> {
         return this.tokenProvider.getToken()
-            .flatMap((token: string) =>{
-                return this.requestWithToken(requestAddress, requestBody, headers, token)});
+            .flatMap((token: string) => {
+                return this.requestWithToken(requestAddress, requestBody, headers, token)
+            });
     }
 
-    public requestWithoutToken(requestAddress:string, requestBody:any, headers:Headers): Observable<Response> {
+    public requestWithoutToken(requestAddress: string, requestBody: any, headers: Headers): Observable<Response> {
         let criteria = requestBody;
         criteria["organizationName"] = this.config.organizationName;
         return this.http.post(requestAddress, criteria, { headers: headers });
     }
 
-    private requestWithToken(requestAddress:string, requestBody:any, headers:Headers, token: string): Observable<Response> {
+    private requestWithToken(requestAddress: string, requestBody: any, headers: Headers, token: string): Observable<Response> {
         let criteria = requestBody;
         criteria["token"] = token;
         criteria["organizationName"] = this.config.organizationName;
-        return this.http.post(requestAddress, criteria, { headers: headers }).catch(error=>{console.log(error); return error});
+        return this.http.post(requestAddress, criteria, { headers: headers }).catch(error => { console.error(error); return error });
     }
 
 }

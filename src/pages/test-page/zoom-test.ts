@@ -1,4 +1,4 @@
-import { Component, ViewChild,ViewChildren} from '@angular/core';
+import { Component, ViewChild, ViewChildren } from '@angular/core';
 import { NavController, NavParams, Gesture } from 'ionic-angular';
 import * as infographicjs from 'infographic-js';
 
@@ -18,27 +18,27 @@ export class ZoomPage {
   mLeft = 0;
   mTop = 0;
   percentageOfImageAtPinchPointX = 0;
-  percentageOfImageAtPinchPointY = 0;  
+  percentageOfImageAtPinchPointY = 0;
   hideHeader;
 
-    @ViewChildren("svgSlide") slides;
-    jsonDefinition = {
-        "width": window.outerWidth.toString(), "height": window.outerHeight.toString(), "background": "fill:#FFE4C4",
-        "svgElements": [{ "id": "girlDoctor", "href": "http://www.google.com", "attributes": { "width": "100", "height": "90", "x": "10", "y": "4" } },
-        { "id": "doctor", "attributes": { "width": "100", "height": "90", "x": "120", "y": "4" } },
-        { "id": "medical-kit", "attributes": { "width": "60", "height": "50", "x": "80", "y": "150" } },
-        { "id": "heart", "attributes": { "width": "50", "height": "50", "x": "20", "y": "150" } }],
-        "textElements": [{ "id": "text1", "contentText": "Doctor Infographic", "attributes": { "font-family": "Purisa", "font-size": "20", "x": "10", "y": "120", "fill": "#660000;font-weight:bold" } }],
-        "pngElements": [{ "id": "bitIcon", "attributes": { "width": "150", "height": "150", "x": "10", "y": "300" } }]
-    };
-    svg;
+  @ViewChildren("svgSlide") slides;
+  jsonDefinition = {
+    "width": window.outerWidth.toString(), "height": window.outerHeight.toString(), "background": "fill:#FFE4C4",
+    "svgElements": [{ "id": "girlDoctor", "href": "http://www.google.com", "attributes": { "width": "100", "height": "90", "x": "10", "y": "4" } },
+    { "id": "doctor", "attributes": { "width": "100", "height": "90", "x": "120", "y": "4" } },
+    { "id": "medical-kit", "attributes": { "width": "60", "height": "50", "x": "80", "y": "150" } },
+    { "id": "heart", "attributes": { "width": "50", "height": "50", "x": "20", "y": "150" } }],
+    "textElements": [{ "id": "text1", "contentText": "Doctor Infographic", "attributes": { "font-family": "Purisa", "font-size": "20", "x": "10", "y": "120", "fill": "#660000;font-weight:bold" } }],
+    "pngElements": [{ "id": "bitIcon", "attributes": { "width": "150", "height": "150", "x": "10", "y": "300" } }]
+  };
+  svg;
   constructor(public navCtrl: NavController, public navParams: NavParams) { }
 
 
-   ngAfterViewInit() {
-        this.svg = infographicjs.createFreeInfographic(this.jsonDefinition);
-        this.slides.forEach(slide => { slide.nativeElement.innerHTML = this.svg; });
-    }
+  ngAfterViewInit() {
+    this.svg = infographicjs.createFreeInfographic(this.jsonDefinition);
+    this.slides.forEach(slide => { slide.nativeElement.innerHTML = this.svg; });
+  }
   ionViewDidLoad() {
     //create gesture obj w/ ref to DOM element
     this.gesture = new Gesture(this.element.nativeElement);
@@ -56,7 +56,6 @@ export class ZoomPage {
   }
 
   pinchStartEvent(e) {
-    //console.log("PINCH START EVENT")
     this.startMove(e);
     this.zoomActive = true;
     this.gesture.off('panstart', e => this.startMove(e));
@@ -64,7 +63,6 @@ export class ZoomPage {
   }
 
   pinchEndEvent(e) {
-    //console.log("PINCH END EVENT")
     this.oldWidth = this.newWidth;
     this.oldHeight = this.newHeight;
 

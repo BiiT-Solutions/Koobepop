@@ -22,8 +22,6 @@ export class TasksProvider extends StorageServiceProvider {
     }
 
     public setTasks(tasks: TaskModel[]): Observable<TaskModel[]> {
-        console.log("Set tasks")
-        console.log(tasks[0].performedOn)
         this.setAllocTasks(tasks);
         let serializedTasks = this.serializeTasks(tasks);
         return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks);

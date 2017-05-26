@@ -22,12 +22,11 @@ export class TasksManager{
     public sendStagedActions(){
         this.tasksServices.sendTasks(this.taskActions).subscribe((res)=>{
             if(res.status == 200){
-            console.log("Success sending tasks");
             this.taskActions = [];
         }else{
-            console.log("Error sending tasks")
+            console.error("Error sending tasks")
         }
-        },error=>console.log("Error sending tasks"));
+        },error=>console.error("Error sending tasks"));
     }
     
     private addTaskAction(taskAction:TaskAction){

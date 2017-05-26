@@ -14,8 +14,6 @@ export class TaskModel {
   public static stringifyMap(map: Map<number, Map<number, number>>): string {
     let arrayFromMap = [];
     map.forEach((value, key) => {
-      console.log("Tasks PerformedOn")
-      console.log(map)
       arrayFromMap.push([key, Array.from(value.entries())])
     });
     let stringified = JSON.stringify(arrayFromMap);

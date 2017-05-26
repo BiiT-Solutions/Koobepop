@@ -113,11 +113,9 @@ export class ServicesManager {
      * Ask the server for the account confirmation SMS 
      * */
     public sendAuthCodeSMS(patientId, language): Observable<Response> {
-        //console.log("################## SEND AUTH CODE SMS")
-        return this.tokenRestService.requestSendAuthCodeSMS(patientId, language)
+         return this.tokenRestService.requestSendAuthCodeSMS(patientId, language)
             .map((response) => {
                 this.userProvider.setUser({ patientId: patientId }).subscribe();
-                //console.log("################## AUTH CODE SMS SENT? "+response.status)
                 return response;
             });
     }

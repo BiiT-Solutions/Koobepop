@@ -38,12 +38,9 @@ export class TasksRestService extends KppRestService {
     }
 
     private formatTasks(appointment: IAppointment, tasks: any): TaskModel[] {
-        console.log("TaskREstService")
-        console.log(tasks)
+
         if (tasks) {
             let deserializedTasks: TaskModel[] = [];
-             console.log("DeserializedTasks1")
-            console.log(deserializedTasks)
             tasks.forEach((task) => {
                 //Map of performed exercises by week 
                 let performedMap = new Map<number, Map<number, number>>();
@@ -57,7 +54,6 @@ export class TasksRestService extends KppRestService {
                         performedMap.get(weekKey).set(performed.time, performed.score);
                     }
                 });
-                console.log(performedMap);
                 deserializedTasks.push({
                     name: task.name,
                     startingTime: task.startingTime,
@@ -69,9 +65,7 @@ export class TasksRestService extends KppRestService {
                     appointmentId: appointment.appointmentId
                 });
             });
-            console.log("DeserializedTasks2")
-            console.log(deserializedTasks)
-            return deserializedTasks;
+           return deserializedTasks;
         } else {
             return [];
         }

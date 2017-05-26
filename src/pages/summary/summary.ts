@@ -70,10 +70,10 @@ export class SummaryPage {
       let workouts = []
       let firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
       tasks.forEach(task => {
-        let performations: Map<number,number>= task.performedOn.get(firstWeekDay);
+        let performations: Map<number, number> = task.performedOn.get(firstWeekDay);
         if (performations != undefined) {
           let timesPerformed = 0;
-          performations.forEach((score,date) => {
+          performations.forEach((score, date) => {
             workouts.push({
               "date": date,
               "name": task.name,

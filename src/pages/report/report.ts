@@ -81,39 +81,32 @@ export class ReportPage {
     }
 
     addReport(context, appointment: IAppointment) {
-       // console.log("Add Report")
         let results = appointment.results;
-       // console.log(results)
         let mentalExam = results['epworthslaperigheidsschaal'];
         let sleepScore = 0;
-
         if (mentalExam != undefined) {
-            //console.log(mentalExam)
             //For each key 
             for (let element in mentalExam.situatie) {
-               // console.log(mentalExam.situatie[element][0]);
                 sleepScore += parseInt(mentalExam.situatie[element][0])
             }
-            console.log("SCORE:")
-            console.log(sleepScore)
         }
         //Init color depending on the score
         let sleepColor;
         let sleepScoreString;
-        if(sleepScore<11){
+        if (sleepScore < 11) {
             sleepColor = "#00aa00"
             sleepScoreString = "normal healthy sleep"
-        } else if (sleepScore<15){
+        } else if (sleepScore < 15) {
             sleepColor = "#fcd453"
             sleepScoreString = "mild insomnia"
-        } else if (sleepScore < 18){
+        } else if (sleepScore < 18) {
             sleepColor = "#ffb33b"
             sleepScoreString = "strong insomnia"
-        }else {
+        } else {
             sleepColor = "#ff0000"
             sleepScoreString = "severe insomnia"
         }
-        
+
 
         var reportBuilder = {
             width: 960,
@@ -495,7 +488,7 @@ export class ReportPage {
                 element: {
                     type: 'text',
                     maxLineSize: 40,
-                    text: 'Your actual sleep score is: '+sleepScore+' points. Which means '+sleepScoreString+".",
+                    text: 'Your actual sleep score is: ' + sleepScore + ' points. Which means ' + sleepScoreString + ".",
                     verticalAlign: 'middle',
                     attributes: { x: 250, "font-size": "20px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
 
