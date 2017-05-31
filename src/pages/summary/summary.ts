@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
-import { TaskModel } from '../../models/taskI';
+import { TaskModel } from '../../models/task.model';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';

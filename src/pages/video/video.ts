@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-import { TaskModel } from '../../models/taskI';
+import { TaskModel } from '../../models/task.model';
 
 @Component({
   selector: 'page-video',
@@ -17,8 +17,6 @@ export class VideoPage {
   ionViewDidLoad() {
     if (this.task.videoUrl) {
       this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.task.videoUrl);
-    }
-    if (this.task.content) {
     }
   }
 }

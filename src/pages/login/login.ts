@@ -64,7 +64,6 @@ export class LoginPage {
       content: this.translateService.instant('LOGIN.WAIT-MSG')
     });
     loading.present();
-
     this.manager.loginWithUserPass(this.id, this.pass)
       .subscribe((authorized) => {
         loading.dismiss();
@@ -78,7 +77,6 @@ export class LoginPage {
         console.error(error);
       });
   }
-
 
   public showPassword(input: any): void {
     input.type = input.type === 'password' ? 'text' : 'password';

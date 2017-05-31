@@ -1,4 +1,4 @@
-import { TaskModel } from '../models/taskI';
+import { TaskModel } from '../models/task.model';
 import { Injectable } from '@angular/core';
 import { TasksRestService } from './rest/tasksRestService';
 //TODO - Integrate on the app

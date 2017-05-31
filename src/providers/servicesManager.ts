@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IAppointment } from '../models/appointmentI';
 import { AppointmentsProvider } from './storage/appointmentsProvider';
-import { TaskModel } from '../models/taskI';
+import { TaskModel } from '../models/task.model';
 import { IUser } from '../models/userI';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';

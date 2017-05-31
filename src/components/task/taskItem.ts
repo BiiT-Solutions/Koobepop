@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ViewChild } from '@angular/core';
-import { TaskModel } from '../../models/taskI';
+import { TaskModel } from '../../models/task.model';
 import * as moment from 'moment';
 @Component({
   selector: 'task-component',

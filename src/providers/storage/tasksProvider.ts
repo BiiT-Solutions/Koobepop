@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageServiceProvider } from './storageServiceProvider';
 import { Storage } from '@ionic/storage';
-import { TaskModel } from '../../models/taskI';
+import { TaskModel } from '../../models/task.model';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()

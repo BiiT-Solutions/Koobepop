@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { IAppointment } from '../../models/appointmentI';
 import { Observable } from 'rxjs/Rx';
-import { TaskModel } from '../../models/taskI';
+import { TaskModel } from '../../models/task.model';
 import * as moment from 'moment';
 import { KppRestService } from './kppRestService';
 import { TokenProvider } from '../storage/tokenProvider';

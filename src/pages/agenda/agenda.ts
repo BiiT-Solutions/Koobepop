@@ -4,7 +4,7 @@ import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
-import { TaskModel } from '../../models/taskI';
+import { TaskModel } from '../../models/task.model';
 import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
@@ -58,7 +58,6 @@ export class AgendaPage {
       event.taskComp.task.performedOn = new Map<number, Map<number, number>>();
     }
     let weekStartingTime = moment(event.taskComp.day).startOf('isoWeek').valueOf();
-    let alreadyPerformed = false;
     let weekPerformed: Map<number, number> = event.taskComp.task.performedOn.get(weekStartingTime);
     if (weekPerformed != undefined) {
       let performation = weekPerformed.get(event.taskComp.day);

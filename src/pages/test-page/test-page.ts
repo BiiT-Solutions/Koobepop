@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ItemSliding } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
-import { TaskModel } from '../../models/taskI';
+import { TaskModel } from '../../models/task.model';
 import { VideoPage } from '../video/video';
 import { IPerformance } from '../../models/performation';
 /**
