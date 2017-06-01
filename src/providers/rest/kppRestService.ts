@@ -28,7 +28,7 @@ export class KppRestService {
         let criteria = requestBody;
         criteria["token"] = token;
         criteria["organizationName"] = this.config.organizationName;
-        return this.http.post(requestAddress, criteria, { headers: headers }).catch(error => { console.error(error); return error });
+        return this.http.post(requestAddress, criteria, { headers: headers });
     }
 
 }
