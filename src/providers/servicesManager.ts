@@ -29,7 +29,6 @@ export class ServicesManager {
     public constructor(
         private toaster: ToastIssuer,
         private translate: TranslateService,
-
         private appointmentsRestService: AppointmentsRestService,
         private appointmentsProvider: AppointmentsProvider,
         private tasksRestService: TasksRestService,
@@ -188,7 +187,7 @@ export class ServicesManager {
         //Get the las appoinment of each 'type'
         let lastAppointments: IAppointment[] = [];
         appointments.forEach((appointment: IAppointment) => {
-            let index = lastAppointments.map(appoinment => appointment.type).indexOf(appointment.type)
+            let index = lastAppointments.map(appointment => appointment.type).indexOf(appointment.type);
             if (index >= 0) {
                 if (lastAppointments[index].startTime < appointment.startTime) {
                     lastAppointments[index] = appointment;

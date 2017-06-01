@@ -4,22 +4,18 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <div style="height:100%;">
+  <ion-scroll scrollY="true"  style="height:100%;width:100%;">
     <button ion-button full color="secondary" (click)="goToToday()">{{"AGENDA.TODAY-BUTTON" | translate}}</button>
     <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
       <ion-slide *ngFor="let day of days">
-        <div class="date-header">{{day |date}}</div>
-        <ion-list>
-          <ng-container *ngFor="let task of tasksPlan" >
-            <task-component *ngIf="day>task.startingTime" 
-              [task]="task" 
-              [day]="day" 
-              [checked]="isPerformed(task,day)"
-              (checkBoxClick)="checkMark($event)" 
-              (infoClick)="gotoExerciseInfo(task)"></task-component>
-          </ng-container>
-        </ion-list>
+         <div class="date-header">{{day |date}}</div>
+          <ion-list>
+            <ng-container *ngFor="let task of tasksPlan">
+              <task-component *ngIf="day>task.startingTime" [task]="task" [day]="day" [checked]="isPerformed(task,day)" (checkBoxClick)="checkMark($event)"
+                (infoClick)="gotoExerciseInfo(task)"></task-component>
+            </ng-container>
+          </ion-list>
       </ion-slide>
     </ion-slides>
-  </div>
+  </ion-scroll>
 </ion-content>
