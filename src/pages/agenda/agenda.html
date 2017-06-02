@@ -4,7 +4,8 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-scroll scrollY="true"  style="height:100%;width:100%;">
+  
+    <div style="height:100%;width:100%">
     <button ion-button full color="secondary" (click)="goToToday()">{{"AGENDA.TODAY-BUTTON" | translate}}</button>
     <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
       <ion-slide *ngFor="let day of days">
@@ -17,5 +18,6 @@
           </ion-list>
       </ion-slide>
     </ion-slides>
-  </ion-scroll>
+    </div>
+ 
 </ion-content>
