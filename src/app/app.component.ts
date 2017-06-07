@@ -8,6 +8,7 @@ import { ServicesManager } from '../providers/servicesManager';
 import { LoginPage } from '../pages/login/login';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
+import { PushNotificationsHandlerProvider } from '../providers/push-notifications-handler/push-notifications-handler';
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
@@ -22,7 +23,8 @@ export class MyApp {
     private connectivity: ConnectivityService,
     private toaster: ToastIssuer,
     private splashscreen: SplashScreen,
-    private statusBar: StatusBar) {
+    private statusBar: StatusBar,
+    private pushHandler: PushNotificationsHandlerProvider) {
     let loading;
     translate.setDefaultLang('en');
     translate.get("APP.LOAD-MESSAGE").subscribe((message) =>{
@@ -60,8 +62,11 @@ export class MyApp {
       translate.use(platform.lang());
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.      
+      
+      //Init push notifications handler
+      pushHandler.init();
+      
       try {
-        //this.statusBar.styleDefault();
         this.splashscreen.hide();
       } catch (e) {
         console.error(this + " ERROR:");

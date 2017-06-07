@@ -38,6 +38,7 @@ import { AppointmentsProvider } from '../providers/storage/appointmentsProvider'
 import { TasksProvider } from '../providers/storage/tasksProvider';
 import { TokenProvider } from '../providers/storage/tokenProvider';
 import { UserProvider } from '../providers/storage/userProvider';
+import {MessagesProvider} from '../providers/storage/messagesProvider';
 
 //Services
 import { ServicesManager } from '../providers/servicesManager';
@@ -46,10 +47,31 @@ import { ToastIssuer } from '../providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import {Push} from '@ionic-native/push';
+import { NotificationMessageComponent } from '../components/notification-message/notification-message';
+import { MessagesListComponent } from '../components/messages-list/messages-list';
+import { PushNotificationsHandlerProvider } from '../providers/push-notifications-handler/push-notifications-handler';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+const cloudSettings: CloudSettings = {
+  'core': { 'app_id': '  4a963128' },
+  'push':{
+    'sender_id':'489751559671',
+    'pluginConfig':{
+      'ios':{
+        'badge':true,
+        'sound':true
+      },
+      'android':{
+        'iconColor':'#343434'
+      }
+    }
+  }
+};
 
 @NgModule({
   declarations: [
@@ -67,7 +89,9 @@ export function createTranslateLoader(http: Http) {
     ShowExerciseInfoPage,
     SummaryPage,
     TaskItemComponent,
-    LoginPage
+    LoginPage,
+    NotificationMessageComponent,
+    MessagesListComponent
 
   ],
   imports: [
@@ -101,9 +125,10 @@ export function createTranslateLoader(http: Http) {
     UnselConfirmationComponent
   ],
   providers: [
-   StatusBar,
-   SplashScreen,
-   Network,
+    Push,
+    StatusBar,
+    SplashScreen,
+    Network,
     Device,
     ConnectivityService,
     { provide: APP_CONFIG, useValue: AppConfig },
@@ -116,7 +141,10 @@ export function createTranslateLoader(http: Http) {
     TasksProvider,
     AuthTokenRestService,
     TokenProvider,
-    UserProvider
+    UserProvider,
+    MessagesProvider,
+    PushNotificationsHandlerProvider,
+    PushNotificationsHandlerProvider
   ]
 })
 export class AppModule { }

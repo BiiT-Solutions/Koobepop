@@ -1,5 +1,11 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Testing</ion-title>
+    </ion-navbar>
+</ion-header>
 <ion-content>
-    <ion-scroll zoom="true" scrollX="true" scrollY="true" style="height:100%;width:100%">
-         <img src="assets/infographic-images/heart.svg">
-    </ion-scroll>
+    <div>{{token}}</div>
+    <div>{{msg}}</div>
+    <messages-list #msgList [messagesList]="notifications"></messages-list>
+    <button ion-button (click)="actionTrigger()">Trigger</button>
 </ion-content>

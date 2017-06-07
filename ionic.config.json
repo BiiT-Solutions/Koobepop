@@ -1,6 +1,5 @@
 {
   "name": "Koobepop",
-  "app_id": "",
-  "v2": true,
-  "typescript": true
+  "app_id": "4a963128",
+  "type": "ionic-angular"
 }

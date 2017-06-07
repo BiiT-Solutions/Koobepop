@@ -9,6 +9,7 @@ export class StorageServiceProvider {
     public static APPOINTMENTS_STORAGE_ID = "appointments";
     public static TOKEN_STORAGE_ID = "token";
     public static USER_STORAGE_ID = "user";
+    public static MESSAGES_STORAGE_ID = "messages";
     constructor(public storage: Storage) { }
     
     public storeItem(name: string, item: any): Observable<any> {

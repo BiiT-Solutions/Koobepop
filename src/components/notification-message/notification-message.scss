@@ -1,0 +1,46 @@
+notification-message {
+    .msg-wrapper{
+        display: flex;
+        padding:2px;
+    }
+    .msg-img-col{
+        padding:5px;
+        background-color: map-get($colors,secondary);
+        display:flex;
+        flex-direction: column;
+    }
+    .msg-text-col{
+        flex-grow: 2;
+        align-self:flex-start;
+        display:flex;
+        flex-direction: column;
+
+    }
+    .msg-img{
+        background-color: white;
+        align-self: center;
+        border-radius: 50%;
+    }
+    .msg-icons{
+        align-self:center;
+    }
+    .msg-title-wrapper{
+        padding:4px;
+        background-color: map-get($colors,secondary);
+    display:flex;
+    flex-direction:column;
+    }
+    .msg-title{
+        font-weight:bold;
+        color:white;
+    }
+    .msg-subtitle{
+        font-size: 70%;
+        font-weight:bold;
+        color:white;
+    }
+    .msg-text{
+        padding:4px;
+    }
+
+}

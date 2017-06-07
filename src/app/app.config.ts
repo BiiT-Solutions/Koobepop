@@ -16,6 +16,7 @@ export interface IAppConfig {
     sendAuthCodeSMS:string;
     organizationName:string;
     performActions:string;
+    pushSenderID:string;
 }
 
 export const AppConfig: IAppConfig = {  
@@ -40,5 +41,7 @@ export const AppConfig: IAppConfig = {
     verifyAuthenticationToken:"/rest/verifyAuthenticationToken",
     sendAuthCodeSMS:"/rest/sendAuthCodeSMS",
     getUpdatedAppointmentsService:"/rest/getUpdatedAppointmentsAuth",
-    performActions:"/rest/performExercisesActionsAuth"
+    performActions:"/rest/performExercisesActionsAuth",
+    
+    pushSenderID: '489751559671'
 };

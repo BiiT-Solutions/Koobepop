@@ -15,6 +15,8 @@ import { TokenProvider } from './storage/tokenProvider';
 import { UserProvider } from './storage/userProvider';
 import * as moment from 'moment';
 import { IPerformance } from '../models/performation';
+import { MessagesProvider } from './storage/messagesProvider';
+import { MessageModel } from '../models/message.model';
 
 /**
  * Intended to manage the dataflow within the application and with USMO
@@ -36,10 +38,17 @@ export class ServicesManager {
         private tokenRestService: AuthTokenRestService,
         private tokenProvider: TokenProvider,
         private userProvider: UserProvider,
+        private messagesProvider: MessagesProvider
     ) {
     }
 
-    //After calling this we should save it 
+    public getMessages():Observable<MessageModel[]>{
+        return this.messagesProvider.getMessages();
+    }
+    public setMessages(messages: MessageModel[]):Observable<MessageModel[]>{
+        return this.messagesProvider.setMessages(messages);   
+    }
+
     public getAppointments(): Observable<IAppointment[]> {
         return this.appointmentsProvider.getAppointments();
     }
@@ -61,8 +70,6 @@ export class ServicesManager {
     public getTasks(): Observable<TaskModel[]> {
         return this.tasksProvider.getTasks();
     }
-
-
 
     public performTask(task: TaskModel, perf: IPerformance): Observable<any> {
         //perform = save performation on the week with the tasks
