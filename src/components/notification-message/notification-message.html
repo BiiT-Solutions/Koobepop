@@ -1,7 +1,7 @@
 <ion-card>
   <ion-item>
     <ion-avatar item-left>
-      <img src="assets/icons/antropometry.svg">
+      <img src="assets/icons/icon-doctor.png">
     </ion-avatar>
     <h2>{{message.name}}</h2>
     <p>{{message.title}}</p>
@@ -9,4 +9,9 @@
   <ion-card-content>
     <p>{{message.text}}</p>
   </ion-card-content>
+  <ion-item>
+   <ion-note>
+        {{message.time | date }}
+      </ion-note>
+  </ion-item>
 </ion-card>

@@ -12,4 +12,5 @@ import { MessageModel } from '../../models/message.model';
 export class MessagesListComponent {
    @Input() messagesList:MessageModel[];
   constructor() {}
+  
 }

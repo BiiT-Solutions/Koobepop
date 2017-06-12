@@ -5,23 +5,26 @@ import { Push, PushOptions, PushObject } from '@ionic-native/push';
 import { IAppConfig, APP_CONFIG } from '../../app/app.config';
 import { MessageModel } from '../../models/message.model';
 import { ServicesManager } from '../servicesManager';
+import { RegisterPushTokenRestService } from '../rest/register-push-token.rest-service';
+
 
 /**
  * 
  */
 @Injectable()
 export class PushNotificationsHandlerProvider {
-
-  constructor(public platform: Platform, 
-  public push: Push, 
-  @Inject(APP_CONFIG) protected config: IAppConfig,
-  protected manager: ServicesManager) {
-    
+  pushObject: PushObject
+  constructor(public platform: Platform,
+    public push: Push,
+    @Inject(APP_CONFIG) protected config: IAppConfig,
+    protected manager: ServicesManager,
+    protected registerPushService: RegisterPushTokenRestService) {
   }
-  init(){
-     if (this.platform.is('cordova')) {
+
+  init() {
+    if (this.platform.is('cordova')) {
       // to check if we have permission
-      this.push.hasPermission()
+      /*this.push.hasPermission()
         .then((res: any) => {
           if (res.isEnabled) {
             console.log('We have permission to send push notifications');
@@ -29,6 +32,7 @@ export class PushNotificationsHandlerProvider {
             console.log('We do not have permission to send push notifications');
           }
         });
+        */
       // to initialize push notifications
       const options: PushOptions = {
         android: {
@@ -44,29 +48,22 @@ export class PushNotificationsHandlerProvider {
 
       const pushObject: PushObject = this.push.init(options);
 
-      pushObject.on('notification')
-        .subscribe((notification: any) => {
-
-          console.log('Received a notification', notification)
-          this.addMessage({ text: notification.message, name: notification.title,title:'',date:'' });
-        
-        });
-
       pushObject.on('registration')
         .subscribe((registration: any) => {
           console.log('Device registered', registration)
-          //registration.additionalData.foreground //Will be true if the app is open
-          //TODO-register on USMO
+          this.manager.getUser().subscribe(user => {
+            this.registerPushService.setPushToken(user, registration.registrationId)
+            .subscribe(response=>console.log("Status",response.status));
+          });
+
         });
 
       pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-    }
+  this.pushObject = pushObject;  
   }
-  private addMessage(message:MessageModel){
-    this.manager.getMessages().subscribe((messages:MessageModel[])=>{
-      messages.unshift(message);
-      this.manager.setMessages(messages).subscribe();
-    });
-  }
+}
 
+  public getPushObject():PushObject{
+    return this.pushObject;
+  }
 }

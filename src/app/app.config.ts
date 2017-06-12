@@ -16,21 +16,22 @@ export interface IAppConfig {
     sendAuthCodeSMS:string;
     organizationName:string;
     performActions:string;
+    setPushNotificationsToken:string;
     pushSenderID:string;
 }
 
 export const AppConfig: IAppConfig = {  
     //Server configuration 
     usmoServer:
-    //"http://192.168.1.5:8081",    //LOCAL server
-    "https://testing.biit-solutions.com:10443/usmo/webservices", //TESTING server
+    "http://192.168.1.5:8081",    //LOCAL server
+    //"https://testing.biit-solutions.com:10443/usmo/webservices", //TESTING server
     //"https://m3sport.biit-solutions.com:10443/usmo/webservices",
     password:
     "Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=", //LOCAL & TESTING 
     //btoa("webservice@biit-solutions.com:PSIdn3L93pAib7k"), //M3Sport
     organizationName:
-    //"UsmoOrganization",
-    "Orbis Sport",
+    "UsmoOrganization",
+    //"Orbis Sport",
     //Services
     getTasksService:"/rest/getCorrectiveExercisesAuth",
     getAppointmentsService:"/rest/getAppointmentsAuth",
@@ -42,6 +43,6 @@ export const AppConfig: IAppConfig = {
     sendAuthCodeSMS:"/rest/sendAuthCodeSMS",
     getUpdatedAppointmentsService:"/rest/getUpdatedAppointmentsAuth",
     performActions:"/rest/performExercisesActionsAuth",
-    
+    setPushNotificationsToken:"/rest/setPushNotificationToken",
     pushSenderID: '489751559671'
 };

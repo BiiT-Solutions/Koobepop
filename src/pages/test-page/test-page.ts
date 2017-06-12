@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, ItemSliding, Platform } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
-import { Push, PushOptions, PushObject } from '@ionic-native/push';
+import { Push, } from '@ionic-native/push';
 import { MessageModel } from '../../models/message.model';
 
 /**
@@ -18,21 +18,18 @@ export class TestPage {
   token: string;
   msg: string;
 
-  notifications: MessageModel[] = [{
-    name: 'Doctor Who',
-    text: 'Let me seek my sonic screwdriver and this will be solved in a moment',
-    title: 'Allmighty Doc',
-    date: new Date()
-  }]
+  notifications: MessageModel[] = [
+    new MessageModel('Doctor Who',
+      'Let me seek my sonic screwdriver and this will be solved in a moment',
+      'Allmighty Doc', new Date())
+  ]
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public manager: ServicesManager,
     public push: Push,
     public platform: Platform,
-    public changeDetRef: ChangeDetectorRef) {
-
-  }
+    public changeDetRef: ChangeDetectorRef) { }
 
   ionViewDidLoad() {
     this.manager.getMessages().subscribe(messages => {
@@ -46,7 +43,7 @@ export class TestPage {
       name: 'Doctor Who',
       text: 'Let me seek my sonic screwdriver and this will be solved in a moment',
       title: 'Allmighty Doc',
-      date: new Date()
+      time: new Date()
     });
   }
   private addNotification(notification) {
@@ -54,7 +51,6 @@ export class TestPage {
     //This triggers change detection on the component below
     //TODO - remove when storage of messages is properly done
     this.notifications = this.notifications.slice();
-    console.log(this.notifications);
     this.changeDetRef.detectChanges()
   }
 

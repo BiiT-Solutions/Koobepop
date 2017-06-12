@@ -11,17 +11,12 @@ import { TokenProvider } from '../storage/tokenProvider';
 
 @Injectable()
 export class AppointmentsRestService extends KppRestService {
-    appointmentsList;
     constructor(protected http: Http,
         @Inject(APP_CONFIG) protected config: IAppConfig,
         protected tokenProvider: TokenProvider,
         protected translate: TranslateService) {
         super(http, config, tokenProvider);
-    }
-
-    public getAppointments() {
-        return this.appointmentsList;
-    }
+    }   
 
     public requestAppointments(user: IUser): Observable<IAppointment[]> {
         let requestAddres = this.config.usmoServer + this.config.getAppointmentsService;

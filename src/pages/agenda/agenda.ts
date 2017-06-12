@@ -150,8 +150,8 @@ export class AgendaPage {
   }
 
   public isPerformed(task: TaskModel, day: number) {
-    let week: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
-    return week == undefined ? false : week.has(day);
+    let weekTasks: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
+    return weekTasks == undefined ? false : weekTasks.has(day);
   }
 
   ionViewWillLeave() {

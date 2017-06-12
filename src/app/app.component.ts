@@ -23,17 +23,16 @@ export class MyApp {
     private connectivity: ConnectivityService,
     private toaster: ToastIssuer,
     private splashscreen: SplashScreen,
-    private statusBar: StatusBar,
-    private pushHandler: PushNotificationsHandlerProvider) {
+    private statusBar: StatusBar) {
     let loading;
     translate.setDefaultLang('en');
-    translate.get("APP.LOAD-MESSAGE").subscribe((message) =>{
+    translate.get("APP.LOAD-MESSAGE").subscribe((message) => {
       loading = this.loadingCtrl.create({
         content: message
       });
       loading.present();
     });
-    
+
 
     this.manager.tokenStatus()
       .subscribe((status) => {
@@ -62,10 +61,8 @@ export class MyApp {
       translate.use(platform.lang());
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.      
-      
-      //Init push notifications handler
-      pushHandler.init();
-      
+
+
       try {
         this.splashscreen.hide();
       } catch (e) {

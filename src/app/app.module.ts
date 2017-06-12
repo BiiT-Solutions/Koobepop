@@ -52,6 +52,7 @@ import {Push} from '@ionic-native/push';
 import { NotificationMessageComponent } from '../components/notification-message/notification-message';
 import { MessagesListComponent } from '../components/messages-list/messages-list';
 import { PushNotificationsHandlerProvider } from '../providers/push-notifications-handler/push-notifications-handler';
+import { RegisterPushTokenRestService } from '../providers/rest/register-push-token.rest-service';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -125,6 +126,7 @@ const cloudSettings: CloudSettings = {
     UnselConfirmationComponent
   ],
   providers: [
+    RegisterPushTokenRestService,
     Push,
     StatusBar,
     SplashScreen,

@@ -22,7 +22,7 @@ export class MessagesProvider extends StorageServiceProvider {
 
     public setMessages(messages: MessageModel[]): Observable<MessageModel[]> {
         this.setAllocMessages(messages);
-        return super.storeItem(StorageServiceProvider.APPOINTMENTS_STORAGE_ID, messages);
+        return super.storeItem(StorageServiceProvider.MESSAGES_STORAGE_ID, messages);
     }
 
     private getAllocMessages(): MessageModel[] {
