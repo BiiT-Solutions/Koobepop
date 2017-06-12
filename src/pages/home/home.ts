@@ -30,7 +30,7 @@ export class HomePage {
               //we are into the app
             } else {
               //we entered from a notification
-              this.navCtrl.push(TestPage);
+              this.navCtrl.push(KnowPage);
             }
           }
           );

@@ -1,20 +1,11 @@
+
 <ion-header>
-
-  <ion-navbar color="primary">
-    <ion-title>Know</ion-title>
-  </ion-navbar>
-
+    <ion-navbar color="primary">
+        <ion-title>{{"KNOW.TITLE" | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
-
-
 <ion-content>
-  <ion-infinite-scroll >
-        <div class="buttons-grid"  >
-          <button class="square" *ngFor="let topic of topics" (click)="displayInfo(topic)" 
-          [style.backgroundColor]="randomColor()" >
-            <img   [src]="topic.image"/>
-            {{topic.name}}
-           </button>
-        </div>
-  </ion-infinite-scroll>
+    <div>{{token}}</div>
+    <div>{{msg}}</div>
+    <messages-list #msgList [messagesList]="notifications"></messages-list>
 </ion-content>

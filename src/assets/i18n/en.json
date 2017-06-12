@@ -59,6 +59,9 @@
         "ERROR-SETTING-APPOINTMENTS":"Unable to load appointments",
         "REPORTS-LOADING-TEXT":"Loading reports..."
     },
+    "KNOW":{
+        "TITLE":"Messages"
+    },
     "EXERCISE-INFO":{
         "TITLE":"Info"
     },

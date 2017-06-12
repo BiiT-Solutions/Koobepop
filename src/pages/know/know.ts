@@ -1,41 +1,54 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { ShowExerciseInfoPage } from '../show-exercise-info/show-exercise-info';
+
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { NavController, NavParams, ItemSliding, Platform } from 'ionic-angular';
+import { ServicesManager } from '../../providers/servicesManager';
+import { Push, } from '@ionic-native/push';
+import { MessageModel } from '../../models/message.model';
 
 /**
- * This Page displays information from some topics 
+ * 
  */
 @Component({
   selector: 'page-know',
   templateUrl: 'know.html'
 })
 export class KnowPage {
-  topics=[
-    {image:'assets/icons/antropometry.svg',
-      name:'anthropometry'},
-    {image:'assets/icons/spirometry.svg',
-      name:'spirometry'}];
-      color = "#e56854"
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  token: string;
+  msg: string;
+
+  notifications: MessageModel[] = [
+    new MessageModel('Doctor Who',
+      'Let me seek my sonic screwdriver and this will be solved in a moment',
+      'Allmighty Doc', new Date())
+  ]
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public manager: ServicesManager,
+    public push: Push,
+    public platform: Platform,
+    public changeDetRef: ChangeDetectorRef) { }
 
   ionViewDidLoad() {
-  }
-  displayInfo(topic:any){
-    //Show some info
-    this.navCtrl.push(ShowExerciseInfoPage)
-  }
-  //TODO - Make a component for the button
-  public randomColor():string{
-   let color = this.color
-    let oldR = Number.parseInt(color.slice(1,3),16)
-    let oldG = Number.parseInt(color.slice(3,5),16)
-    let oldB = Number.parseInt(color.slice(5,7),16)
-    let r = (Math.round((Math.random()* 255 + oldR*2)/3)).toString(16);
-    let g = (Math.round((Math.random()* 255 + oldG*2)/3)).toString(16);
-    let b = (Math.round((Math.random()* 255 + oldB*2)/3)).toString(16);
-    color = '#' + r + g + b;
-    this.color = color
-    return color;
+    this.manager.getMessages().subscribe(messages => {
+      this.notifications = messages;
+    });
+
   }
 
+  public actionTrigger() {
+    this.addNotification({
+      name: 'Doctor Who',
+      text: 'Let me seek my sonic screwdriver and this will be solved in a moment',
+      title: 'Allmighty Doc',
+      time: new Date()
+    });
+  }
+
+  private addNotification(notification) {
+    this.notifications.unshift(notification);
+    //This triggers change detection on the component below
+    this.notifications = this.notifications.slice();
+    this.changeDetRef.detectChanges()
+  }
 }

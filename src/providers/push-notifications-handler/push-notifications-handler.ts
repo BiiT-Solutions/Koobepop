@@ -53,17 +53,17 @@ export class PushNotificationsHandlerProvider {
           console.log('Device registered', registration)
           this.manager.getUser().subscribe(user => {
             this.registerPushService.setPushToken(user, registration.registrationId)
-            .subscribe(response=>console.log("Status",response.status));
+              .subscribe(response => console.log("Status", response.status));
           });
 
         });
 
       pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-  this.pushObject = pushObject;  
+      this.pushObject = pushObject;
+    }
   }
-}
 
-  public getPushObject():PushObject{
+  public getPushObject(): PushObject {
     return this.pushObject;
   }
 }
