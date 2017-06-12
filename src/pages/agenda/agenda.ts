@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides, Loading, LoadingController } from 'ionic-angular';
+import { NavController, Slides, Loading, LoadingController, App } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { VideoPage } from '../video/video';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
@@ -24,14 +24,14 @@ export class AgendaPage {
   @ViewChild('slider') slider: Slides;
   tasksPlan: TaskModel[] = [];
   loading: Loading;
-
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public toaster: ToastIssuer,
     public popoverCtrl: PopoverController,
     public manager: ServicesManager,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    private app: App) {
 
     this.goToToday();
   }
@@ -140,11 +140,11 @@ export class AgendaPage {
   }
 
   public gotoExerciseVideo(task: TaskModel) {
-    this.navCtrl.push(VideoPage, task);
+    this.app.getRootNav().push(VideoPage, task);
   }
 
   public gotoExerciseInfo(task: TaskModel) {
-    this.navCtrl.push(VideoPage, task);
+    this.app.getRootNav().push(VideoPage, task);
   }
 
   public goToToday() {
