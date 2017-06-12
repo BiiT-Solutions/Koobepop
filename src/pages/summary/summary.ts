@@ -20,8 +20,17 @@ export class SummaryPage {
     public manager: ServicesManager,
     private sanitizer: DomSanitizer) {
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
+    
+    
+  }
 
-    this.setActualWeek();
+  public setActualWeek() {
+    this.actualWeek = moment().week();
+
+  }
+
+  ionViewWillEnter(){
+    this.setActualWeek();//In case there's any changes
     window.addEventListener("tracker-ready", () => {
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
         let event = new CustomEvent("tracker-week", { detail: details });
@@ -50,12 +59,6 @@ export class SummaryPage {
       });
     });
   }
-
-  public setActualWeek() {
-    this.actualWeek = moment().week();
-
-  }
-
   ionViewDidLeave() {
     window.removeEventListener("tracker-ready");
     window.removeEventListener("prev-week");

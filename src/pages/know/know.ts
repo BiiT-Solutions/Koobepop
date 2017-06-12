@@ -1,6 +1,6 @@
 
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { NavController, NavParams, ItemSliding, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
 import { Push, } from '@ionic-native/push';
 import { MessageModel } from '../../models/message.model';
@@ -16,11 +16,7 @@ export class KnowPage {
   token: string;
   msg: string;
 
-  notifications: MessageModel[] = [
-    new MessageModel('Doctor Who',
-      'Let me seek my sonic screwdriver and this will be solved in a moment',
-      'Allmighty Doc', new Date())
-  ]
+  notifications: MessageModel[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -30,10 +26,12 @@ export class KnowPage {
     public changeDetRef: ChangeDetectorRef) { }
 
   ionViewDidLoad() {
+
+  }
+  ionViewDidEnter() {
     this.manager.getMessages().subscribe(messages => {
       this.notifications = messages;
     });
-
   }
 
   public actionTrigger() {
@@ -49,6 +47,6 @@ export class KnowPage {
     this.notifications.unshift(notification);
     //This triggers change detection on the component below
     this.notifications = this.notifications.slice();
-    this.changeDetRef.detectChanges()
+    this.changeDetRef.detectChanges();
   }
 }

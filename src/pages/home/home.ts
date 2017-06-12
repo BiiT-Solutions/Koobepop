@@ -1,5 +1,5 @@
-import { Component, } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component,  ViewChild } from '@angular/core';
+import { NavController,Tabs } from 'ionic-angular';
 import { AboutPage } from '../about/about';
 import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';
@@ -16,6 +16,11 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  tab0Root = ReportPage;
+  tab1Root = AgendaPage;
+  tab2Root = SummaryPage;
+  tab3Root = KnowPage;
+  @ViewChild("homeTabs") homeTabs: Tabs;
   constructor(public navCtrl: NavController,
     public manager: ServicesManager,
     protected pushHandler: PushNotificationsHandlerProvider) {
@@ -30,7 +35,11 @@ export class HomePage {
               //we are into the app
             } else {
               //we entered from a notification
-              this.navCtrl.push(KnowPage);
+              //(Select tab)
+              if(this.homeTabs!=undefined){
+                this.homeTabs.select(3);
+              }
+              //this.navCtrl.push(KnowPage);
             }
           }
           );

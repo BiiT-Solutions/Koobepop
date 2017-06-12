@@ -1,4 +1,4 @@
-<ion-content>
+<!--<ion-content>
   <img src="assets/images/medi-knows.png" />
 
   <ion-grid class="footer">
@@ -47,9 +47,11 @@
    <button ion-button full (click)="navTest()" color="light">
          Test
   </button>
-<!--
-  <button ion-button full (click)="navAbout()" color="light">
-          {{ 'HOME.ABOUT-BUTTON' | translate}}
-  </button>
-  -->
-</ion-content>
+
+</ion-content>-->
+<ion-tabs #homeTabs>
+  <ion-tab [root]="tab0Root" [tabTitle]="'HOME.REPORT-BUTTON'|translate" tabIcon="document"></ion-tab>
+  <ion-tab [root]="tab1Root" [tabTitle]="'HOME.AGENDA-BUTTON'|translate" tabIcon="create"></ion-tab>
+  <ion-tab [root]="tab2Root" [tabTitle]="'HOME.SUMMARY-BUTTON'|translate" tabIcon="trending-up"></ion-tab>
+  <ion-tab [root]="tab3Root" [tabTitle]="'HOME.KNOW-BUTTON'|translate" tabIcon="text"></ion-tab>
+</ion-tabs>

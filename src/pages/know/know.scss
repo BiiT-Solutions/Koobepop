@@ -15,4 +15,15 @@ page-know {
     button.square{
         //background-color:map-get($colors , light);
     }
+    .no-messages{
+        display: flex;
+        height:100%;
+        width:100%;
+        align-items: center;
+        justify-content: center;
+        align-content: space-between;
+        >p{
+            color:grey;
+        }
+    }
 }

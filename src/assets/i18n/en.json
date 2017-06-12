@@ -20,7 +20,7 @@
         "SEARCH-BUTTON":"Search",
         "DETAILS-BUTTON":"Details",
         "ABOUT-BUTTON":"About",
-        "AGENDA-BUTTON":"Work book",
+        "AGENDA-BUTTON":"Work Book",
         "SUMMARY-BUTTON":"Tracker",
         "REPORT-BUTTON":"Reports",
         "KNOW-BUTTON":"Know"
@@ -60,7 +60,8 @@
         "REPORTS-LOADING-TEXT":"Loading reports..."
     },
     "KNOW":{
-        "TITLE":"Messages"
+        "TITLE":"Messages",
+        "NO-MESSAGES-TEXT":"No messages to display"
     },
     "EXERCISE-INFO":{
         "TITLE":"Info"

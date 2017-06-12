@@ -47,7 +47,6 @@ import { ToastIssuer } from '../providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import {Push} from '@ionic-native/push';
 import { NotificationMessageComponent } from '../components/notification-message/notification-message';
 import { MessagesListComponent } from '../components/messages-list/messages-list';
@@ -58,21 +57,6 @@ export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-const cloudSettings: CloudSettings = {
-  'core': { 'app_id': '  4a963128' },
-  'push':{
-    'sender_id':'489751559671',
-    'pluginConfig':{
-      'ios':{
-        'badge':true,
-        'sound':true
-      },
-      'android':{
-        'iconColor':'#343434'
-      }
-    }
-  }
-};
 
 @NgModule({
   declarations: [

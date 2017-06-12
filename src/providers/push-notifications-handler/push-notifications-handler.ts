@@ -3,7 +3,6 @@ import 'rxjs/add/operator/map';
 import { Platform } from 'ionic-angular';
 import { Push, PushOptions, PushObject } from '@ionic-native/push';
 import { IAppConfig, APP_CONFIG } from '../../app/app.config';
-import { MessageModel } from '../../models/message.model';
 import { ServicesManager } from '../servicesManager';
 import { RegisterPushTokenRestService } from '../rest/register-push-token.rest-service';
 

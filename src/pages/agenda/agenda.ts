@@ -32,10 +32,13 @@ export class AgendaPage {
     public popoverCtrl: PopoverController,
     public manager: ServicesManager,
     public loadingCtrl: LoadingController) {
+
     this.goToToday();
   }
+  protected ionViewWillLoad() {
+  }
 
-  ionViewDidLoad() {
+  protected ionViewDidLoad() {
     this.loading = this.loadingCtrl.create({
       content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
     });
@@ -49,6 +52,10 @@ export class AgendaPage {
         console.error(error)
       });
     });
+  }
+
+  protected ionViewWillLeave() {
+    this.loading.dismiss();
   }
 
   /* When item is clicked */
@@ -154,7 +161,5 @@ export class AgendaPage {
     return weekTasks == undefined ? false : weekTasks.has(day);
   }
 
-  ionViewWillLeave() {
-    this.loading.dismiss();
-  }
+
 }

@@ -26,18 +26,26 @@ export class ReportPage {
         public loadingCtrl: LoadingController,
         public toaster: ToastIssuer,
         public translate: TranslateService) {
-        this.setAppointments();
     }
-
-    protected ionViewDidLoad() {
+    
+    protected ionViewWillLoad(){
+        this.setAppointments();
         this.loading = this.loadingCtrl.create({
             content: this.translate.instant('REPORT.REPORTS-LOADING-TEXT')
         });
         this.loading.present();
     }
 
+    protected ionViewDidLoad() {
+         this.loadReports(this.loading, this);
+    }
+
+    protected ionViewWillEnter(){
+       
+    }
+    
     protected ionViewDidEnter() {
-        this.loadReports(this.loading, this);
+       
     }
 
     private setAppointments() {
@@ -53,12 +61,13 @@ export class ReportPage {
 
     private loadReports(loading: Loading, context: ReportPage): void {
         if (context.appointments == undefined || context.appointments.length <= 0) {
+            this.setAppointments();
             context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
         } else {
             context.appointments.forEach((appointment: IAppointment) => {
                 try {
                     this.addReport(context, appointment)
-                } catch (e) { console.error(e) }
+                } catch (e) { console.error("ReportPage:",e) }
             });
             //This prevents a change detection error on dev mode
             try {
