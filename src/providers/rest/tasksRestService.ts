@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
-import { IAppointment } from '../../models/appointmentI';
+import { AppointmentModel } from '../../models/appointment.model';
 import { Observable } from 'rxjs/Rx';
 import { TaskModel } from '../../models/task.model';
 import * as moment from 'moment';
@@ -18,7 +18,7 @@ export class TasksRestService extends KppRestService {
         super(http, config, tokenProvider);
     }
 
-    public requestTasks(appointment: IAppointment): Observable<TaskModel[]> {
+    public requestTasks(appointment: AppointmentModel): Observable<TaskModel[]> {
         let requestAddres = this.config.usmoServer + this.config.getTasksService;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
@@ -37,7 +37,7 @@ export class TasksRestService extends KppRestService {
         }
     }
 
-    private formatTasks(appointment: IAppointment, tasks: any): TaskModel[] {
+    private formatTasks(appointment: AppointmentModel, tasks: any): TaskModel[] {
 
         if (tasks) {
             let deserializedTasks: TaskModel[] = [];

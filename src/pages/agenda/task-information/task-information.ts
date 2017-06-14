@@ -1,13 +1,13 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-import { TaskModel } from '../../models/task.model';
+import { TaskModel } from '../../../models/task.model';
 
 @Component({
-  selector: 'page-video',
-  templateUrl: 'video.html'
+  selector: 'page-task-information',
+  templateUrl: 'task-information.html'
 })
-export class VideoPage {
+export class TaskInformationPage {
   videoUrl: SafeResourceUrl;
   @ViewChild("content") content: ElementRef;
   task: TaskModel;

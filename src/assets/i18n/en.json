@@ -4,12 +4,6 @@
         "LOAD-MESSAGE":"Please wait..."
 
    },
-   "ABOUT":{
-        "TITLE": "About",
-        "AUTHORY":"BiiT sourcing solutions",
-        "DESCRIPTION":"Description of the application, aim, etc.",
-        "VERSION":"App version"
-    },
 
     "HOME":{
         "NAVBAR-TITLE":"Home",
@@ -19,7 +13,6 @@
         "H-BOOK-BUTTON":"Horizontal book",
         "SEARCH-BUTTON":"Search",
         "DETAILS-BUTTON":"Details",
-        "ABOUT-BUTTON":"About",
         "AGENDA-BUTTON":"Work Book",
         "SUMMARY-BUTTON":"Tracker",
         "REPORT-BUTTON":"Reports",

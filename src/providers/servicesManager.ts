@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { IAppointment } from '../models/appointmentI';
+import { AppointmentModel } from '../models/appointment.model';
 import { AppointmentsProvider } from './storage/appointmentsProvider';
 import { TaskModel } from '../models/task.model';
-import { IUser } from '../models/userI';
+import { UserModel } from '../models/user.model';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
 import { ToastIssuer } from './toastIssuer';
@@ -28,6 +28,7 @@ import { MessageModel } from '../models/message.model';
 @Injectable()
 export class ServicesManager {
     private updateTimeout;
+    knowNotificationsValue:number = 0;
     public constructor(
         private toaster: ToastIssuer,
         private translate: TranslateService,
@@ -49,20 +50,20 @@ export class ServicesManager {
         return this.messagesProvider.setMessages(messages);   
     }
 
-    public getAppointments(): Observable<IAppointment[]> {
+    public getAppointments(): Observable<AppointmentModel[]> {
         return this.appointmentsProvider.getAppointments();
     }
 
-    public setAppointments(appointments: IAppointment[]) {
+    public setAppointments(appointments: AppointmentModel[]) {
         return this.appointmentsProvider.setAppointments(appointments);
     }
 
     /*User*/
-    public getUser(): Observable<IUser> {
+    public getUser(): Observable<UserModel> {
         return this.userProvider.getUser();
     }
 
-    public setUser(user: IUser) {
+    public setUser(user: UserModel) {
         this.userProvider.setUser(user);
     }
 
@@ -167,15 +168,15 @@ export class ServicesManager {
         .subscribe((user)=>{
             //TODO - use request ModifiedAppointments instead
         this.appointmentsRestService.requestAppointments(user)
-            .flatMap((appointments:IAppointment[])=>{return this.updateAppointments(appointments)})
-            .subscribe((appointments:IAppointment[])=>{this.updateTasks(appointments)});});
+            .flatMap((appointments:AppointmentModel[])=>{return this.updateAppointments(appointments)})
+            .subscribe((appointments:AppointmentModel[])=>{this.updateTasks(appointments)});});
     }
 
-    private updateAppointments(newAppointments: IAppointment[]): Observable<IAppointment[]> {
+    private updateAppointments(newAppointments: AppointmentModel[]): Observable<AppointmentModel[]> {
         //Get storage appointments, compare to the new appointments, add new ones substitute the old ones
         // and keep those which don't change
         return this.appointmentsProvider.getAppointments()
-            .flatMap((actualAppointments: IAppointment[]) => {
+            .flatMap((actualAppointments: AppointmentModel[]) => {
                 if (newAppointments.length > 0) {
                     newAppointments.forEach(appointment => {
                         let index = actualAppointments.map(a => a.appointmentId).indexOf(appointment.appointmentId);
@@ -190,10 +191,10 @@ export class ServicesManager {
             });
     }
 
-    private updateTasks(appointments: IAppointment[]) {
+    private updateTasks(appointments: AppointmentModel[]) {
         //Get the las appoinment of each 'type'
-        let lastAppointments: IAppointment[] = [];
-        appointments.forEach((appointment: IAppointment) => {
+        let lastAppointments: AppointmentModel[] = [];
+        appointments.forEach((appointment: AppointmentModel) => {
             let index = lastAppointments.map(appointment => appointment.type).indexOf(appointment.type);
             if (index >= 0) {
                 if (lastAppointments[index].startTime < appointment.startTime) {

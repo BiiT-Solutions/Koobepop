@@ -1,16 +1,25 @@
-
+/**Represents a single recurrent task*/
 export class TaskModel {
   name: string;
   startingTime: number;
-  repetitions: number
-  performedOn: Map<number, Map<number, number>>; // sorted array of performation dates
+  repetitions: number;
+  
+  //{MAP:
+  //  [{week:[
+  //   {day:score},
+  //    ...
+  //    ]},
+  //    ...
+  //  ]}
+  performedOn: Map<number, Map<number, number>>;
+
   videoUrl?: string;
   content?: string; //Some HTML content
   type: string;
   appointmentId: number;
   constructor() {}
 
-  /** */
+  /** Stringify map so it can be stored on the DB */
   public static stringifyMap(map: Map<number, Map<number, number>>): string {
     let arrayFromMap = [];
     map.forEach((value, key) => {
@@ -19,7 +28,7 @@ export class TaskModel {
     let stringified = JSON.stringify(arrayFromMap);
     return stringified;
   }
-
+  /** Parse stringified map from the DB */
   public static parseStringifiedMap(stringifiedMap: string): Map<number, Map<number, number>> {
     let coolRebuiltMap = new Map<number, Map<number, number>>();
     if (stringifiedMap == undefined || stringifiedMap == "") {

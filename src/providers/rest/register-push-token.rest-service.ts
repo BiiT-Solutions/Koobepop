@@ -4,7 +4,7 @@ import { IAppConfig, APP_CONFIG } from '../../app/app.config';
 import { Http, Headers, Response } from '@angular/http';
 import { TokenProvider } from '../storage/tokenProvider';
 import { TranslateService } from '@ngx-translate/core';
-import { IUser } from '../../models/userI';
+import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class RegisterPushTokenRestService extends KppRestService {
@@ -15,7 +15,7 @@ export class RegisterPushTokenRestService extends KppRestService {
         protected translate: TranslateService) {
         super(http, config, tokenProvider);
     }
-    public setPushToken(user: IUser, pushNotificationToken: string): Observable<any> {
+    public setPushToken(user: UserModel, pushNotificationToken: string): Observable<any> {
         let requestAddres = this.config.usmoServer + this.config.setPushNotificationsToken;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);

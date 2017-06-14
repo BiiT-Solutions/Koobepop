@@ -25,13 +25,13 @@ export const AppConfig: IAppConfig = {
     usmoServer:
     "http://192.168.1.5:8081",    //LOCAL server
     //"https://testing.biit-solutions.com:10443/usmo/webservices", //TESTING server
-    //"https://m3sport.biit-solutions.com:10443/usmo/webservices",
+    //"https://m3sport.biit-solutions.com:10443/usmo/webservices", //M3SPORT server
     password:
     "Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=", //LOCAL & TESTING 
-    //btoa("webservice@biit-solutions.com:PSIdn3L93pAib7k"), //M3Sport
+    // btoa("webservice@biit-solutions.com:PSIdn3L93pAib7k"), //M3SPORT 
     organizationName:
     "UsmoOrganization",
-    //"Orbis Sport",
+    // "Orbis Sport",
     //Services
     getTasksService:"/rest/getCorrectiveExercisesAuth",
     getAppointmentsService:"/rest/getAppointmentsAuth",

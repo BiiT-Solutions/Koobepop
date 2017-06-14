@@ -1,6 +1,5 @@
 import { Component,  ViewChild } from '@angular/core';
 import { NavController,Tabs } from 'ionic-angular';
-import { AboutPage } from '../about/about';
 import { AgendaPage } from '../agenda/agenda';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
@@ -56,10 +55,6 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.manager.startContinuousAppointmentCheck(1000 * 60 * 30);//check every 30 minutes
-  }
-
-  navAbout() {
-    this.navCtrl.push(AboutPage);
   }
 
   navTest() {

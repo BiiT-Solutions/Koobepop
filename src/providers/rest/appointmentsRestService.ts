@@ -2,9 +2,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { Http, Response, Headers } from '@angular/http';
-import { IUser } from '../../models/userI';
+import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
-import { IAppointment } from '../../models/appointmentI';
+import { AppointmentModel } from '../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
 import { KppRestService } from './kppRestService';
 import { TokenProvider } from '../storage/tokenProvider';
@@ -18,7 +18,7 @@ export class AppointmentsRestService extends KppRestService {
         super(http, config, tokenProvider);
     }   
 
-    public requestAppointments(user: IUser): Observable<IAppointment[]> {
+    public requestAppointments(user: UserModel): Observable<AppointmentModel[]> {
         let requestAddres = this.config.usmoServer + this.config.getAppointmentsService;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
@@ -27,17 +27,17 @@ export class AppointmentsRestService extends KppRestService {
         }
         return super.request(requestAddres, body, headers)
             .map((res:Response)=>this.extractData(res))
-            .map((appointments: IAppointment[]) => { return appointments ? appointments.reverse() : []; })
+            .map((appointments: AppointmentModel[]) => { return appointments ? appointments.reverse() : []; })
             ;
     }
 
     /**Sends a list of appointments with update time and retrieves new and edited appointments */
-    public requestModifiedAppointments(appointments: IAppointment[], patient: IUser): Observable<IAppointment[]> {
+    public requestModifiedAppointments(appointments: AppointmentModel[], patient: UserModel): Observable<AppointmentModel[]> {
         let requestAddres = this.config.usmoServer + this.config.getUpdatedAppointmentsService;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
         let appointmentsIdWithDate = [];
-        appointments.forEach((appointment: IAppointment) => {
+        appointments.forEach((appointment: AppointmentModel) => {
             appointmentsIdWithDate.push({
                 appointmentId: appointment.appointmentId,
                 updateTime: appointment.updateTime != undefined ? appointment.updateTime : 0
@@ -51,13 +51,13 @@ export class AppointmentsRestService extends KppRestService {
 
         return super.request(requestAddres,body,headers)
             .map(res => this.extractData(res))
-            .map((appointments: IAppointment[]) => {
+            .map((appointments: AppointmentModel[]) => {
                 return appointments ? appointments.reverse() : [];
             });
     }
 
     /**Format appointments from USMO to a lighter form */
-    private extractData(res: Response): IAppointment[] {
+    private extractData(res: Response): AppointmentModel[] {
         let appointmentsFromResponse = res.json();
         appointmentsFromResponse.forEach(appointment => {
             appointment.results = this.formatResults(appointment.results);

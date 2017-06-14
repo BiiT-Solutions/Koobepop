@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MessageModel } from '../../models/message.model';
 
 /**
- * 
+ * This is a component to show messages in a friendly manner
  */
 @Component({
   selector: 'notification-message',

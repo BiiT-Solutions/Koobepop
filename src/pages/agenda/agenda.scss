@@ -4,18 +4,17 @@ page-agenda {
   .slide-zoom{
     height:100%;
     }
-    
   .date-header{
     background-color:map-get($colors,light)!important;
   }
- /* //Color even/odd rows
-  task-component > ion-item{
-       background-color: $background-color !important;
+  .slides-wrapper{
+    display:flex;
+    ion-slides {
+      flex-grow: 1;
     }
-  task-component:nth-child(even) > ion-item {
-        background-color: map-get($colors,overDo) !important;
-    }*/
   }
+  
+}
 
   //This is global -> TODO - change it to somewhere else 
  .good-toast>div{
@@ -25,4 +24,10 @@ page-agenda {
     background-color:map-get($colors,danger)!important;
     }
   
-  
+  /* //Color even/odd rows
+  task-component > ion-item{
+       background-color: $background-color !important;
+    }
+  task-component:nth-child(even) > ion-item {
+        background-color: map-get($colors,overDo) !important;
+    }*/

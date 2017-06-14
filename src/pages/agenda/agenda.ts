@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, Slides, Loading, LoadingController, App } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-import { VideoPage } from '../video/video';
+import { TaskInformationPage } from './task-information/task-information';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
 import { TaskModel } from '../../models/task.model';
@@ -140,11 +140,11 @@ export class AgendaPage {
   }
 
   public gotoExerciseVideo(task: TaskModel) {
-    this.app.getRootNav().push(VideoPage, task);
+    this.app.getRootNav().push(TaskInformationPage, task);
   }
 
   public gotoExerciseInfo(task: TaskModel) {
-    this.app.getRootNav().push(VideoPage, task);
+    this.app.getRootNav().push(TaskInformationPage, task);
   }
 
   public goToToday() {
@@ -160,6 +160,4 @@ export class AgendaPage {
     let weekTasks: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
     return weekTasks == undefined ? false : weekTasks.has(day);
   }
-
-
 }

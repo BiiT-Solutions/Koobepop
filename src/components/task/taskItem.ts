@@ -1,10 +1,12 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ViewChild } from '@angular/core';
 import { TaskModel } from '../../models/task.model';
 import * as moment from 'moment';
+
+/** Component showing a task from USMO*/
 @Component({
   selector: 'task-component',
   templateUrl: 'task.html',
-  changeDetection: ChangeDetectionStrategy.OnPush //Only detects changes when the input changes
+  changeDetection: ChangeDetectionStrategy.OnPush //Only detects changes when the input changes (needs digging)
 })
 export class TaskItemComponent {
   //Inputs
@@ -22,9 +24,7 @@ export class TaskItemComponent {
   showMoreInfo = false;
   style = {};
 
-
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     this.showMoreInfo = (this.task.content != undefined && this.task.content != '')
@@ -39,7 +39,6 @@ export class TaskItemComponent {
   ngOnChanges() {
     this.isDisabled = this.day > Date.now() || this.day < moment(Date.now()).add(-7, 'day').startOf('isoWeek').valueOf();
     this.style = this.taskStyle();
-
   }
 
   public checkMark(event) {
@@ -69,7 +68,6 @@ export class TaskItemComponent {
     let actualWeekStarts = moment(this.day).startOf('isoWeek').valueOf();
     let performedThisWeek = this.task.performedOn.has(actualWeekStarts) ? this.task.performedOn.get(actualWeekStarts).size : 0;
     let daysLeft = moment(this.day).diff(moment(this.day).endOf('isoWeek'), 'days');
-
     if (performedThisWeek >= this.task.repetitions) {
       return { 'over-do-task': true };
     } else {
@@ -82,5 +80,4 @@ export class TaskItemComponent {
       }
     }
   }
-
 }

@@ -103,13 +103,13 @@ export class ZoomableSlide {
     this.stopRendering();
   }
   startRendering() {
+  /* We change the image once every 1/25 of second while zoom is changing so it's not processor dependent*/
     this.intervalId = setInterval(() => this.render(), 1000 / 25);
   }
   stopRendering() {
     clearInterval(this.intervalId);
   }
 
-  /* We change the image once every 1/25 of second while zoom is changing so it's not processor dependent*/
   render() {
     this.applyViewChanges();
   }

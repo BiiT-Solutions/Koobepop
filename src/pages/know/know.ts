@@ -28,6 +28,7 @@ export class KnowPage {
   ionViewDidLoad() {
 
   }
+
   ionViewDidEnter() {
     this.manager.getMessages().subscribe(messages => {
       this.notifications = messages;

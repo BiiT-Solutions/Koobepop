@@ -18,13 +18,11 @@ import { TaskItemComponent } from '../components/task/taskItem'
 
 //Pages
 import { HomePage } from '../pages/home/home';
-import { AboutPage } from '../pages/about/about';
 import { AgendaPage } from '../pages/agenda/agenda';
 import { ReportPage } from '../pages/report/report';
 import { TestPage } from '../pages/test-page/test-page';
 import { KnowPage } from '../pages/know/know';
-import { VideoPage } from '../pages/video/video';
-import { ShowExerciseInfoPage } from '../pages/show-exercise-info/show-exercise-info';
+import { TaskInformationPage } from '../pages/agenda/task-information/task-information';
 import { SummaryPage } from '../pages/summary/summary';
 import { LoginPage } from '../pages/login/login';
 
@@ -62,16 +60,14 @@ export function createTranslateLoader(http: Http) {
   declarations: [
     MyApp,
     HomePage,
-    AboutPage,
     TestPage,
     ZoomableSlide,
     AgendaPage,
     ReportPage,
     KnowPage,
-    VideoPage,
+    TaskInformationPage,
     EffortSelectorComponent,
     UnselConfirmationComponent,
-    ShowExerciseInfoPage,
     SummaryPage,
     TaskItemComponent,
     LoginPage,
@@ -97,13 +93,11 @@ export function createTranslateLoader(http: Http) {
   entryComponents: [
     MyApp,
     HomePage,
-    AboutPage,
     TestPage,
     AgendaPage,
     ReportPage,
     KnowPage,
-    VideoPage,
-    ShowExerciseInfoPage,
+    TaskInformationPage,
     SummaryPage,
     LoginPage,
     EffortSelectorComponent,
@@ -129,7 +123,6 @@ export function createTranslateLoader(http: Http) {
     TokenProvider,
     UserProvider,
     MessagesProvider,
-    PushNotificationsHandlerProvider,
     PushNotificationsHandlerProvider
   ]
 })

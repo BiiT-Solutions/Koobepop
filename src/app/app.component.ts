@@ -8,7 +8,7 @@ import { ServicesManager } from '../providers/servicesManager';
 import { LoginPage } from '../pages/login/login';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
-import { PushNotificationsHandlerProvider } from '../providers/push-notifications-handler/push-notifications-handler';
+
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })

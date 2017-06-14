@@ -5,7 +5,7 @@ import { TaskModel } from '../../models/task.model';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { IUser } from '../../models/userI';
+import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'page-summary',
@@ -20,8 +20,6 @@ export class SummaryPage {
     public manager: ServicesManager,
     private sanitizer: DomSanitizer) {
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
-    
-    
   }
 
   public setActualWeek() {
@@ -29,45 +27,22 @@ export class SummaryPage {
 
   }
 
-  ionViewWillEnter(){
+  protected ionViewWillEnter() {
     this.setActualWeek();//In case there's any changes
-    window.addEventListener("tracker-ready", () => {
-      this.detailsFromWeek(this.actualWeek).subscribe(details => {
-        let event = new CustomEvent("tracker-week", { detail: details });
-        window.dispatchEvent(event);
-      });
-      this.detailsFromUser().subscribe(userDetails => {
-        let userEvent = new CustomEvent("tracker-user", { detail: userDetails });
-        window.dispatchEvent(userEvent);
-      });
-
-    });
-
-    window.addEventListener("prev-week", () => {
-      this.actualWeek--;
-      this.detailsFromWeek(this.actualWeek).subscribe(details => {
-        let event = new CustomEvent("tracker-week", { detail: details });
-        window.dispatchEvent(event);
-      });
-    });
-
-    window.addEventListener("next-week", () => {
-      this.actualWeek++;
-      this.detailsFromWeek(this.actualWeek).subscribe(details => {
-        let event = new CustomEvent("tracker-week", { detail: details });
-        window.dispatchEvent(event);
-      });
-    });
+    this.setTrackerReadyListener();
+    this.setNextWeekListener();
+    this.setPrevWeekListener();
   }
-  ionViewDidLeave() {
+
+  protected ionViewDidLeave() {
     window.removeEventListener("tracker-ready");
     window.removeEventListener("prev-week");
     window.removeEventListener("next-week");
   }
-  ionViewDidLoad() {
 
-  }
+  ionViewDidLoad() {}
 
+  /** Observable retunring week details */
   detailsFromWeek(week: number): Observable<any> {
     return this.manager.getTasks().map((tasks: TaskModel[]) => {
       let workouts = []
@@ -90,19 +65,18 @@ export class SummaryPage {
         }
       });
       return {
-        "year": "2017",
+        "year": moment().year(),
         "weekNumber": week,
         "workouts": workouts
       }
     });
   }
 
-  detailsFromUser(): Observable<any> {
-    return this.manager.getUser().flatMap((storedUser: IUser) => {
+  /** Observable retunring user details */
+  private detailsFromUser(): Observable<any> {
+    return this.manager.getUser().flatMap((storedUser: UserModel) => {
       return this.manager.getTasks().map((tasks: TaskModel[]) => {
-
         let taskTypesGoals: Map<string, number> = new Map();
-
         tasks.forEach((task: TaskModel) => {
           if (!taskTypesGoals.has(task.type)) {
             taskTypesGoals.set(task.type, 0);
@@ -124,6 +98,40 @@ export class SummaryPage {
           "goals": goals
         };
         return trackerUser;
+      });
+    });
+  }
+
+  private setTrackerReadyListener() {
+    window.addEventListener("tracker-ready", () => {
+      this.detailsFromWeek(this.actualWeek).subscribe(details => {
+        let event = new CustomEvent("tracker-week", { detail: details });
+        window.dispatchEvent(event);
+      });
+      this.detailsFromUser().subscribe(userDetails => {
+        let userEvent = new CustomEvent("tracker-user", { detail: userDetails });
+        window.dispatchEvent(userEvent);
+      });
+
+    });
+  }
+
+  private setNextWeekListener() {
+    window.addEventListener("prev-week", () => {
+      this.actualWeek--;
+      this.detailsFromWeek(this.actualWeek).subscribe(details => {
+        let event = new CustomEvent("tracker-week", { detail: details });
+        window.dispatchEvent(event);
+      });
+    });
+  }
+
+  private setPrevWeekListener() {
+    window.addEventListener("next-week", () => {
+      this.actualWeek++;
+      this.detailsFromWeek(this.actualWeek).subscribe(details => {
+        let event = new CustomEvent("tracker-week", { detail: details });
+        window.dispatchEvent(event);
       });
     });
   }

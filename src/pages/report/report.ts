@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { NavController, NavParams, Slides, LoadingController, Loading } from 'ionic-angular';
-import { IAppointment } from '../../models/appointmentI';
+import { AppointmentModel } from '../../models/appointment.model';
 import * as infographicjs from 'infographic-js';
 import { ServicesManager } from '../../providers/servicesManager'
 import { ToastIssuer } from '../../providers/toastIssuer';
@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ReportPage {
     testext;
     svgList = [];
-    appointments: IAppointment[];
+    appointments: AppointmentModel[];
     @ViewChild('slider') slider: Slides;
     loading: Loading;
     timeout;
@@ -33,11 +33,12 @@ export class ReportPage {
         this.loading = this.loadingCtrl.create({
             content: this.translate.instant('REPORT.REPORTS-LOADING-TEXT')
         });
-        this.loading.present();
+        this.loading.present().then(()=> this.loadReports(this.loading, this));
     }
 
     protected ionViewDidLoad() {
-         this.loadReports(this.loading, this);
+        
+       
     }
 
     protected ionViewWillEnter(){
@@ -45,7 +46,6 @@ export class ReportPage {
     }
     
     protected ionViewDidEnter() {
-       
     }
 
     private setAppointments() {
@@ -60,11 +60,12 @@ export class ReportPage {
 
 
     private loadReports(loading: Loading, context: ReportPage): void {
+        
         if (context.appointments == undefined || context.appointments.length <= 0) {
             this.setAppointments();
             context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
         } else {
-            context.appointments.forEach((appointment: IAppointment) => {
+            context.appointments.forEach((appointment: AppointmentModel) => {
                 try {
                     this.addReport(context, appointment)
                 } catch (e) { console.error("ReportPage:",e) }
@@ -73,7 +74,7 @@ export class ReportPage {
             try {
                 context.changeDetector.detectChanges();
             } catch (exception) {
-                console.error(exception);
+                console.error("ReportPage:",exception);
             }
             context.loading.dismiss();
         }
@@ -89,7 +90,7 @@ export class ReportPage {
         clearTimeout(this.timeout);
     }
 
-    addReport(context, appointment: IAppointment) {
+    addReport(context, appointment: AppointmentModel) {
         let results = appointment.results;
         let mentalExam = results['epworthslaperigheidsschaal'];
         let sleepScore = 0;
@@ -595,7 +596,12 @@ export class ReportPage {
 
         //Show reports 
         //1st- General idea
+        try{
         context.svgList.push(infographicjs.newLayout(reportBuilder));
+        }catch(ex){
+            console.log("Problem with infographics");
+            console.error(ex);
+        }
         //2nd- Specifics about each examination
 
 
