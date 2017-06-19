@@ -13,10 +13,10 @@ import { UnselConfirmationComponent } from '../../components/unsel-confirmation/
  * 
  */
 @Component({
-  selector: 'page-agenda',
-  templateUrl: 'agenda.html'
+  selector: 'page-work-book',
+  templateUrl: 'work-book.html'
 })
-export class AgendaPage {
+export class WorkBookPage {
   today: number = (new Date()).setHours(0, 0, 0, 0);
   actualDay: number;
   days: number[] = [];
@@ -48,7 +48,7 @@ export class AgendaPage {
         this.loading.dismiss()
           .catch(error => { console.error(error) });
       }, error => {
-        console.error("ERROR in Agenda on getTasks subscription")
+        console.error("ERROR in WorkBookPage on getTasks subscription")
         console.error(error)
       });
     });

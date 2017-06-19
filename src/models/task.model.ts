@@ -2,7 +2,12 @@
 export class TaskModel {
   name: string;
   startingTime: number;
+  finishTime?:number;
   repetitions: number;
+  videoUrl?: string;
+  content?: string; //Some HTML content
+  type: string;
+  appointmentId: number;
   
   //{MAP:
   //  [{week:[
@@ -13,10 +18,6 @@ export class TaskModel {
   //  ]}
   performedOn: Map<number, Map<number, number>>;
 
-  videoUrl?: string;
-  content?: string; //Some HTML content
-  type: string;
-  appointmentId: number;
   constructor() {}
 
   /** Stringify map so it can be stored on the DB */
@@ -32,7 +33,7 @@ export class TaskModel {
   public static parseStringifiedMap(stringifiedMap: string): Map<number, Map<number, number>> {
     let coolRebuiltMap = new Map<number, Map<number, number>>();
     if (stringifiedMap == undefined || stringifiedMap == "") {
-      console.debug("TasksProvider: parseStringifiedMap: string void ")
+      console.debug("TasksProvider: parseStringifiedMap: string void ");
       return coolRebuiltMap;
     }
     let reParsed = JSON.parse(stringifiedMap);

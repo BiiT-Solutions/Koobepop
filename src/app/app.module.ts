@@ -18,11 +18,11 @@ import { TaskItemComponent } from '../components/task/taskItem'
 
 //Pages
 import { HomePage } from '../pages/home/home';
-import { AgendaPage } from '../pages/agenda/agenda';
+import { WorkBookPage } from '../pages/work-book/work-book';
 import { ReportPage } from '../pages/report/report';
 import { TestPage } from '../pages/test-page/test-page';
 import { KnowPage } from '../pages/know/know';
-import { TaskInformationPage } from '../pages/agenda/task-information/task-information';
+import { TaskInformationPage } from '../pages/work-book/task-information/task-information';
 import { SummaryPage } from '../pages/summary/summary';
 import { LoginPage } from '../pages/login/login';
 
@@ -62,7 +62,7 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     TestPage,
     ZoomableSlide,
-    AgendaPage,
+    WorkBookPage,
     ReportPage,
     KnowPage,
     TaskInformationPage,
@@ -94,7 +94,7 @@ export function createTranslateLoader(http: Http) {
     MyApp,
     HomePage,
     TestPage,
-    AgendaPage,
+    WorkBookPage,
     ReportPage,
     KnowPage,
     TaskInformationPage,

@@ -1,18 +1,18 @@
 import { ComponentFixture, async } from '@angular/core/testing';
-import { AgendaPage } from './agenda';
+import { WorkBookPage } from './work-book';
 import { TestUtils } from '../../test';
 import { TaskItemComponent } from '../../components/task/taskItem';
 
-let fixture: ComponentFixture<AgendaPage> = null;
+let fixture: ComponentFixture<WorkBookPage> = null;
 let instance: any = null;
 
 describe('Home page', () => {
-  beforeEach(async(() => TestUtils.beforeEachCompiler([TaskItemComponent,AgendaPage]).then((compiled:{ fixture: any, instance: any }) => {
+  beforeEach(async(() => TestUtils.beforeEachCompiler([TaskItemComponent,WorkBookPage]).then((compiled:{ fixture: any, instance: any }) => {
     fixture = compiled.fixture;
     instance = compiled.instance;
   })));
 
-  it('should create the agenda page', async () => {
+  it('should create the workbook page', async () => {
     expect(instance).toBeTruthy();
   });
 

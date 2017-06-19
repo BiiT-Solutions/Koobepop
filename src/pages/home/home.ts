@@ -1,6 +1,6 @@
 import { Component,  ViewChild } from '@angular/core';
 import { NavController,Tabs } from 'ionic-angular';
-import { AgendaPage } from '../agenda/agenda';
+import { WorkBookPage } from '../work-book/work-book';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
 import { SummaryPage } from '../summary/summary';
@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Rx';
 })
 export class HomePage {
   tab0Root = ReportPage;
-  tab1Root = AgendaPage;
+  tab1Root = WorkBookPage;
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
   @ViewChild("homeTabs") homeTabs: Tabs;
@@ -62,7 +62,7 @@ export class HomePage {
   }
 
   navAgendaView() {
-    this.navCtrl.push(AgendaPage);
+    this.navCtrl.push(WorkBookPage);
   }
 
   navReportView() {

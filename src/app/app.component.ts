@@ -24,6 +24,8 @@ export class MyApp {
     private toaster: ToastIssuer,
     private splashscreen: SplashScreen,
     private statusBar: StatusBar) {
+      console.log("######################")
+      console.log(this)
     let loading;
     translate.setDefaultLang('en');
     translate.get("APP.LOAD-MESSAGE").subscribe((message) => {
@@ -32,7 +34,6 @@ export class MyApp {
       });
       loading.present();
     });
-
 
     this.manager.tokenStatus()
       .subscribe((status) => {
@@ -60,8 +61,7 @@ export class MyApp {
     platform.ready().then(() => {
       translate.use(platform.lang());
       // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.      
-
+      // Here you can do any higher level native things you might need.
 
       try {
         this.splashscreen.hide();

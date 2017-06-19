@@ -32,7 +32,7 @@ export class TaskItemComponent {
   }
 
   ngAfterViewInit() {
-    //We do this just for the initialization, later we manage it from the agenda
+    //We do this just for the initialization, later we manage it from the workbook
     this.checkBox.checked = this.isTaskPerformed();
   }
 

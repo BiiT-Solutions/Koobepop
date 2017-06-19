@@ -1,8 +1,10 @@
-<ion-content>
+<ion-header>
   <ion-navbar color="primary">
     <ion-title>
     </ion-title>
   </ion-navbar>
+</ion-header>
+<ion-content padding>
   <div *ngIf="videoUrl!=undefined" class="video-container">
     <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
   </div>

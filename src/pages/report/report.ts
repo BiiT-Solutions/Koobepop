@@ -103,6 +103,7 @@ export class ReportPage {
         //Init color depending on the score
         let sleepColor;
         let sleepScoreString;
+        
         if (sleepScore < 11) {
             sleepColor = "#00aa00"
             sleepScoreString = "normal healthy sleep"
@@ -116,7 +117,6 @@ export class ReportPage {
             sleepColor = "#ff0000"
             sleepScoreString = "severe insomnia"
         }
-
 
         var reportBuilder = {
             width: 960,
@@ -605,5 +605,17 @@ export class ReportPage {
         //2nd- Specifics about each examination
 
 
+    }
+    choosleColor(index:number){
+        switch(index){
+            case 3:
+            return '#00aa00';
+            case 2:
+            return '#fcd453';
+            case 1:
+            return '#ffb33b';
+            case 0:
+            return '#ff0000';
+        }
     }
 }
