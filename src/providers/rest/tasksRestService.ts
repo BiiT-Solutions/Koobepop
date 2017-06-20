@@ -56,7 +56,7 @@ export class TasksRestService extends KppRestService {
                 });
                 deserializedTasks.push({
                     name: task.name,
-                    startingTime: task.startingTime,
+                    startTime: task.startTime,
                     repetitions: task.repetitions,
                     performedOn: performedMap,
                     videoUrl: task.videoUrl,

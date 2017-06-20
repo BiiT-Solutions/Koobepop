@@ -1,7 +1,7 @@
 /**Represents a single recurrent task*/
 export class TaskModel {
   name: string;
-  startingTime: number;
+  startTime: number;
   finishTime?:number;
   repetitions: number;
   videoUrl?: string;

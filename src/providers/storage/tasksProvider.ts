@@ -43,7 +43,7 @@ export class TasksProvider extends StorageServiceProvider {
             tasks.forEach(task => {
                 deserializedTasks.push({
                     name: task.name,
-                    startingTime: task.startingTime,
+                    startTime: task.startTime,
                     repetitions: task.repetitions,
                     performedOn: TaskModel.parseStringifiedMap(task.performedOn), // sorted array of performation dates
                     videoUrl: task.videoUrl,
@@ -61,7 +61,7 @@ export class TasksProvider extends StorageServiceProvider {
         tasks.forEach(task => {
             let serializableTask = {
                 name: task.name,
-                startingTime: task.startingTime,
+                startTime: task.startTime,
                 repetitions: task.repetitions,
                 performedOn: TaskModel.stringifyMap(task.performedOn),
                 videoUrl: task.videoUrl,
