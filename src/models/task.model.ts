@@ -8,14 +8,7 @@ export class TaskModel {
   content?: string; //Some HTML content
   type: string;
   appointmentId: number;
-  
-  //{MAP:
-  //  [{week:[
-  //   {day:score},
-  //    ...
-  //    ]},
-  //    ...
-  //  ]}
+  // Map<weekDate,Map<dayDate, score>>
   performedOn: Map<number, Map<number, number>>;
 
   constructor() {}

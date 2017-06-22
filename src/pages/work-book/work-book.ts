@@ -60,7 +60,7 @@ export class WorkBookPage {
 
   /* When item is clicked */
   public checkMark(event) {
-    //Init map in case it hasn't been
+    //Init map if it is undefined
     if (event.taskComp.task.performedOn == undefined) {
       event.taskComp.task.performedOn = new Map<number, Map<number, number>>();
     }
@@ -90,7 +90,7 @@ export class WorkBookPage {
             //Need the subscription to force the Observable?
             this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
               .subscribe();
-            this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
+            this.toaster.goodToast(event.taskComp.task.name + ' finished!');
             event.taskComp.checkBox.checked = true;
           }
         });
@@ -104,7 +104,7 @@ export class WorkBookPage {
           //Need the subscription to force the Observable resolution
           this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
             .subscribe();
-          this.toaster.goodToast(event.taskComp.task.name + ' finished! Difficulty: ' + score);
+          this.toaster.goodToast(event.taskComp.task.name + ' finished!');
           event.taskComp.checkBox.checked = true;
         }
       });

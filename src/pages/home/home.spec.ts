@@ -11,11 +11,10 @@ describe('Home page', () => {
     instance = compiled.instance;
   })));
 
-
   it('should create the home page', async () => {
     expect(instance).toBeTruthy();
   })
-  
+
 })
 
 

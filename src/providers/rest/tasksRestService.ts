@@ -54,9 +54,10 @@ export class TasksRestService extends KppRestService {
                         performedMap.get(weekKey).set(performed.time, performed.score);
                     }
                 });
+                
                 deserializedTasks.push({
                     name: task.name,
-                    startTime: task.startTime,
+                    startTime: task.startingTime,
                     repetitions: task.repetitions,
                     performedOn: performedMap,
                     videoUrl: task.videoUrl,

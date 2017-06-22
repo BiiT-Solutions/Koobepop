@@ -6,7 +6,7 @@
         <div class="date-header">{{day |date}}</div>
         <ion-list>
           <ng-container *ngFor="let task of tasksPlan">
-            <task-component *ngIf="day>task.start" [task]="task" [day]="day" [checked]="isPerformed(task,day)" (checkBoxClick)="checkMark($event)"
+            <task-component *ngIf="day>task.startTime" [task]="task" [day]="day" [checked]="isPerformed(task,day)" (checkBoxClick)="checkMark($event)"
               (infoClick)="gotoExerciseInfo(task)"></task-component>
           </ng-container>
         </ion-list>

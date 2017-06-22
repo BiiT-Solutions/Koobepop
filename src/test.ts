@@ -15,7 +15,7 @@ import { StorageMock, ConfigMock, PlatformMock, TranslateServiceMock, LoadingCon
 import { ServicesManager } from './providers/servicesManager';
 import { Http } from '@angular/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { StorageService } from './providers/storageService';
+
 import { ConnectivityService } from './providers/connectivity-service';
 import { ToastIssuer } from './providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -78,7 +78,6 @@ export class TestUtils {
                 { provide: Config, useClass: ConfigMock },
                 { provide: APP_CONFIG, useValue: AppConfig },
                 ServicesManager,
-                StorageService,
                 ToastIssuer,
                 ConnectivityService,
                 { provide: Storage, useClass: StorageMock },
