@@ -9,613 +9,1047 @@ import { TranslateService } from '@ngx-translate/core';
  * This page holds reports into a slider consisting on several pages (zoomable-slide)
  */
 @Component({
-    selector: 'page-report',
-    templateUrl: 'report.html'
+  selector: 'page-report',
+  templateUrl: 'report.html'
 })
 export class ReportPage {
-    testext;
-    svgList = [];
-    appointments: AppointmentModel[];
-    @ViewChild('slider') slider: Slides;
-    loading: Loading;
-    timeout;
-    constructor(public navCtrl: NavController,
-        public navParams: NavParams,
-        public changeDetector: ChangeDetectorRef,
-        public manager: ServicesManager,
-        public loadingCtrl: LoadingController,
-        public toaster: ToastIssuer,
-        public translate: TranslateService) {
-    }
-    
-    protected ionViewWillLoad(){
-        this.setAppointments();
-        this.loading = this.loadingCtrl.create({
-            content: this.translate.instant('REPORT.REPORTS-LOADING-TEXT')
-        });
-        this.loading.present().then(()=> this.loadReports(this.loading, this));
-    }
+  testext;
+  svgList = [];
+  appointments: AppointmentModel[];
+  @ViewChild('slider') slider: Slides;
+  loading: Loading;
+  timeout;
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public changeDetector: ChangeDetectorRef,
+    public manager: ServicesManager,
+    public loadingCtrl: LoadingController,
+    public toaster: ToastIssuer,
+    public translate: TranslateService) {
+  }
 
-    protected ionViewDidLoad() {
-        
-       
-    }
+  protected ionViewWillLoad() {
+    this.setAppointments();
+    this.loading = this.loadingCtrl.create({
+      content: this.translate.instant('REPORT.REPORTS-LOADING-TEXT')
+    });
+    this.loading.present().then(() => this.loadReports(this.loading, this));
+  }
 
-    protected ionViewWillEnter(){
-       
-    }
-    
-    protected ionViewDidEnter() {
-    }
-
-    private setAppointments() {
-        this.manager.getAppointments()
-            .subscribe(appointments => this.appointments = appointments, (error) => this.errorMessage(error));
-    }
-
-    private errorMessage(error) {
-        this.translate.get("REPORT.ERROR-SETTING-APPOINTMENTS").subscribe(translation => this.toaster.badToast(translation));
-        console.error(error);
-    }
+  protected ionViewDidLoad() {
 
 
-    private loadReports(loading: Loading, context: ReportPage): void {
-        
-        if (context.appointments == undefined || context.appointments.length <= 0) {
-            this.setAppointments();
-            context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
-        } else {
-            context.appointments.forEach((appointment: AppointmentModel) => {
-                try {
-                    this.addReport(context, appointment)
-                } catch (e) { console.error("ReportPage:",e) }
-            });
-            //This prevents a change detection error on dev mode
-            try {
-                context.changeDetector.detectChanges();
-            } catch (exception) {
-                console.error("ReportPage:",exception);
-            }
-            context.loading.dismiss();
-        }
+  }
+
+  protected ionViewWillEnter() {
+
+  }
+
+  protected ionViewDidEnter() {
+  }
+
+  private setAppointments() {
+    this.manager.getAppointments()
+      .subscribe(appointments => this.appointments = appointments, (error) => this.errorMessage(error));
+  }
+
+  private errorMessage(error) {
+    this.translate.get("REPORT.ERROR-SETTING-APPOINTMENTS").subscribe(translation => this.toaster.badToast(translation));
+    console.error(error);
+  }
+
+
+  private loadReports(loading: Loading, context: ReportPage): void {
+
+    if (context.appointments == undefined || context.appointments.length <= 0) {
+      this.setAppointments();
+      context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
+    } else {
+      context.appointments.forEach((appointment: AppointmentModel) => {
+        try {
+          this.addReport(context, appointment)
+        } catch (e) { console.error("ReportPage:", e) }
+      });
+      //This prevents a change detection error on dev mode
+      try {
+        context.changeDetector.detectChanges();
+      } catch (exception) {
+        console.error("ReportPage:", exception);
+      }
+      context.loading.dismiss();
+    }
+  }
+
+  isZoomActive(zoomActive: boolean) {
+    this.testext = zoomActive;
+    this.slider.lockSwipes(zoomActive);
+  }
+
+  ionViewWillLeave() {
+    this.loading.dismiss();
+    clearTimeout(this.timeout);
+  }
+
+  addReport(context, appointment: AppointmentModel) {
+    let results = appointment.results;
+    let mentalExam = results['epworthslaperigheidsschaal'];
+    let sleepScore = 0;
+    if (mentalExam != undefined) {
+      //For each key
+      for (let element in mentalExam.situatie) {
+        sleepScore += parseInt(mentalExam.situatie[element][0])
+      }
+    }
+    //Init color depending on the score
+    let sleepColor;
+    let sleepScoreString;
+
+    if (sleepScore < 11) {
+      sleepColor = "#00aa00"
+      sleepScoreString = "normal healthy sleep"
+    } else if (sleepScore < 15) {
+      sleepColor = "#fcd453"
+      sleepScoreString = "mild insomnia"
+    } else if (sleepScore < 18) {
+      sleepColor = "#ffb33b"
+      sleepScoreString = "strong insomnia"
+    } else {
+      sleepColor = "#ff0000"
+      sleepScoreString = "severe insomnia"
     }
 
-    isZoomActive(zoomActive: boolean) {
-        this.testext = zoomActive;
-        this.slider.lockSwipes(zoomActive);
-    }
-
-    ionViewWillLeave() {
-        this.loading.dismiss();
-        clearTimeout(this.timeout);
-    }
-
-    addReport(context, appointment: AppointmentModel) {
-        let results = appointment.results;
-        let mentalExam = results['epworthslaperigheidsschaal'];
-        let sleepScore = 0;
-        if (mentalExam != undefined) {
-            //For each key 
-            for (let element in mentalExam.situatie) {
-                sleepScore += parseInt(mentalExam.situatie[element][0])
-            }
-        }
-        //Init color depending on the score
-        let sleepColor;
-        let sleepScoreString;
-        
-        if (sleepScore < 11) {
-            sleepColor = "#00aa00"
-            sleepScoreString = "normal healthy sleep"
-        } else if (sleepScore < 15) {
-            sleepColor = "#fcd453"
-            sleepScoreString = "mild insomnia"
-        } else if (sleepScore < 18) {
-            sleepColor = "#ffb33b"
-            sleepScoreString = "strong insomnia"
-        } else {
-            sleepColor = "#ff0000"
-            sleepScoreString = "severe insomnia"
-        }
-
-        var reportBuilder = {
-            width: 960,
-            height: 2300,
-            type: 'gridLayout',
-            columns: 1,
-            rows: 10,
-            //auxiliarLines: true,
-            cells: [{
-                xCell: 0,
-                yCell: 0,
-                element: {
-                    type: 'text',
-                    text: 'Advisory report',
-                    verticalAlign: 'middle',
-                    attributes: { x: 10, "font-size": "80px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
-                }
-            }, {
-                xCell: 0,
-                yCell: 0,
-                element: {
-                    type: 'text',
-                    text: new Date(appointment.startTime).toLocaleDateString(),
-                    verticalAlign: 'middle',
-                    attributes: { x: 10, y: 50, "font-size": "60px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
-                }
+    var reportBuilder ={
+  "width": 960.0,
+  "height": 2300.0,
+  "background": {
+    "backgroundColor": "#f7fcf9"
+  },
+  "type": "gridLayout",
+  "numColumns": 1,
+  "numRows": 10,
+  "auxiliarLines": true,
+  "cells": [
+    {
+      "xColumn": 0.0,
+      "yColumn": 0.0,
+      "content": {
+        "type": "text",
+        "id": "title",
+        "contentText": "Advisory report",
+        "font-size": 80.0,
+        "font-family": "Sans",
+        "maxLineSize": 50,
+        "verticalAlign": "middle",
+        "style": "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+      }
+    },
+    {
+      "xColumn": 0.0,
+      "yColumn": 0.0,
+      "content": {
+        "width": 960.0,
+        "height": 230.0,
+        "type": "freeLayout",
+        "elements": [
+          {
+            "origin": {
+              "x": 0.0,
+              "y": 200.0
             },
-            {
-                xCell: 0,
-                yCell: 0,
-                element: {
-                    type: 'basicShape',
-                    tag: 'line',
-                    attributes: { x1: 0, y1: 200, x2: 960, y2: 200, style: 'stroke:#800600;stroke-width:10;' }
-                }
-            }, {
-                xCell: 0,
-                yCell: 1,
-                element: {
-                    type: 'gridLayout',
-                    columns: 2,
-                    rows: 1,
-                    cells: [{
-                        xCell: 0,
-                        yCell: 0,
-                        element: {
-                            type: 'freeLayout',
-                            width: 560,
-                            height: 270,
-                            svgShapes: [{
-                                tag: 'rect',
-                                attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                            }, {
-                                tag: 'rect',
-                                attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
-                            }, {
-                                tag: 'line',
-                                attributes: { x1: 80, y1: 49.8, x2: 190, y2: 49.8, style: 'stroke:#f7fcf9;stroke-width:6.5;' }
-                            }
-                            ],
-                            svgElements: [{
-                                id: 'lungs',
-                                attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                            },
-                            ],
-                            textElements: [{
-                                id: 'testName',
-                                contentText: 'Lung ',
-                                attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                            },
-                            {
-                                id: 'testName',
-                                contentText: 'function',
-                                attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                            }
-                            ],
-                        },
-                    }, {
-                        xCell: 1,
-                        yCell: 0,
-                        element: {
-                            type: 'freeLayout',
-                            width: 560,
-                            height: 270,
-                            svgShapes: [{
-                                tag: 'rect',
-                                attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                            }, {
-                                tag: 'rect',
-                                attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
-                            }, {
-                                tag: 'line',
-                                attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.9;' }
-                            }
-                            ],
-                            svgElements: [{
-                                id: 'bodyComposition',
-                                attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                            },
-                            ],
-                            textElements: [{
-                                id: 'testName',
-                                contentText: 'Body',
-                                attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                            }, {
-                                id: 'name',
-                                contentText: 'composition',
-                                attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                            }
-                            ],
-                        },
+            "size": {
+              "width": 960.0,
+              "height": 10.0
+            },
+            "content": {
+              "type": "basicshape",
+              "id": "line",
+              "stroke": "#800600",
+              "strokeWidth": 10.0,
+              "endPoint": {
+                "x": 960.0,
+                "y": 200.0
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "xColumn": 0.0,
+      "yColumn": 1.0,
+      "content": {
+        "type": "gridLayout",
+        "numColumns": 2,
+        "numRows": 1,
+        "cells": [
+          {
+            "xColumn": 0.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#00aa00",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
                     }
-                    ]
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 60.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "lungs"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Lung function",
+                    "contentText": "Lung function",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
                 }
-            }, {
-                xCell: 0,
-                yCell: 2,
-                element: {
-                    type: 'gridLayout',
-                    columns: 2,
-                    rows: 1,
-                    cells: [
-                        {
-                            xCell: 0,
-                            yCell: 0,
-                            element: {
-                                type: 'freeLayout',
-                                width: 560,
-                                height: 270,
-                                svgShapes: [{
-                                    tag: 'rect',
-                                    attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                                }, {
-                                    tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
-                                }, {
-                                    tag: 'line',
-                                    attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:6;' }
-                                }
-                                ],
-                                svgElements: [{
-                                    id: 'heart',
-                                    attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                                },
-                                ],
-                                textElements: [{
-                                    id: 'testName',
-                                    contentText: 'Heart ',
-                                    attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }, {
-                                    id: 'testName',
-                                    contentText: 'function',
-                                    attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }
-                                ],
-                            },
-                        }, {
-                            xCell: 1,
-                            yCell: 0,
-                            element: {
-                                type: 'freeLayout',
-                                width: 560,
-                                height: 270,
-                                svgShapes: [{
-                                    tag: 'rect',
-                                    attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                                }, {
-                                    tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: sleepColor }
-                                }, {
-                                    tag: 'line',
-                                    attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
-                                }
-                                ],
-                                svgElements: [{
-                                    id: 'sleep',
-                                    attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                                },
-                                ],
-                                textElements: [{
-                                    id: 'testName',
-                                    contentText: 'Sleep',
-                                    attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }, {
-                xCell: 0,
-                yCell: 3,
-                element: {
-                    type: 'gridLayout',
-                    columns: 2,
-                    rows: 1,
-                    cells: [
-                        {
-                            xCell: 0,
-                            yCell: 0,
-                            element: {
-                                type: 'freeLayout',
-                                width: 560,
-                                height: 270,
-                                svgShapes: [{
-                                    tag: 'rect',
-                                    attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                                }, {
-                                    tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
-                                }, {
-                                    tag: 'line',
-                                    attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
-                                }
-                                ],
-                                svgElements: [{
-                                    id: 'movement',
-                                    attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                                },
-                                ],
-                                textElements: [{
-                                    id: 'testName',
-                                    contentText: 'Movement ',
-                                    attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }, {
-                                    id: 'testName',
-                                    contentText: 'function',
-                                    attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }
-                                ],
-                            },
-                        }, {
-                            xCell: 1,
-                            yCell: 0,
-                            element: {
-                                type: 'freeLayout',
-                                width: 560,
-                                height: 270,
-                                svgShapes: [{
-                                    tag: 'rect',
-                                    attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                                }, {
-                                    tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
-                                }, {
-                                    tag: 'line',
-                                    attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
-                                }
-                                ],
-                                svgElements: [{
-                                    id: 'energyBalance',
-                                    attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                                },
-                                ],
-                                textElements: [{
-                                    id: 'testName',
-                                    contentText: 'Energy ',
-                                    attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }, {
-                                    id: 'testName',
-                                    contentText: 'balance',
-                                    attributes: { x: 250, y: 132, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }
-                                ],
-                            },
-                        }
-                    ]
-                }
-            }, {
-                xCell: 0,
-                yCell: 4,
-                element: {
-                    type: 'gridLayout',
-                    columns: 2,
-                    rows: 1,
-                    cells: [
-                        {
-                            xCell: 0,
-                            yCell: 0,
-                            element: {
-                                type: 'freeLayout',
-                                width: 560,
-                                height: 270,
-                                svgShapes: [{
-                                    tag: 'rect',
-                                    attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                                }, {
-                                    tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
-                                }, {
-                                    tag: 'line',
-                                    attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
-                                }
-                                ],
-                                svgElements: [{
-                                    id: 'condition',
-                                    attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                                },
-                                ],
-                                textElements: [{
-                                    id: 'testName',
-                                    contentText: 'Condition',
-                                    attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }
-                                ],
-                            },
-                        }, {
-                            xCell: 1,
-                            yCell: 0,
-                            element: {
-                                type: 'freeLayout',
-                                width: 560,
-                                height: 270,
-                                svgShapes: [{
-                                    tag: 'rect',
-                                    attributes: { width: 500, height: 220, ry: 26.83, x: 30, y: 50, style: 'fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0' }
-                                }, {
-                                    tag: 'rect',
-                                    attributes: { width: 90, height: 90, x: 250, y: 150, ry: 45, fill: '#00aa00' }
-                                }, {
-                                    tag: 'line',
-                                    attributes: { x1: 20, y1: 50, x2: 200, y2: 50, style: 'stroke:#f7fcf9;stroke-width:5.2;' }
-                                }
-                                ],
-                                svgElements: [{
-                                    id: 'stress',
-                                    attributes: { width: 'default', height: 'default', x: 60, y: 10 }
-                                },
-                                ],
-                                textElements: [{
-                                    id: 'testName',
-                                    contentText: 'Stress',
-                                    attributes: { x: 250, y: 100, 'font-size': '32px', 'fill': '#804600', style: 'font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;font-family:Sans' }
-                                }
-                                ],
-                            },
-                        }
-                    ]
-                }
-            }, {
-                xCell: 0,
-                yCell: 5,
-                element: {
-                    type: 'text',
-                    text: 'Descriptions',
-                    verticalAlign: 'middle',
-                    attributes: { x: 10, "font-size": "60px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
-                }
-            },
-            {
-                xCell: 0,
-                yCell: 5,
-                element: {
-                    type: 'basicShape',
-                    tag: 'line',
-                    attributes: { x1: 10, y1: 1350, x2: 480, y2: 1350, style: 'stroke:#800600;stroke-width:6;' }
-                }
-            }, {
-                xCell: 0,
-                yCell: 6,
-                element: {
-                    type: 'freeLayout',
-                    width: 920,
-                    height: 250,
-                    svgShapes: [{
-                        type: 'basicShape',
-                        tag: 'rect',
-                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#006680;fill-opacity:1;fill-rule:evenodd;stroke:none' }
-                    }],
-                    svgElements: [{
-                        id: 'sleep2',
-                        attributes: { width: 'default', height: 'default', x: 60, y: 60, style: 'fill:#FFFFFF' }
-                    },
-                    ]
-                }
-            }, {
-                xCell: 0,
-                yCell: 6,
-                element: {
-                    type: 'text',
-                    maxLineSize: 40,
-                    text: 'Your actual sleep score is: ' + sleepScore + ' points. Which means ' + sleepScoreString + ".",
-                    verticalAlign: 'middle',
-                    attributes: { x: 250, "font-size": "20px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
-
-                }
-            }, {
-                xCell: 0,
-                yCell: 6,
-                element: {
-                    type: 'text',
-                    text: 'Sleep',
-                    verticalAlign: 'top',
-                    attributes: { y: 1450, x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
-                }
-            }, {
-                xCell: 0,
-                yCell: 7,
-                element: {
-                    type: 'freeLayout',
-                    width: 920,
-                    height: 250,
-                    svgShapes: [{
-                        type: 'basicShape',
-                        tag: 'rect',
-                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#006680;fill-opacity:1;fill-rule:evenodd;stroke:none' }
-                    }],
-                    svgElements: [{
-                        id: 'lungs2',
-                        attributes: { width: 'default', height: 'default', x: 60, y: 60, style: 'fill:#FFFFFF' }
-                    },
-                    ]
-                }
-            }, {
-                xCell: 0,
-                yCell: 7,
-                element: {
-                    type: 'text',
-                    maxLineSize: 70,
-                    text: 'Pulmonary function tests (PFTs) are a group of tests that measure how well your lungs work. This includes how well you’re able to breathe and how effective your lungs are able to bring oxygen to the rest of your body.',
-                    verticalAlign: 'middle',
-                    attributes: { x: 250, "font-size": "17px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
-
-                }
-            }, {
-                xCell: 0,
-                yCell: 7,
-                element: {
-                    type: 'text',
-                    text: 'Lung function',
-                    verticalAlign: 'top',
-                    attributes: { y: 1680, x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
-                }
-            },
-            {
-                xCell: 0,
-                yCell: 8,
-                element: {
-                    type: 'freeLayout',
-                    width: 920,
-                    height: 250,
-                    svgShapes: [{
-                        type: 'basicShape',
-                        tag: 'rect',
-                        attributes: { x: 10, y: 20, ry: 40, width: 900, height: 230, style: 'fill:#006680;fill-opacity:1;fill-rule:evenodd;stroke:none' }
-                    }],
-                    svgElements: [{
-                        id: 'heart2',
-                        attributes: { width: 'default', height: 'default', x: 60, y: 60, style: 'fill:#FFFFFF' }
-                    },
-                    ]
-                }
-            }, {
-                xCell: 0,
-                yCell: 8,
-                element: {
-                    type: 'text',
-                    maxLineSize: 70,
-                    text: 'There are many different tests to find out how your heart is doing or to diagnose a condition. Heart tests give you and your doctor more information about the condition of your heart and can help you find out which treatment(s) may be best for you',
-                    verticalAlign: 'middle',
-                    attributes: { x: 250, "font-size": "17px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;stroke:none;font-family:Sans;-inkscape-font-specification:Sans" }
-
-                }
-            }, {
-                xCell: 0,
-                yCell: 8,
-                element: {
-                    type: 'text',
-                    text: 'Heart function',
-                    verticalAlign: 'top',
-                    attributes: { y: 1910, x: 250, "font-size": "22px", style: "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold" }
-                }
+              ]
             }
-
-            ]
-        };
-
-        //Show reports 
-        //1st- General idea
-        try{
-        context.svgList.push(infographicjs.newLayout(reportBuilder));
-        }catch(ex){
-            console.log("Problem with infographics");
-            console.error(ex);
-        }
-        //2nd- Specifics about each examination
-
-
+          },
+          {
+            "xColumn": 1.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#ff0000",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
+                    }
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 90.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "bodyComposition"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Body composition",
+                    "contentText": "Body composition",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "xColumn": 0.0,
+      "yColumn": 2.0,
+      "content": {
+        "type": "gridLayout",
+        "numColumns": 2,
+        "numRows": 1,
+        "cells": [
+          {
+            "xColumn": 0.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#ffb33b",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
+                    }
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 60.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "heart"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Heart function",
+                    "contentText": "Heart function",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "xColumn": 1.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#00aa00",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
+                    }
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 60.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "sleep"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Sleep",
+                    "contentText": "Sleep",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "xColumn": 0.0,
+      "yColumn": 3.0,
+      "content": {
+        "type": "gridLayout",
+        "numColumns": 2,
+        "numRows": 1,
+        "cells": [
+          {
+            "xColumn": 0.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#ff0000",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
+                    }
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 90.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "movement"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Movement function",
+                    "contentText": "Movement function",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "xColumn": 1.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#00aa00",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
+                    }
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 60.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "energyBalance"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Energy balance",
+                    "contentText": "Energy balance",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "xColumn": 0.0,
+      "yColumn": 4.0,
+      "content": {
+        "type": "gridLayout",
+        "numColumns": 2,
+        "numRows": 1,
+        "cells": [
+          {
+            "xColumn": 0.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#00aa00",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
+                    }
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 60.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "condition"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Condition",
+                    "contentText": "Condition",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "xColumn": 1.0,
+            "yColumn": 0.0,
+            "content": {
+              "width": 560.0,
+              "height": 270.0,
+              "type": "freeLayout",
+              "elements": [
+                {
+                  "origin": {
+                    "x": 30.0,
+                    "y": 50.0
+                  },
+                  "size": {
+                    "width": 500.0,
+                    "height": 220.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "rect",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 5.0,
+                    "rx": 26.83,
+                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 300.0,
+                    "y": 200.0
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "circle",
+                    "stroke": "#ffb33b",
+                    "strokeWidth": 0.0,
+                    "r": 45.0
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 80.0,
+                    "y": 49.8
+                  },
+                  "size": {
+                    "width": 90.0,
+                    "height": 90.0
+                  },
+                  "content": {
+                    "type": "basicshape",
+                    "id": "line",
+                    "stroke": "#dbf5fc",
+                    "strokeWidth": 6.0,
+                    "endPoint": {
+                      "x": 190.0,
+                      "y": 49.8
+                    }
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 60.0,
+                    "y": 10.0
+                  },
+                  "size": {
+                    "width": -1.0,
+                    "height": -1.0
+                  },
+                  "content": {
+                    "type": "svg",
+                    "id": "stress"
+                  }
+                },
+                {
+                  "origin": {
+                    "x": 230.0,
+                    "y": 90.0
+                  },
+                  "content": {
+                    "type": "text",
+                    "id": "Stress",
+                    "contentText": "Stress",
+                    "font-size": 32.0,
+                    "font-family": "Sans",
+                    "maxLineSize": 10,
+                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "xColumn": 0.0,
+      "yColumn": 5.0,
+      "content": {
+        "type": "text",
+        "id": "Descrition",
+        "contentText": "Description",
+        "font-size": 60.0,
+        "font-family": "Sans",
+        "maxLineSize": 50,
+        "verticalAlign": "middle",
+        "style": "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+      }
+    },
+    {
+      "xColumn": 0.0,
+      "yColumn": 0.0,
+      "content": {
+        "width": 960.0,
+        "height": 230.0,
+        "type": "freeLayout",
+        "elements": [
+          {
+            "origin": {
+              "x": 0.0,
+              "y": 200.0
+            },
+            "size": {
+              "width": 960.0,
+              "height": 10.0
+            },
+            "content": {
+              "type": "basicshape",
+              "id": "line",
+              "stroke": "#800600",
+              "strokeWidth": 10.0,
+              "endPoint": {
+                "x": 960.0,
+                "y": 200.0
+              }
+            }
+          }
+        ]
+      }
     }
-    choosleColor(index:number){
-        switch(index){
-            case 3:
-            return '#00aa00';
-            case 2:
-            return '#fcd453';
-            case 1:
-            return '#ffb33b';
-            case 0:
-            return '#ff0000';
-        }
+  ]
+}
+
+
+
+    //Show reports
+    //1st- General idea
+    try {
+      context.svgList.push(infographicjs.newLayout(reportBuilder));
+    } catch (ex) {
+      console.log("Problem with infographics");
+      console.error(ex);
     }
+    //2nd- Specifics about each examination
+
+
+  }
+  choosleColor(index: number) {
+    switch (index) {
+      case 3:
+        return '#00aa00';
+      case 2:
+        return '#fcd453';
+      case 1:
+        return '#ffb33b';
+      case 0:
+        return '#ff0000';
+    }
+  }
 }

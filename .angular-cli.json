@@ -1,5 +1,4 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
     "name": "Koobepop"
   },
@@ -8,16 +7,19 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets",
-        "favicon.ico"
+        "assets"
       ],
       "index": "index.html",
-      "main": "app/main.ts",
+      "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
+      "mobile": false,
+      "styles": [
+        "styles.css"
+      ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -26,11 +28,8 @@
       }
     }
   ],
-  "e2e": {
-    "protractor": {
-      "config": "./protractor.conf.js"
-    }
-  },
+  "addons": [],
+  "packages": [],
   "lint": [
     {
       "project": "src/tsconfig.app.json"
@@ -45,18 +44,22 @@
   "test": {
     "karma": {
       "config": "./karma.conf.js"
-    },
-    "codeCoverage": {
-      "exclude": [
-        "src/polyfills.ts",
-        "src/test.ts",
-        "src/mocks.ts",
-        "**/*.mock.ts"
-      ]
     }
   },
   "defaults": {
-    "styleExt": "scss",
-    "component": {}
+    "styleExt": "css",
+    "prefixInterfaces": false,
+    "inline": {
+      "style": false,
+      "template": false
+    },
+    "spec": {
+      "class": false,
+      "component": true,
+      "directive": true,
+      "module": false,
+      "pipe": true,
+      "service": true
+    }
   }
 }

@@ -1,25 +1,5 @@
-//TODO Do this right :)
-export class Todea {
-  public name: string;
-  public age: number;
-  constructor(newName: string, newAge: number) {
-    this.name = newName;
-    this.age = newAge;
-  }
-  public getAge(): number {
-    return this.age
-  }
-}
-export class AppMock {
-
-}
-export class TranslateServiceMock {
-  //This is a dummy mock for testing
-  public use(str: string): any {
-    return '';
-  }
-}
-
+/**This file is intended to generate Mock classes to emulate real classes for our testing environment */
+/** */
 export class ConfigMock {
 
   public get(): any {
@@ -33,17 +13,14 @@ export class ConfigMock {
   public getNumber(): number {
     return 1;
   }
-  public setTransition(): void {
-    return;
-  }
 }
-
+/** */
 export class FormMock {
   public register(): any {
     return true;
   }
 }
-
+/** */
 export class NavMock {
 
   public pop(): any {
@@ -69,79 +46,18 @@ export class NavMock {
   public setRoot(): any {
     return true;
   }
-
-  public viewDidLoad(): any {
-    return true;
-  }
 }
 
+/** Mocks Platform service provided by Ionic*/
 export class PlatformMock {
-  public ready(): Promise<{ String }> {
-    return new Promise((resolve) => {
-      resolve('READY');
+  public ready(): any {
+    return new Promise((resolve: Function) => {
+      resolve();
     });
-    
   }
-
-  public registerBackButtonAction(fn: Function, priority?: number): Function {
-    return (() => true);
-  }
-
-  public hasFocus(ele: HTMLElement): boolean {
-    return true;
-  }
-
-  public doc(): HTMLDocument {
-    return document;
-  }
-
-  public is(): boolean {
-    return true;
-  }
-
-  public getElementComputedStyle(container: any): any {
-    return {
-      paddingLeft: '10',
-      paddingTop: '10',
-      paddingRight: '10',
-      paddingBottom: '10',
-    };
-  }
-
-  public onResize(callback: any) {
-    return callback;
-  }
-
-  public registerListener(ele: any, eventName: string, callback: any): Function {
-    return (() => true);
-  }
-
-  public win(): Window {
-    return window;
-  }
-
-  public raf(callback: any): number {
-    return 1;
-  }
-
-  public timeout(callback: any, timer: number): any {
-    return setTimeout(callback, timer);
-  }
-
-  public cancelTimeout(id: any) {
-    // do nothing
-  }
-
-  public getActiveElement(): any {
-    return document['activeElement'];
-  }
-  public lang(){
-      return 'en';//default for testing
-    }
 }
 
-export class DeviceMock { }
-
+/** */
 export class MenuMock {
   public close(): any {
     return new Promise((resolve: Function) => {
@@ -149,28 +65,12 @@ export class MenuMock {
     });
   }
 }
-export class TaskProviderMock { }
-
-export class LoadingControllerMock {
-  create(opts?): LoadingMock {
-    return new LoadingMock();
-  }
+/** */
+export class StatusBarMock {
+  public styleDefault(): void { }
 }
-export class LoadingMock {
-  constructor() { }
-  present() { }
-  dismiss() { }
+/** */
+export class SplashScreenMock {
+  public hide(): void { }
+  public show(): void { }
 }
-export class ConnectivityServiceMock { }
-export class ToastControllerMock { }
-export class SplashScreenMock { }
-export class StatusBarMock { }
-export class HttpMock { }
-export class StorageMock {
-  get(any) { }
-}
-declare var Connection; //From plugin :/
-export class NetworkMock {
- }
-export class KeyboardMock { }
-export class PopoverControllerMock{}
