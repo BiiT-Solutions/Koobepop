@@ -20,6 +20,7 @@ export class HomePage {
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
   @ViewChild("homeTabs") homeTabs: Tabs;
+  knowNotificationsCounter:number=0
   constructor(public navCtrl: NavController,
     public manager: ServicesManager,
     protected pushHandler: PushNotificationsHandlerProvider) {
@@ -27,6 +28,7 @@ export class HomePage {
     pushHandler.init();
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification').subscribe((notification: any) => {
+        this.knowNotificationsCounter++;
         console.log('Received a notification', notification)
         this.addMessage(new MessageModel(notification.title,notification.message,'',notification.additionalData.time))
           .subscribe((messages) => {
@@ -76,6 +78,8 @@ export class HomePage {
   navSummary() {
     this.navCtrl.push(SummaryPage);
   }
-
+  removeBadge(){
+    this.knowNotificationsCounter =0;
+  }
 }
 
