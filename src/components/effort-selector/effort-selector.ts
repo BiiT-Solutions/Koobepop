@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { ViewController } from "ionic-angular";
 
 /** This is a component to select the effort from a task */
@@ -8,14 +8,14 @@ import { ViewController } from "ionic-angular";
 })
 export class EffortSelectorComponent {
   //Effort intensity levels
-  public  LIGHT: number = 3;
-  public  MODERATE:number = 2;
-  public  HEAVY:number = 1;
-  public  PAIN:number = 0;
-  
-  public constructor(public viewCtrl: ViewController) {}
+  public LIGHT: number = 3;
+  public MODERATE: number = 2;
+  public HEAVY: number = 1;
+  public PAIN: number = 0;
 
-  public close(x) {    
+  public constructor(public viewCtrl: ViewController) { }
+
+  public close(x) {
     this.viewCtrl.dismiss(x);
   }
 }

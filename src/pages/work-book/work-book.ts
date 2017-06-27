@@ -9,8 +9,9 @@ import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
+import { TaskItemComponent } from '../../components/task/taskItem';
 /**
- * 
+ *
  */
 @Component({
   selector: 'page-work-book',
@@ -35,6 +36,7 @@ export class WorkBookPage {
 
     this.goToToday();
   }
+
   protected ionViewWillLoad() {
   }
 
@@ -44,7 +46,9 @@ export class WorkBookPage {
     });
     this.loading.present().then(() => {
       this.manager.getTasks().subscribe((tasks: TaskModel[]) => {
-        this.tasksPlan = tasks
+        this.tasksPlan = tasks;
+        console.log("TASKS")
+        console.log(tasks);
         this.loading.dismiss()
           .catch(error => { console.error(error) });
       }, error => {
@@ -64,52 +68,85 @@ export class WorkBookPage {
     if (event.taskComp.task.performedOn == undefined) {
       event.taskComp.task.performedOn = new Map<number, Map<number, number>>();
     }
-    let weekStartingTime = moment(event.taskComp.day).startOf('isoWeek').valueOf();
-    let weekPerformed: Map<number, number> = event.taskComp.task.performedOn.get(weekStartingTime);
+    const weekStartingTime = moment(event.taskComp.day).startOf('isoWeek').valueOf();
+    const weekPerformed: Map<number, number> = event.taskComp.task.performedOn.get(weekStartingTime);
     if (weekPerformed != undefined) {
-      let performation = weekPerformed.get(event.taskComp.day);
+      const performation = weekPerformed.get(event.taskComp.day);
       if (performation != undefined) {
-        let popover = this.popoverCtrl
+        const popover = this.popoverCtrl
           .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
         popover.onDidDismiss((unsel) => {
           if (unsel) {
-            //Need the subscription to force the resolution of the Observable 
+            //Need the subscription to force the resolution of the Observable
             this.manager.removeTask(event.taskComp.task, event.taskComp.day)
               .subscribe();
-            event.taskComp.checkBox.checked = false;
+            event.taskComp.isChecked = false;
+            event.taskComp.ngOnChanges();
           } else {
-            event.taskComp.checkBox.checked = true;
+            event.taskComp.isChecked = true;
+            event.taskComp.ngOnChanges() ;
           }
         });
         popover.present({ ev: event.event });
       } else {
-        let popover = this.popoverCtrl
+        const popover = this.popoverCtrl
           .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((score: number) => {
           if (score != undefined) {
             //Need the subscription to force the Observable?
             this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
-              .subscribe();
-            this.toaster.goodToast(event.taskComp.task.name + ' finished!');
-            event.taskComp.checkBox.checked = true;
+              .subscribe(()=> this.toaster.goodToast(event.taskComp.task.name + ' finished!'));
+
+            event.taskComp.isChecked = true;
+            event.taskComp.ngOnChanges() ;
           }
         });
         popover.present({ ev: event.event });
       }
     } else {
-      let popover = this.popoverCtrl
+      const popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {
         if (score != undefined) {
-          //Need the subscription to force the Observable resolution
           this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
-            .subscribe();
-          this.toaster.goodToast(event.taskComp.task.name + ' finished!');
-          event.taskComp.checkBox.checked = true;
+            .subscribe(()=>this.toaster.goodToast(event.taskComp.task.name + ' finished!'));
+          event.taskComp.isChecked = true;
+          event.taskComp.ngOnChanges();
         }
       });
       popover.present({ ev: event.event });
     }
+  }
+
+  //TODO - Separate popover dismiss funcitons
+  private addTask(taskComp:TaskItemComponent,score){
+    if (score != undefined) {
+            //Need the subscription to force the Observable?
+            this.manager.performTask(taskComp.task, { date: taskComp.day, score: score })
+              .subscribe();
+            this.toaster.goodToast(taskComp.task.name + ' finished!');
+            taskComp.checkBox.checked = true;
+          }
+  }
+
+  private addWeekAndTask(taskComp:TaskItemComponent,score){
+     if (score != undefined) {
+          this.manager.performTask(taskComp.task, { date: taskComp.day, score: score })
+            .subscribe();
+          this.toaster.goodToast(taskComp.task.name + ' finished!');
+          taskComp.checkBox.checked = true;
+        }
+  }
+
+  private removeTask(taskComp:TaskItemComponent, unsel){
+     if (unsel) {
+            //Need the subscription to force the resolution of the Observable
+            this.manager.removeTask(taskComp.task, taskComp.day)
+              .subscribe();
+            taskComp.checkBox.checked = false;
+          } else {
+            taskComp.checkBox.checked = true;
+          }
   }
 
   /* Listeners for when the slides are swiped */
@@ -157,7 +194,14 @@ export class WorkBookPage {
   }
 
   public isPerformed(task: TaskModel, day: number) {
-    let weekTasks: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
+    const weekTasks: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
     return weekTasks == undefined ? false : weekTasks.has(day);
+  }
+
+  public isShown(day:number,task:TaskModel):boolean{
+    //Soon to be deprecated
+    const isBefore = moment(day).isBefore(moment(task.startTime));
+    const isAfter = task.finishTime==undefined?false:moment(day).isAfter(moment(task.finishTime))
+    return !isBefore && !isAfter;
   }
 }

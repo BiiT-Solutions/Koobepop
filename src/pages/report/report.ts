@@ -91,12 +91,12 @@ export class ReportPage {
   }
 
   addReport(context, appointment: AppointmentModel) {
-    let results = appointment.results;
-    let mentalExam = results['epworthslaperigheidsschaal'];
+    const results = appointment.results;
+    const mentalExam = results['epworthslaperigheidsschaal'];
     let sleepScore = 0;
     if (mentalExam != undefined) {
       //For each key
-      for (let element in mentalExam.situatie) {
+      for (const element in mentalExam.situatie) {
         sleepScore += parseInt(mentalExam.situatie[element][0])
       }
     }
@@ -118,7 +118,7 @@ export class ReportPage {
       sleepScoreString = "severe insomnia"
     }
 
-    var reportBuilder ={
+    const reportBuilder ={
   "width": 960.0,
   "height": 2300.0,
   "background": {

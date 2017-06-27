@@ -43,8 +43,8 @@
         "TITLE":"Info"
     },
     "TRACKER-TAG":{
-        "PHYSICAL_CHECK":"body health",
-        "MENTAL_CHECK":"mental health"
+        "Physical":"body health",
+        "Mental":"mental health"
     },
     "EFFORT-SELECTOR":{
         "TEXT":"This exercise was:",

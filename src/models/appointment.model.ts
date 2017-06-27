@@ -23,7 +23,7 @@ export class AppointmentModel implements IAppointment{
     appointmentId:number;
     results:any[];
     type?:string;
-    
+
     constructor(){}
-    
+
 }

@@ -8,7 +8,7 @@ import { RegisterPushTokenRestService } from '../rest/register-push-token.rest-s
 
 
 /**
- * 
+ *
  */
 @Injectable()
 export class PushNotificationsHandlerProvider {
@@ -33,7 +33,7 @@ export class PushNotificationsHandlerProvider {
         });
         */
       // to initialize push notifications
-      const options: PushOptions = {
+      let options: PushOptions = {
         android: {
           senderID: this.config.pushSenderID
         },
@@ -45,7 +45,7 @@ export class PushNotificationsHandlerProvider {
         windows: {}
       };
 
-      const pushObject: PushObject = this.push.init(options);
+      let pushObject: PushObject = this.push.init(options);
 
       pushObject.on('registration')
         .subscribe((registration: any) => {

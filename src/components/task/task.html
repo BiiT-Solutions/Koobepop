@@ -1,10 +1,11 @@
 <ion-item [ngClass]="style" *ngIf="task!=undefined">
-  
+
   <ion-label item-content>{{task.name}}</ion-label>
   <!-- <ion-label item-right> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}})</ion-label>-->
    <ion-checkbox #checkBox item-left
   color="dark"
-  [disabled]="isDisabled" 
+  [disabled]="isDisabled"
+  [checked] = "isChecked"
   (click)="checkMark($event)">
   </ion-checkbox>
   <button ion-button item-left clear icon-only

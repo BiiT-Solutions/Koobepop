@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ViewChild } from '@angular/core';
+import { Checkbox } from 'ionic-angular';
 import { TaskModel } from '../../models/task.model';
 import * as moment from 'moment';
 
@@ -12,19 +13,21 @@ export class TaskItemComponent {
   //Inputs
   @Input() task: TaskModel;
   @Input() day: number;
-  @Input() checked: boolean;
+  @Input() isChecked:boolean;
 
   //Outputs (events)
   @Output() checkBoxClick: EventEmitter<any> = new EventEmitter();
   @Output() videoClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild("checkBox") checkBox;
+  @ViewChild("checkBox") checkBox: Checkbox;
   isDisabled = false;
   showMoreInfo = false;
   style = {};
 
-  constructor() {}
+
+
+  constructor() { }
 
   ngOnInit() {
     this.showMoreInfo = (this.task.content != undefined && this.task.content != '')
@@ -33,18 +36,20 @@ export class TaskItemComponent {
 
   ngAfterViewInit() {
     //We do this just for the initialization, later we manage it from the workbook
-    this.checkBox.checked = this.isTaskPerformed();
+    //this.isChecked = this.isTaskPerformed();
+    //console.log("Is checked: " + this.checkBox.checked + "\t at day " + moment(this.day).toISOString() + " Task " + this.task.name);
   }
 
   ngOnChanges() {
     this.isDisabled = this.day > Date.now() || this.day < moment(Date.now()).add(-7, 'day').startOf('isoWeek').valueOf();
     this.style = this.taskStyle();
+    this.isChecked = this.isTaskPerformed();
   }
 
   public checkMark(event) {
-    //When a checkbox is clicked, it changes it's checked property 
+    //When a checkbox is clicked, it changes it's checked property
     //So we reset it to the apropriate value
-    this.checkBox.checked = this.isTaskPerformed();
+    this.checkBox.checked = this.isChecked;
     this.checkBoxClick.emit({ event: event, taskComp: this });
   }
 
@@ -57,17 +62,17 @@ export class TaskItemComponent {
   }
 
   public isTaskPerformed(): boolean {
-    let weekStarts: number = moment(this.day).startOf('isoWeek').valueOf();
-    let weekIsSaved: boolean = this.task.performedOn == undefined ? false :
+    const weekStarts: number = moment(this.day).startOf('isoWeek').valueOf();
+    const weekIsSaved: boolean = this.task.performedOn == undefined ? false :
       this.task.performedOn.has(weekStarts);
     return weekIsSaved ? this.task.performedOn.get(weekStarts).has(this.day) : false;
   }
 
   /*Provides the style for the task */
   public taskStyle() {
-    let actualWeekStarts = moment(this.day).startOf('isoWeek').valueOf();
-    let performedThisWeek = this.task.performedOn.has(actualWeekStarts) ? this.task.performedOn.get(actualWeekStarts).size : 0;
-    let daysLeft = moment(this.day).diff(moment(this.day).endOf('isoWeek'), 'days');
+    const actualWeekStarts = moment(this.day).startOf('isoWeek').valueOf();
+    const performedThisWeek = this.task.performedOn.has(actualWeekStarts) ? this.task.performedOn.get(actualWeekStarts).size : 0;
+    const daysLeft = moment(this.day).diff(moment(this.day).endOf('isoWeek'), 'days');
     if (performedThisWeek >= this.task.repetitions) {
       return { 'over-do-task': true };
     } else {

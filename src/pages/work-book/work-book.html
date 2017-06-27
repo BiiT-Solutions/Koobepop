@@ -3,10 +3,13 @@
   <div class="slides-wrapper" style="height:100%;width:100%">
     <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
       <ion-slide *ngFor="let day of days">
-        <div class="date-header">{{day |date}}</div>
+        <div class="date-header">{{day | date}}</div>
         <ion-list>
           <ng-container *ngFor="let task of tasksPlan">
-            <task-component *ngIf="day>task.startTime" [task]="task" [day]="day" [checked]="isPerformed(task,day)" (checkBoxClick)="checkMark($event)"
+            <task-component *ngIf="isShown(day,task)"
+              [task]="task"
+              [day]="day"
+              (checkBoxClick)="checkMark($event)"
               (infoClick)="gotoExerciseInfo(task)"></task-component>
           </ng-container>
         </ion-list>

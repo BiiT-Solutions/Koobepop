@@ -59,8 +59,8 @@ export class LoginPage {
   }
 
   public login(): void {
-    //Send request for a token to USMO 
-    let loading = this.loadingCtrl.create({
+    //Send request for a token to USMO
+    const loading = this.loadingCtrl.create({
       content: this.translateService.instant('LOGIN.WAIT-MSG')
     });
     loading.present();

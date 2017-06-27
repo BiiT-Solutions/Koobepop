@@ -19,10 +19,10 @@ export class TasksRestService extends KppRestService {
     }
 
     public requestTasks(appointment: AppointmentModel): Observable<TaskModel[]> {
-        let requestAddres = this.config.usmoServer + this.config.getTasksService;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const requestAddres = this.config.usmoServer + this.config.getTasksService;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-        let body = { appointmentId: appointment.appointmentId }
+        const body = { appointmentId: appointment.appointmentId }
         return super.request(requestAddres, body, headers)
             .map(this.extractData)
             .map((tasks) => this.formatTasks(appointment, tasks))
@@ -40,24 +40,25 @@ export class TasksRestService extends KppRestService {
     private formatTasks(appointment: AppointmentModel, tasks: any): TaskModel[] {
 
         if (tasks) {
-            let deserializedTasks: TaskModel[] = [];
+            const deserializedTasks: TaskModel[] = [];
             tasks.forEach((task) => {
-                //Map of performed exercises by week 
-                let performedMap = new Map<number, Map<number, number>>();
+                //Map of performed exercises by week
+                const performedMap = new Map<number, Map<number, number>>();
                 task.performedOn.forEach((performed) => {
-                    let weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+                    const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
                     if (!performedMap.has(weekKey)) {
-                        let weekValue: Map<number, number> = new Map();
+                        const weekValue: Map<number, number> = new Map();
                         weekValue.set(performed.time, performed.score);
                         performedMap.set(weekKey, weekValue);
                     } else {
                         performedMap.get(weekKey).set(performed.time, performed.score);
                     }
                 });
-                
+
                 deserializedTasks.push({
                     name: task.name,
-                    startTime: task.startingTime,
+                    startTime: task.startTime,
+                    finishTime: task.finishTime,
                     repetitions: task.repetitions,
                     performedOn: performedMap,
                     videoUrl: task.videoUrl,
@@ -74,9 +75,9 @@ export class TasksRestService extends KppRestService {
 
     /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
     public sendPerformedTask(appointmentId: number, taskName: string, date: number, score: number) {
-        let requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let body = {
+        const requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const body = {
             appointmentId: appointmentId,
             name: taskName,
             time: date,
@@ -87,9 +88,9 @@ export class TasksRestService extends KppRestService {
     }
 
     public removePerformedTask(appointmentId: number, taskName: string, date: number): Observable<number> {
-        let requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let body = {
+        const requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const body = {
             appointmentId: appointmentId,
             name: taskName,
             time: date,
@@ -100,10 +101,10 @@ export class TasksRestService extends KppRestService {
     }
 
     public sendTasks(tasks: TaskAction[]): Observable<Response> {
-        let requestAddres = this.config.usmoServer + this.config.performActions;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const requestAddres = this.config.usmoServer + this.config.performActions;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-        let body = {
+        const body = {
             taskActions: tasks
         }
         return super.request(requestAddres, body, headers);

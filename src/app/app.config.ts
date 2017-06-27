@@ -20,24 +20,24 @@ export interface IAppConfig {
     pushSenderID:string;
 }
 
-export const AppConfig: IAppConfig = {  
-    //Server configuration 
+export const AppConfig: IAppConfig = {
+    //Server configuration
     usmoServer:
-    //"http://192.168.1.5:8081",    //LOCAL server
-    "https://testing.biit-solutions.com:10443/usmo/webservices", //TESTING server
+    "http://192.168.1.5:8081",    //LOCAL server
+    //"https://testing.biit-solutions.com:10443/usmo/webservices", //TESTING server
     //"https://m3sport.biit-solutions.com:10443/usmo/webservices", //M3SPORT server
     password:
-    "Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=", //LOCAL & TESTING 
-    // btoa("webservice@biit-solutions.com:PSIdn3L93pAib7k"), //M3SPORT 
+    "Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=", //LOCAL & TESTING
+    // btoa("webservice@biit-solutions.com:PSIdn3L93pAib7k"), //M3SPORT
     organizationName:
-    //"UsmoOrganization",
-     "Orbis Sport",
+    "UsmoOrganization",
+    // "Orbis Sport",
     //Services
     getTasksService:"/rest/getCorrectiveExercisesAuth",
     getAppointmentsService:"/rest/getAppointmentsAuth",
     getResultsService:"/rest/getExaminationResultsAuth",
     addPerformedExercise:"/rest/addPerformedExerciseAuth",
-    removePerformedExercise:"/rest/removePerformedExerciseAuth",   
+    removePerformedExercise:"/rest/removePerformedExerciseAuth",
     getAuthenticationToken:"/rest/getAuthenticationToken",
     verifyAuthenticationToken:"/rest/verifyAuthenticationToken",
     sendAuthCodeSMS:"/rest/sendAuthCodeSMS",

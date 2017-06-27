@@ -23,7 +23,7 @@ export class TasksProvider extends StorageServiceProvider {
 
     public setTasks(tasks: TaskModel[]): Observable<TaskModel[]> {
         this.setAllocTasks(tasks);
-        let serializedTasks = this.serializeTasks(tasks);
+        const serializedTasks = this.serializeTasks(tasks);
         return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks);
     }
 
@@ -38,12 +38,13 @@ export class TasksProvider extends StorageServiceProvider {
 
     /**We serialize and deserialize because the map object won't be stored properly if we don't do it */
     private deserializeTasks(tasks: any[]) {
-        let deserializedTasks: TaskModel[] = [];
+        const deserializedTasks: TaskModel[] = [];
         if (tasks != undefined) {
             tasks.forEach(task => {
                 deserializedTasks.push({
                     name: task.name,
                     startTime: task.startTime,
+                    finishTime: task.finishTime,
                     repetitions: task.repetitions,
                     performedOn: TaskModel.parseStringifiedMap(task.performedOn), // sorted array of performation dates
                     videoUrl: task.videoUrl,
@@ -57,11 +58,12 @@ export class TasksProvider extends StorageServiceProvider {
     }
 
     private serializeTasks(tasks: TaskModel[]) {
-        let tasksList = []
+        const tasksList = []
         tasks.forEach(task => {
-            let serializableTask = {
+            const serializableTask = {
                 name: task.name,
                 startTime: task.startTime,
+                finishTime: task.finishTime,
                 repetitions: task.repetitions,
                 performedOn: TaskModel.stringifyMap(task.performedOn),
                 videoUrl: task.videoUrl,
