@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ServicesManager } from '../../providers/servicesManager';
-import { TaskModel } from '../../models/task.model';
+import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -43,11 +43,11 @@ export class SummaryPage {
   private setTrackerReadyListener() {
     window.addEventListener("tracker-ready", () => {
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
-        let event = new CustomEvent("tracker-week", { detail: details });
+        const event = new CustomEvent("tracker-week", { detail: details });
         window.dispatchEvent(event);
       });
       this.detailsFromUser().subscribe(userDetails => {
-        let userEvent = new CustomEvent("tracker-user", { detail: userDetails });
+        const userEvent = new CustomEvent("tracker-user", { detail: userDetails });
         window.dispatchEvent(userEvent);
       });
 
@@ -58,7 +58,7 @@ export class SummaryPage {
     window.addEventListener("prev-week", () => {
       this.actualWeek--;
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
-        let event = new CustomEvent("tracker-week", { detail: details });
+        const event = new CustomEvent("tracker-week", { detail: details });
         window.dispatchEvent(event);
       });
     });
@@ -68,7 +68,7 @@ export class SummaryPage {
     window.addEventListener("next-week", () => {
       this.actualWeek++;
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
-        let event = new CustomEvent("tracker-week", { detail: details });
+        const event = new CustomEvent("tracker-week", { detail: details });
         window.dispatchEvent(event);
       });
     });
@@ -76,11 +76,11 @@ export class SummaryPage {
 
   /** Observable retunring week details */
   detailsFromWeek(week: number): Observable<any> {
-    return this.manager.getTasks().map((tasks: TaskModel[]) => {
-      let workouts = []
-      let firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
+    return this.manager.getTasks().map((tasks: USMOTask[]) => {
+      const workouts = []
+      const firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
       tasks.forEach(task => {
-        let performations: Map<number, number> = task.performedOn.get(firstWeekDay);
+        const performations: Map<number, number> = task.performedOn.get(firstWeekDay);
         if (performations != undefined) {
           let timesPerformed = 0;
           performations.forEach((score, date) => {
@@ -107,16 +107,16 @@ export class SummaryPage {
   /** Observable retunring user details */
   private detailsFromUser(): Observable<any> {
     return this.manager.getUser().flatMap((storedUser: UserModel) => {
-      return this.manager.getTasks().map((tasks: TaskModel[]) => {
-        let taskTypesGoals: Map<string, number> = new Map();
-        tasks.forEach((task: TaskModel) => {
+      return this.manager.getTasks().map((tasks: USMOTask[]) => {
+        const taskTypesGoals: Map<string, number> = new Map();
+        tasks.forEach((task: USMOTask) => {
           if (!taskTypesGoals.has(task.type)) {
             taskTypesGoals.set(task.type, 0);
           }
           taskTypesGoals.set(task.type, taskTypesGoals.get(task.type) + task.repetitions);
         });
 
-        let goals = [];
+        const goals = [];
         taskTypesGoals.forEach((num, key) => {
           goals.push({
             "assessment": key,
@@ -124,7 +124,7 @@ export class SummaryPage {
             "goal": num
           })
         });
-        let trackerUser = {
+        const trackerUser = {
           "name": storedUser.name,
           "avatarUrl": "",
           "goals": goals

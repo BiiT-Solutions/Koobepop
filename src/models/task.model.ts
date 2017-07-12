@@ -1,38 +1,11 @@
-/**Represents a single recurrent task*/
 export class TaskModel {
   name: string;
-  startTime: number;
-  finishTime?:number;
-  repetitions: number;
-  videoUrl?: string;
-  content?: string; //Some HTML content
-  type: string;
-  appointmentId: number;
-  // Map<weekDate,Map<dayDate, score>>
-  performedOn: Map<number, Map<number, number>>;
+  hasInfo: boolean;
+  score: number;
 
-  constructor() {}
-
-  /** Stringify map so it can be stored on the DB */
-  public static stringifyMap(map: Map<number, Map<number, number>>): string {
-    const arrayFromMap = [];
-    map.forEach((value, key) => {
-      arrayFromMap.push([key, Array.from(value.entries())])
-    });
-    const stringified = JSON.stringify(arrayFromMap);
-    return stringified;
-  }
-  /** Parse stringified map from the DB */
-  public static parseStringifiedMap(stringifiedMap: string): Map<number, Map<number, number>> {
-    const coolRebuiltMap = new Map<number, Map<number, number>>();
-    if (stringifiedMap == undefined || stringifiedMap == "") {
-      console.debug("TasksProvider: parseStringifiedMap: string void ");
-      return coolRebuiltMap;
-    }
-    const reParsed = JSON.parse(stringifiedMap);
-    reParsed.forEach(map => {
-      coolRebuiltMap.set(map[0], new Map<number, number>(map[1]))
-    });
-    return coolRebuiltMap;
+  public constructor(name: string, hasInfo: boolean, score: number) {
+    this.name = name;
+    this.hasInfo = hasInfo;
+    this.score = score;
   }
 }

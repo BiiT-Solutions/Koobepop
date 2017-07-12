@@ -1,4 +1,4 @@
-import { TaskModel } from '../models/task.model';
+import { USMOTask } from '../models/usmo-task';
 import { Injectable } from '@angular/core';
 import { TasksRestService } from './rest/tasksRestService';
 //TODO - Integrate on the app
@@ -9,13 +9,13 @@ export class TasksManager{
     public constructor(public tasksServices:TasksRestService){
     }
 
-    public  finishTask(task:TaskModel,time:number,score:number){
-        let action:TaskAction = new TaskAction(task.name,time,score,TaskFlag.TASK_FINISHED,task.appointmentId)
+    public  finishTask(task:USMOTask,time:number,score:number){
+        const action:TaskAction = new TaskAction(task.name,time,score,TaskFlag.TASK_FINISHED,task.appointmentId)
         this.addTaskAction(action);
     }
-    
-    public unfinishTask(task:TaskModel,time:number){
-        let action:TaskAction = new TaskAction(task.name,time,0,TaskFlag.TASK_UNFINISHED,task.appointmentId)
+
+    public unfinishTask(task:USMOTask,time:number){
+        const action:TaskAction = new TaskAction(task.name,time,0,TaskFlag.TASK_UNFINISHED,task.appointmentId)
         this.removeTaskAction(action);
     }
 
@@ -28,10 +28,10 @@ export class TasksManager{
         }
         },error=>console.error("Error sending tasks"));
     }
-    
+
     private addTaskAction(taskAction:TaskAction){
         //Get actions with the same name and time
-        let alreadyStagedActions: TaskAction[] = this.taskActions.filter((action:TaskAction)=>{
+        const alreadyStagedActions: TaskAction[] = this.taskActions.filter((action:TaskAction)=>{
             return (action.name == taskAction.name && action.time == taskAction.time);
         });
         //Remove those from the list (tipically this willl be 1 max)
@@ -43,10 +43,10 @@ export class TasksManager{
         //Add the new task to the list
          this.taskActions.push(taskAction);
     }
-    
+
     private removeTaskAction(taskAction:TaskAction){
         //Get actions with the same name and time
-        let alreadyStagedActions: TaskAction[] = this.taskActions.filter((action:TaskAction)=>{
+        const alreadyStagedActions: TaskAction[] = this.taskActions.filter((action:TaskAction)=>{
             return (action.name == taskAction.name && action.time == taskAction.time);
         });
         //Remove those from the list (tipically this willl be 1 max)

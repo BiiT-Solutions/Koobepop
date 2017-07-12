@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { AppointmentModel } from '../../models/appointment.model';
 import { Observable } from 'rxjs/Rx';
-import { TaskModel } from '../../models/task.model';
+import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
 import { KppRestService } from './kppRestService';
 import { TokenProvider } from '../storage/tokenProvider';
@@ -18,7 +18,7 @@ export class TasksRestService extends KppRestService {
         super(http, config, tokenProvider);
     }
 
-    public requestTasks(appointment: AppointmentModel): Observable<TaskModel[]> {
+    public requestTasks(appointment: AppointmentModel): Observable<USMOTask[]> {
         const requestAddres = this.config.usmoServer + this.config.getTasksService;
         const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
@@ -37,10 +37,10 @@ export class TasksRestService extends KppRestService {
         }
     }
 
-    private formatTasks(appointment: AppointmentModel, tasks: any): TaskModel[] {
+    private formatTasks(appointment: AppointmentModel, tasks: any): USMOTask[] {
 
         if (tasks) {
-            const deserializedTasks: TaskModel[] = [];
+            const deserializedTasks: USMOTask[] = [];
             tasks.forEach((task) => {
                 //Map of performed exercises by week
                 const performedMap = new Map<number, Map<number, number>>();
@@ -55,17 +55,16 @@ export class TasksRestService extends KppRestService {
                     }
                 });
 
-                deserializedTasks.push({
-                    name: task.name,
-                    startTime: task.startTime,
-                    finishTime: task.finishTime,
-                    repetitions: task.repetitions,
-                    performedOn: performedMap,
-                    videoUrl: task.videoUrl,
-                    content: task.content,
-                    type: appointment.type,
-                    appointmentId: appointment.appointmentId
-                });
+                deserializedTasks.push(new USMOTask(
+                     task.name,
+                     task.startTime,
+                     task.finishTime,
+                     task.repetitions,
+                     appointment.type,
+                     appointment.appointmentId,
+                     performedMap,
+                     task.videoUrl,
+                     task.content));
             });
            return deserializedTasks;
         } else {

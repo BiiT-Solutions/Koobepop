@@ -14,7 +14,7 @@ import { Device } from '@ionic-native/device';
 import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../components/unsel-confirmation/unsel-confirmation';
-import { TaskItemComponent } from '../components/task/taskItem'
+import { TaskComponent } from '../components/task/taskItem'
 
 //Pages
 import { HomePage } from '../pages/home/home';
@@ -36,7 +36,7 @@ import { AppointmentsProvider } from '../providers/storage/appointmentsProvider'
 import { TasksProvider } from '../providers/storage/tasksProvider';
 import { TokenProvider } from '../providers/storage/tokenProvider';
 import { UserProvider } from '../providers/storage/userProvider';
-import {MessagesProvider} from '../providers/storage/messagesProvider';
+import { MessagesProvider } from '../providers/storage/messagesProvider';
 
 //Services
 import { ServicesManager } from '../providers/servicesManager';
@@ -45,12 +45,15 @@ import { ToastIssuer } from '../providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import {Push} from '@ionic-native/push';
+import { Push } from '@ionic-native/push';
 import { NotificationMessageComponent } from '../components/notification-message/notification-message';
 import { MessagesListComponent } from '../components/messages-list/messages-list';
 import { PushNotificationsHandlerProvider } from '../providers/push-notifications-handler/push-notifications-handler';
 import { RegisterPushTokenRestService } from '../providers/rest/register-push-token.rest-service';
 import { ZoomPanDirective } from '../directives/zoom-pan/zoom-pan';
+import { TasksSlideComponent } from '../components/tasks-slide/tasks-slide';
+import { TaskItemComponent } from '../components/task-item/task-item';
+import { KppCheckBoxComponent } from '../components/kpp-check-box/kpp-check-box';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -70,11 +73,14 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent,
     UnselConfirmationComponent,
     SummaryPage,
-    TaskItemComponent,
+    TaskComponent,
     LoginPage,
     NotificationMessageComponent,
     MessagesListComponent,
-    ZoomPanDirective
+    ZoomPanDirective,
+    TasksSlideComponent,
+    TaskItemComponent,
+    KppCheckBoxComponent
 
   ],
   imports: [

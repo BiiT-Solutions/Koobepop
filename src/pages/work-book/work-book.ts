@@ -4,12 +4,12 @@ import { ToastController } from 'ionic-angular';
 import { TaskInformationPage } from './task-information/task-information';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
-import { TaskModel } from '../../models/task.model';
+import { USMOTask } from '../../models/usmo-task';
 import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
-import { TaskItemComponent } from '../../components/task/taskItem';
+import { TaskComponent } from '../../components/task/taskItem';
 /**
  *
  */
@@ -23,7 +23,7 @@ export class WorkBookPage {
   days: number[] = [];
   oldIndex = 1
   @ViewChild('slider') slider: Slides;
-  tasksPlan: TaskModel[] = [];
+  tasksPlan: USMOTask[] = [];
   loading: Loading;
   constructor(
     public navCtrl: NavController,
@@ -45,7 +45,7 @@ export class WorkBookPage {
       content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
     });
     this.loading.present().then(() => {
-      this.manager.getTasks().subscribe((tasks: TaskModel[]) => {
+      this.manager.getTasks().subscribe((tasks: USMOTask[]) => {
         this.tasksPlan = tasks;
         console.log("TASKS")
         console.log(tasks);
@@ -81,10 +81,8 @@ export class WorkBookPage {
             this.manager.removeTask(event.taskComp.task, event.taskComp.day)
               .subscribe();
             event.taskComp.isChecked = false;
-            event.taskComp.ngOnChanges();
           } else {
             event.taskComp.isChecked = true;
-            event.taskComp.ngOnChanges() ;
           }
         });
         popover.present({ ev: event.event });
@@ -98,7 +96,6 @@ export class WorkBookPage {
               .subscribe(()=> this.toaster.goodToast(event.taskComp.task.name + ' finished!'));
 
             event.taskComp.isChecked = true;
-            event.taskComp.ngOnChanges() ;
           }
         });
         popover.present({ ev: event.event });
@@ -111,7 +108,6 @@ export class WorkBookPage {
           this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
             .subscribe(()=>this.toaster.goodToast(event.taskComp.task.name + ' finished!'));
           event.taskComp.isChecked = true;
-          event.taskComp.ngOnChanges();
         }
       });
       popover.present({ ev: event.event });
@@ -119,7 +115,7 @@ export class WorkBookPage {
   }
 
   //TODO - Separate popover dismiss funcitons
-  private addTask(taskComp:TaskItemComponent,score){
+  private addTask(taskComp:TaskComponent,score){
     if (score != undefined) {
             //Need the subscription to force the Observable?
             this.manager.performTask(taskComp.task, { date: taskComp.day, score: score })
@@ -129,7 +125,7 @@ export class WorkBookPage {
           }
   }
 
-  private addWeekAndTask(taskComp:TaskItemComponent,score){
+  private addWeekAndTask(taskComp:TaskComponent,score){
      if (score != undefined) {
           this.manager.performTask(taskComp.task, { date: taskComp.day, score: score })
             .subscribe();
@@ -138,7 +134,7 @@ export class WorkBookPage {
         }
   }
 
-  private removeTask(taskComp:TaskItemComponent, unsel){
+  private removeTask(taskComp:TaskComponent, unsel){
      if (unsel) {
             //Need the subscription to force the resolution of the Observable
             this.manager.removeTask(taskComp.task, taskComp.day)
@@ -176,11 +172,11 @@ export class WorkBookPage {
     }
   }
 
-  public gotoExerciseVideo(task: TaskModel) {
+  public gotoExerciseVideo(task: USMOTask) {
     this.app.getRootNav().push(TaskInformationPage, task);
   }
 
-  public gotoExerciseInfo(task: TaskModel) {
+  public gotoExerciseInfo(task: USMOTask) {
     this.app.getRootNav().push(TaskInformationPage, task);
   }
 
@@ -193,12 +189,12 @@ export class WorkBookPage {
     this.actualDay = this.today;
   }
 
-  public isPerformed(task: TaskModel, day: number) {
+  public isPerformed(task: USMOTask, day: number) {
     const weekTasks: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
     return weekTasks == undefined ? false : weekTasks.has(day);
   }
 
-  public isShown(day:number,task:TaskModel):boolean{
+  public isShown(day:number,task:USMOTask):boolean{
     //Soon to be deprecated
     const isBefore = moment(day).isBefore(moment(task.startTime));
     const isAfter = task.finishTime==undefined?false:moment(day).isAfter(moment(task.finishTime))

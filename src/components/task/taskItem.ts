@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Output, Input, EventEmitter, ViewChild } from '@angular/core';
 import { Checkbox } from 'ionic-angular';
-import { TaskModel } from '../../models/task.model';
+import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
 
 /** Component showing a task from USMO*/
@@ -9,9 +9,9 @@ import * as moment from 'moment';
   templateUrl: 'task.html',
   changeDetection: ChangeDetectionStrategy.OnPush //Only detects changes when the input changes (needs digging)
 })
-export class TaskItemComponent {
+export class TaskComponent {
   //Inputs
-  @Input() task: TaskModel;
+  @Input() task: USMOTask;
   @Input() day: number;
   @Input() isChecked:boolean;
 
@@ -21,7 +21,7 @@ export class TaskItemComponent {
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild("checkBox") checkBox: Checkbox;
-  isDisabled = false;
+  disabled = false;
   showMoreInfo = false;
   style = {};
 
@@ -29,19 +29,19 @@ export class TaskItemComponent {
 
   constructor() { }
 
-  ngOnInit() {
+  protected ngOnInit() {
     this.showMoreInfo = (this.task.content != undefined && this.task.content != '')
       || (this.task.videoUrl != undefined && this.task.videoUrl != '');
   }
 
-  ngAfterViewInit() {
+  protected ngAfterViewInit() {
     //We do this just for the initialization, later we manage it from the workbook
     //this.isChecked = this.isTaskPerformed();
     //console.log("Is checked: " + this.checkBox.checked + "\t at day " + moment(this.day).toISOString() + " Task " + this.task.name);
   }
 
-  ngOnChanges() {
-    this.isDisabled = this.day > Date.now() || this.day < moment(Date.now()).add(-7, 'day').startOf('isoWeek').valueOf();
+  protected  ngOnChanges() {
+    this.disabled = this.day > Date.now() || this.day < moment(Date.now()).add(-7, 'day').startOf('isoWeek').valueOf();
     this.style = this.taskStyle();
     this.isChecked = this.isTaskPerformed();
   }

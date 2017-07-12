@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
-import { TaskModel } from '../../../models/task.model';
+import { USMOTask } from '../../../models/usmo-task';
 
 @Component({
   selector: 'page-task-information',
@@ -10,7 +10,7 @@ import { TaskModel } from '../../../models/task.model';
 export class TaskInformationPage {
   videoUrl: SafeResourceUrl;
   @ViewChild("content") content: ElementRef;
-  task: TaskModel;
+  task: USMOTask;
   constructor(public navCtrl: NavController, public navParams: NavParams, private sanitizer: DomSanitizer) {
     this.task = navParams.data;
   }

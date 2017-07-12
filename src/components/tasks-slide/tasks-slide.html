@@ -1,0 +1,11 @@
+<ion-slide>
+  <div class="date-header">{{date | date}}</div>
+  <ion-list>
+      <task-item *ngFor="let task of tasks"
+       [task]="task"
+       [disabled]="disabled"
+       (completeExercise)="completeExercise($event)"
+       (infoClick)="gotoExerciseInfo(task.name)">
+       </task-item>
+  </ion-list>
+</ion-slide>

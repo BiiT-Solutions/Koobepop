@@ -2,9 +2,9 @@
 
   <ion-label item-content>{{task.name}}</ion-label>
   <!-- <ion-label item-right> ({{getPerformedThisWeek(task,day)}}/{{task.repetitions}})</ion-label>-->
-   <ion-checkbox #checkBox item-left
+  <ion-checkbox #checkBox item-left
   color="dark"
-  [disabled]="isDisabled"
+  [disabled]="disabled"
   [checked] = "isChecked"
   (click)="checkMark($event)">
   </ion-checkbox>

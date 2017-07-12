@@ -42,8 +42,8 @@ export class ReportPage {
   }
 
   protected ionViewWillEnter() {
-
   }
+
 
   protected ionViewDidEnter() {
   }
@@ -118,916 +118,145 @@ export class ReportPage {
       sleepScoreString = "severe insomnia"
     }
 
-    const reportBuilder ={
-  "width": 960.0,
-  "height": 2300.0,
-  "background": {
-    "backgroundColor": "#f7fcf9"
-  },
-  "type": "gridLayout",
-  "numColumns": 1,
-  "numRows": 10,
-  "auxiliarLines": true,
-  "cells": [
-    {
-      "xColumn": 0.0,
-      "yColumn": 0.0,
-      "content": {
-        "type": "text",
-        "id": "title",
-        "contentText": "Advisory report",
-        "font-size": 80.0,
-        "font-family": "Sans",
-        "maxLineSize": 50,
-        "verticalAlign": "middle",
-        "style": "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
-      }
-    },
-    {
-      "xColumn": 0.0,
-      "yColumn": 0.0,
-      "content": {
-        "width": 960.0,
-        "height": 230.0,
-        "type": "freeLayout",
-        "elements": [
-          {
-            "origin": {
-              "x": 0.0,
-              "y": 200.0
-            },
-            "size": {
-              "width": 960.0,
-              "height": 10.0
-            },
-            "content": {
-              "type": "basicshape",
-              "id": "line",
-              "stroke": "#800600",
-              "strokeWidth": 10.0,
-              "endPoint": {
-                "x": 960.0,
-                "y": 200.0
+    const reportBuilder = {
+      "width": 960.0,
+      "height": 230.0,
+      "type": "gridLayout",
+      "numColumns": 3,
+      "numRows": 1,
+      "auxiliarLines": false,
+      "cells": [
+        {
+          "xColumn": 0,
+          "yColumn": 0,
+          "margins": {
+            "top": 40.0,
+            "left": 10.0,
+            "right": 10.0,
+            "buttom": 0.0
+          },
+          "content": {
+            "type": "basicshape",
+            "id": "rect",
+            "ry": 26.83,
+            "style": "fill:#dbf5fc;fill-opacity:1.0;stroke:#800600;stroke-opacity:1.0;stroke-width:5.0;stroke-milimiterlimit:4.0"
+          }
+        },
+        {
+          "xColumn": 0,
+          "yColumn": 0,
+          "content": {
+            "width": 320.0,
+            "height": 230.0,
+            "type": "freeLayout",
+            "elements": [
+              {
+                "origin": {
+                  "x": 150,
+                  "y": 160
+                },
+                "size": {
+                  "width": 60.0,
+                  "height": 60.0
+                },
+                "content": {
+                  "type": "basicshape",
+                  "id": "circle",
+                  "style": "fill:#00aa00;fill-opacity:1.0;stroke-width:0.0",
+                  "r": 33.0
+                }
+              },
+              {
+                "origin": {
+                  "x": 30,
+                  "y": 10
+                },
+                "size": {
+                  "width": 110.0,
+                  "height": 90.0
+                },
+                "content": {
+                  "type": "svg",
+                  "id": "lungs"
+                }
+              },
+              {
+                "origin": {
+                  "x": 160,
+                  "y": 80
+                },
+                "content": {
+                  "type": "text",
+                  "id": "Lung function",
+                  "contentText": "Lung function",
+                  "maxLineSize": 5,
+                  "style": "font-family:Sans;font-size:25px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;letter-spacing:0px;word-spacing:0px;line-height:125%;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1.0;stroke:none"
+                }
               }
-            }
+            ]
           }
-        ]
-      }
-    },
-    {
-      "xColumn": 0.0,
-      "yColumn": 1.0,
-      "content": {
-        "type": "gridLayout",
-        "numColumns": 2,
-        "numRows": 1,
-        "cells": [
-          {
-            "xColumn": 0.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#00aa00",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 60.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "lungs"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Lung function",
-                    "contentText": "Lung function",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
-                }
-              ]
-            }
+        },
+        {
+          "xColumn": 1,
+          "yColumn": 0,
+          "cellSpan": {
+            "columnSpan": 2,
+            "rowSpan": 1
           },
-          {
-            "xColumn": 1.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#ff0000",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 90.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "bodyComposition"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Body composition",
-                    "contentText": "Body composition",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "xColumn": 0.0,
-      "yColumn": 2.0,
-      "content": {
-        "type": "gridLayout",
-        "numColumns": 2,
-        "numRows": 1,
-        "cells": [
-          {
-            "xColumn": 0.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#ffb33b",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 60.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "heart"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Heart function",
-                    "contentText": "Heart function",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
-                }
-              ]
-            }
+          "margins": {
+            "top": 40.0,
+            "left": 0.0,
+            "right": 0.0,
+            "buttom": 0.0
           },
-          {
-            "xColumn": 1.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#00aa00",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 60.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "sleep"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Sleep",
-                    "contentText": "Sleep",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
-                }
-              ]
-            }
+          "content": {
+            "type": "basicshape",
+            "id": "rect",
+            "ry": 40.0,
+            "style": "fill:#006680;fill-opacity:1.0;stroke-width:0.0"
           }
-        ]
-      }
-    },
-    {
-      "xColumn": 0.0,
-      "yColumn": 3.0,
-      "content": {
-        "type": "gridLayout",
-        "numColumns": 2,
-        "numRows": 1,
-        "cells": [
-          {
-            "xColumn": 0.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#ff0000",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 90.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "movement"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Movement function",
-                    "contentText": "Movement function",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
-                }
-              ]
-            }
+        },
+        {
+          "xColumn": 1,
+          "yColumn": 0,
+          "cellSpan": {
+            "columnSpan": 2,
+            "rowSpan": 1
           },
-          {
-            "xColumn": 1.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
+          "content": {
+            "width": 700.0,
+            "height": 200.0,
+            "type": "freeLayout",
+            "elements": [
+              {
+                "origin": {
+                  "x": 50,
+                  "y": 70
                 },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#00aa00",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 60.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "energyBalance"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Energy balance",
-                    "contentText": "Energy balance",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
+                "content": {
+                  "type": "text",
+                  "contentText": "Lung function",
+                  "maxLineSize": 50,
+                  "style": "font-family:Sans;font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;letter-spacing:0px;word-spacing:0px;line-height:125%;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1.0;stroke:none"
                 }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "xColumn": 0.0,
-      "yColumn": 4.0,
-      "content": {
-        "type": "gridLayout",
-        "numColumns": 2,
-        "numRows": 1,
-        "cells": [
-          {
-            "xColumn": 0.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
+              },
+              {
+                "origin": {
+                  "x": 50,
+                  "y": 95
                 },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#00aa00",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 60.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "condition"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Condition",
-                    "contentText": "Condition",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
+                "content": {
+                  "type": "text",
+                  "contentText": "Pulmonary function tests (PFTs) are a group of tests that measure how well your lungs work. This includes how well you’re able to breathe and how effective your lungs are able to bring oxygen to the rest of your body",
+                  "maxLineSize": 80,
+                  "style": "font-family:Sans;font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:0px;word-spacing:0px;line-height:125%;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1.0;stroke:none"
                 }
-              ]
-            }
-          },
-          {
-            "xColumn": 1.0,
-            "yColumn": 0.0,
-            "content": {
-              "width": 560.0,
-              "height": 270.0,
-              "type": "freeLayout",
-              "elements": [
-                {
-                  "origin": {
-                    "x": 30.0,
-                    "y": 50.0
-                  },
-                  "size": {
-                    "width": 500.0,
-                    "height": 220.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "rect",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 5.0,
-                    "rx": 26.83,
-                    "style": "fill:#dbf5fc;stroke:#800600;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 300.0,
-                    "y": 200.0
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "circle",
-                    "stroke": "#ffb33b",
-                    "strokeWidth": 0.0,
-                    "r": 45.0
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 80.0,
-                    "y": 49.8
-                  },
-                  "size": {
-                    "width": 90.0,
-                    "height": 90.0
-                  },
-                  "content": {
-                    "type": "basicshape",
-                    "id": "line",
-                    "stroke": "#dbf5fc",
-                    "strokeWidth": 6.0,
-                    "endPoint": {
-                      "x": 190.0,
-                      "y": 49.8
-                    }
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 60.0,
-                    "y": 10.0
-                  },
-                  "size": {
-                    "width": -1.0,
-                    "height": -1.0
-                  },
-                  "content": {
-                    "type": "svg",
-                    "id": "stress"
-                  }
-                },
-                {
-                  "origin": {
-                    "x": 230.0,
-                    "y": 90.0
-                  },
-                  "content": {
-                    "type": "text",
-                    "id": "Stress",
-                    "contentText": "Stress",
-                    "font-size": 32.0,
-                    "font-family": "Sans",
-                    "maxLineSize": 10,
-                    "style": "font-weight:bold;font-stretch:normal;line-height:125%;fill-opacity:1;stroke:none;fill:#804600"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "xColumn": 0.0,
-      "yColumn": 5.0,
-      "content": {
-        "type": "text",
-        "id": "Descrition",
-        "contentText": "Description",
-        "font-size": 60.0,
-        "font-family": "Sans",
-        "maxLineSize": 50,
-        "verticalAlign": "middle",
-        "style": "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;fill:#2c89a0;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
-      }
-    },
-    {
-      "xColumn": 0.0,
-      "yColumn": 0.0,
-      "content": {
-        "width": 960.0,
-        "height": 230.0,
-        "type": "freeLayout",
-        "elements": [
-          {
-            "origin": {
-              "x": 0.0,
-              "y": 200.0
-            },
-            "size": {
-              "width": 960.0,
-              "height": 10.0
-            },
-            "content": {
-              "type": "basicshape",
-              "id": "line",
-              "stroke": "#800600",
-              "strokeWidth": 10.0,
-              "endPoint": {
-                "x": 960.0,
-                "y": 200.0
               }
-            }
+            ]
           }
-        ]
-      }
-    }
-  ]
-}
-
-
-
+        }
+      ]
+    };
     //Show reports
     //1st- General idea
     try {
@@ -1037,8 +266,6 @@ export class ReportPage {
       console.error(ex);
     }
     //2nd- Specifics about each examination
-
-
   }
   choosleColor(index: number) {
     switch (index) {

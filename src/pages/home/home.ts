@@ -19,6 +19,7 @@ export class HomePage {
   tab1Root = WorkBookPage;
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
+  tab4Root = TestPage;
   @ViewChild("homeTabs") homeTabs: Tabs;
   knowNotificationsCounter:number=0
   constructor(public navCtrl: NavController,

@@ -1,0 +1,23 @@
+kpp-check-box {
+  height:16px;
+  width:16px;
+  border-radius: 20%;
+  border: 2px;
+  border-color:  #000000;
+  border-style: solid;
+  .kpp-checked{
+    height:100%;
+    width:100%;
+    background-color:map-get($colors,dark);
+  }
+  .kpp-check-mark{
+    height:10px;
+    width:5px;
+    border: 0px;
+    border-bottom: 2px;
+    border-right: 2px;
+    transform: translate(4px,0px) rotate(45deg);
+    border-color:  #ffffff;
+    border-style: solid;
+  }
+}

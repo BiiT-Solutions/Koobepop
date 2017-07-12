@@ -1,6 +1,9 @@
 <ion-content>
-    <div>{{token}}</div>
-    <div>{{msg}}</div>
-    <messages-list #msgList [messagesList]="notifications"></messages-list>
-    <button ion-button (click)="actionTrigger()">Trigger</button>
+  <div class="slides-wrapper" style="height:100%;width:100%">
+    <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
+      <ion-slide *ngFor="let day of days">
+        <tasks-slide [date]="day" [disabled]="isDisabled(day)"></tasks-slide>
+      </ion-slide>
+    </ion-slides>
+  </div>
 </ion-content>

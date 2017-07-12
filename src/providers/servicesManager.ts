@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppointmentModel } from '../models/appointment.model';
 import { AppointmentsProvider } from './storage/appointmentsProvider';
-import { TaskModel } from '../models/task.model';
+import { USMOTask } from '../models/usmo-task';
 import { UserModel } from '../models/user.model';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
@@ -22,7 +22,7 @@ import { MessageModel } from '../models/message.model';
  * Intended to manage the dataflow within the application and with USMO
  * Will pass the data from the Providers to the app
  * Will pass the data from the RestServices to the Providers
- * 
+ *
  */
 
 @Injectable()
@@ -47,7 +47,7 @@ export class ServicesManager {
         return this.messagesProvider.getMessages();
     }
     public setMessages(messages: MessageModel[]):Observable<MessageModel[]>{
-        return this.messagesProvider.setMessages(messages);   
+        return this.messagesProvider.setMessages(messages);
     }
 
     public getAppointments(): Observable<AppointmentModel[]> {
@@ -68,21 +68,21 @@ export class ServicesManager {
     }
 
     /*Tasks*/
-    public getTasks(): Observable<TaskModel[]> {
+    public getTasks(): Observable<USMOTask[]> {
         return this.tasksProvider.getTasks();
     }
 
-    public performTask(task: TaskModel, perf: IPerformance): Observable<any> {
+    public performTask(task: USMOTask, perf: IPerformance): Observable<any> {
         //perform = save performation on the week with the tasks
         this.tasksProvider.getTasks()
-            .subscribe((tasks: TaskModel[]) => {
-                let taskIndex = tasks.map(task => task.name).indexOf(task.name);
+            .subscribe((tasks: USMOTask[]) => {
+                const taskIndex = tasks.map(task => task.name).indexOf(task.name);
                 if (taskIndex >= 0) {
-                    let weekStart = moment(perf.date).startOf('isoWeek').valueOf();
+                    const weekStart = moment(perf.date).startOf('isoWeek').valueOf();
                     if (task.performedOn.has(weekStart)) {
                         task.performedOn.get(weekStart).set(perf.date,perf.score);
                     } else {
-                        let week:Map<number,number> = new Map();
+                        const week:Map<number,number> = new Map();
                         week.set(perf.date,perf.score);
                         task.performedOn.set(weekStart,week);
                     }
@@ -93,12 +93,12 @@ export class ServicesManager {
         return this.tasksRestService.sendPerformedTask(task.appointmentId, task.name, perf.date, perf.score);
     }
 
-    public removeTask(task: TaskModel, time): Observable<any> {
+    public removeTask(task: USMOTask, time): Observable<any> {
         this.tasksProvider.getTasks()
-            .subscribe((tasks: TaskModel[]) => {
-                let taskIndex = tasks.map(task => task.name).indexOf(task.name);
+            .subscribe((tasks: USMOTask[]) => {
+                const taskIndex = tasks.map(task => task.name).indexOf(task.name);
                 if (taskIndex >= 0) {
-                    let weekStart = moment(time).startOf('isoWeek').valueOf();
+                    const weekStart = moment(time).startOf('isoWeek').valueOf();
                     if (task.performedOn.has(weekStart)) {
                         task.performedOn.get(weekStart).delete(time);
                     }
@@ -108,7 +108,7 @@ export class ServicesManager {
         return this.tasksRestService.removePerformedTask(task.appointmentId, task.name, time);
     }
 
-    /** 
+    /**
      * Ask the server if the actual token is a valid one
      */
     public tokenStatus(): Observable<number> {
@@ -117,7 +117,7 @@ export class ServicesManager {
     }
 
     /**
-     * Ask the server for the account confirmation SMS 
+     * Ask the server for the account confirmation SMS
      * */
     public sendAuthCodeSMS(patientId, language): Observable<Response> {
          return this.tokenRestService.requestSendAuthCodeSMS(patientId, language)
@@ -128,7 +128,7 @@ export class ServicesManager {
     }
 
     /**
-     * Communicates with the server to get a Token with some credentials 
+     * Communicates with the server to get a Token with some credentials
      * returns an Observable with a boolean
      */
     public loginWithUserPass(id: string, code: string): Observable<boolean> {
@@ -179,7 +179,7 @@ export class ServicesManager {
             .flatMap((actualAppointments: AppointmentModel[]) => {
                 if (newAppointments.length > 0) {
                     newAppointments.forEach(appointment => {
-                        let index = actualAppointments.map(a => a.appointmentId).indexOf(appointment.appointmentId);
+                        const index = actualAppointments.map(a => a.appointmentId).indexOf(appointment.appointmentId);
                         if (index >= 0) {
                             actualAppointments[index] = appointment;
                         } else {
@@ -193,9 +193,9 @@ export class ServicesManager {
 
     private updateTasks(appointments: AppointmentModel[]) {
         //Get the las appoinment of each 'type'
-        let lastAppointments: AppointmentModel[] = [];
+        const lastAppointments: AppointmentModel[] = [];
         appointments.forEach((appointment: AppointmentModel) => {
-            let index = lastAppointments.map(appointment => appointment.type).indexOf(appointment.type);
+            const index = lastAppointments.map(appointment => appointment.type).indexOf(appointment.type);
             if (index >= 0) {
                 if (lastAppointments[index].startTime < appointment.startTime) {
                     lastAppointments[index] = appointment;
@@ -206,7 +206,7 @@ export class ServicesManager {
         });
 
         //Get the tasks for those appoinments
-        let tasksRequests: Observable<TaskModel[]> ;
+        let tasksRequests: Observable<USMOTask[]> ;
         lastAppointments.forEach(appointment => {
             if(tasksRequests == undefined){
                 tasksRequests = this.tasksRestService.requestTasks(appointment)
@@ -216,10 +216,10 @@ export class ServicesManager {
         });
         if(tasksRequests!=undefined){
         tasksRequests.bufferCount(lastAppointments.length)
-            .subscribe((tasksList: TaskModel[][]) => {
-                let newTasks: TaskModel[] = []
-                tasksList.forEach((taskList: TaskModel[]) => {
-                    taskList.forEach((task: TaskModel) => {
+            .subscribe((tasksList: USMOTask[][]) => {
+                const newTasks: USMOTask[] = []
+                tasksList.forEach((taskList: USMOTask[]) => {
+                    taskList.forEach((task: USMOTask) => {
                         newTasks.push(task);
                     });
                 });
