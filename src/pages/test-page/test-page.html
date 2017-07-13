@@ -1,4 +1,5 @@
 <ion-content>
+   <button ion-button full color="secondary" (click)="goToToday()">{{"AGENDA.TODAY-BUTTON" | translate}}</button>
   <div class="slides-wrapper" style="height:100%;width:100%">
     <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
       <ion-slide *ngFor="let day of days">

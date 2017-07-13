@@ -20,13 +20,6 @@ export class TasksProvider extends StorageServiceProvider {
       return Observable.of(this.getAllocTasks());
     }
   }
-  public getTask(name: string): Observable<USMOTask> {
-    return this.getTasks().map(tasks => {
-      const index = tasks.map(task => task.name).indexOf(name);
-      return index >= 0 ? tasks[index] : null
-    });
-  }
-
   public setTasks(tasks: USMOTask[]): Observable<USMOTask[]> {
     this.setAllocTasks(tasks);
     const serializedTasks = this.serializeTasks(tasks);
@@ -40,6 +33,39 @@ export class TasksProvider extends StorageServiceProvider {
   private setAllocTasks(tasks: USMOTask[]) {
     this.tasks = tasks == undefined ? [] : tasks;
     return this.tasks;
+  }
+
+  public getTask(name: string): Observable<USMOTask> {
+    return this.getTasks().map(tasks => {
+      const index = tasks.map(task => task.name).indexOf(name);
+      return index >= 0 ? tasks[index] : null
+    });
+  }
+
+  public setScore(name: string, score: number, date: number) {
+    this.getTasks().subscribe(tasks => {
+      const index = tasks.map(task => task.name).indexOf(name);
+      if (index >= 0) {
+        tasks[index].setScore(date, score);
+        this.setTasks(tasks).subscribe();
+      } else {
+        //do nothing, there was an error and the task doesn't exist
+        console.error("Task not found");
+      }
+    });
+  }
+
+  public removeScore(name: string, date: number) {
+    this.getTasks().subscribe(tasks => {
+      const index = tasks.map(task => task.name).indexOf(name);
+      if (index >= 0) {
+        tasks[index].removeScore(date);
+        this.setTasks(tasks).subscribe();
+      } else {
+        //do nothing, there was an error and the task doesn't exist
+        console.error("Task not found");
+      }
+    });
   }
 
   /**We serialize and deserialize because the map object won't be stored properly if we don't do it */

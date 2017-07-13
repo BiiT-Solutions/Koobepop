@@ -4,26 +4,27 @@ page-work-book {
   .slide-zoom{
     height:100%;
     }
-  .date-header{
-    background-color:map-get($colors,light)!important;
-  }
+
   .slides-wrapper{
     display:flex;
     ion-slides {
       flex-grow: 1;
     }
   }
-  
+  .date-header{
+    background-color:map-get($colors,light)!important;
+  }
+
 }
 
-  //This is global -> TODO - change it to somewhere else 
+  //This is global -> TODO - change it to somewhere else
  .good-toast>div{
     background-color:map-get($colors,calm)!important;
-    }    
+    }
  .bad-toast>div{
     background-color:map-get($colors,danger)!important;
     }
-  
+
   /* //Color even/odd rows
   task-component > ion-item{
        background-color: $background-color !important;

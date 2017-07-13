@@ -18,7 +18,6 @@ export class TaskItemComponent {
   checked: boolean;
 
   @Output() completeExercise: EventEmitter<TaskModel> = new EventEmitter();
-
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(public popoverCtrl: PopoverController) { }
@@ -37,14 +36,14 @@ export class TaskItemComponent {
   public click(event) {
     //Open popover
     let popover;
-    if (this.task.score <= 0) {
+    if (this.task.score < 0) {
       popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {
-        if (score) {
+        if (score!=undefined) {
           this.task = new TaskModel(this.task.name, this.task.hasInfo, score);
           this.completeExercise.emit(this.task);
-           this.checked = this.task.score >= 0;
+          this.checked = this.task.score >= 0;
         }
       });
     } else {

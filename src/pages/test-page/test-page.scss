@@ -1,23 +1,13 @@
-
-test-zoom {
-    ion-navbar{
-        position: absolute;
-            z-index: 10;
-    }
-}
 test-page{
-    .footer {
-	position:fixed;
-	bottom:10%;
-	}
-    .header{
-	position:fixed;
-    top:0%;
+.slide-zoom{
+    height:100%;
     }
-    .dp-calendars-container{
-        //This is so the calendar shows infront of the tasks
-        z-index:2;
+
+  .slides-wrapper{
+    display:flex;
+    ion-slides {
+      flex-grow: 1;
     }
+  }
 }
 
-   

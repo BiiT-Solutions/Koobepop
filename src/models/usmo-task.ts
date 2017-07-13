@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 /**Represents a single recurrent task*/
 export class USMOTask {
   name: string;
@@ -14,15 +16,15 @@ export class USMOTask {
   constructor(name: string, startTime: number, finishTime: number, repetitions: number,
     type: string, appointmentId: number, performedOn: Map<number, Map<number, number>>,
     videoUrl?: string, content?: string) {
-    this.name = name ;
-    this.startTime = startTime ;
-    this.finishTime = finishTime ;
-    this.repetitions = repetitions ;
-    this.videoUrl = videoUrl ;
-    this.content = content ; //Some HTML content
-    this.type = type ;
-    this.appointmentId = appointmentId ;
-    this.performedOn = performedOn ;
+    this.name = name;
+    this.startTime = startTime;
+    this.finishTime = finishTime;
+    this.repetitions = repetitions;
+    this.videoUrl = videoUrl;
+    this.content = content; //Some HTML content
+    this.type = type;
+    this.appointmentId = appointmentId;
+    this.performedOn = performedOn;
   }
 
   /** Stringify map so it can be stored on the DB */
@@ -48,10 +50,29 @@ export class USMOTask {
     return coolRebuiltMap;
   }
 
-  public getScore(week: number, date: number): number {
+  public getScore(date: number): number {
+    const week = moment(date).startOf('isoWeek').valueOf();
     return this.performedOn.has(week)
       && this.performedOn.get(week).has(date) ?
       this.performedOn.get(week).get(date) :
       -1;
+  }
+
+  public setScore(date: number, score: number) {
+    const week = moment(date).startOf('isoWeek').valueOf();
+    if (!this.performedOn.has(week)) {
+      this.performedOn.set(week, new Map());
+    }
+    this.performedOn.get(week).set(date, score);
+  }
+  public removeScore(date: number) {
+    const week = moment(date).startOf('isoWeek').valueOf();
+    if (this.performedOn.has(week) && this.performedOn.get(week).has(date)) {
+      if(this.performedOn.get(week).size<=1){
+        this.performedOn.delete(date);
+      }else{
+        this.performedOn.get(week).delete(date);
+      }
+    }
   }
 }
