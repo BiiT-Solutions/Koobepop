@@ -6,7 +6,6 @@ import { UserModel } from '../models/user.model';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
 import { ToastIssuer } from './toastIssuer';
-import { TranslateService } from '@ngx-translate/core';
 import { AppointmentsRestService } from './rest/appointmentsRestService';
 import { TasksRestService } from './rest/tasksRestService';
 import { TasksProvider } from './storage/tasksProvider';
@@ -31,7 +30,6 @@ export class ServicesManager {
     knowNotificationsValue:number = 0;
     public constructor(
         private toaster: ToastIssuer,
-        private translate: TranslateService,
         private appointmentsRestService: AppointmentsRestService,
         private appointmentsProvider: AppointmentsProvider,
         private tasksRestService: TasksRestService,
