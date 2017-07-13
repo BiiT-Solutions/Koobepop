@@ -50,11 +50,16 @@ export class TasksSlideComponent {
     //console.log("TasksSlide  Task: "+name+" score: "+score);
     if (score >= 0) {
       this.tasksProvider.setScore(name, score, date);
-      this.tasksRestService;
+      this.tasksProvider.getTask(name)
+        .subscribe((task: USMOTask) => {
+          this.tasksRestService.sendPerformedTask(task.appointmentId, name, date, score).subscribe();
+        });
     } else {
       this.tasksProvider.removeScore(name, date);
-
-
+      this.tasksProvider.getTask(name)
+        .subscribe((task: USMOTask) => {
+          this.tasksRestService.removePerformedTask(task.appointmentId, name, date).subscribe();
+        });
     }
   }
 }

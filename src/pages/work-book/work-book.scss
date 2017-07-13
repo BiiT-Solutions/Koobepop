@@ -11,24 +11,5 @@ page-work-book {
       flex-grow: 1;
     }
   }
-  .date-header{
-    background-color:map-get($colors,light)!important;
-  }
-
 }
 
-  //This is global -> TODO - change it to somewhere else
- .good-toast>div{
-    background-color:map-get($colors,calm)!important;
-    }
- .bad-toast>div{
-    background-color:map-get($colors,danger)!important;
-    }
-
-  /* //Color even/odd rows
-  task-component > ion-item{
-       background-color: $background-color !important;
-    }
-  task-component:nth-child(even) > ion-item {
-        background-color: map-get($colors,overDo) !important;
-    }*/

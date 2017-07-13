@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides, Loading, LoadingController, App } from 'ionic-angular';
+import { NavController, Slides, Loading, LoadingController, App, NavParams, ItemSliding } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { TaskInformationPage } from './task-information/task-information';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
@@ -23,128 +23,29 @@ export class WorkBookPage {
   days: number[] = [];
   oldIndex = 1
   @ViewChild('slider') slider: Slides;
-  tasksPlan: USMOTask[] = [];
-  loading: Loading;
-  constructor(
-    public navCtrl: NavController,
-    public toastCtrl: ToastController,
-    public toaster: ToastIssuer,
-    public popoverCtrl: PopoverController,
-    public manager: ServicesManager,
-    public loadingCtrl: LoadingController,
-    private app: App) {
 
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams) {
     this.goToToday();
   }
 
-  protected ionViewWillLoad() {
+  ionViewDidLoad() {
   }
 
-  protected ionViewDidLoad() {
-    this.loading = this.loadingCtrl.create({
-      content: 'Loading tasks'//WAIT-FOR-REPORTS-LOAD-TEXT
-    });
-    this.loading.present().then(() => {
-      this.manager.getTasks().subscribe((tasks: USMOTask[]) => {
-        this.tasksPlan = tasks;
-        console.log("TASKS")
-        console.log(tasks);
-        this.loading.dismiss()
-          .catch(error => { console.error(error) });
-      }, error => {
-        console.error("ERROR in WorkBookPage on getTasks subscription")
-        console.error(error)
-      });
-    });
+  public open(itemSlide: ItemSliding) {
+    console.log(itemSlide.getOpenAmount());
   }
 
-  protected ionViewWillLeave() {
-    this.loading.dismiss();
+  public update(item: any) {
+    //this.manager.updateAppointments();
   }
 
-  /* When item is clicked */
-  public checkMark(event) {
-    //Init map if it is undefined
-    if (event.taskComp.task.performedOn == undefined) {
-      event.taskComp.task.performedOn = new Map<number, Map<number, number>>();
-    }
-    const weekStartingTime = moment(event.taskComp.day).startOf('isoWeek').valueOf();
-    const weekPerformed: Map<number, number> = event.taskComp.task.performedOn.get(weekStartingTime);
-    if (weekPerformed != undefined) {
-      const performation = weekPerformed.get(event.taskComp.day);
-      if (performation != undefined) {
-        const popover = this.popoverCtrl
-          .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true })
-        popover.onDidDismiss((unsel) => {
-          if (unsel) {
-            //Need the subscription to force the resolution of the Observable
-            this.manager.removeTask(event.taskComp.task, event.taskComp.day)
-              .subscribe();
-            event.taskComp.isChecked = false;
-          } else {
-            event.taskComp.isChecked = true;
-          }
-        });
-        popover.present({ ev: event.event });
-      } else {
-        const popover = this.popoverCtrl
-          .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
-        popover.onDidDismiss((score: number) => {
-          if (score != undefined) {
-            //Need the subscription to force the Observable?
-            this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
-              .subscribe(()=> this.toaster.goodToast(event.taskComp.task.name + ' finished!'));
-
-            event.taskComp.isChecked = true;
-          }
-        });
-        popover.present({ ev: event.event });
-      }
-    } else {
-      const popover = this.popoverCtrl
-        .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
-      popover.onDidDismiss((score: number) => {
-        if (score != undefined) {
-          this.manager.performTask(event.taskComp.task, { date: event.taskComp.day, score: score })
-            .subscribe(()=>this.toaster.goodToast(event.taskComp.task.name + ' finished!'));
-          event.taskComp.isChecked = true;
-        }
-      });
-      popover.present({ ev: event.event });
-    }
+  public close(itemSlide: ItemSliding) {
+    itemSlide.close();
   }
 
-  //TODO - Separate popover dismiss funcitons
-  private addTask(taskComp:TaskComponent,score){
-    if (score != undefined) {
-            //Need the subscription to force the Observable?
-            this.manager.performTask(taskComp.task, { date: taskComp.day, score: score })
-              .subscribe();
-            this.toaster.goodToast(taskComp.task.name + ' finished!');
-            taskComp.checkBox.checked = true;
-          }
+  public navTaskInfo() {
   }
-
-  private addWeekAndTask(taskComp:TaskComponent,score){
-     if (score != undefined) {
-          this.manager.performTask(taskComp.task, { date: taskComp.day, score: score })
-            .subscribe();
-          this.toaster.goodToast(taskComp.task.name + ' finished!');
-          taskComp.checkBox.checked = true;
-        }
-  }
-
-  private removeTask(taskComp:TaskComponent, unsel){
-     if (unsel) {
-            //Need the subscription to force the resolution of the Observable
-            this.manager.removeTask(taskComp.task, taskComp.day)
-              .subscribe();
-            taskComp.checkBox.checked = false;
-          } else {
-            taskComp.checkBox.checked = true;
-          }
-  }
-
   /* Listeners for when the slides are swiped */
   public nextSlide() {
     // Make sure we moved forward
@@ -172,14 +73,6 @@ export class WorkBookPage {
     }
   }
 
-  public gotoExerciseVideo(task: USMOTask) {
-    this.app.getRootNav().push(TaskInformationPage, task);
-  }
-
-  public gotoExerciseInfo(task: USMOTask) {
-    this.app.getRootNav().push(TaskInformationPage, task);
-  }
-
   public goToToday() {
     this.days = [
       moment(this.today).add(-1, "days").valueOf(),
@@ -189,15 +82,12 @@ export class WorkBookPage {
     this.actualDay = this.today;
   }
 
-  public isPerformed(task: USMOTask, day: number) {
-    const weekTasks: Map<number, number> = task.performedOn.get(moment(day).startOf('isoWeek').valueOf());
-    return weekTasks == undefined ? false : weekTasks.has(day);
+  public isDisabled(date: number): boolean {
+    console.debug("Check day disabled: " + moment(date));
+    const lastWeek = moment().startOf("day").subtract(1, 'week');
+    const tomorrow = moment().startOf("day").add(1, 'day');
+    return !moment(date).isBetween(lastWeek, tomorrow);
   }
 
-  public isShown(day:number,task:USMOTask):boolean{
-    //Soon to be deprecated
-    const isBefore = moment(day).isBefore(moment(task.startTime));
-    const isAfter = task.finishTime==undefined?false:moment(day).isAfter(moment(task.finishTime))
-    return !isBefore && !isAfter;
-  }
 }
+

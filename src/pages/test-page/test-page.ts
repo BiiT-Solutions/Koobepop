@@ -16,7 +16,7 @@ import * as moment from 'moment';
   templateUrl: 'test-page.html'
 })
 export class TestPage {
-    today: number = (new Date()).setHours(0, 0, 0, 0);
+  today: number = (new Date()).setHours(0, 0, 0, 0);
   actualDay: number;
   days: number[] = [];
   oldIndex = 1
@@ -28,8 +28,8 @@ export class TestPage {
     public push: Push,
     public platform: Platform,
     public changeDetRef: ChangeDetectorRef) {
-      this.goToToday();
-    }
+    this.goToToday();
+  }
 
   ionViewDidLoad() {
   }
@@ -50,7 +50,7 @@ export class TestPage {
 
   public navTaskInfo() {
   }
-   /* Listeners for when the slides are swiped */
+  /* Listeners for when the slides are swiped */
   public nextSlide() {
     // Make sure we moved forward
     if (this.oldIndex < this.slider.getActiveIndex()) {
