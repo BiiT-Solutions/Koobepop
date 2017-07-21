@@ -1,9 +1,10 @@
 <ion-content>
 <div (tap)="hideHeader = !hideHeader" style="width:100%;height:100%;">
-<ion-slides #slider style="width:100%;height:100%;">
-  <ion-slide *ngFor="let svg of svgList">
+<ion-slides #slider  style="width:100%;height:100%;">
+  <ion-slide *ngFor="let report of reports">
   <div style="height:100%;width:100%">
-    <zoomable-slide [svg]="svg" (zooming)="isZoomActive($event)"></zoomable-slide>
+    <infographic-slide [infographic]="report"></infographic-slide>
+    <!--<zoomable-slide [svg]="report" (zooming)="isZoomActive($event)"></zoomable-slide>-->
   </div>
   </ion-slide>
 </ion-slides>

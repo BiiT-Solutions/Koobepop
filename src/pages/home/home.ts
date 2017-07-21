@@ -1,5 +1,5 @@
-import { Component,  ViewChild } from '@angular/core';
-import { NavController,Tabs } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Tabs } from 'ionic-angular';
 import { WorkBookPage } from '../work-book/work-book';
 import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
@@ -21,31 +21,32 @@ export class HomePage {
   tab3Root = KnowPage;
   tab4Root = TestPage;
   @ViewChild("homeTabs") homeTabs: Tabs;
-  knowNotificationsCounter:number=0
+  knowNotificationsCounter: number = 0
   constructor(public navCtrl: NavController,
     public manager: ServicesManager,
     protected pushHandler: PushNotificationsHandlerProvider) {
     //Init push notifications handler
     pushHandler.init();
     if (pushHandler.getPushObject() != undefined) {
-      pushHandler.getPushObject().on('notification').subscribe((notification: any) => {
-        this.knowNotificationsCounter++;
-        console.log('Received a notification', notification)
-        this.addMessage(new MessageModel(notification.title,notification.message,'',notification.additionalData.time))
-          .subscribe((messages) => {
-            if (notification.additionalData.foreground) {
-              //we are into the app
-            } else {
-              //we entered from a notification
-              //(Select tab)
-              if(this.homeTabs!=undefined){
-                this.homeTabs.select(3);
+      pushHandler.getPushObject().on('notification')
+        .subscribe((notification: any) => {
+          this.knowNotificationsCounter++;
+          console.log('Received a notification', notification)
+          this.addMessage(new MessageModel(notification.title, notification.message, '', notification.additionalData.time))
+            .subscribe((messages) => {
+              if (notification.additionalData.foreground) {
+                //we are already into the app
+              } else {
+                //we entered from a notification
+                //(Select tab)
+                if (this.homeTabs != undefined) {
+                  this.homeTabs.select(3);
+                }
+                //this.navCtrl.push(KnowPage);
               }
-              //this.navCtrl.push(KnowPage);
             }
-          }
-          );
-      }, error => { console.error("Error on notification: ", error) });
+            );
+        }, error => { console.error("Error on notification: ", error) });
     }
   }
 
@@ -79,8 +80,9 @@ export class HomePage {
   navSummary() {
     this.navCtrl.push(SummaryPage);
   }
-  removeBadge(){
-    this.knowNotificationsCounter =0;
+
+  removeBadge() {
+    this.knowNotificationsCounter = 0;
   }
 }
 

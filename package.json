@@ -1,9 +1,9 @@
 {
-  "name": "Koobepop",
+  "name": "IGOW",
   "author": "Alejandro Melcon",
   "homepage": "A Biit Solutions app",
   "private": true,
-  "version": "0.0.18",
+  "version": "0.0.21",
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
@@ -83,5 +83,5 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "Koobepop: A BiiT Sourcing Solutions project"
+  "description": "IGOW: A BiiT Sourcing Solutions project"
 }

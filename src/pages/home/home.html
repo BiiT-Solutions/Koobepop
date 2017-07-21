@@ -2,6 +2,6 @@
   <ion-tab [root]="tab0Root" [tabTitle]="'HOME.REPORT-BUTTON'|translate" tabIcon="document"></ion-tab>
   <ion-tab [root]="tab1Root" [tabTitle]="'HOME.AGENDA-BUTTON'|translate" tabIcon="create"></ion-tab>
   <ion-tab [root]="tab2Root" [tabTitle]="'HOME.SUMMARY-BUTTON'|translate" tabIcon="trending-up"></ion-tab>
-  <ion-tab [root]="tab3Root" [tabTitle]="'HOME.KNOW-BUTTON'|translate" tabIcon="text" [tabBadge]="knowNotificationsCounter" tabBadgeStyle="danger" (click)="removeBadge()"></ion-tab>
+  <ion-tab [root]="tab3Root" [tabTitle]="'HOME.KNOW-BUTTON'|translate" tabIcon="text" [tabBadge]="knowNotificationsCounter" tabBadgeStyle="danger" (ionSelect)="removeBadge()"></ion-tab>
 <!--  <ion-tab [root]="tab4Root" [tabTitle]="'Test'" tabIcon="information-circle"></ion-tab>-->
 </ion-tabs>

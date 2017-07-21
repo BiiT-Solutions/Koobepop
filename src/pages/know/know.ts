@@ -6,7 +6,7 @@ import { Push, } from '@ionic-native/push';
 import { MessageModel } from '../../models/message.model';
 
 /**
- * 
+ *
  */
 @Component({
   selector: 'page-know',
@@ -28,7 +28,9 @@ export class KnowPage {
   ionViewDidLoad() {
 
   }
+  ionViweWillEnter(){
 
+  }
   ionViewDidEnter() {
     this.manager.getMessages().subscribe(messages => {
       this.notifications = messages;

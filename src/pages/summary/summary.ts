@@ -22,16 +22,15 @@ export class SummaryPage {
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
   }
 
-  public setActualWeek() {
-    this.actualWeek = moment().week();
-
-  }
-
   protected ionViewWillEnter() {
     this.setActualWeek();//In case there's any changes
     this.setTrackerReadyListener();
     this.setNextWeekListener();
     this.setPrevWeekListener();
+  }
+
+  public setActualWeek() {
+    this.actualWeek = moment().week();
   }
 
   protected ionViewDidLeave() {
@@ -106,6 +105,9 @@ export class SummaryPage {
 
   /** Observable retunring user details */
   private detailsFromUser(): Observable<any> {
+    const weekStarts = moment().week(this.actualWeek).startOf("isoWeek").valueOf();
+    const weekFinishes = moment().week(this.actualWeek).endOf("isoWeek").valueOf();
+
     return this.manager.getUser().flatMap((storedUser: UserModel) => {
       return this.manager.getTasks().map((tasks: USMOTask[]) => {
         const taskTypesGoals: Map<string, number> = new Map();
@@ -113,7 +115,11 @@ export class SummaryPage {
           if (!taskTypesGoals.has(task.type)) {
             taskTypesGoals.set(task.type, 0);
           }
-          taskTypesGoals.set(task.type, taskTypesGoals.get(task.type) + task.repetitions);
+          if (!(moment(task.startTime).startOf('day').valueOf() > weekFinishes) &&
+            !(moment(task.finishTime).startOf('day').valueOf() < weekStarts)) {
+            taskTypesGoals.set(task.type, taskTypesGoals.get(task.type) + task.repetitions);
+          }
+
         });
 
         const goals = [];
@@ -133,4 +139,5 @@ export class SummaryPage {
       });
     });
   }
+
 }

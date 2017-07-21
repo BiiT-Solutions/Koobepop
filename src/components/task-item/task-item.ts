@@ -40,7 +40,7 @@ export class TaskItemComponent {
       popover = this.popoverCtrl
         .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
       popover.onDidDismiss((score: number) => {
-        if (score!=undefined) {
+        if (score != undefined) {
           this.task = new TaskModel(this.task.name, this.task.hasInfo, score);
           this.completeExercise.emit(this.task);
           this.checked = this.task.score >= 0;
@@ -53,13 +53,10 @@ export class TaskItemComponent {
         if (unsel) {
           this.task = new TaskModel(this.task.name, this.task.hasInfo, -1);
           this.completeExercise.emit(this.task);
-           this.checked = this.task.score >= 0;
+          this.checked = this.task.score >= 0;
         }
       });
-      //Uncheck?
     }
-    popover.present({ ev: event.event });
-
+    popover.present({ ev: event });
   }
-
 }

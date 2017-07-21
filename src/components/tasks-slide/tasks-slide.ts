@@ -5,6 +5,7 @@ import { USMOTask } from '../../models/usmo-task';
 import { TaskInformationPage } from '../../pages/work-book/task-information/task-information';
 import { App } from 'ionic-angular';
 import { TasksRestService } from '../../providers/rest/tasksRestService';
+import * as moment from 'moment';
 /**
  * List of tasks from a given date
  */
@@ -28,7 +29,7 @@ export class TasksSlideComponent {
   private setTasks(usmoTasks: USMOTask[]): void {
     this.tasks = [];
     usmoTasks.forEach((usmoTask: USMOTask) => {
-      if (usmoTask.startTime <= this.date && (usmoTask.finishTime == undefined || usmoTask.finishTime >= this.date)) {
+      if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (moment(usmoTask.finishTime).startOf('day').valueOf() == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {
         const taskScore: number = usmoTask.getScore(this.date);
         const taskHasInfo = usmoTask.videoUrl != undefined || usmoTask.content != undefined;
         this.tasks.push(new TaskModel(usmoTask.name, taskHasInfo, taskScore));

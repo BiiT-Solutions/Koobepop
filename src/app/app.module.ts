@@ -30,6 +30,7 @@ import { LoginPage } from '../pages/login/login';
 import { AppointmentsRestService } from '../providers/rest/appointmentsRestService';
 import { TasksRestService } from '../providers/rest/tasksRestService';
 import { AuthTokenRestService } from '../providers/rest/authTokenRestService';
+import { ReportsRestService } from '../providers/rest/reports-rest-service';
 
 //Storage providers
 import { AppointmentsProvider } from '../providers/storage/appointmentsProvider';
@@ -54,6 +55,9 @@ import { ZoomPanDirective } from '../directives/zoom-pan/zoom-pan';
 import { TasksSlideComponent } from '../components/tasks-slide/tasks-slide';
 import { TaskItemComponent } from '../components/task-item/task-item';
 import { KppCheckBoxComponent } from '../components/kpp-check-box/kpp-check-box';
+import { InfographicSlideComponent } from '../components/infographic-slide/infographic-slide';
+import { InfographicItemComponent } from '../components/infographic-item/infographic-item';
+
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -80,7 +84,9 @@ export function createTranslateLoader(http: Http) {
     ZoomPanDirective,
     TasksSlideComponent,
     TaskItemComponent,
-    KppCheckBoxComponent
+    KppCheckBoxComponent,
+    InfographicSlideComponent,
+    InfographicItemComponent
 
   ],
   imports: [
@@ -131,7 +137,8 @@ export function createTranslateLoader(http: Http) {
     TokenProvider,
     UserProvider,
     MessagesProvider,
-    PushNotificationsHandlerProvider
+    PushNotificationsHandlerProvider,
+    ReportsRestService
   ]
 })
 export class AppModule { }
