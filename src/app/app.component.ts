@@ -24,8 +24,6 @@ export class MyApp {
     private toaster: ToastIssuer,
     private splashscreen: SplashScreen,
     private statusBar: StatusBar) {
-      console.log("######################")
-      console.log(this)
     let loading;
     translate.setDefaultLang('en');
     translate.get("APP.LOAD-MESSAGE").subscribe((message) => {
