@@ -13,7 +13,6 @@ import { ToastIssuer } from '../providers/toastIssuer';
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  //rootPage = HomePage;
   rootPage;
 
   constructor(platform: Platform,
@@ -22,8 +21,7 @@ export class MyApp {
     private manager: ServicesManager,
     private connectivity: ConnectivityService,
     private toaster: ToastIssuer,
-    private splashscreen: SplashScreen,
-    private statusBar: StatusBar) {
+    private splashscreen: SplashScreen) {
     let loading;
     translate.setDefaultLang('en');
     translate.get("APP.LOAD-MESSAGE").subscribe((message) => {
@@ -38,7 +36,7 @@ export class MyApp {
         loading.dismiss();
         if (status == 200) {
           this.rootPage = HomePage;
-        } else if (!connectivity.isOnline()) {//
+        } else if (!connectivity.isOnline()) {
           this.rootPage = HomePage;
         } else {
           this.rootPage = LoginPage;
@@ -47,7 +45,7 @@ export class MyApp {
         loading.dismiss();
         if (error.status == 0) {
           this.rootPage = HomePage;
-        } else { //Another async call failed on the process 
+        } else { //Another async call failed on the process
           this.rootPage = LoginPage;
         }
         if (!connectivity.isOnline()) {
@@ -60,7 +58,6 @@ export class MyApp {
       translate.use(platform.lang());
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-
       try {
         this.splashscreen.hide();
       } catch (e) {

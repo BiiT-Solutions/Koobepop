@@ -1,6 +1,6 @@
 var Formatters = {
 
-    distance: function(meters) {
+    distance: function (meters) {
         if (meters >= 1000) {
             return (meters / 1000).toFixed(2) + ' km';
         } else {
@@ -8,7 +8,7 @@ var Formatters = {
         }
     },
 
-    duration: function(seconds, displayHours) {
+    duration: function (seconds, displayHours) {
         if (arguments.length === 1) {
             displayHours = false;
         }
@@ -21,42 +21,60 @@ var Formatters = {
         format += ':' + (duration.seconds() < 10 ? '0' + duration.seconds() : duration.seconds());
         return format;
     },
-    
-    date: function(date){
-	return moment(date).format('Do MMMM YYYY')
+
+    date: function (date) {
+        return moment(date).format('Do MMMM YYYY')
     },
 
-    dateDay: function(date){
-        return moment(date). format('ddd')
+    dateDay: function (date) {
+        return moment(date).format('ddd')
     },
 
-    dateFromNow: function(date) {
+    dateFromNow: function (date) {
         return moment(date).fromNow().toUpperCase();
     },
-    
-    dateActualAndFromNow: function(date) {
+
+    dateActualAndFromNow: function (date) {
         return this.date(date) + " (" + this.dateFromNow(date) + ")";
     },
-    
-    score: function(score) {
-	if (score == null){
-		return '';
-	}
-	return Math.round(score) + ' pts.';
+
+    score: function (score) {
+        if (score == null) {
+            return '';
+        }
+        return Math.round(score) + ' pts.';
     },
-    
-    unity: function(unity) {
-	if (unity == null){
-		return '';
-	}
-	return unity + ' u.';
+    effort: function (score) {
+        switch (Math.round(score)) {
+            case 0:
+                return 'pain';
+                break;
+            case 1:
+                return 'hard';
+                break;
+            case 2:
+                return 'normal';
+                break;
+            case 3:
+                return 'easy';
+                break;
+            default:
+                return '.';
+                
+        }
     },
-    
-    volume: function(volume) {
-	if (volume == null){
-		return '';
-	}
-	return volume + ' l.';
+    unity: function (unity) {
+        if (unity == null) {
+            return '';
+        }
+        return unity + ' u.';
+    },
+
+    volume: function (volume) {
+        if (volume == null) {
+            return '';
+        }
+        return volume + ' l.';
     }
 
 };

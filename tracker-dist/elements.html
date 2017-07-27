@@ -325,26 +325,16 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
                         <col width="50" name="assessment" header-text="" sortable="">
                         <col name="date" sortable="">
                         <col name="name" sortable="">
-                        <col name="health" sortable="">
-                        <col name="sleep" sortable="">
-                        <col name="memory" sortable="">
-                        <col name="happiness" sortable="">
-                        <col name="fruit" sortable="">
-                        <col name="vegetables" sortable="">
-			            <col name="water" sortable="">
+                        <col name="effort" sortable="">
+                        
                     </colgroup>
                     <thead>
                         <tr>
                             <th class="assessment"></th>
                             <th class="date">DATE</th>
                             <th class="name">NAME</th>
-                            <th class="health">HEALTH</th>
-                            <th class="sleep">SLEEP</th>
-                            <th class="memory">MEMORY</th>
-                            <th class="happiness">HAPPINESS</th>
-                            <th class="fruit"># FRUIT</th>
-                            <th class="vegetables"># VEGETABLES</th>
-			                <th class="water">WATER</th>
+                            <th class="effort">EFFORT</th>
+                           
                         </tr>
                     </thead>
                 </table>
@@ -354,7 +344,7 @@ var e,i=t(this.series.options.point,this.options).events;this.events=i;for(e in 
 	<div style="color:#0000FF;width: 100%;background-color: #a7ffeb;">&nbsp;</div>
     </template>
 
-    <script>Polymer({is:"workouts-view",behaviors:[Polymer.NeonAnimatableBehavior],properties:{animationConfig:{value:function(){return{entry:{name:"slide-from-right-animation",node:this},exit:{name:"slide-right-animation",node:this}}}},user:Object,weekData:{type:Object,observer:"_weekDataChanged"}},visibleRowDetails:[],_navigateBack:function(){this.fire("navigate","summary")},pageTransitionFinished:function(){this.$.workoutGrid.items=this.weekData.workouts},ready:function(){var e=this.$.workoutGrid,t=this,n={date:function(e){e.element.innerHTML=Formatters.dateDay(e.data)},name:function(e){e.element.innerHTML=e.data},health:function(e){e.element.innerHTML=Formatters.score(e.data)},sleep:function(e){e.element.innerHTML=Formatters.score(e.data)},memory:function(e){e.element.innerHTML=Formatters.score(e.data)},happiness:function(e){e.element.innerHTML=Formatters.score(e.data)},fruit:function(e){e.element.innerHTML=Formatters.unity(e.data)},vegetables:function(e){e.element.innerHTML=Formatters.unity(e.data)},water:function(e){e.element.innerHTML=Formatters.volume(e.data)},assessment:function(e){e.element.innerHTML='<img class="sport-icon" src="resources/health-icons/'+e.data+"/"+e.data+'-75.png" />'}};e.columns.forEach(function(e){n[e.name]&&(e.renderer=n[e.name])}),e.cellClassGenerator=function(e){return e.columnName};var a=-1;e.addEventListener("selected-items-changed",function(){e.setRowDetailsVisible(a,!1);var t=e.selection.selected();1===t.length&&(a=t[0],e.setRowDetailsVisible(a,!0))}),e.addEventListener("sort-order-changed",function(){var n=e.sortOrder[0],a=e.columns[n.column].name,r=n.direction;t.weekData.workouts.sort(function(e,t){var n;return console.log(e[a]),void 0===e[a]?1:void 0===t[a]?-1:(n=isNaN(e[a])?e[a].localeCompare(t[a]):parseInt(e[a.toLowerCase()],10)-parseInt(t[a.toLowerCase()],10),"desc"===r&&(n*=-1),n)})})},_weekDataChanged:function(){visibleRowDetails=[];var e=this.weekData.workouts;e.sort(function(e,t){return moment(e.date).isAfter(moment(t.date))?1:moment(t.date).isAfter(moment(e.date))?-1:0}),this.$.workoutGrid.items=e}});</script>
+    <script>Polymer({is:"workouts-view",behaviors:[Polymer.NeonAnimatableBehavior],properties:{animationConfig:{value:function(){return{entry:{name:"slide-from-right-animation",node:this},exit:{name:"slide-right-animation",node:this}}}},user:Object,weekData:{type:Object,observer:"_weekDataChanged"}},visibleRowDetails:[],_navigateBack:function(){this.fire("navigate","summary")},pageTransitionFinished:function(){this.$.workoutGrid.items=this.weekData.workouts},ready:function(){var e=this.$.workoutGrid,t=this,n={date:function(e){e.element.innerHTML=Formatters.dateDay(e.data)},name:function(e){e.element.innerHTML=e.data},health:function(e){e.element.innerHTML=Formatters.score(e.data)},effort:function(e){e.element.innerHTML=Formatters.effort(e.data)},memory:function(e){e.element.innerHTML=Formatters.score(e.data)},happiness:function(e){e.element.innerHTML=Formatters.score(e.data)},fruit:function(e){e.element.innerHTML=Formatters.unity(e.data)},vegetables:function(e){e.element.innerHTML=Formatters.unity(e.data)},water:function(e){e.element.innerHTML=Formatters.volume(e.data)},assessment:function(e){e.element.innerHTML='<img class="sport-icon" src="resources/health-icons/'+e.data+"/"+e.data+'-75.png" />'}};e.columns.forEach(function(e){n[e.name]&&(e.renderer=n[e.name])}),e.cellClassGenerator=function(e){return e.columnName};var a=-1;e.addEventListener("selected-items-changed",function(){e.setRowDetailsVisible(a,!1);var t=e.selection.selected();1===t.length&&(a=t[0],e.setRowDetailsVisible(a,!0))}),e.addEventListener("sort-order-changed",function(){var n=e.sortOrder[0],a=e.columns[n.column].name,r=n.direction;t.weekData.workouts.sort(function(e,t){var n;return console.log(e[a]),void 0===e[a]?1:void 0===t[a]?-1:(n=isNaN(e[a])?e[a].localeCompare(t[a]):parseInt(e[a.toLowerCase()],10)-parseInt(t[a.toLowerCase()],10),"desc"===r&&(n*=-1),n)})})},_weekDataChanged:function(){visibleRowDetails=[];var e=this.weekData.workouts;e.sort(function(e,t){return moment(e.date).isAfter(moment(t.date))?1:moment(t.date).isAfter(moment(e.date))?-1:0}),this.$.workoutGrid.items=e}});</script>
 </dom-module>
 
 <dom-module id="summary-view" assetpath="./">

@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+import { Loading } from 'ionic-angular';
 /**This file is intended to generate Mock classes to emulate real classes for our testing environment */
 /** */
 export class ConfigMock {
@@ -73,4 +75,30 @@ export class StatusBarMock {
 export class SplashScreenMock {
   public hide(): void { }
   public show(): void { }
+}
+
+export class TranslateServiceMock{
+  public setDefaultLang(lang:string){}
+  public get(string):Observable<string> {
+    return Observable.of("text");
+  }
+}
+export  class ServicesManagerMock{
+  public tokenStatus():Observable<number>{
+    return Observable.of(200)
+  }
+}
+export class ConnectivityServiceMock {
+  public isOnline():boolean{
+    return true;
+  }
+}
+export class ToastIssuerMock{
+  public badToast(s:string,t:number):void{}
+  public goodToast(s:string,t:number):void{}
+}
+export class LoadingControllerMock{
+    public create():Loading{
+      return null;
+    }
 }

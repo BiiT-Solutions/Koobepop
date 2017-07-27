@@ -88,7 +88,7 @@ export class SummaryPage {
               "name": task.name,
               "assessment": task.type,
               "health": 0,
-              "sleep": 0,
+              "effort": score,
               "score": timesPerformed >= task.repetitions ? 0 : 1
             });
             timesPerformed++;
@@ -119,7 +119,6 @@ export class SummaryPage {
             !(moment(task.finishTime).startOf('day').valueOf() < weekStarts)) {
             taskTypesGoals.set(task.type, taskTypesGoals.get(task.type) + task.repetitions);
           }
-
         });
 
         const goals = [];
@@ -139,5 +138,4 @@ export class SummaryPage {
       });
     });
   }
-
 }
