@@ -19,6 +19,7 @@ export interface IAppConfig {
   setPushNotificationsToken: string;
   pushSenderID: string;
   getReportService: string;
+  getMessagesService: string;
 }
 
 export const AppConfig: IAppConfig = {
@@ -49,5 +50,6 @@ export const AppConfig: IAppConfig = {
   performActions: "/rest/performExercisesActionsAuth",
   setPushNotificationsToken: "/rest/setPushNotificationToken",
   getReportService: "/graphics/getReportContentAuth",
-  pushSenderID: '489751559671'
+  pushSenderID: '489751559671',
+getMessagesService:"/rest/getMessages"
 };

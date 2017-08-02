@@ -29,7 +29,7 @@ export class TasksSlideComponent {
   private setTasks(usmoTasks: USMOTask[]): void {
     this.tasks = [];
     usmoTasks.forEach((usmoTask: USMOTask) => {
-      if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (moment(usmoTask.finishTime).startOf('day').valueOf() == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {
+      if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (usmoTask.finishTime == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {
         const taskScore: number = usmoTask.getScore(this.date);
         const taskHasInfo = usmoTask.videoUrl != undefined || usmoTask.content != undefined;
         this.tasks.push(new TaskModel(usmoTask.name, taskHasInfo, taskScore));

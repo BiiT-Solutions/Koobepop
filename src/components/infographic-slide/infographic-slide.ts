@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'infographic-slide',
@@ -6,5 +6,10 @@ import { Component, Input } from '@angular/core';
 })
 export class InfographicSlideComponent {
   @Input() infographic:any[]=[];
+  @Output() zoom: EventEmitter<boolean> = new EventEmitter();
   constructor() {  }
+
+  public isZoom(zoomActive:boolean){
+    this.zoom.emit(zoomActive);
+  }
 }

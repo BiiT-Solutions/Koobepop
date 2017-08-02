@@ -14,26 +14,42 @@ import { UserModel } from '../../models/user.model';
 export class SummaryPage {
   actualWeek: number = 0;
   trackerPath: SafeResourceUrl;
+  trackerReady;;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public manager: ServicesManager,
     private sanitizer: DomSanitizer) {
+    this.trackerReady = false;
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
   }
 
-  protected ionViewWillEnter() {
-    this.setActualWeek();//In case there's any changes
+  protected ionViewDidLoad(){
     this.setTrackerReadyListener();
     this.setNextWeekListener();
     this.setPrevWeekListener();
   }
 
-  public setActualWeek() {
-    this.actualWeek = moment().week();
+  protected ionViewWillEnter() {
+    this.setActualWeek();//In case there's any changes
   }
 
-  protected ionViewDidLeave() {
+  public setActualWeek() {
+    this.actualWeek = moment().week();
+    //TODO- Fix code replication
+     if(this.trackerReady){
+      this.detailsFromWeek(this.actualWeek).subscribe(details => {
+        const event = new CustomEvent("tracker-week", { detail: details });
+        window.dispatchEvent(event);
+      });
+      this.detailsFromUser().subscribe(userDetails => {
+        const userEvent = new CustomEvent("tracker-user", { detail: userDetails });
+        window.dispatchEvent(userEvent);
+      });
+    }
+  }
+
+  protected ionViewWillLeave() {
     window.removeEventListener("tracker-ready");
     window.removeEventListener("prev-week");
     window.removeEventListener("next-week");
@@ -41,6 +57,7 @@ export class SummaryPage {
 
   private setTrackerReadyListener() {
     window.addEventListener("tracker-ready", () => {
+      this.trackerReady = true;
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
         const event = new CustomEvent("tracker-week", { detail: details });
         window.dispatchEvent(event);

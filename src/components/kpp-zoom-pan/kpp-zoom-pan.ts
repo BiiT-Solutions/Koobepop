@@ -1,26 +1,30 @@
-import { Directive, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 declare var Hammer;
 
-@Directive({
-  selector: '[zoom-pan]'
+@Component({
+  selector: 'kpp-zoom-pan',
+  templateUrl: 'kpp-zoom-pan.html'
 })
-export class ZoomPanDirective {
-  private element: any;
-  public isZoomed: boolean;
+export class KppZoomPanComponent {
+  @ViewChild('frame') frame:ElementRef;
+  @ViewChild('zoomable') zoomable:ElementRef;
+  isZoomed
   @Output() zoom: EventEmitter<boolean>= new EventEmitter();
-  constructor(el: ElementRef) {
-    this.element = el.nativeElement;
-    this.setZoomed(false);
+  constructor() {
 
-    this.hammerIt(this.element);
   }
-
+  ngAfterViewInit(){
+    this.setZoomed(false);
+    const extraHeight = this.zoomable.nativeElement.clientHeight - this.frame.nativeElement.clientHeight;
+    this.hammerIt(this.zoomable.nativeElement, extraHeight);
+  }
   private setZoomed(zoomed) {
     this.isZoomed = zoomed;
-    this.element.setAttribute('zoomed', this.isZoomed);
-  }
+    }
 
-  private hammerIt(elm) {
+  private hammerIt(elm,extraHeight) {
+
+
     const hammertime = new Hammer(elm, {});
     hammertime.get('pinch').set({
       enable: true
@@ -38,6 +42,7 @@ export class ZoomPanDirective {
     const el = elm;
 
     hammertime.on('doubletap pan pinch panend pinchend', (ev) => {
+      //TODO - Fix doubletap logic
       if (ev.type === 'doubletap') {
         transform =
           'translate3d(0, 0, 0) ' +
@@ -58,24 +63,24 @@ export class ZoomPanDirective {
       }
 
       // pan
-      if (scale !== 1) {
+      //if (scale !== 1) {
         posX = last_posX + ev.deltaX;
         posY = last_posY + ev.deltaY;
         max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);
-        max_pos_y = Math.ceil((scale - 1) * el.clientHeight / 2);
+        max_pos_y = Math.ceil(((scale - 1) * el.clientHeight / 2)+extraHeight);
         if (posX > max_pos_x) {
           posX = max_pos_x;
         }
         if (posX < -max_pos_x) {
           posX = -max_pos_x;
         }
-        if (posY > max_pos_y) {
-          posY = max_pos_y;
+        if (posY > max_pos_y - extraHeight) {
+          posY = max_pos_y - extraHeight;
         }
         if (posY < -max_pos_y) {
           posY = -max_pos_y;
         }
-      }
+      //}
 
       // pinch
       if (ev.type === 'pinch') {
@@ -89,12 +94,13 @@ export class ZoomPanDirective {
         last_posY = posY < max_pos_y ? posY : max_pos_y;
       }
 
-      if (scale !== 1) {
+      //if (scale !== 1) {
         transform =
           'translate3d(' + posX + 'px,' + posY + 'px, 0) ' +
           'scale3d(' + scale + ', ' + scale + ', 1)';
-      }
+      //}
 
+        console.log(posX,posY)
       if (transform) {
         el.style.webkitTransform = transform;
       }
@@ -109,24 +115,3 @@ export class ZoomPanDirective {
     });
   }
 }
-
-/**
- * Slider:
-
-  public options: any = {
-    onSliderMove: (event: any) => this.allowedToSlide(event)
-};
-
-private allowedToSlide(swiper) {
-    let slideIndex = this.sliderControl.getActiveIndex();
-    let slide = swiper.slides[slideIndex];
-    let zoomPan = slide.querySelector('[zoom-pan]');
-    let isZoomed = (zoomPan.getAttribute('zoomed') !== 'false');
-
-    if (isZoomed) {
-        swiper.lockSwipes();
-    } else {
-        swiper.unlockSwipes();
-    }
-}
- */

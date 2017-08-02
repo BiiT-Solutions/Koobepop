@@ -57,6 +57,7 @@ import { TaskItemComponent } from '../components/task-item/task-item';
 import { KppCheckBoxComponent } from '../components/kpp-check-box/kpp-check-box';
 import { InfographicSlideComponent } from '../components/infographic-slide/infographic-slide';
 import { InfographicItemComponent } from '../components/infographic-item/infographic-item';
+import { KppZoomPanComponent } from '../components/kpp-zoom-pan/kpp-zoom-pan';
 
 
 export function createTranslateLoader(http: Http) {
@@ -86,7 +87,8 @@ export function createTranslateLoader(http: Http) {
     TaskItemComponent,
     KppCheckBoxComponent,
     InfographicSlideComponent,
-    InfographicItemComponent
+    InfographicItemComponent,
+    KppZoomPanComponent
 
   ],
   imports: [

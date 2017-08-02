@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild, ViewChildren, QueryList  } from '@angular/core';
 import { NavController, NavParams, Slides, LoadingController, Loading } from 'ionic-angular';
 import { AppointmentModel } from '../../models/appointment.model';
 import * as infographicjs from 'infographic-js';
@@ -7,6 +7,7 @@ import { ToastIssuer } from '../../providers/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportsRestService } from '../../providers/rest/reports-rest-service';
 import { Observable } from 'rxjs/Observable';
+import { ZoomPanDirective } from '../../directives/zoom-pan/zoom-pan';
 /**
  * This page holds reports into a slider consisting on several pages (zoomable-slide)
  */
@@ -19,6 +20,7 @@ export class ReportPage {
   reports = [];
   appointments: AppointmentModel[];
   @ViewChild('slider') slider: Slides;
+  @ViewChildren(ZoomPanDirective) zoomPan;
   loading: Loading;
   timeout;
   slideToLast: boolean = false;
@@ -41,7 +43,7 @@ export class ReportPage {
   }
 
   protected ionViewDidLoad() {
-    //console.log("SLIDES Count view load: ", this.slider.length());
+
   }
 
   protected ionViewWillEnter() {
@@ -53,7 +55,7 @@ export class ReportPage {
 
   private setAppointments() {
     this.manager.getAppointments()
-      .subscribe(appointments => this.appointments = appointments, (error) => this.errorMessage(error));
+      .subscribe(appointments => this.appointments = appointments, (error) => this.errorMessage('MSG '+error));
   }
 
   private errorMessage(error) {
@@ -63,9 +65,6 @@ export class ReportPage {
 
   ngDoCheck() {
     if (this.slideToLast && this.slider != undefined && this.slider.length() == this.reports.length) {
-      console.log("SLIDES lenght: ", this.slider.length());
-      console.log("REPORTS length: ", this.reports.length);
-      //this.slider.initialSlide = this.reports.length-1;
       this.slider.slideTo(this.reports.length - 1, 0);
       this.slideToLast = false;
     }
@@ -78,9 +77,12 @@ export class ReportPage {
     } else {
       context.setReports(context.appointments)
         .subscribe((value) => {
+
           this.slideToLast = true;
           context.loading.dismiss();
-        });
+        },(error:any)=>{
+          context.loading.dismiss();
+          this.toaster.badToast(this.translate.instant("REPORT.ERROR-SETTING-REPORTS"))});
     }
   }
 
@@ -96,7 +98,9 @@ export class ReportPage {
     return this.reportsRest.requestReports(appointment.appointmentId)
       .map((report) => {
         try {
+          //Might cause some syncronization issues (?)
           this.reports.unshift(this.getReport(report));
+
         } catch (ex) {
           console.log("Problem with infographics");
           console.error(ex);
@@ -126,4 +130,5 @@ export class ReportPage {
     this.loading.dismiss();
     clearTimeout(this.timeout);
   }
+
 }

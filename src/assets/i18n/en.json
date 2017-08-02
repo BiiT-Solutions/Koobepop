@@ -33,7 +33,8 @@
     },
     "REPORT":{
         "ERROR-SETTING-APPOINTMENTS":"Unable to load appointments",
-        "REPORTS-LOADING-TEXT":"Loading reports..."
+        "REPORTS-LOADING-TEXT":"Loading reports...",
+        "ERROR-SETTING-REPORTS":"Unable to load reports"
     },
     "KNOW":{
         "TITLE":"Messages",
