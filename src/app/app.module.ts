@@ -37,7 +37,7 @@ import { AppointmentsProvider } from '../providers/storage/appointmentsProvider'
 import { TasksProvider } from '../providers/storage/tasksProvider';
 import { TokenProvider } from '../providers/storage/tokenProvider';
 import { UserProvider } from '../providers/storage/userProvider';
-import { MessagesProvider } from '../providers/storage/messagesProvider';
+import { MessagesProvider } from '../providers/storage/messages-provider';
 
 //Services
 import { ServicesManager } from '../providers/servicesManager';
@@ -58,6 +58,7 @@ import { KppCheckBoxComponent } from '../components/kpp-check-box/kpp-check-box'
 import { InfographicSlideComponent } from '../components/infographic-slide/infographic-slide';
 import { InfographicItemComponent } from '../components/infographic-item/infographic-item';
 import { KppZoomPanComponent } from '../components/kpp-zoom-pan/kpp-zoom-pan';
+import { MessagesRestService } from '../providers/rest/messages-rest-service';
 
 
 export function createTranslateLoader(http: Http) {
@@ -139,6 +140,7 @@ export function createTranslateLoader(http: Http) {
     TokenProvider,
     UserProvider,
     MessagesProvider,
+    MessagesRestService,
     PushNotificationsHandlerProvider,
     ReportsRestService
   ]

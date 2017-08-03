@@ -19,13 +19,13 @@ export class KppRestService {
     }
 
     public requestWithoutToken(requestAddress: string, requestBody: any, headers: Headers): Observable<Response> {
-        let criteria = requestBody;
+        const criteria = requestBody;
         criteria["organizationName"] = this.config.organizationName;
         return this.http.post(requestAddress, criteria, { headers: headers });
     }
 
     private requestWithToken(requestAddress: string, requestBody: any, headers: Headers, token: string): Observable<Response> {
-        let criteria = requestBody;
+        const criteria = requestBody;
         criteria["token"] = token;
         criteria["organizationName"] = this.config.organizationName;
         return this.http.post(requestAddress, criteria, { headers: headers });

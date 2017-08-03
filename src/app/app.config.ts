@@ -51,5 +51,5 @@ export const AppConfig: IAppConfig = {
   setPushNotificationsToken: "/rest/setPushNotificationToken",
   getReportService: "/graphics/getReportContentAuth",
   pushSenderID: '489751559671',
-getMessagesService:"/rest/getMessages"
+  getMessagesService: "/rest/getMessagesAuth"
 };

@@ -28,25 +28,16 @@ export class HomePage {
     //Init push notifications handler
     pushHandler.init();
     if (pushHandler.getPushObject() != undefined) {
-      pushHandler.getPushObject().on('notification')
-        .subscribe((notification: any) => {
-          this.knowNotificationsCounter++;
-          console.log('Received a notification', notification)
-          this.addMessage(new MessageModel(notification.title, notification.message, '', notification.additionalData.time))
-            .subscribe((messages) => {
-              if (notification.additionalData.foreground) {
-                //we are already into the app
-              } else {
-                //we entered from a notification
-                //(Select tab)
-                if (this.homeTabs != undefined) {
-                  this.homeTabs.select(3);
-                }
-                //this.navCtrl.push(KnowPage);
-              }
-            }
-            );
-        }, error => { console.error("Error on notification: ", error) });
+      pushHandler.getPushObject().on('notification').subscribe((notification: any) => {
+        this.knowNotificationsCounter++;
+        console.log('Received a notification', notification)
+        this.manager.updateMessages();
+        if (!notification.additionalData.foreground) {
+          if (this.homeTabs != undefined) {
+            this.homeTabs.select(3);
+          }
+        }
+      });
     }
   }
 

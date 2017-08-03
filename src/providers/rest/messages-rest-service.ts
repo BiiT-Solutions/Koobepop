@@ -8,6 +8,7 @@ import { AppointmentModel } from '../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
 import { KppRestService } from './kppRestService';
 import { TokenProvider } from '../storage/tokenProvider';
+import { MessageModel } from '../../models/message.model';
 
 @Injectable()
 export class MessagesRestService extends KppRestService {
@@ -18,19 +19,27 @@ export class MessagesRestService extends KppRestService {
     super(http, config, tokenProvider);
   }
 
-  public requestMessages(from ): Observable<any> {
-    const requestAddres = this.config.usmoServer + this.config.getReportService;
+  public requestMessages(from: number ): Observable<MessageModel[]> {
+    const requestAddres = this.config.usmoServer + this.config.getMessagesService;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
     const body = {
-      date: from
+      fromDate: from
     }
     return super.request(requestAddres, body, headers)
-      .map((res: Response) => this.extractData(res));
-
+      .map((res: Response) => this.extractData(res))
+      .map((res:any[])=>this.toMessageModel(res));
   }
     public extractData(res){
       return res.json() || [];
     }
-
+    public toMessageModel(res:any[]):MessageModel[]{
+      const messagesList = [];
+      res.forEach(message=>{
+        messagesList.push(new MessageModel(message.data.title,message.data.body,"",message.data.time));
+      });
+      //Sort by date
+      messagesList.sort((a:MessageModel,b:MessageModel)=>b.time-a.time);
+      return messagesList;
+    }
 }
