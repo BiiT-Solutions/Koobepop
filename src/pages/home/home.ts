@@ -21,17 +21,17 @@ export class HomePage {
   tab3Root = KnowPage;
   tab4Root = TestPage;
   @ViewChild("homeTabs") homeTabs: Tabs;
-  knowNotificationsCounter: number = 0
+  pendingMessages: number = 0;
   constructor(public navCtrl: NavController,
     public manager: ServicesManager,
     protected pushHandler: PushNotificationsHandlerProvider) {
     //Init push notifications handler
+    console.log(this.pendingMessages);
     pushHandler.init();
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification').subscribe((notification: any) => {
-        this.knowNotificationsCounter++;
         console.log('Received a notification', notification)
-        this.manager.updateMessages();
+        this.manager.updateMessages().subscribe(newMsgs=>{this.pendingMessages += newMsgs;console.log("update",this.pendingMessages); });
         if (!notification.additionalData.foreground) {
           if (this.homeTabs != undefined) {
             this.homeTabs.select(3);
@@ -39,6 +39,7 @@ export class HomePage {
         }
       });
     }
+    this.manager.getPendingMessages().subscribe((msgs)=> {this.pendingMessages = msgs; console.log(this.pendingMessages);});
   }
 
   private addMessage(message: MessageModel): Observable<MessageModel[]> {
@@ -50,6 +51,10 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.manager.startContinuousAppointmentCheck(1000 * 60 * 30);//check every 30 minutes
+  }
+
+  ionViewWillUnload(){
+    this.manager.setPendingMessages(this.pendingMessages);
   }
 
   navTest() {
@@ -73,7 +78,11 @@ export class HomePage {
   }
 
   removeBadge() {
-    this.knowNotificationsCounter = 0;
+    this.pendingMessages = 0;
   }
+public getPendingMessages(){
+  return this.pendingMessages;
+}
+
 }
 

@@ -59,6 +59,7 @@ import { InfographicSlideComponent } from '../components/infographic-slide/infog
 import { InfographicItemComponent } from '../components/infographic-item/infographic-item';
 import { KppZoomPanComponent } from '../components/kpp-zoom-pan/kpp-zoom-pan';
 import { MessagesRestService } from '../providers/rest/messages-rest-service';
+import { StorageServiceProvider } from '../providers/storage/storageServiceProvider';
 
 
 export function createTranslateLoader(http: Http) {
@@ -142,7 +143,8 @@ export function createTranslateLoader(http: Http) {
     MessagesProvider,
     MessagesRestService,
     PushNotificationsHandlerProvider,
-    ReportsRestService
+    ReportsRestService,
+    StorageServiceProvider
   ]
 })
 export class AppModule { }

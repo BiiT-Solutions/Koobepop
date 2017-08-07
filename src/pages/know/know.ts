@@ -37,15 +37,6 @@ export class KnowPage {
     });
   }
 
-  public actionTrigger() {
-    this.addNotification({
-      name: 'Doctor Who',
-      text: 'Let me seek my sonic screwdriver and this will be solved in a moment',
-      title: 'Allmighty Doc',
-      time: new Date()
-    });
-  }
-
   private addNotification(notification) {
     this.notifications.unshift(notification);
     //This triggers change detection on the component below

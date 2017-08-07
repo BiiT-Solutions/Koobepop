@@ -10,8 +10,9 @@ export class StorageServiceProvider {
     public static TOKEN_STORAGE_ID = "token";
     public static USER_STORAGE_ID = "user";
     public static MESSAGES_STORAGE_ID = "messages";
+    public static PENDING_MESSAGES_ID = "pendingMessages"
     constructor(public storage: Storage) { }
-    
+
     public storeItem(name: string, item: any): Observable<any> {
         return Observable.fromPromise(this.storage.set(name, item).then(item=>{return item;}));
     }

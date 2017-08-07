@@ -1,8 +1,11 @@
 <ion-slide>
-  <div class="date-header">{{date | date}}</div>
-  <div class="disable-tasks-slide" *ngIf="disabled"></div>
-  <ion-list>
-    <task-item *ngFor="let task of tasks" [task]="task" [disabled]="disabled" (completeExercise)="completeExercise($event)" (infoClick)="gotoExerciseInfo(task.name)">
-    </task-item>
-  </ion-list>
+  <div *ngIf="tasks==undefined || tasks.length<=0" class="loadingScreen" style="height:100%;width:100%"></div>
+  <div *ngIf="tasks!=undefined && tasks.length>0" style="height:100%;width:100%">
+    <div class="date-header">{{date | date}}</div>
+    <div class="disable-tasks-slide" *ngIf="disabled"></div>
+    <ion-list>
+      <task-item *ngFor="let task of tasks" [task]="task" [disabled]="disabled" (completeExercise)="completeExercise($event)" (infoClick)="gotoExerciseInfo(task.name)">
+      </task-item>
+    </ion-list>
+  </div>
 </ion-slide>

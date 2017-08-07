@@ -1,5 +1,6 @@
 <ion-content>
-<div style="width:100%;height:100%;">
+  <div *ngIf="reports==undefined || reports.length<=0" class="loadingScreen" style="height:100%;width:100%"></div>
+  <div *ngIf="reports!=undefined && reports.length>0" style="height:100%;width:100%">
 <ion-slides #slider  style="width:100%;height:100%;">
   <ion-slide *ngFor="let report of reports">
   <div style="height:100%;width:100%;">

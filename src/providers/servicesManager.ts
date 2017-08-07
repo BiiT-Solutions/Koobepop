@@ -17,6 +17,7 @@ import { IPerformance } from '../models/performation';
 import { MessagesProvider } from './storage/messages-provider';
 import { MessageModel } from '../models/message.model';
 import { MessagesRestService } from './rest/messages-rest-service';
+import { StorageServiceProvider } from './storage/storageServiceProvider';
 
 /**
  * Intended to manage the dataflow within the application and with USMO
@@ -39,9 +40,9 @@ export class ServicesManager {
     private tokenProvider: TokenProvider,
     private userProvider: UserProvider,
     private messagesProvider: MessagesProvider,
-    private messagesRestService: MessagesRestService
-  ) {
-  }
+    private messagesRestService: MessagesRestService,
+    private storage: StorageServiceProvider
+  ) {}
 
   public getMessages(): Observable<MessageModel[]> {
     return this.messagesProvider.getMessages();
@@ -171,7 +172,7 @@ export class ServicesManager {
           .flatMap((appointments: AppointmentModel[]) => { return this.updateAppointments(appointments) })
           .subscribe((appointments: AppointmentModel[]) => { this.updateTasks(appointments) });
       });
-    this.updateMessages();
+    this.updateMessages().subscribe();
   }
 
   private updateAppointments(newAppointments: AppointmentModel[]): Observable<AppointmentModel[]> {
@@ -230,22 +231,32 @@ export class ServicesManager {
         });
     }
   }
-
-  public updateMessages() {
-    this.getMessages()
-      .subscribe((messages: MessageModel[]) => {
+  /** Updates the messages and returns the amount of new messages obtained */
+  public updateMessages(): Observable<number> {
+    return this.getMessages()
+      .flatMap((messages: MessageModel[]) => {
         let date = 0;
         if (messages != undefined && messages.length > 0) {
           date = messages[0].time;
         }
-        this.messagesRestService.requestMessages(date)
-          .subscribe((newMessages: MessageModel[]) => {
+        return this.messagesRestService.requestMessages(date)
+          .map((newMessages: MessageModel[]) => {
             if (newMessages != undefined && newMessages.length > 0) {
               //last messages are shown first
               const finalMessages = newMessages.concat(messages);
               this.setMessages(finalMessages).subscribe();
+              return newMessages.length;
+            } else {
+              return 0;
             }
           });
       });
+  }
+
+  public getPendingMessages(): Observable<number> {
+    return this.storage.retrieveItem(StorageServiceProvider.PENDING_MESSAGES_ID);
+  }
+  public setPendingMessages(pendingMessages: number) {
+    this.storage.storeItem(StorageServiceProvider.PENDING_MESSAGES_ID, pendingMessages).subscribe();
   }
 }

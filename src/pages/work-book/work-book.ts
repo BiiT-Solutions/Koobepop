@@ -83,7 +83,6 @@ export class WorkBookPage {
   }
 
   public isDisabled(date: number): boolean {
-    console.debug("Check day disabled: " + moment(date));
     const lastWeek = moment().startOf("day").subtract(1, 'week');
     const tomorrow = moment().startOf("day").add(1, 'day');
     return !moment(date).isBetween(lastWeek, tomorrow);

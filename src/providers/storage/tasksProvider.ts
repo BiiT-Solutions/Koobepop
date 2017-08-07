@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class TasksProvider extends StorageServiceProvider {
   private tasks: USMOTask[];
+  private newTasks:number;
   constructor(public storage: Storage) {
     super(storage);
   }
@@ -81,7 +82,7 @@ export class TasksProvider extends StorageServiceProvider {
             task.repetitions,
             task.type,
             task.appointmentId,
-            USMOTask.parseStringifiedMap(task.performedOn), // sorted array of performation dates
+            USMOTask.parseStringifiedMap(task.performedOn),
             task.videoUrl,
             task.content,
           ));

@@ -17,6 +17,81 @@
 .good-toast>div{
     background-color:map-get($colors,calm)!important;
     }
- .bad-toast>div{
+.bad-toast>div{
     background-color:map-get($colors,danger)!important;
     }
+
+.unsel-confirmation-popover{
+    ion-backdrop{
+      opacity: 0.1!important;
+    }
+    .popover-content{
+      right:5px;
+      left:auto!important;
+      display: inline-block;
+      width:320px;
+
+      animation-duration: 0.5s;
+      animation-fill-mode: both;
+      animation-name: slideInRight;
+    }
+}
+
+.loadingScreen {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1 !important;
+    background:url(../assets/images/app-icon-192x192.png) #ffffff center center no-repeat;
+    background-size: 96px 96px;
+    transition: opacity 400ms;
+    -webkit-animation: heartbeat 1000ms infinite;
+    animation: heartbeat 1000ms infinite;
+    }
+@-webkit-keyframes heartbeat {
+                0%  {
+                  -webkit-transform: scale3d(1); transform: scale(1);
+                  transform: scal3d(1); transform: scale(1);
+                }
+                20% {
+                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
+                  transform: scale3d(1.1); transform: scale(1.1);
+                }
+                40% {
+                  -webkit-transform: scale3d(1); transform: scale(1);
+                  transform: scale3d(1); transform: scale(1);
+                }
+                60% {
+                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
+                  transform: scale3d(1.1); transform: scale(1.1);
+                }
+                80% {
+                  -webkit-transform: scale3d(1); transform: scale(1);
+                  transform: scale3d(1); transform: scale(1);
+                }
+            }
+            @keyframes heartbeat {
+                0%  {
+                  -webkit-transform: scale3d(1); transform: scale(1);
+                  transform: scal3d(1); transform: scale(1);
+                }
+                20% {
+                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
+                  transform: scale3d(1.1); transform: scale(1.1);
+                }
+                40% {
+                  -webkit-transform: scale3d(1); transform: scale(1);
+                  transform: scale3d(1); transform: scale(1);
+                }
+                60% {
+                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
+                  transform: scale3d(1.1); transform: scale(1.1);
+                }
+                80% {
+                  -webkit-transform: scale3d(1); transform: scale(1);
+                  transform: scale3d(1); transform: scale(1);
+                }
+            }

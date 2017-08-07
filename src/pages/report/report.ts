@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ViewChild, ViewChildren, QueryList  } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { NavController, NavParams, Slides, LoadingController, Loading } from 'ionic-angular';
 import { AppointmentModel } from '../../models/appointment.model';
 import * as infographicjs from 'infographic-js';
@@ -36,10 +36,8 @@ export class ReportPage {
 
   protected ionViewWillLoad() {
     this.setAppointments();
-    this.loading = this.loadingCtrl.create({
-      content: this.translate.instant('REPORT.REPORTS-LOADING-TEXT')
-    });
-    this.loading.present().then(() => this.loadReports(this.loading, this));
+
+    this.loadReports(this)
   }
 
   protected ionViewDidLoad() {
@@ -55,7 +53,7 @@ export class ReportPage {
 
   private setAppointments() {
     this.manager.getAppointments()
-      .subscribe(appointments => this.appointments = appointments, (error) => this.errorMessage('MSG '+error));
+      .subscribe(appointments => this.appointments = appointments, (error) => this.errorMessage('MSG ' + error));
   }
 
   private errorMessage(error) {
@@ -64,25 +62,23 @@ export class ReportPage {
   }
 
   ngDoCheck() {
-    if (this.slideToLast && this.slider != undefined && this.slider.length() == this.reports.length) {
+    if (this.slideToLast && this.slider != undefined && this.reports != undefined && this.slider.length() == this.reports.length) {
       this.slider.slideTo(this.reports.length - 1, 0);
       this.slideToLast = false;
     }
   }
 
-  private loadReports(loading: Loading, context: ReportPage): void {
+  private loadReports(context: ReportPage): void {
     if (context.appointments == undefined || context.appointments.length <= 0) {
       context.setAppointments();
-      context.timeout = setTimeout(() => context.loadReports(loading, context), 1000);
+      context.timeout = setTimeout(() => context.loadReports(context), 1000);
     } else {
       context.setReports(context.appointments)
         .subscribe((value) => {
-
           this.slideToLast = true;
-          context.loading.dismiss();
-        },(error:any)=>{
-          context.loading.dismiss();
-          this.toaster.badToast(this.translate.instant("REPORT.ERROR-SETTING-REPORTS"))});
+        }, (error: any) => {
+          this.toaster.badToast(this.translate.instant("REPORT.ERROR-SETTING-REPORTS"))
+        });
     }
   }
 
@@ -127,7 +123,6 @@ export class ReportPage {
   }
 
   ionViewWillLeave() {
-    this.loading.dismiss();
     clearTimeout(this.timeout);
   }
 

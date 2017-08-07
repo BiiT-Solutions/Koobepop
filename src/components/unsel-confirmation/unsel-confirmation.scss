@@ -3,7 +3,7 @@ unsel-confirmation{
         display: flex;
         justify-content: space-between;
     }
-    div.radio-container{  
+    div.radio-container{
          display:table;
          table-layout:fixed;
          width:60%;
@@ -13,20 +13,5 @@ unsel-confirmation{
             text-align: center;
             align-content: center;
         }
-    }
-}
-.unsel-confirmation-popover{
-    ion-backdrop{
-      opacity: 0.1!important;
-    }
-    .popover-content{
-      right:5px;
-      left:auto!important;
-      display: inline-block;
-      width:320px;
-
-      animation-duration: 0.5s;
-      animation-fill-mode: both;
-      animation-name: slideInRight;
     }
 }

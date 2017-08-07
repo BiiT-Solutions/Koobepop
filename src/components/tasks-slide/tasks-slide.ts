@@ -22,21 +22,31 @@ export class TasksSlideComponent {
 
   /**When object is changed*/
   protected ngOnChanges() {
+    this.requestTasks(this);
+  }
+
+  private requestTasks(context) {
     this.tasksProvider.getTasks()
-      .subscribe((tasks) => this.setTasks(tasks));
+      .subscribe((tasks) => {
+        if (tasks == undefined || tasks.length <= 0) {
+          const timeout = setTimeout(()=>context.requestTasks(context), 2000)
+        } else {
+          context.setTasks(tasks)
+        }
+      });
   }
 
   private setTasks(usmoTasks: USMOTask[]): void {
-    this.tasks = [];
+    const tasks = [];
     usmoTasks.forEach((usmoTask: USMOTask) => {
       if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (usmoTask.finishTime == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {
         const taskScore: number = usmoTask.getScore(this.date);
         const taskHasInfo = usmoTask.videoUrl != undefined || usmoTask.content != undefined;
-        this.tasks.push(new TaskModel(usmoTask.name, taskHasInfo, taskScore));
+        tasks.push(new TaskModel(usmoTask.name, taskHasInfo, taskScore));
       }
     });
+    this.tasks = tasks;
   }
-
 
   public gotoExerciseInfo(name: string) {
     this.tasksProvider.getTask(name)

@@ -150,6 +150,11 @@ bower_components/moment/min/moment-with-locales.min.js
 bower_components/moment/min/moment.min.js
 bower_components/moment/min/tests.js
 bower_components/moment/src/moment.js
+bower_components/moment/templates/amd-named.js
+bower_components/moment/templates/amd.js
+bower_components/moment/templates/globals.js
+bower_components/moment/templates/locale-header.js
+bower_components/moment/templates/test-header.js
 bower_components/vaadin-grid/demo/angular-demo-embed.html
 bower_components/vaadin-grid/demo/angular-grid-dom.js
 bower_components/vaadin-grid/demo/angular-grid-dom.ts
@@ -178,11 +183,6 @@ bower_components/vaadin-grid/img/arrow-up.svg
 bower_components/vaadin-grid/img/ic_check_black_24px.svg
 bower_components/vaadin-grid/img/ic_view_column_black_24px.svg
 bower_components/vaadin-grid/img/tick.svg
-bower_components/moment/templates/amd-named.js
-bower_components/moment/templates/amd.js
-bower_components/moment/templates/globals.js
-bower_components/moment/templates/locale-header.js
-bower_components/moment/templates/test-header.js
 resources/health-icons/body%20health/body%20health-128.png
 resources/health-icons/body%20health/body%20health-75.png
 resources/health-icons/food%20style/food%20style-128.png
@@ -378,4 +378,4 @@ bower_components/moment/src/lib/utils/zero-fill.js
 NETWORK:
 *
 
-# hash: 08ca94e960e5f900184d3843d4d3e1c875e5096c5cdaf5cdba3c81f69b07d167
+# hash: 7dc6a147c0031e19508caf6e9ee8f8d919e8905672b10d80332756c6617a0961
