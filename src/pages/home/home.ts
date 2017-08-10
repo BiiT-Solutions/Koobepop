@@ -9,6 +9,8 @@ import { ServicesManager } from '../../providers/servicesManager';
 import { PushNotificationsHandlerProvider } from '../../providers/push-notifications-handler/push-notifications-handler';
 import { MessageModel } from '../../models/message.model';
 import { Observable } from 'rxjs/Rx';
+import { MessagesProvider } from '../../providers/storage/messages-provider';
+import { AppointmentsProvider } from '../../providers/storage/appointments-provider';
 
 @Component({
   selector: 'page-home',
@@ -21,40 +23,34 @@ export class HomePage {
   tab3Root = KnowPage;
   tab4Root = TestPage;
   @ViewChild("homeTabs") homeTabs: Tabs;
-  pendingMessages: number = 0;
   constructor(public navCtrl: NavController,
     public manager: ServicesManager,
-    protected pushHandler: PushNotificationsHandlerProvider) {
+    protected pushHandler: PushNotificationsHandlerProvider,
+    private messagesProvider: MessagesProvider,
+  private appointmentsProvider: AppointmentsProvider) {
     //Init push notifications handler
-    console.log(this.pendingMessages);
     pushHandler.init();
+    messagesProvider.update().subscribe();
     if (pushHandler.getPushObject() != undefined) {
-      pushHandler.getPushObject().on('notification').subscribe((notification: any) => {
-        console.log('Received a notification', notification)
-        this.manager.updateMessages().subscribe(newMsgs=>{this.pendingMessages += newMsgs;console.log("update",this.pendingMessages); });
-        if (!notification.additionalData.foreground) {
-          if (this.homeTabs != undefined) {
-            this.homeTabs.select(3);
+      pushHandler.getPushObject().on('notification')
+        .subscribe((notification: any) => {
+          console.log('Received a notification', notification);
+          messagesProvider.update().subscribe();
+          if (!notification.additionalData.foreground) {
+            if (this.homeTabs != undefined) {
+              this.homeTabs.select(3);
+            }
           }
-        }
-      });
+        });
     }
-    this.manager.getPendingMessages().subscribe((msgs)=> {this.pendingMessages = msgs; console.log(this.pendingMessages);});
-  }
-
-  private addMessage(message: MessageModel): Observable<MessageModel[]> {
-    return this.manager.getMessages().flatMap((messages: MessageModel[]) => {
-      messages.unshift(message);
-      return this.manager.setMessages(messages);
-    });
   }
 
   ionViewDidLoad() {
-    this.manager.startContinuousAppointmentCheck(1000 * 60 * 30);//check every 30 minutes
+    //TODO - set timer to update every 30 min or so
+    this.appointmentsProvider.update().subscribe(appointments=>console.log("Updated Appointemnts",appointments))
   }
 
-  ionViewWillUnload(){
-    this.manager.setPendingMessages(this.pendingMessages);
+  ionViewWillUnload() {
   }
 
   navTest() {
@@ -77,12 +73,11 @@ export class HomePage {
     this.navCtrl.push(SummaryPage);
   }
 
-  removeBadge() {
-    this.pendingMessages = 0;
+  public restartMessageCount() {
+    this.messagesProvider.setNewMessagesCount(0);
   }
-public getPendingMessages(){
-  return this.pendingMessages;
-}
 
+  public getPendingMessages() {
+    return this.messagesProvider.getNewMessagesCount();
+  }
 }
-

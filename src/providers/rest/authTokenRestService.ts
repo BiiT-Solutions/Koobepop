@@ -2,25 +2,27 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { Observable } from 'rxjs/Rx';
-import { KppRestService } from './kppRestService';
+import { BasicRestService } from './basic-rest-service';
 import { Device } from '@ionic-native/device';
 import { TokenProvider } from '../storage/tokenProvider';
+import { UserProvider } from '../storage/userProvider';
 @Injectable()
-export class AuthTokenRestService extends KppRestService {
+export class AuthTokenRestService extends BasicRestService {
     constructor(protected http: Http,
         @Inject(APP_CONFIG) protected config: IAppConfig,
         protected tokenProvider: TokenProvider,
+        protected userProvider: UserProvider,
         protected device:Device) {
-        super(http, config, tokenProvider)
+        super(http, config, tokenProvider,userProvider)
     }
 
     /** Request the authentication  token to the server */
     public requestToken(id: string, code: string): Observable<string> {
         //Here we request the token to the server with the sms code, the id and the uuid
-        let requestAddres = this.config.usmoServer + this.config.getAuthenticationToken;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const requestAddres = this.config.usmoServer + this.config.getAuthenticationToken;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-        let body = {
+        const body = {
             user: id,
             authCode: code,
             uuid: this.getUuid()
@@ -32,11 +34,11 @@ export class AuthTokenRestService extends KppRestService {
 
     /** Request the user validation code to the server which will send an SMS with it*/
     public requestSendAuthCodeSMS(patientId: string, languageId: string): Observable<Response> {
-        let requestAddres = this.config.usmoServer + this.config.sendAuthCodeSMS;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const requestAddres = this.config.usmoServer + this.config.sendAuthCodeSMS;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-        let body = { 
-            patientId: patientId, 
+        const body = {
+            patientId: patientId,
             language: languageId };
 
         return super.requestWithoutToken(requestAddres,body,headers)
@@ -44,10 +46,10 @@ export class AuthTokenRestService extends KppRestService {
 
     /** Checks if the token is a valid one*/
     public tokenStatus(): Observable<number> {
-        let requestAddres = this.config.usmoServer + this.config.verifyAuthenticationToken;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const requestAddres = this.config.usmoServer + this.config.verifyAuthenticationToken;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-        
+
         return super.request(requestAddres,{},headers)
             .map((response) => { return response.status });
     }

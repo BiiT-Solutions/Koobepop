@@ -10,7 +10,8 @@ export class StorageServiceProvider {
     public static TOKEN_STORAGE_ID = "token";
     public static USER_STORAGE_ID = "user";
     public static MESSAGES_STORAGE_ID = "messages";
-    public static PENDING_MESSAGES_ID = "pendingMessages"
+    public static NEW_MESSAGES_COUNT_ID = "newMessages";
+    public static REPORTS_STORAGE_ID = "reports";
     constructor(public storage: Storage) { }
 
     public storeItem(name: string, item: any): Observable<any> {
@@ -24,5 +25,4 @@ export class StorageServiceProvider {
     public resetDB() {
         this.storage.clear();
     }
-
 }

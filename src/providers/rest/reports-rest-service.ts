@@ -6,31 +6,41 @@ import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { AppointmentModel } from '../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
-import { KppRestService } from './kppRestService';
+import { BasicRestService } from './basic-rest-service';
 import { TokenProvider } from '../storage/tokenProvider';
+import { UserProvider } from '../storage/userProvider';
+import { ReportModel } from '../../models/report.model';
+import * as infographicjs from 'infographic-js';
 
 @Injectable()
-export class ReportsRestService extends KppRestService {
+export class ReportsRestService extends BasicRestService {
   constructor(protected http: Http,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
+    protected userProvider: UserProvider,
     protected translate: TranslateService) {
-    super(http, config, tokenProvider);
+    super(http, config, tokenProvider, userProvider);
   }
 
-  public requestReports(appointmentId:number): Observable<any> {
+  public requestReports(appointment: AppointmentModel): Observable<ReportModel> {
     const requestAddres = this.config.usmoServer + this.config.getReportService;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
     const body = {
-      appointmentId: appointmentId
+      appointmentId: appointment.appointmentId
     }
     return super.request(requestAddres, body, headers)
-      .map((res: Response) => this.extractData(res));
-
+      .map((res: Response) => this.extractData(res)).map((data) => this.generateInfographic(appointment, data));
   }
-    public extractData(res){
-      return res.json() || [];
-    }
+
+  public extractData(res) {
+    return res.json() || [];
+  }
+
+  public generateInfographic(appointment:AppointmentModel, data: any[]): ReportModel {
+    const report = new ReportModel(appointment.appointmentId, appointment.updateTime , []);
+    data.forEach((item) => report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content)));
+    return report;
+  }
 
 }

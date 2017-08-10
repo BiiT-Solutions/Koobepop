@@ -2,36 +2,35 @@
 import { Injectable, Inject } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { Http, Response, Headers } from '@angular/http';
-import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { AppointmentModel } from '../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
-import { KppRestService } from './kppRestService';
+import { BasicRestService } from './basic-rest-service';
 import { TokenProvider } from '../storage/tokenProvider';
+import { UserProvider } from '../storage/userProvider';
 
 @Injectable()
-export class AppointmentsRestService extends KppRestService {
+export class AppointmentsRestService extends BasicRestService {
   constructor(protected http: Http,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
-    protected translate: TranslateService) {
-    super(http, config, tokenProvider);
+    protected translate: TranslateService,
+    protected userProvider: UserProvider) {
+    super(http, config, tokenProvider, userProvider);
   }
 
-  public requestAppointments(user: UserModel): Observable<AppointmentModel[]> {
+  public requestAppointments(): Observable<AppointmentModel[]> {
     const requestAddres = this.config.usmoServer + this.config.getAppointmentsService;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
-    const body = {
-      patientId: user.patientId
-    }
+    const body = {};
     return super.request(requestAddres, body, headers)
       .map((res: Response) => this.extractData(res))
       .map((appointments: AppointmentModel[]) => { return appointments ? appointments.reverse() : []; });
   }
 
   /**Sends a list of appointments with update time and retrieves new and edited appointments */
-  public requestModifiedAppointments(appointments: AppointmentModel[], patient: UserModel): Observable<AppointmentModel[]> {
+  public requestModifiedAppointments(appointments: AppointmentModel[]): Observable<AppointmentModel[]> {
     const requestAddres = this.config.usmoServer + this.config.getUpdatedAppointmentsService;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
@@ -44,8 +43,7 @@ export class AppointmentsRestService extends KppRestService {
     });
 
     const body = {
-      appointments: appointmentsIdWithDate,
-      patientId: patient.patientId
+      appointments: appointmentsIdWithDate
     }
 
     return super.request(requestAddres, body, headers)

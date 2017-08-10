@@ -10,6 +10,7 @@ export class USMOTask {
   content?: string; //Some HTML content
   type: string;
   appointmentId: number;
+  updateTime?:number;
   // Map<weekDate,Map<dayDate, score>>
   performedOn: Map<number, Map<number, number>>;
 

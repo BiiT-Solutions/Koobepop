@@ -10,6 +10,7 @@ import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
 import { TaskComponent } from '../../components/task/taskItem';
+import { TasksProvider } from '../../providers/storage/tasksProvider';
 /**
  *
  */
@@ -25,11 +26,16 @@ export class WorkBookPage {
   @ViewChild('slider') slider: Slides;
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    protected tasksProvider: TasksProvider) {
     this.goToToday();
   }
 
   ionViewDidLoad() {
+
+  }
+  ionViewWillLoad() {
+    this.tasksProvider.update().subscribe((tasks) => console.log("Updated tasks", tasks))
   }
 
   public open(itemSlide: ItemSliding) {

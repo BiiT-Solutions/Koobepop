@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppointmentModel } from '../models/appointment.model';
-import { AppointmentsProvider } from './storage/appointmentsProvider';
+import { AppointmentsProvider } from './storage/appointments-provider';
 import { USMOTask } from '../models/usmo-task';
 import { UserModel } from '../models/user.model';
 import { Observable } from 'rxjs/Rx';
@@ -23,7 +23,7 @@ import { StorageServiceProvider } from './storage/storageServiceProvider';
  * Intended to manage the dataflow within the application and with USMO
  * Will pass the data from the Providers to the app
  * Will pass the data from the RestServices to the Providers
- *
+ * TODO - Remove and make a better distributed architecture
  */
 
 @Injectable()
@@ -42,7 +42,7 @@ export class ServicesManager {
     private messagesProvider: MessagesProvider,
     private messagesRestService: MessagesRestService,
     private storage: StorageServiceProvider
-  ) {}
+  ) { }
 
   public getMessages(): Observable<MessageModel[]> {
     return this.messagesProvider.getMessages();
@@ -165,18 +165,15 @@ export class ServicesManager {
 
   /** Replace all new data from the server's data */
   public update() {
-    this.userProvider.getUser()
-      .subscribe((user) => {
-        //TODO - use request ModifiedAppointments instead
-        this.appointmentsRestService.requestAppointments(user)
-          .flatMap((appointments: AppointmentModel[]) => { return this.updateAppointments(appointments) })
-          .subscribe((appointments: AppointmentModel[]) => { this.updateTasks(appointments) });
-      });
-    this.updateMessages().subscribe();
+
+    //TODO - use request ModifiedAppointments instead
+    this.appointmentsRestService.requestAppointments()
+      .flatMap((appointments: AppointmentModel[]) => { return this.updateAppointments(appointments) })
+      .subscribe((appointments: AppointmentModel[]) => { this.updateTasks(appointments) });
   }
 
   private updateAppointments(newAppointments: AppointmentModel[]): Observable<AppointmentModel[]> {
-    //Get storage appointments, compare to the new appointments, add new ones substitute the old ones
+    //Get storage appointments, compare to the new appointments, add new ones and substitude the old ones
     // and keep those which don't change
     return this.appointmentsProvider.getAppointments()
       .flatMap((actualAppointments: AppointmentModel[]) => {
@@ -231,32 +228,11 @@ export class ServicesManager {
         });
     }
   }
-  /** Updates the messages and returns the amount of new messages obtained */
-  public updateMessages(): Observable<number> {
-    return this.getMessages()
-      .flatMap((messages: MessageModel[]) => {
-        let date = 0;
-        if (messages != undefined && messages.length > 0) {
-          date = messages[0].time;
-        }
-        return this.messagesRestService.requestMessages(date)
-          .map((newMessages: MessageModel[]) => {
-            if (newMessages != undefined && newMessages.length > 0) {
-              //last messages are shown first
-              const finalMessages = newMessages.concat(messages);
-              this.setMessages(finalMessages).subscribe();
-              return newMessages.length;
-            } else {
-              return 0;
-            }
-          });
-      });
-  }
 
   public getPendingMessages(): Observable<number> {
-    return this.storage.retrieveItem(StorageServiceProvider.PENDING_MESSAGES_ID);
+    return this.storage.retrieveItem(StorageServiceProvider.NEW_MESSAGES_COUNT_ID);
   }
   public setPendingMessages(pendingMessages: number) {
-    this.storage.storeItem(StorageServiceProvider.PENDING_MESSAGES_ID, pendingMessages).subscribe();
+    this.storage.storeItem(StorageServiceProvider.NEW_MESSAGES_COUNT_ID, pendingMessages).subscribe();
   }
 }

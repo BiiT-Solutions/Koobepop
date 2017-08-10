@@ -6,17 +6,19 @@ import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { AppointmentModel } from '../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
-import { KppRestService } from './kppRestService';
+import { BasicRestService } from './basic-rest-service';
 import { TokenProvider } from '../storage/tokenProvider';
 import { MessageModel } from '../../models/message.model';
+import { UserProvider } from '../storage/userProvider';
 
 @Injectable()
-export class MessagesRestService extends KppRestService {
+export class MessagesRestService extends BasicRestService {
   constructor(protected http: Http,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
+    protected userProvider: UserProvider,
     protected translate: TranslateService) {
-    super(http, config, tokenProvider);
+    super(http, config, tokenProvider,userProvider);
   }
 
   public requestMessages(from: number ): Observable<MessageModel[]> {

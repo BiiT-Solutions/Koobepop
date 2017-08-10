@@ -3,11 +3,12 @@ import { StorageServiceProvider } from './storageServiceProvider';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Rx';
 import { MessageModel } from '../../models/message.model';
+import { MessagesRestService } from '../rest/messages-rest-service';
 @Injectable()
 export class MessagesProvider extends StorageServiceProvider {
   private messages: MessageModel[];
-
-  constructor(public storage: Storage) {
+  private newMessagesCount: number = 0;
+  constructor(public storage: Storage,private messagesRestService: MessagesRestService ) {
     super(storage);
   }
 
@@ -39,8 +40,42 @@ export class MessagesProvider extends StorageServiceProvider {
     if (msgs == undefined) {
       return [];
     } else {
-      msgs.sort((a, b) => b.time-a.time);
+      msgs.sort((a, b) => b.time - a.time);
       return msgs;
     }
   }
+
+  public getNewMessagesCount():Observable<number> {
+    if (this.newMessagesCount == undefined) {
+      return super.retrieveItem(StorageServiceProvider.NEW_MESSAGES_COUNT_ID)
+        .flatMap((count) =>count==undefined?this.setNewMessagesCount(0):this.setNewMessagesCount(count));
+    } else {
+      return Observable.of(this.newMessagesCount);
+    }
+  }
+
+  public setNewMessagesCount(newMessagesCount):Observable<number>{
+    this.newMessagesCount = newMessagesCount;
+    return super.storeItem(StorageServiceProvider.NEW_MESSAGES_COUNT_ID, newMessagesCount);
+  }
+
+  public update(){
+     return this.getMessages()
+      .flatMap((messages: MessageModel[]) => {
+        let date = 0;
+        if (messages != undefined && messages.length > 0) {
+          date = messages[0].time;
+        }
+        return this.messagesRestService.requestMessages(date)
+          .map((newMessages: MessageModel[]) => {
+            if (newMessages != undefined && newMessages.length > 0) {
+              //last messages are shown first
+              const finalMessages = newMessages.concat(messages);
+              this.setMessages(finalMessages).subscribe();
+              this.setNewMessagesCount( this.newMessagesCount + newMessages.length);
+            }
+          });
+      });
+  }
+
 }

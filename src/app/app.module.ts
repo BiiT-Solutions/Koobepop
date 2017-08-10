@@ -33,7 +33,7 @@ import { AuthTokenRestService } from '../providers/rest/authTokenRestService';
 import { ReportsRestService } from '../providers/rest/reports-rest-service';
 
 //Storage providers
-import { AppointmentsProvider } from '../providers/storage/appointmentsProvider';
+import { AppointmentsProvider } from '../providers/storage/appointments-provider';
 import { TasksProvider } from '../providers/storage/tasksProvider';
 import { TokenProvider } from '../providers/storage/tokenProvider';
 import { UserProvider } from '../providers/storage/userProvider';
@@ -60,6 +60,7 @@ import { InfographicItemComponent } from '../components/infographic-item/infogra
 import { KppZoomPanComponent } from '../components/kpp-zoom-pan/kpp-zoom-pan';
 import { MessagesRestService } from '../providers/rest/messages-rest-service';
 import { StorageServiceProvider } from '../providers/storage/storageServiceProvider';
+import { ReportsProvider } from '../providers/storage/reports-provider';
 
 
 export function createTranslateLoader(http: Http) {
@@ -144,7 +145,8 @@ export function createTranslateLoader(http: Http) {
     MessagesRestService,
     PushNotificationsHandlerProvider,
     ReportsRestService,
-    StorageServiceProvider
+    StorageServiceProvider,
+    ReportsProvider
   ]
 })
 export class AppModule { }

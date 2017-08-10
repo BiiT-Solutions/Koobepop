@@ -5,107 +5,110 @@ import { AppointmentModel } from '../../models/appointment.model';
 import { Observable } from 'rxjs/Rx';
 import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
-import { KppRestService } from './kppRestService';
+import { BasicRestService } from './basic-rest-service';
 import { TokenProvider } from '../storage/tokenProvider';
 import { TaskAction } from '../tasksManager';
+import { UserProvider } from '../storage/userProvider';
 
 @Injectable()
-export class TasksRestService extends KppRestService {
+export class TasksRestService extends BasicRestService {
 
-    constructor(protected http: Http,
-        @Inject(APP_CONFIG) protected config: IAppConfig,
-        protected tokenProvider: TokenProvider) {
-        super(http, config, tokenProvider);
+  constructor(protected http: Http,
+    @Inject(APP_CONFIG) protected config: IAppConfig,
+    protected tokenProvider: TokenProvider,
+    protected userProvider: UserProvider) {
+    super(http, config, tokenProvider, userProvider);
+  }
+
+  public requestTasks(appointment: AppointmentModel): Observable<USMOTask[]> {
+    const requestAddres = this.config.usmoServer + this.config.getTasksService;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.config.password);
+    const body = { appointmentId: appointment.appointmentId }
+    return super.request(requestAddres, body, headers)
+      .map(this.extractData)
+      .map((tasks) => this.formatTasks(appointment, tasks))
+  }
+
+  extractData(res: Response) {
+    try {
+      return res.json() || {};
+    } catch (exception) {
+      console.debug(exception)
+      return undefined;
     }
+  }
 
-    public requestTasks(appointment: AppointmentModel): Observable<USMOTask[]> {
-        const requestAddres = this.config.usmoServer + this.config.getTasksService;
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        headers.append('Authorization', this.config.password);
-        const body = { appointmentId: appointment.appointmentId }
-        return super.request(requestAddres, body, headers)
-            .map(this.extractData)
-            .map((tasks) => this.formatTasks(appointment, tasks))
+  private formatTasks(appointment: AppointmentModel, tasks: any): USMOTask[] {
+
+    if (tasks) {
+      const deserializedTasks: USMOTask[] = [];
+      tasks.forEach((task) => {
+        //Map of performed exercises by week
+        const performedMap = new Map<number, Map<number, number>>();
+        task.performedOn.forEach((performed) => {
+          const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+          if (!performedMap.has(weekKey)) {
+            const weekValue: Map<number, number> = new Map();
+            weekValue.set(performed.time, performed.score);
+            performedMap.set(weekKey, weekValue);
+          } else {
+            performedMap.get(weekKey).set(performed.time, performed.score);
+          }
+        });
+        const newTask = new USMOTask(
+          task.name,
+          task.startTime,
+          task.finishTime,
+          task.repetitions,
+          appointment.type,
+          appointment.appointmentId,
+          performedMap,
+          task.videoUrl,
+          task.content);
+        newTask.updateTime = appointment.updateTime;
+        deserializedTasks.push(newTask);
+      });
+      return deserializedTasks;
+    } else {
+      return [];
     }
+  }
 
-    extractData(res: Response) {
-        try {
-            return res.json() || {};
-        } catch (exception) {
-            console.debug(exception)
-            return undefined;
-        }
+  /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
+  public sendPerformedTask(appointmentId: number, taskName: string, date: number, score: number) {
+    const requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const body = {
+      appointmentId: appointmentId,
+      name: taskName,
+      time: date,
+      score: score
     }
+    headers.append('Authorization', this.config.password);
+    return super.request(requestAddres, body, headers).map(res => res.status);
+  }
 
-    private formatTasks(appointment: AppointmentModel, tasks: any): USMOTask[] {
-
-        if (tasks) {
-            const deserializedTasks: USMOTask[] = [];
-            tasks.forEach((task) => {
-                //Map of performed exercises by week
-                const performedMap = new Map<number, Map<number, number>>();
-                task.performedOn.forEach((performed) => {
-                    const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
-                    if (!performedMap.has(weekKey)) {
-                        const weekValue: Map<number, number> = new Map();
-                        weekValue.set(performed.time, performed.score);
-                        performedMap.set(weekKey, weekValue);
-                    } else {
-                        performedMap.get(weekKey).set(performed.time, performed.score);
-                    }
-                });
-
-                deserializedTasks.push(new USMOTask(
-                     task.name,
-                     task.startTime,
-                     task.finishTime,
-                     task.repetitions,
-                     appointment.type,
-                     appointment.appointmentId,
-                     performedMap,
-                     task.videoUrl,
-                     task.content));
-            });
-           return deserializedTasks;
-        } else {
-            return [];
-        }
+  public removePerformedTask(appointmentId: number, taskName: string, date: number): Observable<number> {
+    const requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const body = {
+      appointmentId: appointmentId,
+      name: taskName,
+      time: date,
+      score: 0
     }
+    headers.append('Authorization', this.config.password);
+    return super.request(requestAddres, body, headers).map(res => res.status);
+  }
 
-    /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
-    public sendPerformedTask(appointmentId: number, taskName: string, date: number, score: number) {
-        const requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const body = {
-            appointmentId: appointmentId,
-            name: taskName,
-            time: date,
-            score: score
-        }
-        headers.append('Authorization', this.config.password);
-        return super.request(requestAddres, body, headers).map(res => res.status);
+  public sendTasks(tasks: TaskAction[]): Observable<Response> {
+    const requestAddres = this.config.usmoServer + this.config.performActions;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.config.password);
+    const body = {
+      taskActions: tasks
     }
-
-    public removePerformedTask(appointmentId: number, taskName: string, date: number): Observable<number> {
-        const requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const body = {
-            appointmentId: appointmentId,
-            name: taskName,
-            time: date,
-            score: 0
-        }
-        headers.append('Authorization', this.config.password);
-        return super.request(requestAddres, body, headers).map(res => res.status);
-    }
-
-    public sendTasks(tasks: TaskAction[]): Observable<Response> {
-        const requestAddres = this.config.usmoServer + this.config.performActions;
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        headers.append('Authorization', this.config.password);
-        const body = {
-            taskActions: tasks
-        }
-        return super.request(requestAddres, body, headers);
-    }
+    return super.request(requestAddres, body, headers);
+  }
 }

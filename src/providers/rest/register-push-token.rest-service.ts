@@ -1,30 +1,32 @@
 import { Injectable, Inject } from '@angular/core';
-import { KppRestService } from './kppRestService';
+import { BasicRestService } from './basic-rest-service';
 import { IAppConfig, APP_CONFIG } from '../../app/app.config';
 import { Http, Headers, Response } from '@angular/http';
 import { TokenProvider } from '../storage/tokenProvider';
 import { TranslateService } from '@ngx-translate/core';
 import { UserModel } from '../../models/user.model';
 import { Observable } from 'rxjs/Rx';
+import { UserProvider } from '../storage/userProvider';
 @Injectable()
-export class RegisterPushTokenRestService extends KppRestService {
+export class RegisterPushTokenRestService extends BasicRestService {
     appointmentsList;
     constructor(protected http: Http,
         @Inject(APP_CONFIG) protected config: IAppConfig,
         protected tokenProvider: TokenProvider,
+        protected userProvider:UserProvider,
         protected translate: TranslateService) {
-        super(http, config, tokenProvider);
+        super(http, config, tokenProvider,userProvider);
     }
     public setPushToken(user: UserModel, pushNotificationToken: string): Observable<any> {
-        let requestAddres = this.config.usmoServer + this.config.setPushNotificationsToken;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        const requestAddres = this.config.usmoServer + this.config.setPushNotificationsToken;
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
-        let body = {
+        const body = {
             patientId: user.patientId,
             pushNotificationToken: pushNotificationToken
         }
         return super.request(requestAddres, body, headers)
             .map((res: Response) => res.json());
-        
+
     }
 }

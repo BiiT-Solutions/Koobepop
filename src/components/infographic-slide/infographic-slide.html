@@ -1,4 +1,4 @@
 
 <kpp-zoom-pan (zoom)="isZoom($event)">
-  <infographic-item  *ngFor="let item of infographic" [itemHtml]="item"></infographic-item>
+  <infographic-item  *ngFor="let item of reportInfographics()" [itemHtml]="item"></infographic-item>
 </kpp-zoom-pan>
