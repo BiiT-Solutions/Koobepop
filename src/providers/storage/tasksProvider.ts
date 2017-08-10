@@ -77,7 +77,7 @@ export class TasksProvider extends StorageServiceProvider {
   public update(): Observable<USMOTask[]> {
     return this.appointmentsProvider.getAppointments()
       .flatMap((appointments: AppointmentModel[]) => {
-        const lastAppointments: AppointmentModel[] = [];
+        let lastAppointments: AppointmentModel[] = [];
         appointments.forEach((appointment: AppointmentModel) => {
           const index = lastAppointments.map(appointment => appointment.type).indexOf(appointment.type);
           if (index >= 0) {
@@ -106,7 +106,7 @@ export class TasksProvider extends StorageServiceProvider {
           alreadyUpdatedAppointments.forEach(updatedAppointment => {
             const index = lastAppointments.map(appointment => appointment.appointmentId).indexOf(updatedAppointment.appointmentId);
             if (index >= 0) {
-              lastAppointments.slice(index);
+              lastAppointments = lastAppointments.slice(index);
             }
           });
           console.log("Last appointments 2: ", lastAppointments);

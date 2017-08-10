@@ -35,7 +35,7 @@ export class WorkBookPage {
 
   }
   ionViewWillLoad() {
-    this.tasksProvider.update().subscribe((tasks) => console.log("Updated tasks", tasks))
+   // this.tasksProvider.update().subscribe((tasks) => console.log("Updated tasks", tasks))
   }
 
   public open(itemSlide: ItemSliding) {

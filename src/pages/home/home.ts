@@ -11,6 +11,7 @@ import { MessageModel } from '../../models/message.model';
 import { Observable } from 'rxjs/Rx';
 import { MessagesProvider } from '../../providers/storage/messages-provider';
 import { AppointmentsProvider } from '../../providers/storage/appointments-provider';
+import { TasksProvider } from '../../providers/storage/tasksProvider';
 
 @Component({
   selector: 'page-home',
@@ -27,7 +28,8 @@ export class HomePage {
     public manager: ServicesManager,
     protected pushHandler: PushNotificationsHandlerProvider,
     private messagesProvider: MessagesProvider,
-  private appointmentsProvider: AppointmentsProvider) {
+    private appointmentsProvider: AppointmentsProvider,
+    private tasksProvider: TasksProvider) {
     //Init push notifications handler
     pushHandler.init();
     messagesProvider.update().subscribe();
@@ -47,7 +49,11 @@ export class HomePage {
 
   ionViewDidLoad() {
     //TODO - set timer to update every 30 min or so
-    this.appointmentsProvider.update().subscribe(appointments=>console.log("Updated Appointemnts",appointments))
+    this.appointmentsProvider.update().subscribe(appointments => {
+      console.log("Updated Appointemnts", appointments);
+      this.tasksProvider.update().subscribe((tasks)=>console.log("Updated Tasks: ",tasks));
+
+    })
   }
 
   ionViewWillUnload() {
