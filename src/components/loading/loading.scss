@@ -5,25 +5,25 @@ loading-screen {
 .wrapper{
   height:100%;
   width:100%;
-  display: table-cell;
-  vertical-align: middle;
-  text-align:center;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .logo{
-  height: 8em;
-  width: 8em;
+  height: 90px;
+  width: 90px;
   display:inline-block;
     background:url(../assets/images/app-icon-192x192.png) center center no-repeat;
-  background-size: 7em 7em;
+  background-size: 90px 90px;
   transition: opacity 400ms;
     -webkit-animation: heartbeat 1000ms infinite;
     animation: heartbeat 1000ms infinite;
 }
 
 .text{
-  padding-top: 1em;
+  padding-top: 10px;
   text-align:center;
 }
 }

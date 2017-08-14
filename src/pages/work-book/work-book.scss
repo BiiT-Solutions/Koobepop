@@ -11,4 +11,15 @@ page-work-book {
       flex-grow: 1;
     }
   }
+  #today-button{
+    position: absolute;
+    bottom:0;
+    width:100%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button{
+    }
+  }
 }
