@@ -7,6 +7,7 @@ import { TaskModel } from '../../models/task.model';
 import { AppointmentsProvider } from './appointments-provider';
 import { AppointmentModel } from '../../models/appointment.model';
 import { TasksRestService } from '../rest/tasksRestService';
+import { CompleteTask } from '../../models/complete-task';
 
 @Injectable()
 export class TasksProvider extends StorageServiceProvider {
@@ -21,8 +22,8 @@ export class TasksProvider extends StorageServiceProvider {
   public getTasks(): Observable<USMOTask[]> {
     if (this.getAllocTasks() == undefined) {
       return super.retrieveItem(StorageServiceProvider.TASKS_STORAGE_ID)
-        .map(this.deserializeTasks) //Convert to ITask[]
-        .map(this.setAllocTasks);   //Save locally
+        .map((tasks)=>this.deserializeTasks(tasks)) //Convert to USMOTask[]
+        .map((tasks)=>this.setAllocTasks(tasks));   //Save locally
     } else {
       return Observable.of(this.getAllocTasks());
     }
@@ -37,7 +38,7 @@ export class TasksProvider extends StorageServiceProvider {
     return this.tasks;
   }
 
-  private setAllocTasks(tasks: USMOTask[]) {
+  private setAllocTasks(tasks: USMOTask[]):USMOTask[] {
     this.tasks = tasks == undefined ? [] : tasks;
     return this.tasks;
   }
@@ -49,11 +50,12 @@ export class TasksProvider extends StorageServiceProvider {
     });
   }
 
-  public setScore(name: string, score: number, date: number) {
+  public setScore(name: string, score: number, performedTime: number, filledTime: number) {
+    const completeTask:CompleteTask = new CompleteTask(performedTime,filledTime,score);
     this.getTasks().subscribe(tasks => {
       const index = tasks.map(task => task.name).indexOf(name);
       if (index >= 0) {
-        tasks[index].setScore(date, score);
+        tasks[index].setScore(completeTask);
         this.setTasks(tasks).subscribe();
       } else {
         //do nothing, there was an error and the task doesn't exist
@@ -77,7 +79,7 @@ export class TasksProvider extends StorageServiceProvider {
   public update(): Observable<USMOTask[]> {
     return this.appointmentsProvider.getAppointments()
       .flatMap((appointments: AppointmentModel[]) => {
-        let lastAppointments: AppointmentModel[] = [];
+        const lastAppointments: AppointmentModel[] = [];
         appointments.forEach((appointment: AppointmentModel) => {
           const index = lastAppointments.map(appointment => appointment.type).indexOf(appointment.type);
           if (index >= 0) {
@@ -88,7 +90,6 @@ export class TasksProvider extends StorageServiceProvider {
             lastAppointments.push(appointment);
           }
         });
-        console.log("Last appointments: ", lastAppointments);
         return this.getTasks().flatMap((actualTasks: USMOTask[]) => {
           const alreadyUpdatedAppointments: AppointmentModel[] = [];
           const updatedTasks: USMOTask[] = [];
@@ -106,15 +107,13 @@ export class TasksProvider extends StorageServiceProvider {
           alreadyUpdatedAppointments.forEach(updatedAppointment => {
             const index = lastAppointments.map(appointment => appointment.appointmentId).indexOf(updatedAppointment.appointmentId);
             if (index >= 0) {
-              lastAppointments = lastAppointments.slice(index);
+              lastAppointments.splice(index);
             }
           });
-          console.log("Last appointments 2: ", lastAppointments);
           return Observable.combineLatest(
             lastAppointments.map((appointment: AppointmentModel) => {
               return this.tasksRestService.requestTasks(appointment)
             })).take(1).flatMap((tasksMat: USMOTask[][]) => {
-              console.log("TasksMatrix: ", tasksMat);
               let finalTasks: USMOTask[] = [];
               if (updatedTasks != undefined) {
                 finalTasks = finalTasks.concat(updatedTasks)
@@ -138,13 +137,12 @@ export class TasksProvider extends StorageServiceProvider {
           task.repetitions,
           task.type,
           task.appointmentId,
-          USMOTask.parseStringifiedMap(task.performedOn),
+          USMOTask.parseStringifiedPerforemdTasks(task.performedOn),
           task.videoUrl,
           task.content,
         );
         newTask.updateTime = task.updateTime;
-        deserializedTasks.push(
-        );
+        deserializedTasks.push(newTask);
       });
     }
     return deserializedTasks;
@@ -158,7 +156,7 @@ export class TasksProvider extends StorageServiceProvider {
         startTime: task.startTime,
         finishTime: task.finishTime,
         repetitions: task.repetitions,
-        performedOn: USMOTask.stringifyMap(task.performedOn),
+        performedOn: USMOTask.stringifyPerformedTasks(task.performedOn),
         videoUrl: task.videoUrl,
         content: task.content,
         type: task.type,

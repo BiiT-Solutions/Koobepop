@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { CompleteTask } from './complete-task';
 
 /**Represents a single recurrent task*/
 export class USMOTask {
@@ -12,10 +13,10 @@ export class USMOTask {
   appointmentId: number;
   updateTime?:number;
   // Map<weekDate,Map<dayDate, score>>
-  performedOn: Map<number, Map<number, number>>;
+  performedOn: Map<number, CompleteTask[]>;
 
   constructor(name: string, startTime: number, finishTime: number, repetitions: number,
-    type: string, appointmentId: number, performedOn: Map<number, Map<number, number>>,
+    type: string, appointmentId: number, performedOn: Map<number, CompleteTask[]>,
     videoUrl?: string, content?: string) {
     this.name = name;
     this.startTime = startTime;
@@ -29,7 +30,7 @@ export class USMOTask {
   }
 
   /** Stringify map so it can be stored on the DB */
-  public static stringifyMap(map: Map<number, Map<number, number>>): string {
+  public static stringifyPerformedTasks(map: Map<number, CompleteTask[]>): string {
     const arrayFromMap = [];
     map.forEach((value, key) => {
       arrayFromMap.push([key, Array.from(value.entries())])
@@ -37,42 +38,51 @@ export class USMOTask {
     const stringified = JSON.stringify(arrayFromMap);
     return stringified;
   }
+
   /** Parse stringified map from the DB */
-  public static parseStringifiedMap(stringifiedMap: string): Map<number, Map<number, number>> {
-    const coolRebuiltMap = new Map<number, Map<number, number>>();
+  public static parseStringifiedPerforemdTasks(stringifiedMap: string): Map<number, CompleteTask[]> {
+    const rebuiltMap = new Map<number, CompleteTask[]>();
     if (stringifiedMap == undefined || stringifiedMap == "") {
       console.debug("TasksProvider: parseStringifiedMap: string void ");
-      return coolRebuiltMap;
+      return rebuiltMap;
     }
     const reParsed = JSON.parse(stringifiedMap);
     reParsed.forEach(map => {
-      coolRebuiltMap.set(map[0], new Map<number, number>(map[1]))
+      rebuiltMap.set(map[0], map[1])
     });
-    return coolRebuiltMap;
+   // console.log("USMOTask Rebuilt Map", rebuiltMap)
+    return rebuiltMap;
   }
 
   public getScore(date: number): number {
     const week = moment(date).startOf('isoWeek').valueOf();
-    return this.performedOn.has(week)
-      && this.performedOn.get(week).has(date) ?
-      this.performedOn.get(week).get(date) :
-      -1;
+     if(this.performedOn.has(week)){
+      this.performedOn.get(week).forEach(completeTask=>{
+        if(completeTask.performedTime==date){
+          return completeTask.score;
+        }
+      })
+     }
+     return -1;
   }
 
-  public setScore(date: number, score: number) {
-    const week = moment(date).startOf('isoWeek').valueOf();
+  public setScore(completeTask:CompleteTask) {
+    const week = moment(completeTask.performedTime).startOf('isoWeek').valueOf();
     if (!this.performedOn.has(week)) {
-      this.performedOn.set(week, new Map());
+      this.performedOn.set(week, []);
     }
-    this.performedOn.get(week).set(date, score);
+    this.performedOn.get(week).push(completeTask);
   }
+
   public removeScore(date: number) {
     const week = moment(date).startOf('isoWeek').valueOf();
-    if (this.performedOn.has(week) && this.performedOn.get(week).has(date)) {
-      if(this.performedOn.get(week).size<=1){
-        this.performedOn.delete(date);
+    if (this.performedOn.has(week)) {
+
+      if(this.performedOn.get(week).length<=1){
+        this.performedOn.delete(week);
       }else{
-        this.performedOn.get(week).delete(date);
+        const index = this.performedOn.get(week).map(completeT=>completeT.performedTime).indexOf(date);
+        this.performedOn.get(week).splice(index,1);
       }
     }
   }

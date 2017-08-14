@@ -18,6 +18,8 @@ export class TasksSlideComponent {
   @Input() disabled: boolean;
   tasks: TaskModel[];
   constructor(private tasksProvider: TasksProvider, private tasksRestService: TasksRestService, private app: App) {
+   //this.requestTasks(this);
+   this.tasksProvider.getTasks().subscribe(usmoTasks=>this.setTasks(usmoTasks));
   }
 
   /**When object is changed*/
@@ -60,10 +62,10 @@ export class TasksSlideComponent {
   private setTask(name: string, score: number, date: number) {
     //console.log("TasksSlide  Task: "+name+" score: "+score);
     if (score >= 0) {
-      this.tasksProvider.setScore(name, score, date);
+      this.tasksProvider.setScore(name, score, date,moment().valueOf());
       this.tasksProvider.getTask(name)
         .subscribe((task: USMOTask) => {
-          this.tasksRestService.sendPerformedTask(task.appointmentId, name, date, score).subscribe();
+          this.tasksRestService.sendPerformedTask(task.appointmentId, name, score, date, moment().valueOf()).subscribe();
         });
     } else {
       this.tasksProvider.removeScore(name, date);

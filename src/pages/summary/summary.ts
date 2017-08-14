@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { UserModel } from '../../models/user.model';
+import { CompleteTask } from '../../models/complete-task';
 
 @Component({
   selector: 'page-summary',
@@ -96,16 +97,16 @@ export class SummaryPage {
       const workouts = []
       const firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
       tasks.forEach(task => {
-        const performations: Map<number, number> = task.performedOn.get(firstWeekDay);
-        if (performations != undefined) {
+        const completeTasks: CompleteTask[] = task.performedOn.get(firstWeekDay);
+        if (completeTasks != undefined) {
           let timesPerformed = 0;
-          performations.forEach((score, date) => {
+          completeTasks.forEach((completeTask) => {
             workouts.push({
-              "date": date,
+              "date": completeTask.performedTime,
               "name": task.name,
               "assessment": task.type,
               "health": 0,
-              "effort": score,
+              "effort": completeTask.score,
               "score": timesPerformed >= task.repetitions ? 0 : 1
             });
             timesPerformed++;

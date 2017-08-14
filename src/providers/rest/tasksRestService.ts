@@ -9,6 +9,7 @@ import { BasicRestService } from './basic-rest-service';
 import { TokenProvider } from '../storage/tokenProvider';
 import { TaskAction } from '../tasksManager';
 import { UserProvider } from '../storage/userProvider';
+import { CompleteTask } from '../../models/complete-task';
 
 @Injectable()
 export class TasksRestService extends BasicRestService {
@@ -45,15 +46,15 @@ export class TasksRestService extends BasicRestService {
       const deserializedTasks: USMOTask[] = [];
       tasks.forEach((task) => {
         //Map of performed exercises by week
-        const performedMap = new Map<number, Map<number, number>>();
+        const performedMap = new Map<number,CompleteTask[]>();
         task.performedOn.forEach((performed) => {
           const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
           if (!performedMap.has(weekKey)) {
-            const weekValue: Map<number, number> = new Map();
-            weekValue.set(performed.time, performed.score);
+            const weekValue: CompleteTask[] = [];
+            weekValue.push(new CompleteTask(performed.performedTime, performed.filledTime, performed.score));
             performedMap.set(weekKey, weekValue);
           } else {
-            performedMap.get(weekKey).set(performed.time, performed.score);
+            performedMap.get(weekKey).push(new CompleteTask(performed.performedTime, performed.filledTime, performed.score));
           }
         });
         const newTask = new USMOTask(
@@ -76,13 +77,14 @@ export class TasksRestService extends BasicRestService {
   }
 
   /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
-  public sendPerformedTask(appointmentId: number, taskName: string, date: number, score: number) {
+  public sendPerformedTask(appointmentId: number, taskName: string, score: number, performedTime: number, filledTime ) {
     const requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const body = {
       appointmentId: appointmentId,
       name: taskName,
-      time: date,
+      time: performedTime,
+      filledTime: filledTime,
       score: score
     }
     headers.append('Authorization', this.config.password);

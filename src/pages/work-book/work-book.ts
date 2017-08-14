@@ -9,7 +9,6 @@ import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
-import { TaskComponent } from '../../components/task/taskItem';
 import { TasksProvider } from '../../providers/storage/tasksProvider';
 /**
  *
@@ -34,8 +33,8 @@ export class WorkBookPage {
   ionViewDidLoad() {
 
   }
+
   ionViewWillLoad() {
-   // this.tasksProvider.update().subscribe((tasks) => console.log("Updated tasks", tasks))
   }
 
   public open(itemSlide: ItemSliding) {

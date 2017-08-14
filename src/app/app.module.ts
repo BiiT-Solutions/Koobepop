@@ -14,7 +14,6 @@ import { Device } from '@ionic-native/device';
 import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../components/unsel-confirmation/unsel-confirmation';
-import { TaskComponent } from '../components/task/taskItem'
 
 //Pages
 import { HomePage } from '../pages/home/home';
@@ -61,6 +60,7 @@ import { KppZoomPanComponent } from '../components/kpp-zoom-pan/kpp-zoom-pan';
 import { MessagesRestService } from '../providers/rest/messages-rest-service';
 import { StorageServiceProvider } from '../providers/storage/storageServiceProvider';
 import { ReportsProvider } from '../providers/storage/reports-provider';
+import { LoadingComponent } from '../components/loading/loading';
 
 
 export function createTranslateLoader(http: Http) {
@@ -81,7 +81,6 @@ export function createTranslateLoader(http: Http) {
     EffortSelectorComponent,
     UnselConfirmationComponent,
     SummaryPage,
-    TaskComponent,
     LoginPage,
     NotificationMessageComponent,
     MessagesListComponent,
@@ -91,7 +90,8 @@ export function createTranslateLoader(http: Http) {
     KppCheckBoxComponent,
     InfographicSlideComponent,
     InfographicItemComponent,
-    KppZoomPanComponent
+    KppZoomPanComponent,
+    LoadingComponent
 
   ],
   imports: [

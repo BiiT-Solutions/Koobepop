@@ -1,0 +1,29 @@
+loading-screen {
+  height:100%;
+  width:100%;
+
+.wrapper{
+  height:100%;
+  width:100%;
+  display: table-cell;
+  vertical-align: middle;
+  text-align:center;
+
+}
+
+.logo{
+  height: 8em;
+  width: 8em;
+  display:inline-block;
+    background:url(../assets/images/app-icon-192x192.png) center center no-repeat;
+  background-size: 7em 7em;
+  transition: opacity 400ms;
+    -webkit-animation: heartbeat 1000ms infinite;
+    animation: heartbeat 1000ms infinite;
+}
+
+.text{
+  padding-top: 1em;
+  text-align:center;
+}
+}

@@ -73,41 +73,7 @@ export class ServicesManager {
     return this.tasksProvider.getTasks();
   }
 
-  public performTask(task: USMOTask, perf: IPerformance): Observable<any> {
-    //perform = save performation on the week with the tasks
-    this.tasksProvider.getTasks()
-      .subscribe((tasks: USMOTask[]) => {
-        const taskIndex = tasks.map(task => task.name).indexOf(task.name);
-        if (taskIndex >= 0) {
-          const weekStart = moment(perf.date).startOf('isoWeek').valueOf();
-          if (task.performedOn.has(weekStart)) {
-            task.performedOn.get(weekStart).set(perf.date, perf.score);
-          } else {
-            const week: Map<number, number> = new Map();
-            week.set(perf.date, perf.score);
-            task.performedOn.set(weekStart, week);
-          }
-          tasks[taskIndex] = task;
-          this.tasksProvider.setTasks(tasks).subscribe();
-        }
-      });
-    return this.tasksRestService.sendPerformedTask(task.appointmentId, task.name, perf.date, perf.score);
-  }
 
-  public removeTask(task: USMOTask, time): Observable<any> {
-    this.tasksProvider.getTasks()
-      .subscribe((tasks: USMOTask[]) => {
-        const taskIndex = tasks.map(task => task.name).indexOf(task.name);
-        if (taskIndex >= 0) {
-          const weekStart = moment(time).startOf('isoWeek').valueOf();
-          if (task.performedOn.has(weekStart)) {
-            task.performedOn.get(weekStart).delete(time);
-          }
-          this.tasksProvider.setTasks(tasks).subscribe();
-        }
-      });
-    return this.tasksRestService.removePerformedTask(task.appointmentId, task.name, time);
-  }
 
   /**
    * Ask the server if the actual token is a valid one
