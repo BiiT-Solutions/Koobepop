@@ -1,20 +1,20 @@
 <div class="effort-selector-container">
   <div class="explain-text">{{"EFFORT-SELECTOR.TEXT"|translate}}</div>
   <div radio-group class="radio-container">
-    <div class="effort-very-easy ">
-      <div class="effort-selection" >{{"EFFORT-SELECTOR.EASY"|translate}}</div>
+    <div class="effort-very-easy effort-selection">
+      <div>{{"EFFORT-SELECTOR.EASY"|translate}}</div>
       <ion-radio (click)="close(LIGHT)"></ion-radio>
     </div>
-    <div class="effort-low-easy ">
-      <div class="effort-selection" >{{"EFFORT-SELECTOR.NORMAL"|translate}}</div>
+    <div class="effort-low-easy effort-selection">
+      <div>{{"EFFORT-SELECTOR.NORMAL"|translate}}</div>
       <ion-radio (click)="close(MODERATE)"></ion-radio>
     </div>
-    <div class="effort-very-hard ">
-      <div class="effort-selection" >{{"EFFORT-SELECTOR.HARD"|translate}}</div>
+    <div class="effort-very-hard effort-selection ">
+      <div>{{"EFFORT-SELECTOR.HARD"|translate}}</div>
       <ion-radio (click)="close(HEAVY)"></ion-radio>
     </div>
-    <div class="effort-painful ">
-      <div class="effort-selection" >{{"EFFORT-SELECTOR.PAIN"|translate}}</div>
+    <div class="effort-painful effort-selection ">
+      <div >{{"EFFORT-SELECTOR.PAIN"|translate}}</div>
       <ion-radio (click)="close(PAIN)"></ion-radio>
     </div>
   </div>
