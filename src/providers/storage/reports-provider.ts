@@ -70,6 +70,7 @@ export class ReportsProvider extends StorageServiceProvider {
                   savedReports.push(report);
                 }
               });
+              savedReports.sort((a,b)=>a.updateTime-b.updateTime)
               return this.setReports(savedReports);
             });
         });

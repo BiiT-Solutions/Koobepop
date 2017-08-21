@@ -7,11 +7,11 @@ effort-selector {
         //display:flex;
        // align-items: center;
     }
-     div.radio-container{  
+     div.radio-container{
          display:table;
          table-layout:fixed;
-         width:60%;
-         height:45px;
+         width:14em;
+         height:3em;
         }
     div.radio-container div{
         display: table-cell;
@@ -29,7 +29,7 @@ effort-selector {
         //background-color:#00a652;
         }
     .effort-med-easy{
-        background-color:#bfd630
+        //background-color:#bfd630
         }
     .effort-low-easy{
        // background-color:#fdb813
@@ -38,13 +38,13 @@ effort-selector {
        // background-color:#fdb813
         }
     .effort-med-hard{
-        background-color:#f37022
-        }    
+        //background-color:#f37022
+        }
     .effort-very-hard{
        // background-color:#ed1b24;
         }
-    .effort-painful{   
-       // color:white;    
+    .effort-painful{
+       // color:white;
         //text-align: center;
         // background-color:black;
         }
@@ -53,26 +53,35 @@ effort-selector {
     ion-backdrop{
       opacity: 0.1!important;
     }
-    
+
     .popover-content{
       right:0px;
       left:auto!important;
       display: inline-block;
       width:320px;
-
       animation-duration: 0.5s;
       animation-fill-mode: both;
       animation-name: slideInRight;
     }
-  }  
- 
+    .radio-cotntainer{
+      display:flex;
+      flex-wrap: nowrap;
+      justify-content: space-evenly;
+    }
+    .effort-selection{
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-evenly;
+    }
+  }
+
   .popover-md .popover-content{
     //margin-top:57px;
   }
   .popover-wp .popover-content{
     //margin-top:57px;
   }
-  
+
   .popover-ios .popover-arrow::after{
     background-color:transparent;
   }
