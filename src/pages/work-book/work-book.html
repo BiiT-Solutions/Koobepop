@@ -1,18 +1,12 @@
 <ion-content>
   <div id="today-button">
-    <button  ion-button color="secondary" (click)="goToToday()" >
-      <div>
-      <ion-icon name="calendar"></ion-icon>
-      <br>
-      <label>{{"AGENDA.TODAY-BUTTON" | translate}}</label>
-      </div>
+    <button  ion-button color="secondary" (click)="goToToday()" icon-only large>
+      <ion-icon name="igow-today"></ion-icon>
     </button>
   </div>
-   <div class="slides-wrapper" style="height:100%;width:100%">
     <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
       <ion-slide *ngFor="let day of days">
         <tasks-slide [date]="day" [disabled]="isDisabled(day)"></tasks-slide>
       </ion-slide>
     </ion-slides>
-  </div>
 </ion-content>

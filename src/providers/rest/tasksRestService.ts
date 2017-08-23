@@ -41,7 +41,6 @@ export class TasksRestService extends BasicRestService {
   }
 
   private formatTasks(appointment: AppointmentModel, tasks: any): USMOTask[] {
-
     if (tasks) {
       const deserializedTasks: USMOTask[] = [];
       tasks.forEach((task) => {
@@ -49,12 +48,15 @@ export class TasksRestService extends BasicRestService {
         const performedMap = new Map<number,CompleteTask[]>();
         task.performedOn.forEach((performed) => {
           const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+          const filledTime = performed.filledTime!=undefined?performed.filledTime:performed.time;
+
           if (!performedMap.has(weekKey)) {
             const weekValue: CompleteTask[] = [];
-            weekValue.push(new CompleteTask(performed.performedTime, performed.filledTime, performed.score));
+
+            weekValue.push(new CompleteTask(performed.time, filledTime, performed.score));
             performedMap.set(weekKey, weekValue);
           } else {
-            performedMap.get(weekKey).push(new CompleteTask(performed.performedTime, performed.filledTime, performed.score));
+            performedMap.get(weekKey).push(new CompleteTask(performed.time, filledTime, performed.score));
           }
         });
         const newTask = new USMOTask(
@@ -67,7 +69,7 @@ export class TasksRestService extends BasicRestService {
           performedMap,
           task.videoUrl,
           task.content);
-        newTask.updateTime = appointment.updateTime;
+        newTask.updateTime = appointment.updateTime!=undefined? appointment.updateTime:appointment.startTime;
         deserializedTasks.push(newTask);
       });
       return deserializedTasks;

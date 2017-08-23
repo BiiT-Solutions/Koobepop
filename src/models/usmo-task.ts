@@ -11,7 +11,7 @@ export class USMOTask {
   content?: string; //Some HTML content
   type: string;
   appointmentId: number;
-  updateTime?:number;
+  updateTime?: number;
   // Map<weekDate,Map<dayDate, score>>
   performedOn: Map<number, CompleteTask[]>;
 
@@ -33,7 +33,7 @@ export class USMOTask {
   public static stringifyPerformedTasks(map: Map<number, CompleteTask[]>): string {
     const arrayFromMap = [];
     map.forEach((value, key) => {
-      arrayFromMap.push([key, Array.from(value.entries())])
+      arrayFromMap.push([key, value])
     });
     const stringified = JSON.stringify(arrayFromMap);
     return stringified;
@@ -41,6 +41,7 @@ export class USMOTask {
 
   /** Parse stringified map from the DB */
   public static parseStringifiedPerforemdTasks(stringifiedMap: string): Map<number, CompleteTask[]> {
+    //  console.log("USMOTask map to Rebuild", stringifiedMap)
     const rebuiltMap = new Map<number, CompleteTask[]>();
     if (stringifiedMap == undefined || stringifiedMap == "") {
       console.debug("TasksProvider: parseStringifiedMap: string void ");
@@ -50,23 +51,22 @@ export class USMOTask {
     reParsed.forEach(map => {
       rebuiltMap.set(map[0], map[1])
     });
-   // console.log("USMOTask Rebuilt Map", rebuiltMap)
     return rebuiltMap;
   }
 
   public getScore(date: number): number {
     const week = moment(date).startOf('isoWeek').valueOf();
-     if(this.performedOn.has(week)){
-      this.performedOn.get(week).forEach(completeTask=>{
-        if(completeTask.performedTime==date){
+    if (this.performedOn.has(week)) {
+      for (const completeTask of this.performedOn.get(week)) {
+        if (completeTask.performedTime == date) {
           return completeTask.score;
         }
-      })
-     }
-     return -1;
+      };
+    }
+    return -1;
   }
 
-  public setScore(completeTask:CompleteTask) {
+  public setScore(completeTask: CompleteTask) {
     const week = moment(completeTask.performedTime).startOf('isoWeek').valueOf();
     if (!this.performedOn.has(week)) {
       this.performedOn.set(week, []);
@@ -78,11 +78,11 @@ export class USMOTask {
     const week = moment(date).startOf('isoWeek').valueOf();
     if (this.performedOn.has(week)) {
 
-      if(this.performedOn.get(week).length<=1){
+      if (this.performedOn.get(week).length <= 1) {
         this.performedOn.delete(week);
-      }else{
-        const index = this.performedOn.get(week).map(completeT=>completeT.performedTime).indexOf(date);
-        this.performedOn.get(week).splice(index,1);
+      } else {
+        const index = this.performedOn.get(week).map(completeT => completeT.performedTime).indexOf(date);
+        this.performedOn.get(week).splice(index, 1);
       }
     }
   }

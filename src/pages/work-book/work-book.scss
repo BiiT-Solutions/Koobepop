@@ -2,7 +2,7 @@
 page-work-book {
   //This is so the slides don't stay on the middle of the page
   .slide-zoom{
-    height:100%;
+    min-height:100%;
     }
 
   .slides-wrapper{
@@ -20,6 +20,7 @@ page-work-book {
     align-items: center;
     justify-content: center;
     button{
+      height:auto;
     }
   }
 }

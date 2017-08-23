@@ -1,22 +1,21 @@
 effort-selector {
     div.effort-selector-container{
-        display: flex;
-        justify-content: space-between;
+      display: flex;
+      justify-content: space-between;
     }
-    div.explain-text{
-        //display:flex;
-       // align-items: center;
-    }
-     div.radio-container{
-         display:table;
-         table-layout:fixed;
+
+     .radio-container{
          width:14em;
          height:3em;
+         display: flex;
+         flex-wrap: nowrap;
+         justify-content: space-evenly;
         }
+
     div.radio-container div{
-        display: table-cell;
-        text-align: center;
-        align-content: center;
+       // display: table-cell;
+        //text-align: center;
+        //align-content: center;
     }
 
     div.title{
@@ -63,15 +62,17 @@ effort-selector {
       animation-fill-mode: both;
       animation-name: slideInRight;
     }
-    .radio-cotntainer{
-      display:flex;
-      flex-wrap: nowrap;
-      justify-content: space-evenly;
-    }
+
     .effort-selection{
       display: flex;
       flex-flow: column nowrap;
-      justify-content: space-evenly;
+      justify-content: space-around;
+      text-align: center;
+      align-content: center;
+      ion-radio{
+        display: flex;
+        justify-content: space-around;
+      }
     }
   }
 
