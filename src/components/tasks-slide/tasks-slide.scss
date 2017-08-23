@@ -8,4 +8,19 @@ tasks-slide {
     background-color:#ffffff;
     opacity: 0.5;
   }
+  .date-header{
+    height:2.5em;
+    text-align:center;
+    display:flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items:center;
+
+    span{
+      //margin-left:2.5em;
+      //vertical-align: middle;
+      //line-height: normal;
+    }
+  }
+
 }
