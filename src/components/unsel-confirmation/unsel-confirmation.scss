@@ -3,15 +3,39 @@ unsel-confirmation{
         display: flex;
         justify-content: space-between;
     }
-    div.radio-container{
-         display:table;
-         table-layout:fixed;
-         width:60%;
-         height:45px;
-         div{
-            display: table-cell;
-            text-align: center;
-            align-content: center;
-        }
+    .radio-container{
+      width:14em;
+      height:3em;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+     }
+}
+
+.unsel-confirmation-popover {
+  ion-backdrop{
+    opacity: 0.1!important;
+  }
+
+  .popover-content{
+    right:1em;
+    left:auto!important;
+    display: inline-block;
+    width:320px;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-name: slideInRight;
+  }
+
+  .confirm-selection{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    text-align: center;
+    align-content: center;
+    ion-radio{
+      display: flex;
+      justify-content: space-around;
     }
+  }
 }

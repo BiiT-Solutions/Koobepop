@@ -36,7 +36,7 @@ export class HomePage {
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification')
         .subscribe((notification: any) => {
-          console.log('Received a notification', notification);
+          console.info('Received a notification', notification);
           messagesProvider.update().subscribe();
           if (!notification.additionalData.foreground) {
             if (this.homeTabs != undefined) {
@@ -50,8 +50,8 @@ export class HomePage {
   ionViewDidLoad() {
     //TODO - set timer to update every 30 min or so
     this.appointmentsProvider.update().subscribe(appointments => {
-      console.log("Updated Appointemnts", appointments);
-      this.tasksProvider.update().subscribe((tasks)=>console.log("Updated Tasks: ",tasks));
+      console.debug("Updated Appointemnts", appointments);
+      this.tasksProvider.update().subscribe((tasks)=>console.debug("Updated Tasks: ",tasks));
 
     })
   }

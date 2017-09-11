@@ -24,7 +24,7 @@ export class TaskItemComponent {
 
   protected ngOnChanges() {
     this.checked = this.task.score >= 0;
-    console.log(this.task.name,this.task.score)
+    //console.log(this.task.name,this.task.score)
   }
 
   public clickInfo(event) {

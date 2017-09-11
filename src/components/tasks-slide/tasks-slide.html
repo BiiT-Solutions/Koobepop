@@ -1,12 +1,13 @@
 <ion-slide>
   <!--<div *ngIf="tasks==undefined || tasks.length<=0" class="loadingScreen" style="height:100%;width:100%"></div>-->
- <loading-screen *ngIf="tasks==undefined || tasks.length<=0" [text]="'Loading...'" ></loading-screen>
-  <div *ngIf="tasks!=undefined && tasks.length>0" style="height:100%;width:100%">
-    <div class="date-header"><span>{{date | date}}</span></div>
+  <loading-screen *ngIf="tasks==undefined" [text]="'Loading...'"></loading-screen>
+
+  <ion-scroll id="tasks" scrollY="true" *ngIf="tasks!=undefined">
+    <div class="date-header">{{date | date}}</div>
     <div class="disable-tasks-slide" *ngIf="disabled"></div>
     <ion-list>
       <task-item *ngFor="let task of tasks" [task]="task" [disabled]="disabled" (completeExercise)="completeExercise($event)" (infoClick)="gotoExerciseInfo(task.name)">
       </task-item>
     </ion-list>
-  </div>
+  </ion-scroll>
 </ion-slide>

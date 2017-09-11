@@ -14,6 +14,8 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+//CUSTOM ICONS
 ion-icon {
   &[class*="igow-"] {
       // Instead of using the font-based icons
@@ -31,6 +33,7 @@ ion-icon {
   }
 }
 
+//TOAST STYLE
 .good-toast>div{
     background-color:map-get($colors,calm)!important;
     }
@@ -38,22 +41,7 @@ ion-icon {
     background-color:map-get($colors,danger)!important;
     }
 
-.unsel-confirmation-popover{
-    ion-backdrop{
-      opacity: 0.1!important;
-    }
-    .popover-content{
-      right:5px;
-      left:auto!important;
-      display: inline-block;
-      width:320px;
-
-      animation-duration: 0.5s;
-      animation-fill-mode: both;
-      animation-name: slideInRight;
-    }
-}
-
+//Loading screen
 .loadingScreen {
     display: block;
     width: 100vw;

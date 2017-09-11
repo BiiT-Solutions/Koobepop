@@ -33,7 +33,7 @@ export class TokenProvider extends StorageServiceProvider {
     private getAllocToken(): string {
         return this.token;
     }
-    
+
     private setAllocToken(token: string): string {
         this.token = token;
         return this.token
@@ -47,24 +47,24 @@ export class TokenProvider extends StorageServiceProvider {
                     btoa('{"user":"' + user.patientId +'"'
                         + ',"uuid":"' + this.getUuid() +'"'
                         + ',"exp":' + token.payload.exp + '}');
-                // In case there's a necessary padding we remove it from the base64 encoded string 
+                // In case there's a necessary padding we remove it from the base64 encoded string
                 // Info: http://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end
                 //If we don't do this, the signature won't match the data.
                 let suffix: string = "==";
                 if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 2); }
                 suffix = "=";
                 if (payload.indexOf(suffix, payload.length - suffix.length) >= 0) { payload = payload.slice(0, payload.length - 1); }
-                let realToken = token.head + "." + payload + "." + token.signature;
-                //####
+                const realToken = token.head + "." + payload + "." + token.signature;
+
                 return realToken;
             })
     }
 
     private stringToToken(token: string): IToken {
-        let splitToken: string[] = token.split(".");
-        let payload = JSON.parse(atob(splitToken[1]));
+      const splitToken: string[] = token.split(".");
+      const payload = JSON.parse(atob(splitToken[1]));
         //Here we lose some information of the token which will be gathered later when we rebuild it
-        let finalToken: IToken = {
+      const finalToken: IToken = {
             head: splitToken[0],
             payload: {
                 exp: payload.exp

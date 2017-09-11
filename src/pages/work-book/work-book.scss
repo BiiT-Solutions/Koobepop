@@ -3,6 +3,7 @@ page-work-book {
   //This is so the slides don't stay on the middle of the page
   .slide-zoom{
     min-height:100%;
+    overflow-y: auto;
     }
 
   .slides-wrapper{
