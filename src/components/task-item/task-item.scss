@@ -1,3 +1,6 @@
 task-item {
-
+  .disabled{
+    color:map-get($colors, isDisabled)!important;
+    border-color: map-get($colors, isDisabled)!important;
+  }
 }

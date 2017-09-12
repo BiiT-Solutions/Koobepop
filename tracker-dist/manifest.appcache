@@ -50,10 +50,12 @@ bower_components/webcomponentsjs/webcomponents-lite.min.js
 bower_components/webcomponentsjs/webcomponents.js
 bower_components/webcomponentsjs/webcomponents.min.js
 resources/health-icons/body%20health.svg
+resources/health-icons/energy%20health.svg
 resources/health-icons/food%20style.svg
 resources/health-icons/mental%20health.svg
 resources/health-icons-invert/body%20health-75.png
 resources/health-icons-invert/body%20health.svg
+resources/health-icons-invert/energy%20health.svg
 resources/health-icons-invert/food%20style-75.png
 resources/health-icons-invert/food%20style.svg
 resources/health-icons-invert/mental%20health-75.png
@@ -185,12 +187,16 @@ bower_components/vaadin-grid/img/ic_view_column_black_24px.svg
 bower_components/vaadin-grid/img/tick.svg
 resources/health-icons/body%20health/body%20health-128.png
 resources/health-icons/body%20health/body%20health-75.png
+resources/health-icons/energy%20health/energy%20health-128.png
+resources/health-icons/energy%20health/energy%20health-75.png
 resources/health-icons/food%20style/food%20style-128.png
 resources/health-icons/food%20style/food%20style-75.png
 resources/health-icons/mental%20health/mental%20health-128.png
 resources/health-icons/mental%20health/mental%20health-75.png
 resources/health-icons-invert/body%20health/body%20health-128.png
 resources/health-icons-invert/body%20health/body%20health-75.png
+resources/health-icons-invert/energy%20health/energy%20health-128.png
+resources/health-icons-invert/energy%20health/energy%20health-75.png
 resources/health-icons-invert/food%20style/food%20style-128.png
 resources/health-icons-invert/food%20style/food%20style-75.png
 resources/health-icons-invert/mental%20health/mental%20health-128.png
@@ -378,4 +384,4 @@ bower_components/moment/src/lib/utils/zero-fill.js
 NETWORK:
 *
 
-# hash: 7dc6a147c0031e19508caf6e9ee8f8d919e8905672b10d80332756c6617a0961
+# hash: 85d2a995e3d54a13a90f00dbc160d891f2778d6c5329c5af1466c9ad895bc8bd

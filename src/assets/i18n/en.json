@@ -45,7 +45,8 @@
     },
     "TRACKER-TAG":{
         "Physical":"body health",
-        "Mental":"mental health"
+        "Mental":"mental health",
+        "Energy":"energy health"
     },
     "EFFORT-SELECTOR":{
         "TEXT":"This exercise was:",

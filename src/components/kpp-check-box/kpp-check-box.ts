@@ -10,6 +10,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 })
 export class KppCheckBoxComponent {
   @Input() checked: boolean;
+  @Input() disabled: boolean;
   constructor() {
   }
 

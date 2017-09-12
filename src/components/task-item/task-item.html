@@ -1,7 +1,7 @@
 <ion-item *ngIf="task!=undefined"
 (click)="click($event)">
-  <ion-label item-content>{{task.name}}</ion-label>
-<kpp-check-box [checked]="checked" item-left></kpp-check-box>
+  <ion-label item-content [class]="disabled?'disabled':''">{{task.name}}</ion-label>
+<kpp-check-box [checked]="checked" [disabled]="disabled" [class]="disabled?'disabled':''" item-left></kpp-check-box>
   <button ion-button item-left clear icon-only
     *ngIf="task.hasInfo"
     (click)="clickInfo($event)">

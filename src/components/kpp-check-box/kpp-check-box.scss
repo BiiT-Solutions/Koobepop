@@ -20,4 +20,7 @@ kpp-check-box {
     border-color:  #ffffff;
     border-style: solid;
   }
+  .disabled{
+    color:map-get($colors, isDisabled);
+  }
 }

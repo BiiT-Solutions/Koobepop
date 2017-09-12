@@ -65,9 +65,11 @@ export class AppointmentsRestService extends BasicRestService {
 
   private formatResults(results): any {
     const formResults = {};
-    results.forEach(result =>
+    results.forEach(result =>{
+      if(result!=undefined){
       formResults[result.formResult.label.toLocaleLowerCase()] = this.formatForm(result.formResult)
-    );
+      }
+    });
     return formResults;
   }
   private formatForm(form): any {

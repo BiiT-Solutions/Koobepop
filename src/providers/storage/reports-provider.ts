@@ -29,6 +29,7 @@ export class ReportsProvider extends StorageServiceProvider {
   }
 
   public setReports(reports: ReportModel[]): Observable<ReportModel[]> {
+    reports = reports.sort((r1,r2)=>{return r1.updateTime-r2.updateTime});
     this.setAllocReports(reports);
     return super.storeItem(StorageServiceProvider.REPORTS_STORAGE_ID, reports);
   }
