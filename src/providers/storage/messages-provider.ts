@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storageServiceProvider';
+import { StorageServiceProvider } from './storage-service';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Rx';
 import { MessageModel } from '../../models/message.model';

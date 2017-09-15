@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storageServiceProvider';
+import { StorageServiceProvider } from './storage-service';
 import { Device } from '@ionic-native/device';
 import { Storage } from '@ionic/storage';
 import { UserModel } from '../../models/user.model';

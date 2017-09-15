@@ -7,9 +7,9 @@ import { Observable } from 'rxjs/Observable';
 import { AppointmentModel } from '../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
 import { BasicRestService } from './basic-rest-service';
-import { TokenProvider } from '../storage/tokenProvider';
+import { TokenProvider } from '../storage/token-provider';
 import { MessageModel } from '../../models/message.model';
-import { UserProvider } from '../storage/userProvider';
+import { UserProvider } from '../storage/user-provider';
 
 @Injectable()
 export class MessagesRestService extends BasicRestService {

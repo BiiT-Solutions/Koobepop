@@ -1,5 +1,5 @@
 <ion-content>
- <div *ngIf="isLoading" id="loading-container"><loading-screen [text]="'Loading...'" ></loading-screen></div>
+ <div *ngIf="isLoading" id="loading-container"><loading-screen [text]="'LOADER.REPORTS'|translate" ></loading-screen></div>
   <div *ngIf="!isLoading" style="height:100%;width:100%">
     <ion-slides #slider style="width:100%;height:100%;" initialSlide="(reportsProvider.getReports() | async).length" >
       <ion-slide *ngFor="let report of reportsProvider.getReports() | async">

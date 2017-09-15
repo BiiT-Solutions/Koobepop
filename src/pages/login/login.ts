@@ -5,7 +5,7 @@ import { HomePage } from '../home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { Response } from '@angular/http';
 import { ToastIssuer } from '../../providers/toastIssuer';
-import { UserProvider } from '../../providers/storage/userProvider';
+import { UserProvider } from '../../providers/storage/user-provider';
 
 @Component({
   selector: 'page-login',

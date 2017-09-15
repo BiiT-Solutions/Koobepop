@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storageServiceProvider';
+import { StorageServiceProvider } from './storage-service';
 import { Storage } from '@ionic/storage';
 import { AppointmentModel } from '../../models/appointment.model';
 import { Observable } from 'rxjs/Rx';
-import { AppointmentsRestService } from '../rest/appointmentsRestService';
+import { AppointmentsRestService } from '../rest/appointments-rest-service';
 @Injectable()
 export class AppointmentsProvider extends StorageServiceProvider {
   private appointments: AppointmentModel[];
@@ -36,27 +36,6 @@ export class AppointmentsProvider extends StorageServiceProvider {
 
   /**Update appointments with the data from USMO */
   public update(): Observable<AppointmentModel[]> {
-    // Get storage appointments, compare to the new appointments, add new ones and substitude the old ones
-    // and keep those which don't change
-    /*
-       this.appointmentsRestService.requestAppointments()
-         .subscribe((actualAppointments: AppointmentModel[]) => {
-           this.getAppointments()
-             .subscribe((savedAppointments: AppointmentModel[]) => {
-               if (actualAppointments.length > 0) {
-                 actualAppointments.forEach((appointment: AppointmentModel) => {
-                   const index = savedAppointments.map(a => a.appointmentId).indexOf(appointment.appointmentId);
-                   if (index >= 0) {
-                     savedAppointments[index] = appointment;
-                   } else {
-                     savedAppointments.push(appointment);
-                   }
-                 });
-               }
-               this.setAppointments(savedAppointments).subscribe((appointments) => console.log("Saved appointments ", appointments));
-             });
-         });
-   */
     return this.getAppointments()
       .flatMap((appointments: AppointmentModel[]) => {
         return this.appointmentsRestService.requestModifiedAppointments(appointments)

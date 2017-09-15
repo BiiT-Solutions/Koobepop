@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storageServiceProvider';
+import { StorageServiceProvider } from './storage-service';
 import { Storage } from '@ionic/storage';
 import { USMOTask } from '../../models/usmo-task';
 import { Observable } from 'rxjs/Rx';
 import { TaskModel } from '../../models/task.model';
 import { AppointmentsProvider } from './appointments-provider';
 import { AppointmentModel } from '../../models/appointment.model';
-import { TasksRestService } from '../rest/tasksRestService';
+import { TasksRestService } from '../rest/tasks-rest-service';
 import { CompleteTask } from '../../models/complete-task';
 
 @Injectable()

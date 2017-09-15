@@ -9,7 +9,7 @@ import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import * as moment from 'moment';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
-import { TasksProvider } from '../../providers/storage/tasksProvider';
+import { TasksProvider } from '../../providers/storage/tasks-provider';
 /**
  *
  */

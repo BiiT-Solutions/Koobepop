@@ -9,11 +9,11 @@
   <p *ngIf="smsSent">{{'LOGIN.BEFORE-SEND-CODE-TEXT'|translate}}</p>
 
   <ion-item>
-    <ion-label color="primary" floating>{{'LOGIN.ID-LABEL'|translate}}</ion-label>
+    <ion-label color="primary" stacked>{{'LOGIN.ID-LABEL'|translate}}</ion-label>
     <ion-input [disabled]="idIsSent" [(ngModel)]="id"></ion-input>
   </ion-item>
   <ion-item *ngIf="smsSent">
-    <ion-label color="primary" floating>{{'LOGIN.CODE-LABEL'|translate}}</ion-label>
+    <ion-label color="primary" stacked>{{'LOGIN.CODE-LABEL'|translate}}</ion-label>
     <ion-input #password type="password" [(ngModel)]="pass"></ion-input>
     <button ion-button item-right clear icon-only (click)="showPassword(password)">
       <ion-icon [color]="showPass ? 'primary':'light'" name="eye"></ion-icon>

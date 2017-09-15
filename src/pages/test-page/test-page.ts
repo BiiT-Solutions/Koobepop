@@ -34,14 +34,11 @@ export class TestPage {
   ionViewDidLoad() {
   }
 
-
-
   public open(itemSlide: ItemSliding) {
     console.log(itemSlide.getOpenAmount());
   }
 
   public update(item: any) {
-    //this.manager.updateAppointments();
   }
 
   public close(itemSlide: ItemSliding) {

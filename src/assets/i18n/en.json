@@ -43,11 +43,6 @@
     "EXERCISE-INFO":{
         "TITLE":"Info"
     },
-    "TRACKER-TAG":{
-        "Physical":"body health",
-        "Mental":"mental health",
-        "Energy":"energy health"
-    },
     "EFFORT-SELECTOR":{
         "TEXT":"This exercise was:",
         "EASY":"Easy",
@@ -59,5 +54,17 @@
         "YES":"Yes",
         "NO":"No",
         "TEXT":"Undo this exercise?"
+    },
+    "LOADER":{
+        "LOADING":"Loading...",
+        "REPORTS":"Loading reports",
+        "TASKS":"Loading tasks",
+        "MESSAGES":"Loading messages"
+    },
+
+    "TRACKER-TAG":{
+        "Physical":"body health",
+        "Mental":"mental health",
+        "Energy":"energy health"
     }
 }

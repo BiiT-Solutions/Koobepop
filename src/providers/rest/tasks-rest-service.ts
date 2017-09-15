@@ -6,9 +6,9 @@ import { Observable } from 'rxjs/Rx';
 import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
 import { BasicRestService } from './basic-rest-service';
-import { TokenProvider } from '../storage/tokenProvider';
+import { TokenProvider } from '../storage/token-provider';
 import { TaskAction } from '../tasksManager';
-import { UserProvider } from '../storage/userProvider';
+import { UserProvider } from '../storage/user-provider';
 import { CompleteTask } from '../../models/complete-task';
 
 @Injectable()

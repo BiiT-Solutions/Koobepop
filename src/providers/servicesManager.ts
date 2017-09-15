@@ -6,18 +6,18 @@ import { UserModel } from '../models/user.model';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
 import { ToastIssuer } from './toastIssuer';
-import { AppointmentsRestService } from './rest/appointmentsRestService';
-import { TasksRestService } from './rest/tasksRestService';
-import { TasksProvider } from './storage/tasksProvider';
-import { AuthTokenRestService } from './rest/authTokenRestService';
-import { TokenProvider } from './storage/tokenProvider';
-import { UserProvider } from './storage/userProvider';
+import { AppointmentsRestService } from './rest/appointments-rest-service';
+import { TasksRestService } from './rest/tasks-rest-service';
+import { TasksProvider } from './storage/tasks-provider';
+import { AuthTokenRestService } from './rest/authentication-token-rest-service';
+import { TokenProvider } from './storage/token-provider';
+import { UserProvider } from './storage/user-provider';
 import * as moment from 'moment';
 import { IPerformance } from '../models/performation';
 import { MessagesProvider } from './storage/messages-provider';
 import { MessageModel } from '../models/message.model';
 import { MessagesRestService } from './rest/messages-rest-service';
-import { StorageServiceProvider } from './storage/storageServiceProvider';
+import { StorageServiceProvider } from './storage/storage-service';
 
 /**
  * Intended to manage the dataflow within the application and with USMO

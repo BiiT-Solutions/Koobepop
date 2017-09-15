@@ -7,8 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { AppointmentModel } from '../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
 import { BasicRestService } from './basic-rest-service';
-import { TokenProvider } from '../storage/tokenProvider';
-import { UserProvider } from '../storage/userProvider';
+import { TokenProvider } from '../storage/token-provider';
+import { UserProvider } from '../storage/user-provider';
 import { ReportModel } from '../../models/report.model';
 import * as infographicjs from 'infographic-js';
 

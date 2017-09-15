@@ -4,8 +4,8 @@ import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 import { Observable } from 'rxjs/Rx';
 import { BasicRestService } from './basic-rest-service';
 import { Device } from '@ionic-native/device';
-import { TokenProvider } from '../storage/tokenProvider';
-import { UserProvider } from '../storage/userProvider';
+import { TokenProvider } from '../storage/token-provider';
+import { UserProvider } from '../storage/user-provider';
 @Injectable()
 export class AuthTokenRestService extends BasicRestService {
     constructor(protected http: Http,

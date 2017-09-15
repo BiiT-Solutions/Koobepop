@@ -2,8 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { IAppConfig, APP_CONFIG } from '../../app/app.config';
-import { TokenProvider } from '../storage/tokenProvider';
-import { UserProvider } from '../storage/userProvider';
+import { TokenProvider } from '../storage/token-provider';
+import { UserProvider } from '../storage/user-provider';
 
 @Injectable()
 export class BasicRestService {

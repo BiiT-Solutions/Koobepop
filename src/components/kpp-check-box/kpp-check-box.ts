@@ -13,5 +13,4 @@ export class KppCheckBoxComponent {
   @Input() disabled: boolean;
   constructor() {
   }
-
 }

@@ -1,7 +1,5 @@
 <ion-slide>
-  <!--<div *ngIf="tasks==undefined || tasks.length<=0" class="loadingScreen" style="height:100%;width:100%"></div>-->
-  <loading-screen *ngIf="tasks==undefined" [text]="'Loading...'"></loading-screen>
-
+  <loading-screen *ngIf="tasks==undefined" [text]="'LOADER.TASKS'|translate"></loading-screen>
   <ion-scroll id="tasks" scrollY="true" *ngIf="tasks!=undefined">
     <div class="date-header">{{date | date}}</div>
     <ion-list>

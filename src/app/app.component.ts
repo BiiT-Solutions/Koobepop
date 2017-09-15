@@ -22,6 +22,7 @@ export class MyApp {
     private connectivity: ConnectivityService,
     private toaster: ToastIssuer,
     private splashscreen: SplashScreen) {
+    // TODO - Change initial loading screen and splashscreen (make it one ?)
     let loading;
     translate.setDefaultLang('en');
     translate.get("APP.LOAD-MESSAGE").subscribe((message) => {

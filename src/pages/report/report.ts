@@ -46,7 +46,6 @@ export class ReportPage {
   }
 
   protected ionViewWillEnter() {
-    console.log("ReportViewWillEnter")
     this.updateReports();
   }
 

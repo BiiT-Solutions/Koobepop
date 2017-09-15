@@ -26,16 +26,16 @@ import { SummaryPage } from '../pages/summary/summary';
 import { LoginPage } from '../pages/login/login';
 
 //REST services
-import { AppointmentsRestService } from '../providers/rest/appointmentsRestService';
-import { TasksRestService } from '../providers/rest/tasksRestService';
-import { AuthTokenRestService } from '../providers/rest/authTokenRestService';
+import { AppointmentsRestService } from '../providers/rest/appointments-rest-service';
+import { TasksRestService } from '../providers/rest/tasks-rest-service';
+import { AuthTokenRestService } from '../providers/rest/authentication-token-rest-service';
 import { ReportsRestService } from '../providers/rest/reports-rest-service';
 
 //Storage providers
 import { AppointmentsProvider } from '../providers/storage/appointments-provider';
-import { TasksProvider } from '../providers/storage/tasksProvider';
-import { TokenProvider } from '../providers/storage/tokenProvider';
-import { UserProvider } from '../providers/storage/userProvider';
+import { TasksProvider } from '../providers/storage/tasks-provider';
+import { TokenProvider } from '../providers/storage/token-provider';
+import { UserProvider } from '../providers/storage/user-provider';
 import { MessagesProvider } from '../providers/storage/messages-provider';
 
 //Services
@@ -58,7 +58,7 @@ import { InfographicSlideComponent } from '../components/infographic-slide/infog
 import { InfographicItemComponent } from '../components/infographic-item/infographic-item';
 import { KppZoomPanComponent } from '../components/kpp-zoom-pan/kpp-zoom-pan';
 import { MessagesRestService } from '../providers/rest/messages-rest-service';
-import { StorageServiceProvider } from '../providers/storage/storageServiceProvider';
+import { StorageServiceProvider } from '../providers/storage/storage-service';
 import { ReportsProvider } from '../providers/storage/reports-provider';
 import { LoadingComponent } from '../components/loading/loading';
 

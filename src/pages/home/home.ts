@@ -5,13 +5,12 @@ import { ReportPage } from '../report/report';
 import { KnowPage } from '../know/know';
 import { SummaryPage } from '../summary/summary';
 import { TestPage } from '../test-page/test-page';
-import { ServicesManager } from '../../providers/servicesManager';
 import { PushNotificationsHandlerProvider } from '../../providers/push-notifications-handler/push-notifications-handler';
 import { MessageModel } from '../../models/message.model';
 import { Observable } from 'rxjs/Rx';
 import { MessagesProvider } from '../../providers/storage/messages-provider';
 import { AppointmentsProvider } from '../../providers/storage/appointments-provider';
-import { TasksProvider } from '../../providers/storage/tasksProvider';
+import { TasksProvider } from '../../providers/storage/tasks-provider';
 
 @Component({
   selector: 'page-home',
@@ -25,7 +24,6 @@ export class HomePage {
   tab4Root = TestPage;
   @ViewChild("homeTabs") homeTabs: Tabs;
   constructor(public navCtrl: NavController,
-    public manager: ServicesManager,
     protected pushHandler: PushNotificationsHandlerProvider,
     private messagesProvider: MessagesProvider,
     private appointmentsProvider: AppointmentsProvider,
