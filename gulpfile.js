@@ -44,7 +44,7 @@ gulp.task('move-infographic-js-images', function () {
   });
 });
 
-// Change the configuration of infographic-js 
+// Change the configuration of infographic-js
 gulp.task('change-infographic-js-properties', function () {
   gulp.src('node_modules/infographic-js/lib/fileManager/fileManagerProperties.js', { base: './' })
     .pipe(replace(/=.*images.*/gi, "= 'assets/infographic-images/'"))
