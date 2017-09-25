@@ -34,17 +34,17 @@ describe('Component: Root Component', () => {
     }).compileComponents();
   }));
 
-  /**This will trigger once the TestBed configuration is finished*/
+
   beforeEach(() => {
     fixture = TestBed.createComponent(MyApp);
     comp = fixture.componentInstance;
   });
-  /** Clear references */
+
   afterEach(() => {
     fixture.destroy();
     comp = null;
   });
-  /** */
+
   it('is created', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
@@ -54,3 +54,4 @@ describe('Component: Root Component', () => {
     expect(comp['rootPage']).toBe(HomePage);
   });
 });
+
