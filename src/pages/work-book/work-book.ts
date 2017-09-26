@@ -30,27 +30,6 @@ export class WorkBookPage {
     this.goToToday();
   }
 
-  ionViewDidLoad() {
-
-  }
-
-  ionViewWillLoad() {
-  }
-
-  public open(itemSlide: ItemSliding) {
-    console.log(itemSlide.getOpenAmount());
-  }
-
-  public update(item: any) {
-    //this.manager.updateAppointments();
-  }
-
-  public close(itemSlide: ItemSliding) {
-    itemSlide.close();
-  }
-
-  public navTaskInfo() {
-  }
   /* Listeners for when the slides are swiped */
   public nextSlide() {
     // Make sure we moved forward

@@ -1,3 +1,10 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
 <ion-content>
   <div *ngIf="notifications==undefined || notifications.length==0" class = "no-messages"><p>{{"KNOW.NO-MESSAGES-TEXT"|translate}}</p></div>
     <messages-list #msgList [messagesList]="notifications"></messages-list>

@@ -1,9 +1,12 @@
-<ion-content>
-  <div id="today-button">
-    <button  ion-button color="primary" (click)="goToToday()" icon-only large >
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button color="secondary" (click)="goToToday()" icon-only>
       <ion-icon name="igow-today"></ion-icon>
     </button>
-  </div>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
     <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
       <ion-slide *ngFor="let day of days">
         <tasks-slide [date]="day" [disabled]="isDisabled(day)"></tasks-slide>

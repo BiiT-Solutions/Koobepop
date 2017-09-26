@@ -1,27 +1,4 @@
 
 page-work-book {
-  //This is so the slides don't stay on the middle of the page
-  .slide-zoom{
-    min-height:100%;
-    overflow-y: auto;
-    }
 
-  .slides-wrapper{
-    display:flex;
-    ion-slides {
-      flex-grow: 1;
-    }
-  }
-  #today-button{
-    position: absolute;
-    top:0;
-    width:100%;
-    z-index: 2;
-    //display:flex;
-    //justify-content:flex-end;
-    button{
-      height:auto;
-      //border:0;
-    }
-  }
 }

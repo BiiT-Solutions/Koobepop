@@ -1,57 +1,58 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { IonicModule, LoadingController, Platform } from 'ionic-angular';
-import { MyApp } from './app.component';
-import { StatusBarMock, SplashScreenMock, TranslateServiceMock, ServicesManagerMock, ConnectivityServiceMock, ToastIssuerMock, LoadingControllerMock, PlatformMock } from '../mocks';
+import { async, TestBed } from '@angular/core/testing';
+import { IonicModule, Platform, LoadingController } from 'ionic-angular';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HomePage } from '../pages/home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { ServicesManager } from '../providers/servicesManager';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
+import { HomePage } from '../pages/home/home';
+import { MyApp } from './app.component';
+import {
+  PlatformMock,
+  StatusBarMock,
+  SplashScreenMock,
+  TranslateServiceMock,
+  LoadingControllerMock,
+  ServicesManagerMock,
+  ConnectivityServiceMock,
+  ToastIssuerMock
+} from '../../test-config/mocks-ionic';
 
-let comp: MyApp;
-let fixture: ComponentFixture<MyApp>;
+describe('MyApp Component', () => {
+  let fixture;
+  let component;
 
-describe('Component: Root Component', () => {
-  /** Configure TestBed with the adequate dependencies */
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MyApp],
+      imports: [
+        IonicModule.forRoot(MyApp)
+      ],
       providers: [
         { provide: StatusBar, useClass: StatusBarMock },
         { provide: SplashScreen, useClass: SplashScreenMock },
+        { provide: Platform, useClass: PlatformMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
+        { provide: LoadingController, useClass: LoadingControllerMock },
         { provide: ServicesManager, useClass: ServicesManagerMock },
         { provide: ConnectivityService, useClass: ConnectivityServiceMock },
-        { provide: ToastIssuer, useClass: ToastIssuerMock },
-        { provide: LoadingController, useClass: LoadingControllerMock },
-        { provide: Platform, useClass: PlatformMock }
-      ],
-      imports: [
-        IonicModule.forRoot(MyApp)
+        { provide: ToastIssuer, useClass: ToastIssuerMock }
       ]
-    }).compileComponents();
+    })
   }));
-
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyApp);
-    comp = fixture.componentInstance;
+    component = fixture.componentInstance;
   });
 
-  afterEach(() => {
-    fixture.destroy();
-    comp = null;
+  it('should be created', () => {
+    expect(component instanceof MyApp).toBe(true);
   });
 
-  it('is created', () => {
-    expect(fixture).toBeTruthy();
-    expect(comp).toBeTruthy();
-  });
-
-  it('initialises with a root page of HomePage', () => {
-    expect(comp['rootPage']).toBe(HomePage);
+  it('should initialise with a root page of HomePage', () => {
+    expect(component['rootPage']).toBe(HomePage);
   });
 });
-
