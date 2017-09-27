@@ -61,6 +61,7 @@ import { MessagesRestService } from '../providers/rest/messages-rest-service';
 import { StorageServiceProvider } from '../providers/storage/storage-service';
 import { ReportsProvider } from '../providers/storage/reports-provider';
 import { LoadingComponent } from '../components/loading/loading';
+import { LandingPage } from '../pages/landing/landing';
 
 
 export function createTranslateLoader(http: Http) {
@@ -91,7 +92,8 @@ export function createTranslateLoader(http: Http) {
     InfographicSlideComponent,
     InfographicItemComponent,
     KppZoomPanComponent,
-    LoadingComponent
+    LoadingComponent,
+    LandingPage
 
   ],
   imports: [
@@ -119,6 +121,7 @@ export function createTranslateLoader(http: Http) {
     TaskInformationPage,
     SummaryPage,
     LoginPage,
+    LandingPage,
     EffortSelectorComponent,
     UnselConfirmationComponent
   ],

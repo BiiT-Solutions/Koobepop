@@ -8,12 +8,13 @@ import { ServicesManager } from '../providers/servicesManager';
 import { LoginPage } from '../pages/login/login';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
+import { LandingPage } from '../pages/landing/landing';
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage;
+  rootPage = LandingPage;
 
   constructor(platform: Platform,
     private translate: TranslateService,
@@ -23,8 +24,9 @@ export class MyApp {
     private toaster: ToastIssuer,
     private splashscreen: SplashScreen) {
     // TODO - Change initial loading screen and splashscreen (make it one ?)
-    let loading;
     translate.setDefaultLang('en');
+/*
+    let loading;
     translate.get("APP.LOAD-MESSAGE").subscribe((message) => {
       loading = this.loadingCtrl.create({
         content: message
@@ -53,7 +55,7 @@ export class MyApp {
           translate.get("APP.UNABLE-TO-CONNECT-MSG")
             .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
         }
-      });
+      });*/
 
     platform.ready().then(() => {
       translate.use(platform.lang());
