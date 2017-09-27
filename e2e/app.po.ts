@@ -10,7 +10,16 @@ export class Page {
     return browser.getTitle();
   }
 
-  getField(){
-    return browser.findElement(protractor.By.css('ion-input'));
+  getFieldText(){
+    return browser.findElement(protractor.By.css('ion-label'));
   }
+
+  getField(){
+    return browser.findElement(protractor.by.css('input'));
+  }
+
+  getButton(){
+    return browser.findElement(protractor.by.css('button'))
+  }
+
 }

@@ -34,9 +34,6 @@ export class ReportPage {
     public reportsProvider: ReportsProvider) {
   }
 
-  protected ionViewWillLoad() {
-  }
-
   protected ionViewDidLoad() {
     //Preload reports into memory, remove loading page, allow slide to last
     this.reportsProvider.getReports().subscribe((reports) => {
@@ -74,9 +71,7 @@ export class ReportPage {
     });
   }
 
-
-  isZoomActive(zoomActive: boolean) {
-    //this.testext = zoomActive;
+  public lockSwipes(zoomActive: boolean) {
     this.slider.lockSwipes(zoomActive);
   }
 

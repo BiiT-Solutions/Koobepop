@@ -13,34 +13,15 @@ import { MessageModel } from '../../models/message.model';
   templateUrl: 'know.html'
 })
 export class KnowPage {
-  token: string;
-  msg: string;
 
-  notifications: MessageModel[];
+  public notifications: MessageModel[];
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
     public manager: ServicesManager,
-    public push: Push,
-    public platform: Platform,
     public changeDetRef: ChangeDetectorRef) { }
-
-  ionViewDidLoad() {
-
-  }
-  ionViweWillEnter(){
-
-  }
   ionViewDidEnter() {
     this.manager.getMessages().subscribe(messages => {
       this.notifications = messages;
     });
-  }
-
-  private addNotification(notification) {
-    this.notifications.unshift(notification);
-    //This triggers change detection on the component below
-    this.notifications = this.notifications.slice();
-    this.changeDetRef.detectChanges();
   }
 }

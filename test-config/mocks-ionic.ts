@@ -185,3 +185,12 @@ export class LoadingControllerMock{
     }
 }
 
+export class UserProvMock{
+  public getUser():Observable<any>{
+    return Observable.from([{patientId:""}])
+  }
+}
+
+export class ChangeDetectorRefMock{
+  public detectChanges(){}
+}

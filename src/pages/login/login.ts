@@ -12,8 +12,8 @@ import { UserProvider } from '../../providers/storage/user-provider';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  private id = "";
-  private pass = "";
+  public id = "";
+  public pass = "";
   private showPass: boolean = false;
   private idIsSent: boolean = false;
   private smsSent: boolean = false;
