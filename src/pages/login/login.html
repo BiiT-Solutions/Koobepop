@@ -20,17 +20,17 @@
     </button>
   </ion-item>
   <ion-grid>
-    <ion-row>
+    <ion-row *ngIf="!smsSent">
       <ion-col width-25>
-        <button *ngIf="!smsSent" [disabled]="idIsSent" ion-button full color="secondary" (click)="sendId()">{{'LOGIN.SEND-ID-BUTTON'|translate}}</button>
+        <button id="send-id" [disabled]="idIsSent" ion-button full color="secondary" (click)="sendId()">{{'LOGIN.SEND-ID-BUTTON'|translate}}</button>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="smsSent">
       <ion-col width-25>
-        <button *ngIf="smsSent" ion-button full color="secondary" (click)="login()">{{'LOGIN.SEND-CODE-BUTTON'|translate}}</button>
+        <button  id="send-key" ion-button full color="secondary" (click)="login()">{{'LOGIN.SEND-CODE-BUTTON'|translate}}</button>
       </ion-col>
       <ion-col width-25>
-        <button *ngIf="smsSent" ion-button full color="secondary" (click)="changeId()">{{'LOGIN.CHANGE-ID-BUTTON'|translate}}</button>
+        <button ion-button full color="secondary" (click)="changeId()">{{'LOGIN.CHANGE-ID-BUTTON'|translate}}</button>
       </ion-col>
     </ion-row>
   </ion-grid>

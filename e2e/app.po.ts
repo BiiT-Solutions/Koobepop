@@ -10,7 +10,7 @@ export class Page {
     return browser.getTitle();
   }
 
-  getFieldText(){
+  getIdTextField(){
     return browser.findElement(protractor.By.css('ion-label'));
   }
 
@@ -18,8 +18,11 @@ export class Page {
     return browser.findElement(protractor.by.css('input'));
   }
 
-  getButton(){
-    return browser.findElement(protractor.by.css('button'))
+  getSendIdButton(){
+    return browser.findElement(protractor.by.css('#send-id'))
   }
 
+  getSendCredentialsButton(){
+    return browser.waitForAngular().then(()=>browser.findElement(protractor.by.css('#send-key')));
+  }
 }

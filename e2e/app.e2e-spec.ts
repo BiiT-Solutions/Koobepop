@@ -11,15 +11,15 @@ describe('IGOW', () => {
     beforeEach(() => {
       page.navigateTo('/');
     });
-    /*
-    it('should have a title saying Login', () => {
+
+    it('should have a title saying IGOW', () => {
         page.getTitle().then(title => {
           expect(title).toEqual('IGOW');
         });
-    });*/
+    });
 
     it('should show a login screen', () => {
-      const textField = page.getFieldText()
+      const textField = page.getIdTextField()
       textField.getText().then(text => {
         expect(text).toEqual("Id:");
       });
@@ -28,9 +28,10 @@ describe('IGOW', () => {
     it('should be fillable', () => {
       const textField = page.getField()
       textField.sendKeys('000000001').then(()=>{
-      const button = page.getButton();
-      button.getText().then(text=>console.log("############",text))
-
+      const button = page.getSendIdButton();
+      button.click().then(()=>{
+        page.getSendCredentialsButton().then(item=>item.click())
+      });
       })
     })
   })

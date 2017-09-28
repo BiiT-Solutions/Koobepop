@@ -40,7 +40,6 @@ export class TokenProvider extends StorageServiceProvider {
     }
 
     private tokenToString(token: IToken): Observable<string> {
-        // Beware of dragons!!
         return this.userProvider.retrieveItem(StorageServiceProvider.USER_STORAGE_ID)
             .map(user => {
                 let payload: string =
