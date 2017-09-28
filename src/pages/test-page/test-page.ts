@@ -7,8 +7,7 @@ import * as moment from 'moment';
 
 /**
  *  This is a test page and should be removed before releasing .
- * Here you can meddle with dark magic better left alone.
- * Beware of dragons!
+ * Here you can meddle with dark magic better left alone. Beware of dragons!
  *
  */
 @Component({

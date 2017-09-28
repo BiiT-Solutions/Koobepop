@@ -24,9 +24,7 @@ export class WorkBookPage {
   oldIndex = 1
   @ViewChild('slider') slider: Slides;
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    protected tasksProvider: TasksProvider) {
+  constructor(public navCtrl: NavController) {
     this.goToToday();
   }
 

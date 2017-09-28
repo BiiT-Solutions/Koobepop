@@ -12,7 +12,7 @@ export interface IAppConfig {
   removePerformedExercise: string;
   password: string;
   verifyAuthenticationToken: string;
-  sendAuthCodeSMS: string;
+  sendCodeSMS: string;
   organizationName: string;
   performActions: string;
   setPushNotificationsToken: string;
@@ -39,16 +39,20 @@ export const AppConfig: IAppConfig = {
   , pushSenderID: '489751559671'
 
   //Services
-  , getTasksService: "/rest/getCorrectiveExercisesAuth"
-  , getAppointmentsService: "/rest/getAppointmentsAuth"
-  , addPerformedExercise: "/rest/addPerformedExerciseAuth"
-  , removePerformedExercise: "/rest/removePerformedExerciseAuth"
-  , getAuthenticationToken: "/rest/getAuthenticationToken"
-  , verifyAuthenticationToken: "/rest/verifyAuthenticationToken"
-  , sendAuthCodeSMS: "/rest/sendAuthCodeSMS"
-  , getUpdatedAppointmentsService: "/rest/getUpdatedAppointmentsAuth"
-  , performActions: "/rest/performExercisesActionsAuth"
-  , setPushNotificationsToken: "/rest/setPushNotificationToken"
-  , getMessagesService: "/rest/getMessagesAuth"
-  , getReportService: "/graphics/getReportContentAuth"
+  , sendCodeSMS:                    "/rest/sendAuthCodeSMS"
+  , getAuthenticationToken:         "/rest/getAuthenticationToken"
+  , verifyAuthenticationToken:      "/rest/verifyAuthenticationToken"
+  , getMessagesService:             "/rest/getMessagesAuth"
+  , getUpdatedAppointmentsService:  "/rest/getUpdatedAppointmentsAuth"
+  , getTasksService:                "/rest/getCorrectiveExercisesAuth"
+  // TODO - This should be handled by the perform actions service
+  , addPerformedExercise:           "/rest/addPerformedExerciseAuth"
+  , removePerformedExercise:        "/rest/removePerformedExerciseAuth"
+
+  , performActions:                 "/rest/performExercisesActionsAuth"
+
+  , setPushNotificationsToken:      "/rest/setPushNotificationToken"
+  , getReportService:               "/graphics/getReportContentAuth"
+
+  , getAppointmentsService:         "/rest/getAppointmentsAuth"
 };

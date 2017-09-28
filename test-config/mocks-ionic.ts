@@ -2,6 +2,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Observable } from 'rxjs/Observable';
 import { Loading } from 'ionic-angular';
+import { DomSanitizer } from '@angular/platform-browser';
 /**This file is intended to generate Mock classes to emulate real classes for our testing environment */
 /** */
 
@@ -198,5 +199,13 @@ export class ChangeDetectorRefMock{
 export class ReportsProvMock{
   public getReports(){
     return Observable.from([{}])
+  }
+}
+export class NavParamsMock{
+  data={};
+}
+export class DomSanitizerMock{
+  public bypassSecurityTrustResourceUrl(string){
+    return string;
   }
 }

@@ -15,10 +15,9 @@ import { CompleteTask } from '../../models/complete-task';
 export class SummaryPage {
   actualWeek: number = 0;
   trackerPath: SafeResourceUrl;
-  trackerReady;;
+  trackerReady;
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
     public manager: ServicesManager,
     private sanitizer: DomSanitizer) {
     this.trackerReady = false;

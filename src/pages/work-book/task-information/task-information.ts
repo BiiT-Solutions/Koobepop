@@ -11,7 +11,10 @@ export class TaskInformationPage {
   videoUrl: SafeResourceUrl;
   @ViewChild("content") content: ElementRef;
   task: USMOTask;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private sanitizer: DomSanitizer) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private sanitizer: DomSanitizer) {
     this.task = navParams.data;
   }
   ionViewDidLoad() {

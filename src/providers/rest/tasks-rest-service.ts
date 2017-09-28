@@ -46,6 +46,7 @@ export class TasksRestService extends BasicRestService {
       tasks.forEach((task) => {
         //Map of performed exercises by week
         const performedMap = new Map<number,CompleteTask[]>();
+        if(task.performedOn){
         task.performedOn.forEach((performed) => {
           const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
           const filledTime = performed.filledTime!=undefined?performed.filledTime:performed.time;
@@ -59,6 +60,7 @@ export class TasksRestService extends BasicRestService {
             performedMap.get(weekKey).push(new CompleteTask(performed.time, filledTime, performed.score));
           }
         });
+      }
         const newTask = new USMOTask(
           task.name,
           task.startTime,

@@ -34,7 +34,7 @@ export class AuthTokenRestService extends BasicRestService {
 
     /** Request the user validation code to the server which will send an SMS with it*/
     public requestSendAuthCodeSMS(patientId: string, languageId: string): Observable<Response> {
-        const requestAddres = this.config.usmoServer + this.config.sendAuthCodeSMS;
+        const requestAddres = this.config.usmoServer + this.config.sendCodeSMS;
         const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Authorization', this.config.password);
         const body = {
