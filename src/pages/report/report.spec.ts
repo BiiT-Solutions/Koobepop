@@ -1,0 +1,57 @@
+import { async, TestBed, getTestBed } from '@angular/core/testing';
+import { IonicModule,  NavController } from 'ionic-angular';
+import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
+import { ServicesManager } from '../../providers/servicesManager';
+import { ToastIssuer } from '../../providers/toastIssuer';
+import { ReportPage } from './report';
+import { InfographicSlideComponent } from '../../components/infographic-slide/infographic-slide';
+import { ReportsProvider } from '../../providers/storage/reports-provider';
+import { LoadingComponent } from '../../components/loading/loading';
+import { InfographicItemComponent } from '../../components/infographic-item/infographic-item';
+import { ZoomPanDirective } from '../../directives/zoom-pan/zoom-pan';
+import { KppZoomPanComponent } from '../../components/kpp-zoom-pan/kpp-zoom-pan';
+
+
+import {
+  TranslateServiceMock,
+  ServicesManagerMock,
+  ToastIssuerMock,
+  NavMock,
+  ReportsProvMock
+} from '../../../test-config/mocks-ionic';
+
+describe('ReportPage', () => {
+  let fixture;
+  let component:ReportPage;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ReportPage,
+        InfographicSlideComponent,
+        InfographicItemComponent,
+        KppZoomPanComponent,
+        LoadingComponent],
+      imports: [
+        IonicModule.forRoot(ReportPage),
+        TranslateModule.forRoot()
+      ],
+      providers: [
+        { provide: NavController, useClass: NavMock },
+        { provide: ServicesManager, useClass: ServicesManagerMock },
+        { provide: ToastIssuer, useClass: ToastIssuerMock },
+        { provide: TranslateService, useClass: TranslateServiceMock },
+        { provide: ReportsProvider, useClass: ReportsProvMock },
+      ]
+    })
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ReportPage);
+    component = fixture.componentInstance;
+  });
+
+  it('should be created', () => {
+    expect(component instanceof ReportPage).toBe(true);
+  });
+
+});

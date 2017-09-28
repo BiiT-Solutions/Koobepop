@@ -194,3 +194,9 @@ export class UserProvMock{
 export class ChangeDetectorRefMock{
   public detectChanges(){}
 }
+
+export class ReportsProvMock{
+  public getReports(){
+    return Observable.from([{}])
+  }
+}

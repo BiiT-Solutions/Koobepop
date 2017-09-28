@@ -24,13 +24,9 @@ export class ReportPage {
   slideToLast: boolean = false;
   timeout;
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public changeDetector: ChangeDetectorRef,
     public manager: ServicesManager,
-    public loadingCtrl: LoadingController,
     public toaster: ToastIssuer,
     public translate: TranslateService,
-    public reportsRest: ReportsRestService,
     public reportsProvider: ReportsProvider) {
   }
 
@@ -50,7 +46,8 @@ export class ReportPage {
   }
 
   private errorMessage(error) {
-    this.translate.get("REPORT.ERROR-SETTING-APPOINTMENTS").subscribe(translation => this.toaster.badToast(translation));
+    this.translate.get("REPORT.ERROR-SETTING-APPOINTMENTS")
+      .subscribe(translation => this.toaster.badToast(translation));
     //Stop trying to load reports
     clearTimeout(this.timeout);
     console.error(error);

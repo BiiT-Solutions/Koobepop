@@ -9,20 +9,12 @@ export class Page {
   getTitle() {
     return browser.getTitle();
   }
-
-  getIdTextField(){
-    return browser.findElement(protractor.By.css('ion-label'));
+  wait(){
+    return browser.waitForAngular();
   }
 
-  getField(){
-    return browser.findElement(protractor.by.css('input'));
+  pause(){
+    return browser.pause();
   }
 
-  getSendIdButton(){
-    return browser.findElement(protractor.by.css('#send-id'))
-  }
-
-  getSendCredentialsButton(){
-    return browser.waitForAngular().then(()=>browser.findElement(protractor.by.css('#send-key')));
-  }
 }

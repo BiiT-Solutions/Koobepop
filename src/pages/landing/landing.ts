@@ -15,7 +15,6 @@ export class LandingPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     private manager: ServicesManager,
     private connectivity: ConnectivityService,
     private translate: TranslateService,

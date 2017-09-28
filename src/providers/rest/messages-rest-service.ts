@@ -41,7 +41,7 @@ export class MessagesRestService extends BasicRestService {
     const messagesList = [];
 
     res.forEach(message => {
-      messagesList.push(new MessageModel(message.data.title, message.data.body, "", message.data.time));
+      messagesList.push(new MessageModel(message.title, message.body, "", message.time));
     });
     //Sort by date
     messagesList.sort((a: MessageModel, b: MessageModel) => b.time - a.time);

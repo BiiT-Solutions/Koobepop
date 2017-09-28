@@ -9,6 +9,7 @@ import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
 import { HomePage } from '../pages/home/home';
 import { MyApp } from './app.component';
+import { LandingPage } from '../pages/landing/landing';
 import {
   PlatformMock,
   StatusBarMock,
@@ -35,10 +36,6 @@ describe('MyApp Component', () => {
         { provide: SplashScreen, useClass: SplashScreenMock },
         { provide: Platform, useClass: PlatformMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
-        { provide: LoadingController, useClass: LoadingControllerMock },
-        { provide: ServicesManager, useClass: ServicesManagerMock },
-        { provide: ConnectivityService, useClass: ConnectivityServiceMock },
-        { provide: ToastIssuer, useClass: ToastIssuerMock }
       ]
     })
   }));
@@ -52,7 +49,7 @@ describe('MyApp Component', () => {
     expect(component instanceof MyApp).toBe(true);
   });
 
-  it('should initialize with a root page of HomePage', () => {
-    expect(component['rootPage']).toBe(HomePage);
+  it('should initialize with a root page of LandingPage', () => {
+    expect(component['rootPage']).toBe(LandingPage);
   });
 });

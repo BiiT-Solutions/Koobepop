@@ -57,7 +57,7 @@ export class AppointmentsRestService extends BasicRestService {
   private extractData(res: Response): AppointmentModel[] {
     const appointmentsFromResponse = res.json();
     appointmentsFromResponse.forEach(appointment => {
-      appointment.results = this.formatResults(appointment.results);
+      //appointment.results = this.formatResults(appointment.results);
       appointment.type = this.translate.instant("TRACKER-TAG." + appointment.type.name)
     });
     return appointmentsFromResponse || {};
