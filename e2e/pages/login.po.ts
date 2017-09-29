@@ -23,7 +23,6 @@ export class LoginPage extends Page {
       .then(() => this.getSendIdButton().click()
         .then(() => this.getSendCredentialsButton()
           .then(item => item.click()))
-          //.then(() => this.wait())
       )
   }
 }

@@ -1,19 +1,23 @@
 import { Page } from './app.po';
 import { LoginPage } from './pages/login.po';
 import { WorkBookPage } from './pages/workbook.po';
+import { ReportPage } from '../src/pages/report/report';
+import { KnowPage } from './pages/know.po';
 
 describe('IGOW', () => {
-  let loginPage: LoginPage;
-  let workbookPage: WorkBookPage;
+  let page: Page
 
   beforeEach(() => {
-    loginPage = new LoginPage();
-    workbookPage = new WorkBookPage();
+    page = new Page();
+    page.navigateTo('/');
   });
 
   describe('Default screen (Login)', () => {
+    let loginPage: LoginPage;
+
     beforeEach(() => {
-      loginPage.navigateTo('/');
+      loginPage = new LoginPage();
+
     });
 
     //This fails sometimes if the app starts faster and reads Login
@@ -52,12 +56,15 @@ describe('IGOW', () => {
   });
 
   describe('Default screen (WorkBook)', () => {
+    let workbookPage: WorkBookPage;
+
     beforeEach(() => {
-      loginPage.navigateTo('/');
+      workbookPage = new WorkBookPage();
+     // page.navigateTo('/');
     });
 
     it('should be loged into the app', () => {
-      loginPage.getTitle().then(title => {
+      page.getTitle().then(title => {
         expect(title).not.toBe('IGOW')
         expect(title).not.toBe('Login')
       });
@@ -74,19 +81,59 @@ describe('IGOW', () => {
     });
   });
 
+  describe('KnowPage', () => {
+    let knowPage: KnowPage
+    beforeEach(() => {
+      //page.navigateTo('/');
+      knowPage = new KnowPage();
+    });
+
+    it('should change view to Know Page', () => {
+      page.goToKnow()
+        .then(() => page.getTitle())
+        .then(title => {
+          expect(title).not.toBe('IGOW')
+          expect(title).not.toBe('Login')
+        });
+    })
+
+    it('should have a message', () => {
+      page.goToKnow()
+      .then(()=>knowPage.getFirstMessage())
+      .then(messageEl=>knowPage.getMessageText(messageEl))
+      .then(textEl=>textEl.getText())
+      .then(text=>expect(text).toBe('First message'))
+    })
+  })
+
   describe('ReportPage', () => {
     beforeEach(() => {
-      loginPage.navigateTo('/');
+     // page.navigateTo('/');
     });
 
     it('should change view to Report Page', () => {
-      workbookPage.goToReports()
-      .then(()=>  loginPage.getTitle())
-     .then(title => {
-      expect(title).not.toBe('IGOW')
-      expect(title).not.toBe('Login')
-      });
-
+      page.goToReports()
+        .then(() => page.getTitle())
+        .then(title => {
+          expect(title).not.toBe('IGOW')
+          expect(title).not.toBe('Login')
+        });
     })
   })
+
+  describe('TrackerPage', () => {
+    beforeEach(() => {
+      //page.navigateTo('/');
+    });
+
+    it('should change view to Tracker Page', () => {
+      page.goToTracker()
+        .then(() => page.getTitle())
+        .then(title => {
+          expect(title).not.toBe('IGOW')
+          expect(title).not.toBe('Login')
+        });
+    })
+  })
+
 });
