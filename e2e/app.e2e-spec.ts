@@ -1,11 +1,14 @@
 import { Page } from './app.po';
 import { LoginPage } from './pages/login.po';
+import { WorkBookPage } from './pages/workbook.po';
 
 describe('IGOW', () => {
   let loginPage: LoginPage;
+  let workbookPage: WorkBookPage;
 
   beforeEach(() => {
     loginPage = new LoginPage();
+    workbookPage = new WorkBookPage();
   });
 
   describe('Default screen (Login)', () => {
@@ -17,9 +20,8 @@ describe('IGOW', () => {
     it('should have a title saying IGOW', () => {
       loginPage.wait()
         .then(() => loginPage.getTitle()
-          .then(title => expect(title).toEqual('IGOW'))
         )
-
+        .then(title => expect(title == 'IGOW' || title == 'Login').toBeTruthy())
     });
 
     it('should show a login screen', () => {
@@ -36,11 +38,15 @@ describe('IGOW', () => {
         const button = loginPage.getSendIdButton();
         button.click()
           .then(() =>
+            loginPage.wait()
+          )
+          .then(() =>
             loginPage.getSendCredentialsButton()
-              .then(item => item.click()
-                .then(() => loginPage.wait())
-              )
-          );
+          )
+          .then(item => item.click()
+          )
+          .then(() => loginPage.wait()
+          )
       });
     });
   });
@@ -56,5 +62,31 @@ describe('IGOW', () => {
         expect(title).not.toBe('Login')
       });
     });
+
+    it('should load some task into view', () => {
+      workbookPage.wait()
+        .then(() => workbookPage.getFirstTask())
+        .then(task =>
+          task.getText())
+        .then(text => {
+          expect(text).toBe('Task 1');
+        })
+    });
   });
+
+  describe('ReportPage', () => {
+    beforeEach(() => {
+      loginPage.navigateTo('/');
+    });
+
+    it('should change view to Report Page', () => {
+      workbookPage.goToReports()
+      .then(()=>  loginPage.getTitle())
+     .then(title => {
+      expect(title).not.toBe('IGOW')
+      expect(title).not.toBe('Login')
+      });
+
+    })
+  })
 });

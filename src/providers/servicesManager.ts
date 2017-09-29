@@ -111,33 +111,6 @@ export class ServicesManager {
       });
   }
 
-  /**Starts to search for changes on the dataset */
-  public startContinuousAppointmentCheck(milis: number) {
-    this.finishContinuousAppointmentCheck(); //In case there's another invocation
-    this.update();
-    this.updateTimeout = setInterval(() => {
-      try {
-        this.update();
-      } catch (exception) {
-        console.error(exception);
-      }
-    }, milis);
-  }
-
-  /**Finishes the continuous search */
-  public finishContinuousAppointmentCheck() {
-    if (this.updateTimeout != undefined) { clearInterval(this.updateTimeout); }
-  }
-
-  /** Replace all new data from the server's data */
-  public update() {
-
-    //TODO - use request ModifiedAppointments instead
-    this.appointmentsRestService.requestAppointments()
-      .flatMap((appointments: AppointmentModel[]) => { return this.updateAppointments(appointments) })
-      .subscribe((appointments: AppointmentModel[]) => { this.updateTasks(appointments) });
-  }
-
   private updateAppointments(newAppointments: AppointmentModel[]): Observable<AppointmentModel[]> {
     //Get storage appointments, compare to the new appointments, add new ones and substitude the old ones
     // and keep those which don't change

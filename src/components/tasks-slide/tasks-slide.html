@@ -1,4 +1,4 @@
-<ion-slide>
+
   <loading-screen *ngIf="tasks==undefined" [text]="'LOADER.TASKS'|translate"></loading-screen>
   <ion-scroll id="tasks" scrollY="true" *ngIf="tasks!=undefined">
     <ion-list>
@@ -6,4 +6,3 @@
       </task-item>
     </ion-list>
   </ion-scroll>
-</ion-slide>
