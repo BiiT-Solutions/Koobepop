@@ -14,7 +14,13 @@ export class WorkBookPage extends Page {
 
   public slideRight(){}
   public slideLeft(){}
-  public clickTask(taskName:string){}
-  public clickTaskInfo(taskName:string){}
+  public clickTask(taskName:string){
+    return browser.findElements(protractor.by.css('ion-slide'))
+    .then(slides=>slides[2])//center slide
+    .then(()=>browser.findElements(protractor.by.cssContainingText('ion-label',taskName)))
+    .then(tasks=>tasks[0].click());
+  }
+  public clickTaskInfo(taskName:string){
+  }
 
 }

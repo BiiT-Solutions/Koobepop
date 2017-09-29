@@ -15,7 +15,8 @@ export class LoginPage extends Page {
   }
 
   getSendCredentialsButton() {
-    return browser.waitForAngular().then(() => browser.findElement(protractor.by.css('#send-key')));
+    return browser.waitForAngular()
+    .then(() => browser.findElement(protractor.by.css('#send-key')));
   }
 
   login() {

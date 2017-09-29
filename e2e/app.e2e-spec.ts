@@ -20,8 +20,7 @@ describe('IGOW', () => {
 
     });
 
-    //This fails sometimes if the app starts faster and reads Login
-    it('should have a title saying IGOW', () => {
+    it('should have a title saying "IGOW" or "Login"', () => {
       loginPage.wait()
         .then(() => loginPage.getTitle()
         )
@@ -55,9 +54,10 @@ describe('IGOW', () => {
     });
   });
 
+  /******WORKBOOK******/
   describe('Default screen (WorkBook)', () => {
     let workbookPage: WorkBookPage;
-
+    let taskName;
     beforeEach(() => {
       workbookPage = new WorkBookPage();
      // page.navigateTo('/');
@@ -77,8 +77,17 @@ describe('IGOW', () => {
           task.getText())
         .then(text => {
           expect(text).toBe('Task 1');
+          taskName = text;
         })
     });
+
+    it('should click the task',()=>{
+    workbookPage.getFirstTask()
+      .then(task=>task.click())
+      .then(()=>workbookPage.wait())
+      //.then(()=>workbookPage)
+    })
+
   });
 
   describe('KnowPage', () => {
@@ -99,6 +108,7 @@ describe('IGOW', () => {
 
     it('should have a message', () => {
       page.goToKnow()
+      .then(()=>knowPage.wait())
       .then(()=>knowPage.getFirstMessage())
       .then(messageEl=>knowPage.getMessageText(messageEl))
       .then(textEl=>textEl.getText())
