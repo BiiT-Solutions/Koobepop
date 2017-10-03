@@ -2,6 +2,9 @@ import { browser, protractor } from 'protractor';
 
 export class Page {
 
+   waitTimeInMilis = 15000;
+   EC = protractor.ExpectedConditions;
+
   navigateTo(destination) {
     return browser.get(destination);
   }
@@ -20,14 +23,25 @@ export class Page {
     return browser.findElement(protractor.by.cssContainingText('span','Know')).click();
   }
 
-  getTitle() {
+  public getTitle() {
     return browser.getTitle();
   }
-  wait(){
+
+  public wait(){
     return browser.waitForAngular();
   }
 
-  pause(){
+  public pause(){
     return browser.pause();
+  }
+
+  public sleep(ms){
+    return browser.sleep(ms)
+  }
+
+
+  public clearDB(){
+    browser.executeScript('window.sessionStorage.clear();');
+    browser.executeScript('window.localStorage.clear();');
   }
 }

@@ -1,11 +1,11 @@
 <div class = "unsel-confirmation-container">
     <div style="display:block;">{{"UNSEL-CONFIRMATION.TEXT"|translate}}</div>
     <div radio-group class="radio-container">
-        <div class="confirm-selection">
+        <div class="confirm-selection confirm">
             <div >{{"UNSEL-CONFIRMATION.YES"|translate}}</div>
             <ion-radio (click)="close(true)"></ion-radio>
         </div>
-        <div class="confirm-selection">
+        <div class="confirm-selection deny">
             <div>{{"UNSEL-CONFIRMATION.NO"|translate}}</div>
             <ion-radio (click)="close(false)"></ion-radio>
         </div>
