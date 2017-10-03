@@ -132,8 +132,8 @@ export class SummaryPage {
           if (!taskTypesGoals.has(task.type)) {
             taskTypesGoals.set(task.type, 0);
           }
-          if (!(moment(task.startTime).startOf('day').valueOf() > weekFinishes) &&
-            !(moment(task.finishTime).startOf('day').valueOf() < weekStarts)) {
+          if ((moment(task.startTime).startOf('day').valueOf() <= weekFinishes) ||
+            (moment(task.finishTime).startOf('day').valueOf() >= weekStarts)) {
             taskTypesGoals.set(task.type, taskTypesGoals.get(task.type) + task.repetitions);
           }
         });
