@@ -20,19 +20,29 @@ export class AppointmentsProvider extends StorageServiceProvider {
     }
   }
 
+  public getLastAppointmentsByType(): Observable<AppointmentModel[]> {
+    return this.getAppointments()
+      .map((appointments: AppointmentModel[]) => {
+        const lastAppointments: AppointmentModel[] = [];
+        appointments.forEach((appointment: AppointmentModel) => {
+          const index = lastAppointments.map(appointment => appointment.type).indexOf(appointment.type);
+          if (index >= 0) {
+            if (lastAppointments[index].startTime < appointment.startTime) {
+              lastAppointments[index] = appointment;
+            }
+          } else {
+            lastAppointments.push(appointment);
+          }
+        });
+        return lastAppointments;
+      });
+  }
+
   public setAppointments(appointments: AppointmentModel[]): Observable<AppointmentModel[]> {
     this.setAllocAppointmnts(appointments);
     return super.storeItem(StorageServiceProvider.APPOINTMENTS_STORAGE_ID, appointments);
   }
 
-  private getAllocAppointments(): AppointmentModel[] {
-    return this.appointments;
-  }
-
-  private setAllocAppointmnts(appointments: AppointmentModel[]): AppointmentModel[] {
-    this.appointments = appointments == undefined ? [] : appointments;
-    return this.appointments;
-  }
 
   /**Update appointments with the data from USMO */
   public update(): Observable<AppointmentModel[]> {
@@ -57,6 +67,14 @@ export class AppointmentsProvider extends StorageServiceProvider {
             }
           });
       });
+  }
 
+  private getAllocAppointments(): AppointmentModel[] {
+    return this.appointments;
+  }
+
+  private setAllocAppointmnts(appointments: AppointmentModel[]): AppointmentModel[] {
+    this.appointments = appointments == undefined ? [] : appointments;
+    return this.appointments;
   }
 }

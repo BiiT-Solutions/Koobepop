@@ -15,11 +15,13 @@ export class StorageServiceProvider {
     constructor(public storage: Storage) { }
 
     public storeItem(name: string, item: any): Observable<any> {
-        return Observable.fromPromise(this.storage.set(name, item).then(item=>{return item;}));
+        return Observable.fromPromise(this.storage.set(name, item)
+        .then(item=>{return item;}));
     }
 
     public retrieveItem(name: string): Observable<any> {
-        return Observable.fromPromise(this.storage.get(name).then(item=>{return item}));
+        return Observable.fromPromise(this.storage.get(name)
+        .then(item=>{return item}));
     }
 
     public resetDB() {

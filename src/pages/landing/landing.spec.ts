@@ -11,6 +11,7 @@ import { HomePage } from '../home/home';
 import { MyApp } from './app.component';
 import { LandingPage } from '../landing/landing';
 import { LoadingComponent } from '../../components/loading/loading';
+import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service';
 import {
   PlatformMock,
   StatusBarMock,
@@ -20,7 +21,8 @@ import {
   ServicesManagerMock,
   ConnectivityServiceMock,
   ToastIssuerMock,
-  NavMock
+  NavMock,
+  AuthTokenRestServiceMock
 } from '../../../test-config/mocks-ionic';
 
 describe('LandingPage', () => {
@@ -29,7 +31,7 @@ describe('LandingPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LandingPage,LoadingComponent],
+      declarations: [LandingPage, LoadingComponent],
       imports: [
         IonicModule.forRoot(LandingPage),
         TranslateModule.forRoot()
@@ -40,7 +42,7 @@ describe('LandingPage', () => {
         { provide: Platform, useClass: PlatformMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
         { provide: LoadingController, useClass: LoadingControllerMock },
-        { provide: ServicesManager, useClass: ServicesManagerMock },
+        { provide: AuthTokenRestService, useClass: AuthTokenRestServiceMock },
         { provide: ConnectivityService, useClass: ConnectivityServiceMock },
         { provide: ToastIssuer, useClass: ToastIssuerMock },
         { provide: NavController, useClass: NavMock },

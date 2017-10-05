@@ -6,6 +6,7 @@ import { LoginPage } from '../login/login';
 import { ConnectivityService } from '../../providers/connectivity-service';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service';
 
 @Component({
   selector: 'page-landing',
@@ -15,41 +16,41 @@ export class LandingPage {
 
   constructor(
     public navCtrl: NavController,
-    private manager: ServicesManager,
+    private tokenRest: AuthTokenRestService,
     private connectivity: ConnectivityService,
     private translate: TranslateService,
     private toaster: ToastIssuer,
-  ) {  }
+  ) { }
 
   ionViewDidLoad() {
-    this.manager.tokenStatus()
-    .subscribe((status) => {
+    this.tokenRest.tokenStatus()
+      .subscribe((status) => {
 
-      if (status == 200) {
-        this.navToHome();
-      } else if (!this.connectivity.isOnline()) {
-        this.navToHome();
-      } else {
-        this.navToLogin();
-      }
-    }, error => {
+        if (status == 200) {
+          this.navToHome();
+        } else if (!this.connectivity.isOnline()) {
+          this.navToHome();
+        } else {
+          this.navToLogin();
+        }
+      }, error => {
 
-      if (error.status == 0) {
-        this.navToHome();
-      } else { //Another async call failed on the process
-        this.navToLogin();
-      }
-      if (!this.connectivity.isOnline()) {
-        this.translate.get("APP.UNABLE-TO-CONNECT-MSG")
-          .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
-      }
-    });
+        if (error.status == 0) {
+          this.navToHome();
+        } else { //Another async call failed on the process
+          this.navToLogin();
+        }
+        if (!this.connectivity.isOnline()) {
+          this.translate.get("APP.UNABLE-TO-CONNECT-MSG")
+            .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
+        }
+      });
   }
 
-  private navToLogin(){
+  private navToLogin() {
     this.navCtrl.setRoot(LoginPage)
   }
-  private navToHome(){
+  private navToHome() {
     this.navCtrl.setRoot(HomePage)
   }
 

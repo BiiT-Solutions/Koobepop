@@ -20,11 +20,11 @@ export class TasksManager {
   }
 
   public sendStagedActions() {
-    this.tasksServices.sendTasks(this.taskActions).subscribe((res) => {
+    this.tasksServices.sendTasksActions(this.taskActions).subscribe((res) => {
       if (res.status == 200) {
         this.taskActions = [];
       } else {
-        console.error("Error sending tasks")
+        console.error("Error sending tasks");
       }
     }, error => console.error("Error sending tasks"));
   }
@@ -58,7 +58,6 @@ export class TasksManager {
     //Add the new task to the list
     this.taskActions.push(taskAction);
   }
-
 }
 
 export class TaskAction {
@@ -75,6 +74,7 @@ export class TaskAction {
     this.appointmentId = appointmentId;
   }
 }
+
 export enum TaskFlag {
   TASK_FINISHED = 1,
   TASK_UNFINISHED = 0

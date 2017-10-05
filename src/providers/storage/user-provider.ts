@@ -10,7 +10,7 @@ export class UserProvider extends StorageServiceProvider {
     constructor(public storage: Storage, protected device: Device) {
         super(storage);
     }
-    getUser(): Observable<UserModel> {
+    public getUser(): Observable<UserModel> {
         if (this.getAllocUser() == undefined) {
             return super.retrieveItem(StorageServiceProvider.USER_STORAGE_ID)
                 .map(this.setAllocUser);
@@ -18,17 +18,17 @@ export class UserProvider extends StorageServiceProvider {
             return Observable.of(this.getAllocUser());
         }
     }
-    
-    setUser(user:UserModel):Observable<UserModel> { 
+
+    public setUser(user:UserModel):Observable<UserModel> {
         this.setAllocUser(user);
         return super.storeItem(StorageServiceProvider.USER_STORAGE_ID,user);
     }
 
-    getAllocUser(): UserModel {
+    private getAllocUser(): UserModel {
         return this.user;
     }
 
-    setAllocUser(user: UserModel): UserModel {
+    private setAllocUser(user: UserModel): UserModel {
         this.user = user;
         return this.user;
     }

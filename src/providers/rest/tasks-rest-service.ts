@@ -108,7 +108,7 @@ export class TasksRestService extends BasicRestService {
     return super.request(requestAddres, body, headers).map(res => res.status);
   }
 
-  public sendTasks(tasks: TaskAction[]): Observable<Response> {
+  public sendTasksActions(tasks: TaskAction[]): Observable<Response> {
     const requestAddres = this.config.usmoServer + this.config.performActions;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);

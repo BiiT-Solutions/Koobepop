@@ -31,9 +31,8 @@ export class BasicRestService {
   private requestWithToken(requestAddress: string, requestBody: any, headers: Headers, token: string, userId:string): Observable<Response> {
     const criteria = requestBody;
     criteria["token"] = token;
-    criteria["organizationName"] = this.config.organizationName;
     criteria["patientId"] = userId;
-    return this.http.post(requestAddress, criteria, { headers: headers });
+    return this.requestWithoutToken(requestAddress,criteria,headers);
   }
 
 }

@@ -8,17 +8,17 @@ import { ReportModel } from '../../models/report.model';
 export class InfographicSlideComponent {
   @Input() report: ReportModel;
   @Output() zoom: EventEmitter<boolean> = new EventEmitter();
-  constructor() {  }
+  constructor() { }
 
-  public isZoom(zoomActive:boolean){
+  public isZoom(zoomActive: boolean) {
     this.zoom.emit(zoomActive);
   }
 
-  public reportInfographics():any[]{
-   if(this.report!=undefined){
-    return this.report.infographicsList;
-  }else{
-    return []
-  }
+  public reportInfographics(): any[] {
+    if (this.report != undefined) {
+      return this.report.infographicsList;
+    } else {
+      return []
+    }
   }
 }

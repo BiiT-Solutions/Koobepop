@@ -30,7 +30,8 @@ export class ReportsRestService extends BasicRestService {
       appointmentId: appointment.appointmentId
     }
     return super.request(requestAddres, body, headers)
-      .map((res: Response) => this.extractData(res)).map((data) => this.generateInfographic(appointment, data));
+      .map((res: Response) => this.extractData(res))
+      .map((data) => this.generateInfographic(appointment, data));
   }
 
   public extractData(res) {
@@ -39,7 +40,8 @@ export class ReportsRestService extends BasicRestService {
 
   public generateInfographic(appointment:AppointmentModel, data: any[]): ReportModel {
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime , []);
-    data.forEach((item) => report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content)));
+    data.forEach((item) => {
+      report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content))});
     return report;
   }
 

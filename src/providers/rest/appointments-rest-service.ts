@@ -14,8 +14,9 @@ export class AppointmentsRestService extends BasicRestService {
   constructor(protected http: Http,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
+    protected userProvider: UserProvider,
     protected translate: TranslateService,
-    protected userProvider: UserProvider) {
+  ) {
     super(http, config, tokenProvider, userProvider);
   }
 
@@ -48,9 +49,6 @@ export class AppointmentsRestService extends BasicRestService {
 
     return super.request(requestAddres, body, headers)
       .map(res => this.extractData(res))
-      .map((appointments: AppointmentModel[]) => {
-        return appointments ? appointments.reverse() : [];
-      });
   }
 
   /**Format appointments from USMO to a lighter form */
@@ -60,7 +58,7 @@ export class AppointmentsRestService extends BasicRestService {
       //appointment.results = this.formatResults(appointment.results);
       appointment.type = this.translate.instant("TRACKER-TAG." + appointment.type.name)
     });
-    return appointmentsFromResponse || {};
+    return appointmentsFromResponse || [];
   }
 
   private formatResults(results): any {
@@ -72,6 +70,7 @@ export class AppointmentsRestService extends BasicRestService {
     });
     return formResults;
   }
+
   private formatForm(form): any {
     const formChildren = {};
     form.children.forEach(category => {

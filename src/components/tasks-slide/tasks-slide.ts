@@ -62,11 +62,14 @@ export class TasksSlideComponent {
   private setTask(name: string, score: number, date: number) {
     //console.log("TasksSlide  Task: "+name+" score: "+score);
     if (score >= 0) {
-      this.tasksProvider.setScore(name, score, date,moment().valueOf());
-      this.tasksProvider.getTask(name)
+      this.tasksProvider.setScore(name, score, date,moment().valueOf())
+      .subscribe(task=>{
+        this.tasksRestService.sendPerformedTask(task.appointmentId, name, score, date, moment().valueOf()).subscribe(res=>console.log(res));
+      },error=>console.error('Unable to set score for task '+name))
+      /*this.tasksProvider.getTask(name)
         .subscribe((task: USMOTask) => {
           this.tasksRestService.sendPerformedTask(task.appointmentId, name, score, date, moment().valueOf()).subscribe();
-        });
+        });*/
     } else {
       this.tasksProvider.removeScore(name, date);
       this.tasksProvider.getTask(name)

@@ -33,7 +33,7 @@ export class PushNotificationsHandlerProvider {
         });
         */
       // to initialize push notifications
-      let options: PushOptions = {
+      const options: PushOptions = {
         android: {
           senderID: this.config.pushSenderID
         },
@@ -45,7 +45,7 @@ export class PushNotificationsHandlerProvider {
         windows: {}
       };
 
-      let pushObject: PushObject = this.push.init(options);
+      const pushObject: PushObject = this.push.init(options);
 
       pushObject.on('registration')
         .subscribe((registration: any) => {

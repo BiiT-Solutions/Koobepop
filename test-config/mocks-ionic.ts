@@ -3,6 +3,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Observable } from 'rxjs/Observable';
 import { Loading } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UserModel } from '../src/models/user.model';
 /**This file is intended to generate Mock classes to emulate real classes for our testing environment */
 /** */
 
@@ -69,7 +70,7 @@ export class PlatformMock {
   public getActiveElement(): any {
     return document['activeElement'];
   }
-  public lang():any{
+  public lang(): any {
     return "en"
   }
 }
@@ -89,13 +90,13 @@ export class SplashScreenMock extends SplashScreen {
 export class NavMock {
 
   public pop(): any {
-    return new Promise(function(resolve: Function): void {
+    return new Promise(function (resolve: Function): void {
       resolve();
     });
   }
 
   public push(): any {
-    return new Promise(function(resolve: Function): void {
+    return new Promise(function (resolve: Function): void {
       resolve();
     });
   }
@@ -113,7 +114,7 @@ export class NavMock {
   }
 
   public registerChildNav(nav: any): void {
-    return ;
+    return;
   }
 
 }
@@ -152,60 +153,116 @@ export class MenuMock {
   }
 }
 
-export class TranslateServiceMock{
-  public setDefaultLang(lang:string){}
-  public get(string):Observable<string> {
+export class TranslateServiceMock {
+  public setDefaultLang(lang: string) { }
+  public get(string): Observable<string> {
     return Observable.from(["text"]);
   }
-  public use(string){}
+  public use(string) { }
 }
-export  class ServicesManagerMock{
-  public tokenStatus():Observable<number>{
+export class ServicesManagerMock {
+  public tokenStatus(): Observable<number> {
     return Observable.from([200]);
   }
 }
 export class ConnectivityServiceMock {
-  public isOnline():boolean{
+  public isOnline(): boolean {
     return true;
   }
 }
-export class ToastIssuerMock{
-  public badToast(s:string,t:number):void{}
-  public goodToast(s:string,t:number):void{}
+export class ToastIssuerMock {
+  public badToast(s: string, t: number): void { }
+  public goodToast(s: string, t: number): void { }
 }
 
-export class LoaderMock{
-  constructor(){}
-  public present(){}
-  public dismiss(){}
+export class LoaderMock {
+  constructor() { }
+  public present() { }
+  public dismiss() { }
 }
 
-export class LoadingControllerMock{
-    public create():LoaderMock{
-      return new LoaderMock();
-    }
-}
-
-export class UserProvMock{
-  public getUser():Observable<any>{
-    return Observable.from([{patientId:""}])
+export class LoadingControllerMock {
+  public create(): LoaderMock {
+    return new LoaderMock();
   }
 }
 
-export class ChangeDetectorRefMock{
-  public detectChanges(){}
+export class UserProvMock {
+  public getUser(): Observable<any> {
+    return Observable.from([{ patientId: "" }])
+  }
 }
 
-export class ReportsProvMock{
-  public getReports(){
+export class ChangeDetectorRefMock {
+  public detectChanges() { }
+}
+
+export class ReportsProvMock {
+  public getReports() {
     return Observable.from([{}])
   }
 }
-export class NavParamsMock{
-  data={};
+export class NavParamsMock {
+  data = {};
 }
-export class DomSanitizerMock{
-  public bypassSecurityTrustResourceUrl(string){
+export class DomSanitizerMock {
+  public bypassSecurityTrustResourceUrl(string) {
     return string;
   }
+}
+export class StorageMock {
+  public set(name, item) { }
+  public get(name) { }
+  public clear() {
+
+  }
+}
+
+export class AppointmentsProviderMock {
+  public getAppointments() { }
+  public setAppointments(appointments) { }
+  public update() { }
+}
+
+export class TasksRestServiceMock {
+  public reqiestTasks(appointment) { }
+  public extractData(res) { }
+  public sendPerformedTask(appointmentID, taskName, score, performedTime, filledTime) { }
+  public removePerformedTask(appointmentId: number, taskName: string, date: number) { }
+  public sendTasksActions(tasks) { }
+}
+
+export class TasksProviderMock {
+  public getTasks() { }
+  public setTasks(tasks) { }
+  public getTask(name: string) { }
+}
+
+export class TokenProviderMock {
+  public getToken() {
+    return Observable.of('AU7H.T0K3N')
+  }
+  public setToken(token) {
+
+   }
+}
+export class UserProviderMock{
+  public getUser(): Observable<UserModel> {
+    const user = new UserModel()
+    user.patientId = "00000000A"
+    return Observable.of(user)
+  }
+  public setUser(){}
+}
+
+export class AuthTokenRestServiceMock{
+  public requestToken(id,code){
+    return Observable.of('AU7H.T0K3N')
+  }
+  public requestSendAuthCodeSMS(patientId,languageId){
+
+  }
+}
+
+export class DeviceMock{
 }

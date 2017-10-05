@@ -47,7 +47,9 @@ export class LoginPage {
           this.toaster.badToast(res.status.toString());
         }
       }, error => {
+        try{
         this.toaster.badToast(error.json().error);
+        }catch(error){}
         this.idIsSent = false;
         this.smsSent = false;
       });

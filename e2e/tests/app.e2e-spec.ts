@@ -4,6 +4,7 @@ import { WorkBookPage } from '../pages/workbook.po';
 import { ReportPage } from '../../src/pages/report/report';
 import { KnowPage } from '../pages/know.po';
 import { TrackerPage } from '../pages/tracker.po';
+import * as moment from 'moment';
 
 describe('IGOW', () => {
   let page: Page
@@ -232,6 +233,37 @@ describe('IGOW', () => {
           expect(title).not.toBe('Login')
         });
     })
-  })
+/*
+    it('should fill tasks and show progress ', ()=>{
+      const weekstart = moment().startOf('isoWeek');
+      const now = moment();
+      let day:moment.Moment;
+      //if weekstart - now >= 3 days
+      if(moment(now.diff(3,'day')).isAfter(weekstart)){
+        day=weekstart;
+      }else{
+         day = moment(now.diff(7,'day'));
+      }
+      const workWeek = day.week();
+
+      page.goToTracker()
+      .then(()=>page.sleep(3000))
+      .then(()=>trackerPage.goToIframe())
+      .then(()=> trackerPage.getWeekNumber())
+      //.then(week => (parseInt(week) < workWeek)?trackerPage.previousWeek():null)
+      .then(()=>trackerPage.previousWeek())
+      .then(()=>trackerPage.getProgress())
+
+
+      //go to weekstart, fill 3 days
+      //check tracker for this week
+
+      //else
+      //goto now -7 days, fill 3 days
+      //check tracker for previous week
+
+
+    });*/
+  });
 
 });
