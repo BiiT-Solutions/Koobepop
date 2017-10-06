@@ -103,7 +103,10 @@
         "cordova-plugin-console",
         "cordova-plugin-device",
         "cordova-plugin-splashscreen",
-        "ionic-plugin-keyboard"
+        "ionic-plugin-keyboard",
+        {
+            "locator": "phonegap-plugin-push"
+        }
     ],
     "cordovaPlatforms": [],
     "description": "IGOW: A BiiT Sourcing Solutions project",
@@ -120,7 +123,7 @@
             "cordova-sqlite-storage": {},
             "ionic-plugin-keyboard": {},
             "phonegap-plugin-push": {
-                "SENDER_ID": "489751559671"
+                "SENDER_ID": "668686825242"
             }
         }
     }

@@ -7,7 +7,10 @@ import { AppointmentsRestService } from '../rest/appointments-rest-service';
 @Injectable()
 export class AppointmentsProvider extends StorageServiceProvider {
   private appointments: AppointmentModel[];
-  constructor(public storage: Storage, protected appointmentsRestService: AppointmentsRestService) {
+  constructor(
+    public storage: Storage,
+    protected appointmentsRestService: AppointmentsRestService
+  ) {
     super(storage);
   }
 
@@ -59,10 +62,10 @@ export class AppointmentsProvider extends StorageServiceProvider {
                   appointments.push(updatedAppointment);
                 }
               });
-              console.log("Updating appointments")
+              console.debug("Updating appointments")
               return this.setAppointments(appointments);
             } else {
-              console.log("Nothing to update")
+              console.debug("Nothing to update")
               return Observable.of(appointments);
             }
           });

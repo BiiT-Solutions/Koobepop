@@ -24,7 +24,7 @@ effort-selector {
     }
 
     .popover-content{
-      right:1em;
+      right:0.1em;
       left:auto!important;
       display: inline-block;
       width:320px;
@@ -42,6 +42,7 @@ effort-selector {
       ion-radio{
         display: flex;
         justify-content: space-around;
+
       }
     }
   }
@@ -57,7 +58,7 @@ effort-selector {
     background-color:transparent;
   }
   .popover-ios .popover-content{
-   margin-top:-54px
+   margin-top:-48px
   }
 
   .effort-easy{
