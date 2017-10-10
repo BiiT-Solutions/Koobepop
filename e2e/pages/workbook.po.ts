@@ -47,37 +47,8 @@ export class WorkBookPage extends Page {
     return browser.findElement(protractor.by.css('div.header'))
   }
 
-  public getEffort(selection: string) {
-    let cssClass = "";
-    switch (selection) {
-      case 'easy':
-        cssClass = "effort-easy";
-        break;
-      case 'normal':
-        cssClass = "effort-normal";
-        break;
-      case 'hard':
-        cssClass = "effort-hard";
-        break;
-      default:
-        cssClass = "effort-painful";
-    }
-    return browser.findElement(protractor.by.css('.' + cssClass))
-      .findElement(protractor.by.css('ion-radio'));
-  }
-
-  public getConfirm(selection:string){
-    let cssClass = ""
-    switch(selection.toLocaleLowerCase()){
-      case "yes":
-      cssClass = "confirm"
-      break;
-      default:
-      cssClass = "deny"
-    }
-    return browser.findElement(protractor.by.css('.' + cssClass))
-    .findElement(protractor.by.css('ion-radio'));
-
+  public getSelection(selection: string) {
+    return browser.findElement(protractor.by.cssContainingText('span',selection))
   }
 
 }

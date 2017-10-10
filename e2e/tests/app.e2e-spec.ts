@@ -93,12 +93,13 @@ describe('IGOW', () => {
     it('should perform the task and assign some difficulty', () => {
       workbookPage.getFirstTask()
         .then(task => {
-          return workbookPage.getTaskIsChecked(task).then(isChecked => expect(isChecked).toBe('false'))
+          return workbookPage.getTaskIsChecked(task)
+            .then(isChecked => expect(isChecked).toBe('false'))
             .then(() => task);
         })
         .then(task => workbookPage.clickTask(task))
         .then(() => workbookPage.sleep(1000))
-        .then(() => workbookPage.getEffort('easy'))
+        .then(() => workbookPage.getSelection('Easy'))
         .then((el) => el.click())
         .then(() => workbookPage.sleep(1000))
         .then(() => workbookPage.getFirstTask())
@@ -116,7 +117,7 @@ describe('IGOW', () => {
         })
         .then(task => workbookPage.clickTask(task))
         .then(() => workbookPage.sleep(1000))
-        .then(() => workbookPage.getConfirm('yes'))
+        .then(() => workbookPage.getSelection('Yes'))
         .then((el) => el.click())
         .then(() => workbookPage.sleep(1000))
         .then(() => workbookPage.getFirstTask())
@@ -233,37 +234,37 @@ describe('IGOW', () => {
           expect(title).not.toBe('Login')
         });
     })
-/*
-    it('should fill tasks and show progress ', ()=>{
-      const weekstart = moment().startOf('isoWeek');
-      const now = moment();
-      let day:moment.Moment;
-      //if weekstart - now >= 3 days
-      if(moment(now.diff(3,'day')).isAfter(weekstart)){
-        day=weekstart;
-      }else{
-         day = moment(now.diff(7,'day'));
-      }
-      const workWeek = day.week();
+    /*
+        it('should fill tasks and show progress ', ()=>{
+          const weekstart = moment().startOf('isoWeek');
+          const now = moment();
+          let day:moment.Moment;
+          //if weekstart - now >= 3 days
+          if(moment(now.diff(3,'day')).isAfter(weekstart)){
+            day=weekstart;
+          }else{
+             day = moment(now.diff(7,'day'));
+          }
+          const workWeek = day.week();
 
-      page.goToTracker()
-      .then(()=>page.sleep(3000))
-      .then(()=>trackerPage.goToIframe())
-      .then(()=> trackerPage.getWeekNumber())
-      //.then(week => (parseInt(week) < workWeek)?trackerPage.previousWeek():null)
-      .then(()=>trackerPage.previousWeek())
-      .then(()=>trackerPage.getProgress())
-
-
-      //go to weekstart, fill 3 days
-      //check tracker for this week
-
-      //else
-      //goto now -7 days, fill 3 days
-      //check tracker for previous week
+          page.goToTracker()
+          .then(()=>page.sleep(3000))
+          .then(()=>trackerPage.goToIframe())
+          .then(()=> trackerPage.getWeekNumber())
+          //.then(week => (parseInt(week) < workWeek)?trackerPage.previousWeek():null)
+          .then(()=>trackerPage.previousWeek())
+          .then(()=>trackerPage.getProgress())
 
 
-    });*/
+          //go to weekstart, fill 3 days
+          //check tracker for this week
+
+          //else
+          //goto now -7 days, fill 3 days
+          //check tracker for previous week
+
+
+        });*/
   });
 
 });

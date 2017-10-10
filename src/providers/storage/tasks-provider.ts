@@ -33,12 +33,17 @@ export class TasksProvider extends StorageServiceProvider {
 
   public setTasks(tasks: USMOTask[]): Observable<USMOTask[]> {
     this.setAllocTasks(tasks);
-    const serializedTasks = this.serializeTasks(tasks);
-    return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks);
+    return this.saveTasks();
   }
 
+  private saveTasks(): Observable<USMOTask[]>{
+    const tasks = this.getAllocTasks();
+    const serializedTasks = this.serializeTasks(tasks);
+    return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
+  }
 
   public getTask(name: string): Observable<USMOTask> {
+
     return this.getTasks().map(tasks => {
       const index = tasks.map(task => task.name).indexOf(name);
       return index >= 0 ? tasks[index] : null
@@ -50,6 +55,7 @@ export class TasksProvider extends StorageServiceProvider {
     return this.getTask(name)
       .map(task => {
         task.setScore(completeTask)
+        this.saveTasks()
         return task;
       });
   }
@@ -57,13 +63,13 @@ export class TasksProvider extends StorageServiceProvider {
   public removeScore(name: string, date: number): Observable<USMOTask> {
     return this.getTask(name)
       .map(task => {
-        task.removeScore(date)
+        task.removeScore(date);
+        this.saveTasks();
         return task;
       });
   }
 
   public update(): Observable<USMOTask[]> {
-
     return this.appointmentsProvider.getLastAppointmentsByType()
       .flatMap((lastAppointments: AppointmentModel[]) => {
         return this.getTasks().flatMap((actualTasks: USMOTask[]) => {
