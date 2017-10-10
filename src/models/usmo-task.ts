@@ -41,7 +41,7 @@ export class USMOTask {
 
   /** Parse stringified map from the DB */
   public static parseStringifiedPerformedTasks(stringifiedMap: string): Map<number, CompleteTask[]> {
-    //  console.log("USMOTask map to Rebuild", stringifiedMap)
+    // console.log("USMOTask map to Rebuild", stringifiedMap)
     const rebuiltMap = new Map<number, CompleteTask[]>();
     if (stringifiedMap == undefined || stringifiedMap == "") {
       console.debug("TasksProvider: parseStringifiedMap: string void ");
@@ -50,7 +50,7 @@ export class USMOTask {
     const reParsed = JSON.parse(stringifiedMap);
     reParsed.forEach(map => {
       const completions = []
-      map[1].array.forEach(element => {
+      map[1].forEach(element => {
        completions.push(new CompleteTask(element.performedTime,element.filledTime,element.score));
       });
       rebuiltMap.set(map[0], completions)
