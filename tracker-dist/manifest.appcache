@@ -55,6 +55,7 @@ resources/health-icons/food%20style.svg
 resources/health-icons/mental%20health.svg
 resources/health-icons-invert/body%20health-75.png
 resources/health-icons-invert/body%20health.svg
+resources/health-icons-invert/energy%20health-75.png
 resources/health-icons-invert/energy%20health.svg
 resources/health-icons-invert/food%20style-75.png
 resources/health-icons-invert/food%20style.svg
@@ -384,4 +385,4 @@ bower_components/moment/src/lib/utils/zero-fill.js
 NETWORK:
 *
 
-# hash: 85d2a995e3d54a13a90f00dbc160d891f2778d6c5329c5af1466c9ad895bc8bd
+# hash: aedc8c7d61edd0b0d71d72fbf6438e860ca1deb44e58cb349f786f304dcd13bb

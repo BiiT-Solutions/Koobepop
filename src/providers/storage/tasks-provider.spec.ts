@@ -99,11 +99,8 @@ describe('Service: TasksProvider', () => {
       });
     });
   })
-/*
-//Something is wrong in the top test, it fails if there's another on the bottom, so an aasync call is failing somewhere
-  it('should update the actual tasks //TODO',()=>{
-    //TODO
-  })
-*/
+
+  it('should update the actual tasks //TODO',()=>{  })
+
 
 });

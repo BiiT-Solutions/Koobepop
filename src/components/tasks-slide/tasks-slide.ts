@@ -67,7 +67,6 @@ export class TasksSlideComponent {
         this.tasksRestService.sendPerformedTask(task.appointmentId, name, score, date, moment().valueOf())
         .subscribe();
       },error=>console.error('Unable to set score for task '+name))
-
     } else {
       this.tasksProvider.removeScore(name, date);
       this.tasksProvider.getTask(name)
