@@ -1,21 +1,9 @@
-<div class="effort-selector-container">
-  <div class="explain-text">{{"EFFORT-SELECTOR.TEXT"|translate}}</div>
-  <div radio-group class="radio-container">
-    <div class="effort-easy effort-selection">
-      <div>{{"EFFORT-SELECTOR.EASY"|translate}}</div>
-      <ion-radio (click)="close(LIGHT)"></ion-radio>
-    </div>
-    <div class="effort-normal effort-selection">
-      <div>{{"EFFORT-SELECTOR.NORMAL"|translate}}</div>
-      <ion-radio (click)="close(MODERATE)"></ion-radio>
-    </div>
-    <div class="effort-hard effort-selection ">
-      <div>{{"EFFORT-SELECTOR.HARD"|translate}}</div>
-      <ion-radio (click)="close(HEAVY)"></ion-radio>
-    </div>
-    <div class="effort-painful effort-selection ">
-      <div >{{"EFFORT-SELECTOR.PAIN"|translate}}</div>
-      <ion-radio (click)="close(PAIN)"></ion-radio>
-    </div>
+<div class="selector-container">
+  <div  class="explain-text">{{"EFFORT-SELECTOR.TEXT"|translate}}</div>
+  <div class="options-container">
+    <button ion-button full (click)="close(LIGHT)">{{"EFFORT-SELECTOR.EASY"|translate}}</button>
+    <button ion-button full (click)="close(MODERATE)">{{"EFFORT-SELECTOR.NORMAL"|translate}}</button>
+    <button ion-button full (click)="close(HEAVY)">{{"EFFORT-SELECTOR.HARD"|translate}}</button>
+    <button ion-button full (click)="close(PAIN)">{{"EFFORT-SELECTOR.PAIN"|translate}}</button>
   </div>
 </div>

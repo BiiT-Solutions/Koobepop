@@ -1,15 +1,20 @@
 unsel-confirmation{
-    div.unsel-confirmation-container{
-        display: flex;
-        justify-content: space-between;
+  .selector-container{
+    display:flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .explain-text{
+    text-align: center;
+  }
+  .options-container{
+    display:flex;
+    justify-content: space-around;
+    align-items:center;
+    .button-effect{
+      background-color: transparent !important;
     }
-    .radio-container{
-      width:14em;
-      height:3em;
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-around;
-     }
+  }
 }
 
 .unsel-confirmation-popover {
@@ -18,8 +23,6 @@ unsel-confirmation{
   }
 
   .popover-content{
-    right:0.1em;
-    left:auto!important;
     display: inline-block;
     width:320px;
     animation-duration: 0.5s;
