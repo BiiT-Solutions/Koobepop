@@ -73,14 +73,16 @@ describe('Service: AuthTokenRestService', () => {
   function setupConnections(backend: MockBackend) {
     backend.connections.subscribe((connection: MockConnection) => {
       let options
-      switch (connection.request.url) {
-        case 'http://192.168.1.5:8081/rest/sendAuthCodeSMS':
+      const request = connection.request.url.split('/')
+      const service = request[request.length-1]
+      switch (service) {
+        case 'sendAuthCodeSMS':
           options = sendSMS(connection.request.json().patientId)
           break;
-        case 'http://192.168.1.5:8081/rest/getAuthenticationToken':
+        case 'getAuthenticationToken':
           options = getAuthToken(connection.request.json())
           break;
-        case 'http://192.168.1.5:8081/rest/verifyAuthenticationToken':
+        case 'verifyAuthenticationToken':
           options = verifyToken(connection.request.json().token)
           break;
         default:

@@ -26,18 +26,18 @@ export class MessagesRestService extends BasicRestService {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
     const body = {
-      fromDate: from
+      updateTime: from
     }
     return super.request(requestAddres, body, headers)
       .map((res: Response) => this.extractData(res))
       .map((res: any[]) => this.toMessageModel(res));
   }
 
-  public extractData(res) {
+  private extractData(res) {
     return res.json() || [];
   }
 
-  public toMessageModel(res: any[]): MessageModel[] {
+  private toMessageModel(res: any[]): MessageModel[] {
     const messagesList = [];
 
     res.forEach(message => {

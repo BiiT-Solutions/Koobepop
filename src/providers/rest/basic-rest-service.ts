@@ -23,16 +23,16 @@ export class BasicRestService {
   }
 
   public requestWithoutToken(requestAddress: string, requestBody: any, headers: Headers): Observable<Response> {
-    const criteria = requestBody;
-    criteria["organizationName"] = this.config.organizationName;
-    return this.http.post(requestAddress, criteria, { headers: headers });
+    const body = requestBody;
+    body["organizationName"] = this.config.organizationName;
+    return this.http.post(requestAddress, body, { headers: headers });
   }
 
   private requestWithToken(requestAddress: string, requestBody: any, headers: Headers, token: string, userId:string): Observable<Response> {
-    const criteria = requestBody;
-    criteria["token"] = token;
-    criteria["patientId"] = userId;
-    return this.requestWithoutToken(requestAddress,criteria,headers);
+    const body = requestBody;
+    body["token"] = token;
+    body["patientId"] = userId;
+    return this.requestWithoutToken(requestAddress,body,headers);
   }
 
 }

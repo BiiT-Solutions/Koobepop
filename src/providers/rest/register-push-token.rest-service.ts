@@ -9,24 +9,24 @@ import { Observable } from 'rxjs/Rx';
 import { UserProvider } from '../storage/user-provider';
 @Injectable()
 export class RegisterPushTokenRestService extends BasicRestService {
-    appointmentsList;
-    constructor(protected http: Http,
-        @Inject(APP_CONFIG) protected config: IAppConfig,
-        protected tokenProvider: TokenProvider,
-        protected userProvider:UserProvider,
-        protected translate: TranslateService) {
-        super(http, config, tokenProvider,userProvider);
-    }
-    public setPushToken(user: UserModel, pushNotificationToken: string): Observable<any> {
-        const requestAddres = this.config.usmoServer + this.config.setPushNotificationsToken;
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        headers.append('Authorization', this.config.password);
-        const body = {
-            patientId: user.patientId,
-            pushNotificationToken: pushNotificationToken
-        }
-        return super.request(requestAddres, body, headers)
-            .map((res: Response) => res.json());
+  appointmentsList;
+  constructor(protected http: Http,
+    @Inject(APP_CONFIG) protected config: IAppConfig,
+    protected tokenProvider: TokenProvider,
+    protected userProvider: UserProvider,
+    protected translate: TranslateService) {
+    super(http, config, tokenProvider, userProvider);
+  }
 
+  public setPushToken(pushNotificationToken: string): Observable<any> {
+    const requestAddres = this.config.usmoServer + this.config.setPushNotificationsToken;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    headers.append('Authorization', this.config.password);
+    const body = {
+      pushNotificationToken: pushNotificationToken
     }
+    return super.request(requestAddres, body, headers)
+      .map((res: Response) => res.json());
+
+  }
 }

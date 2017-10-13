@@ -36,7 +36,7 @@ export class AuthTokenRestService extends BasicRestService {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Authorization', this.config.password);
     const body = {
-      user: id,
+      patientId: id,
       authCode: code,
       uuid: this.getUuid()
     };

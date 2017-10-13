@@ -101,7 +101,5 @@ describe('Service: TasksProvider', () => {
     });
   })
 
-  it('should update the actual tasks //TODO',()=>{  })
-
-
+  it('should update the actual tasks //TODO')
 });

@@ -43,7 +43,7 @@ export class TokenProvider extends StorageServiceProvider {
         return this.userProvider.retrieveItem(StorageServiceProvider.USER_STORAGE_ID)
             .map(user => {
                 let payload: string =
-                    btoa('{"user":"' + user.patientId +'"'
+                    btoa('{"patientId":"' + user.patientId +'"'
                         + ',"uuid":"' + this.getUuid() +'"'
                         + ',"exp":' + token.payload.exp + '}');
                 // In case there's a necessary padding we remove it from the base64 encoded string

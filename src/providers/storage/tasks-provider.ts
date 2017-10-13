@@ -51,21 +51,21 @@ export class TasksProvider extends StorageServiceProvider {
 
   public setScore(name: string, score: number, performedTime: number, filledTime: number): Observable<USMOTask> {
     const completeTask: CompleteTask = new CompleteTask(performedTime, filledTime, score);
-    console.log("Set task:",name)
+    //console.log("Set task:",name)
     return this.getTask(name)
       .map(task => {
         task.setScore(completeTask)
-        this.save().subscribe(tasks=>console.log("Saved Tasks:",tasks))
+        this.save().subscribe();
         return task;
       });
   }
 
   public removeScore(name: string, date: number): Observable<USMOTask> {
-    console.log("Remove task", name, date)
+    //console.log("Remove task", name, date)
     return this.getTask(name)
       .map(task => {
         task.removeScore(date);
-        this.save().subscribe(tasks=>console.log("Saved Tasks:",tasks));
+        this.save().subscribe();
         return task;
       });
   }
