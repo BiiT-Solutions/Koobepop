@@ -81,7 +81,7 @@ export class USMOTask {
   public removeScore(date: number) {
     const week = moment(date).startOf('isoWeek').valueOf();
     if (this.performedOn.has(week)) {
-      if (this.performedOn.get(week).length <= 1) {
+      if (this.performedOn.get(week).length <= 0) {
         this.performedOn.delete(week);
       } else {
         const index = this.performedOn.get(week).map(completeT => completeT.performedTime).indexOf(date);

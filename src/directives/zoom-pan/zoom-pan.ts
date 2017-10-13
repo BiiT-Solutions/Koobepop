@@ -63,7 +63,6 @@ export class ZoomPanDirective {
 
       // pan or pinch
       if (scale > 1) {
-        console.log('PANPINCH')
         posX = last_posX + ev.deltaX;
         posY = last_posY + ev.deltaY;
         max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);

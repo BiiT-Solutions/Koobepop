@@ -68,8 +68,7 @@ export class TasksSlideComponent {
         .subscribe();
       },error=>console.error('Unable to set score for task '+name))
     } else {
-      this.tasksProvider.removeScore(name, date);
-      this.tasksProvider.getTask(name)
+      this.tasksProvider.removeScore(name, date)
         .subscribe((task: USMOTask) => {
           this.tasksRestService.removePerformedTask(task.appointmentId, name, date)
           .subscribe();

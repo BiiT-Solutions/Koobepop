@@ -17,12 +17,13 @@ describe('Service: TasksProvider', () => {
   TASK_1_PERFORMED_1.set(0, [new CompleteTask(0, 0, 2)])
   const TASK_1_NAME = "Task 1"
   const TASK_1 = new USMOTask(TASK_1_NAME, 0, Date.now() + ONE_DAY, 3, 'Physical', 1, TASK_1_PERFORMED_1)
+  TASK_1.updateTime = 0;
   // TASK 2
   const TASK_2_PERFORMED_1 = new Map<number, CompleteTask[]>();
   TASK_2_PERFORMED_1.set(0, [new CompleteTask(1, 1, 1)])
   const TASK_2_NAME = "Task 2"
   const TASK_2 = new USMOTask(TASK_2_NAME, 0, Date.now() + ONE_DAY, 3, 'Mental', 1, TASK_2_PERFORMED_1)
-
+  TASK_2.updateTime = 0;
   const TASKS_TO_SAVE = [
     TASK_1, TASK_2
   ]
@@ -66,7 +67,7 @@ describe('Service: TasksProvider', () => {
     spyOn(storage, 'get').and.returnValue(Promise.resolve(SAVED_TASKS));
     service.getTasks().subscribe(retrievedTasks => {
       expect(storage.get).toHaveBeenCalled();
-      expect(retrievedTasks).toBe(TASKS_TO_SAVE)
+      expect(retrievedTasks).toEqual(TASKS_TO_SAVE)
     });
   });
 
@@ -77,7 +78,7 @@ describe('Service: TasksProvider', () => {
     service.setTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
       service.getTask(TASK_1_NAME)
-        .subscribe(task => expect(task).toBe(TASK_1))
+        .subscribe(task => expect(task).toEqual(TASK_1))
     });
   })
 
@@ -89,12 +90,12 @@ describe('Service: TasksProvider', () => {
       expect(storage.set).toHaveBeenCalled();
       service.setScore(TASK_1_NAME, SCORE_1,YESTERDAY,TODAY)
       .subscribe(task=>{
-        expect(task.performedOn.size).toBe(2)
+        expect(task.performedOn.size).toEqual(2)
         const indexOfCompletion = task.performedOn.get(task.performedOn.keys[1])
         .map(completed=>completed.filledTime).indexOf(TODAY)
         const completion = task.performedOn.get(task.performedOn.keys[1])[indexOfCompletion]
-        expect(completion.performedTime).toBe(YESTERDAY)
-        expect(completion.score).toBe(SCORE_1)
+        expect(completion.performedTime).toEqual(YESTERDAY)
+        expect(completion.score).toEqual(SCORE_1)
         service.removeScore(TASK_1_NAME,YESTERDAY).subscribe(task=>expect(task.performedOn.size).toBe(1));
       });
     });

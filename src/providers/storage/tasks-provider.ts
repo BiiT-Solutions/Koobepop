@@ -33,17 +33,16 @@ export class TasksProvider extends StorageServiceProvider {
 
   public setTasks(tasks: USMOTask[]): Observable<USMOTask[]> {
     this.setAllocTasks(tasks);
-    return this.saveTasks();
+    return this.save();
   }
 
-  private saveTasks(): Observable<USMOTask[]>{
+  private save(): Observable<USMOTask[]>{
     const tasks = this.getAllocTasks();
     const serializedTasks = this.serializeTasks(tasks);
     return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
   }
 
   public getTask(name: string): Observable<USMOTask> {
-
     return this.getTasks().map(tasks => {
       const index = tasks.map(task => task.name).indexOf(name);
       return index >= 0 ? tasks[index] : null
@@ -52,19 +51,21 @@ export class TasksProvider extends StorageServiceProvider {
 
   public setScore(name: string, score: number, performedTime: number, filledTime: number): Observable<USMOTask> {
     const completeTask: CompleteTask = new CompleteTask(performedTime, filledTime, score);
+    console.log("Set task:",name)
     return this.getTask(name)
       .map(task => {
         task.setScore(completeTask)
-        this.saveTasks()
+        this.save().subscribe(tasks=>console.log("Saved Tasks:",tasks))
         return task;
       });
   }
 
   public removeScore(name: string, date: number): Observable<USMOTask> {
+    console.log("Remove task", name, date)
     return this.getTask(name)
       .map(task => {
         task.removeScore(date);
-        this.saveTasks();
+        this.save().subscribe(tasks=>console.log("Saved Tasks:",tasks));
         return task;
       });
   }
@@ -111,11 +112,6 @@ export class TasksProvider extends StorageServiceProvider {
             });
         });
       });
-  }
-  private getAppointmentsNotUpdate(actualTasks,lastAppointments){
-
-    return
-
   }
 
   private getAllocTasks(): USMOTask[] {

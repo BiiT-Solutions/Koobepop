@@ -40,9 +40,18 @@ export class KppZoomPanComponent {
       max_pos_y = 0,
       transform = '';
     const el = elm;
+    const translate_due_to_scale = { x: 0, y: 0 }
 
     hammertime.on('doubletap pan pinch panend pinchend', (ev) => {
 
+      // pinch
+      if (ev.type === 'pinch') {
+        scale = Math.max(.999, Math.min(last_scale * (ev.scale), 4));
+        console.log(ev.scale,el.clientWidth)
+        translate_due_to_scale.x = (el.clientWidth / 2 - ev.center.x + posX  ) * (scale - 1)
+        translate_due_to_scale.y = (el.clientHeight / 2 - ev.center.y + posY) * (scale - 1)
+
+      }
 
       // pan
       //if (scale !== 1) {
@@ -64,21 +73,17 @@ export class KppZoomPanComponent {
       }
       //}
 
-      // pinch
-      if (ev.type === 'pinch') {
-        scale = Math.max(.999, Math.min(last_scale * (ev.scale), 4));
+
+      if (ev.type === 'pinchend') {
+        last_scale = scale;
       }
-      if (ev.type === 'pinchend') { last_scale = scale; }
 
       // panend
       if (ev.type === 'panend') {
-        last_posX = posX < max_pos_x ? posX : max_pos_x;
-        last_posY = posY < max_pos_y ? posY : max_pos_y;
+        last_posX = Math.min(posX, max_pos_x);
+        last_posY = Math.min(posY, max_pos_y);
       }
 
-
-
-      //TODO - Fix doubletap logic
       if (ev.type === 'doubletap') {
 
         if (scale != 1) {
@@ -86,8 +91,8 @@ export class KppZoomPanComponent {
           last_scale = 1;
           posX = 0;
           posY = 0;
-          last_posX=0;
-          last_posX=0;
+          last_posX = 0;
+          last_posX = 0;
         } else {
           scale = 2;
           last_scale = 2;
@@ -95,7 +100,8 @@ export class KppZoomPanComponent {
       }
 
       transform =
-        'translate3d(' + posX + 'px,' + posY + 'px, 0) ' +
+        'translate3d(' + translate_due_to_scale.x + 'px,' + translate_due_to_scale.y + 'px, 0) ' + //Translate due to zoom
+        'translate3d(' + posX + 'px,' + posY + 'px, 0) ' +  //translate due to pan
         'scale3d(' + scale + ', ' + scale + ', 1)';
 
       if (transform) {
