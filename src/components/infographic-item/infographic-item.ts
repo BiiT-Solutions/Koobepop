@@ -1,8 +1,5 @@
 import { Component, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
-/**
- *
- */
 @Component({
   selector: 'infographic-item',
   templateUrl: 'infographic-item.html',
