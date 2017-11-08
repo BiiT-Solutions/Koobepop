@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.biit.igow" version="0.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>IGOW</name>
+    <name>iGROW</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="amelcon@biit-solutions.com">Biit Sourcing Solutions</author>
     <content src="index.html" />
@@ -53,6 +53,7 @@
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
     <engine name="android" spec="6.1.2" />
     <plugin name="cordova-plugin-console" spec="~1.0.5" />
     <plugin name="cordova-plugin-device" spec="~1.1.4" />

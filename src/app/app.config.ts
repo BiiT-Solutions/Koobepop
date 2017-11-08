@@ -33,8 +33,8 @@ export const AppConfig: IAppConfig = {
   //"d2Vic2VydmljZUBiaWl0LXNvbHV0aW9ucy5jb206UFNJZG4zTDkzcEFpYjdr" //M3SPORT
 
   , organizationName:
-    "Orbis Sport"
-  //"UsmoOrganization"
+   //"Orbis Sport"
+  "UsmoOrganization"
 
   , pushSenderID: '489751559671'
 

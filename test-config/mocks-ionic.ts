@@ -125,7 +125,7 @@ export class DeepLinkerMock {
 
 export class ConfigMock {
 
-  public get(): any {
+  public get(mode?:string): any {
     return '';
   }
 
@@ -269,4 +269,9 @@ export class DeviceMock{
 
 export class AppointmentsRestServiceMock{
 
+}
+export class ViewControllerMock{
+  dismiss(x:any){
+
+  }
 }

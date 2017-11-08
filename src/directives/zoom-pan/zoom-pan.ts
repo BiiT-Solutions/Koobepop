@@ -129,7 +129,6 @@ private allowedToSlide(swiper) {
     let slide = swiper.slides[slideIndex];
     let zoomPan = slide.querySelector('[zoom-pan]');
     let isZoomed = (zoomPan.getAttribute('zoomed') !== 'false');
-
     if (isZoomed) {
         swiper.lockSwipes();
     } else {
