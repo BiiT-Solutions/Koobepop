@@ -22,6 +22,9 @@ export class HomePage {
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
   tab4Root = TestPage;
+
+  public pendingMessages: number;
+
   @ViewChild("homeTabs") homeTabs: Tabs;
   constructor(public navCtrl: NavController,
     protected pushHandler: PushNotificationsHandlerProvider,
@@ -31,30 +34,37 @@ export class HomePage {
     //Init push notifications handler
     pushHandler.init();
     messagesProvider.update().subscribe();
+
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification')
         .subscribe((notification: any) => {
           console.info('Received a notification', notification);
-          messagesProvider.update().subscribe();
-          if (!notification.additionalData.foreground) {
-            if (this.homeTabs != undefined) {
-              this.homeTabs.select(3);
+          messagesProvider.update()
+          .subscribe(() => {
+            if (!notification.additionalData.foreground) {
+              if (this.homeTabs != undefined) {
+                this.homeTabs.select(3);
+              }
             }
           }
+          );
         });
     }
+    this.messagesProvider.getObservableMessagesCount().subscribe(msgsCnt => this.pendingMessages = msgsCnt);
   }
 
   ionViewDidLoad() {
     //TODO - set timer to update every 30 min or so
-    this.appointmentsProvider.update().subscribe(appointments => {
-      console.debug("Updated Appointemnts", appointments);
-      this.tasksProvider.update().subscribe((tasks)=>console.debug("Updated Tasks: ",tasks));
-
-    })
+   this.appointmentsProvider.update()
+      .subscribe(appointments => {
+        console.debug("Updated Appointemnts", appointments);
+        this.tasksProvider.update()
+        .subscribe((tasks) => console.debug("Updated Tasks: ", tasks));
+      })
   }
 
-  ionViewWillUnload() {
+  ionViewDidUnload() {
+
   }
 
   navTest() {
@@ -84,4 +94,5 @@ export class HomePage {
   public getPendingMessages() {
     return this.messagesProvider.getNewMessagesCount();
   }
+
 }

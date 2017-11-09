@@ -1,17 +1,34 @@
 import { Injectable } from '@angular/core';
 import { StorageServiceProvider } from './storage-service';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { MessageModel } from '../../models/message.model';
 import { MessagesRestService } from '../rest/messages-rest-service';
 @Injectable()
 export class MessagesProvider extends StorageServiceProvider {
   private messages: MessageModel[];
   private newMessagesCount: number = 0;
+  
+  private bsMessages:BehaviorSubject<MessageModel[]>
+  private bsMessagesCount:BehaviorSubject<number>
   constructor(public storage: Storage,private messagesRestService: MessagesRestService ) {
     super(storage);
+
+    this.bsMessages = new BehaviorSubject([]);
+    this.bsMessagesCount = new BehaviorSubject(0);
+    super.retrieveItem(StorageServiceProvider.MESSAGES_STORAGE_ID)
+    .map((msgs) => this.sortMsgs(msgs))
+    .map((msgs) => this.setAllocMessages(msgs));
   }
 
+  public getObservableMessages():BehaviorSubject<MessageModel[]>{
+    return this.bsMessages;
+  }
+
+  public getObservableMessagesCount():BehaviorSubject<number>{
+    return this.bsMessagesCount;
+  }
+  
   public getMessages(): Observable<MessageModel[]> {
     if (this.getAllocMessages() == undefined) {
       return super.retrieveItem(StorageServiceProvider.MESSAGES_STORAGE_ID)
@@ -33,6 +50,8 @@ export class MessagesProvider extends StorageServiceProvider {
 
   private setAllocMessages(messages: MessageModel[]): MessageModel[] {
     this.messages = messages == undefined ? [] : messages;
+    //
+    this.bsMessages.next(messages);
     return this.messages;
   }
 
@@ -56,6 +75,7 @@ export class MessagesProvider extends StorageServiceProvider {
 
   public setNewMessagesCount(newMessagesCount):Observable<number>{
     this.newMessagesCount = newMessagesCount;
+    this.bsMessagesCount.next(newMessagesCount)
     return super.storeItem(StorageServiceProvider.NEW_MESSAGES_COUNT_ID, newMessagesCount);
   }
 

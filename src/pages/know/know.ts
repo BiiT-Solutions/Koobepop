@@ -1,8 +1,8 @@
 
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
-import { ServicesManager } from '../../providers/servicesManager';
-import { Push, } from '@ionic-native/push';
+import { MessagesProvider } from '../../providers/storage/messages-provider';
+import { Push } from '@ionic-native/push';
 import { MessageModel } from '../../models/message.model';
 
 /**
@@ -15,13 +15,17 @@ import { MessageModel } from '../../models/message.model';
 export class KnowPage {
 
   public notifications: MessageModel[];
+  
 
   constructor(public navCtrl: NavController,
-    public manager: ServicesManager,
+    public  msgProv: MessagesProvider,
     public changeDetRef: ChangeDetectorRef) { }
+
   ionViewDidEnter() {
-    this.manager.getMessages().subscribe(messages => {
-      this.notifications = messages;
-    });
+   // this.msgProv.getMessages().subscribe(messages => {
+   //   this.notifications = messages;
+   // });
+   
+    this.msgProv.getObservableMessages().subscribe(msgs=> this.notifications = msgs);
   }
 }
