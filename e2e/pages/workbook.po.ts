@@ -48,7 +48,7 @@ export class WorkBookPage extends Page {
   }
 
   public getSelection(selection: string) {
-    return browser.findElement(protractor.by.cssContainingText('span',selection))
+    return browser.findElement(protractor.by.cssContainingText('button',selection))
   }
 
 }

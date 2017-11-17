@@ -1,10 +1,8 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
 import { IonicModule, Platform, LoadingController } from 'ionic-angular';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
-import { ServicesManager } from '../providers/servicesManager';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
 import { HomePage } from '../pages/home/home';

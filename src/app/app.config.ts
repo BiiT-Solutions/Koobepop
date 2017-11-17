@@ -24,7 +24,7 @@ export interface IAppConfig {
 export const AppConfig: IAppConfig = {
   //Server configuration
   usmoServer:
-     "http://192.168.1.5:8081"    //LOCAL server
+     "http://192.168.2.3:8081"    //LOCAL server
   // "https://testing.biit-solutions.com:10443/usmo/webservices" //TESTING server
   // "https://m3sport.biit-solutions.com:10443/usmo/webservices" //M3SPORT server
 
@@ -35,24 +35,25 @@ export const AppConfig: IAppConfig = {
   , organizationName:
    //"Orbis Sport"
   "UsmoOrganization"
-
+  
   , pushSenderID: '489751559671'
 
   //Services
   , sendCodeSMS:                    "/rest/sendAuthCodeSMS"
   , getAuthenticationToken:         "/rest/getAuthenticationToken"
   , verifyAuthenticationToken:      "/rest/verifyAuthenticationToken"
+  , setPushNotificationsToken:      "/rest/setPushNotificationToken"
+  
   , getMessagesService:             "/rest/getMessagesAuth"
   , getUpdatedAppointmentsService:  "/rest/getUpdatedAppointmentsAuth"
   , getTasksService:                "/rest/getCorrectiveExercisesAuth"
+  , getReportService:               "/graphics/getReportContentAuth"
+  
   // TODO - This should be handled by the perform actions service
   , addPerformedExercise:           "/rest/addPerformedExerciseAuth"
   , removePerformedExercise:        "/rest/removePerformedExerciseAuth"
 
   , performActions:                 "/rest/performExercisesActionsAuth"
-
-  , setPushNotificationsToken:      "/rest/setPushNotificationToken"
-  , getReportService:               "/graphics/getReportContentAuth"
 
   , getAppointmentsService:         "/rest/getAppointmentsAuth"
 };

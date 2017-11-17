@@ -1,5 +1,4 @@
 effort-selector {
-    //////////////////////////////////////////
     .selector-container{
       display:flex;
       flex-direction: column;
@@ -16,7 +15,22 @@ effort-selector {
         background-color: transparent !important;
       }
     }
-}
+
+    button {
+      background-color: map-get($colors , primary );
+      border: none;
+      color: white;
+      height:36px;
+      width:100%;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1em;
+      text-transform: uppercase;
+    }
+  }
+
+
 
 //////////////////////////////////
 .effort-selector-popover {

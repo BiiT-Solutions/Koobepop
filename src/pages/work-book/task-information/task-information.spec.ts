@@ -11,7 +11,6 @@ import {
   SplashScreenMock,
   TranslateServiceMock,
   LoadingControllerMock,
-  ServicesManagerMock,
   ConnectivityServiceMock,
   ToastIssuerMock,
   NavMock,
@@ -32,8 +31,7 @@ describe('TaskInformationPage', () => {
       ],
       providers: [
         { provide: NavController, useClass: NavMock },
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: DomSanitizer, useClass: ServicesManagerMock }
+        { provide: NavParams, useClass: NavParamsMock }
       ]
     })
   }));

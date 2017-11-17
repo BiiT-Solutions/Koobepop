@@ -23,27 +23,25 @@ describe('EffortSelectorComponent:', () => {
                 Form,
                 Keyboard,
                 { provide: Platform, useClass: MockPlatform },
-                { provide: TranslateService, useClass:TranslateServiceMock},
-                { provide: Config, useValue: ConfigMock },
-                {provide: ViewController, useClass: ViewControllerMock}
+                { provide: TranslateService, useClass: TranslateServiceMock },
+                { provide: ViewController, useClass: ViewControllerMock }
             ],
             imports: [
                 FormsModule,
-                IonicModule,
                 ReactiveFormsModule,
                 TranslateModule.forRoot()
             ],
         });
     }));
-    beforeEach(()=>{
-      fixture = TestBed.createComponent(EffortSelectorComponent);
-      comp = fixture.componentInstance;
-      de = fixture.debugElement;
+    beforeEach(() => {
+        fixture = TestBed.createComponent(EffortSelectorComponent);
+        comp = fixture.componentInstance;
+        de = fixture.debugElement;
     })
 
-    describe('.constructor()', () => {
-        it('Should be defined', () => {
-            expect(comp).toBeDefined();
-        });
+
+    it('Should be defined', () => {
+        expect(comp).toBeDefined();
     });
+
 });

@@ -52,7 +52,6 @@ describe('Service: AppointmentsRestService', () => {
 
   function setupConnections(backend: MockBackend, options: any) {
     backend.connections.subscribe((connection: MockConnection) => {
-
       const responseOptions = new ResponseOptions(options);
       const response = new Response(responseOptions);
       connection.mockRespond(response);

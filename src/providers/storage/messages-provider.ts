@@ -4,55 +4,19 @@ import { Storage } from '@ionic/storage';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { MessageModel } from '../../models/message.model';
 import { MessagesRestService } from '../rest/messages-rest-service';
+
+
+//TODO -TEST this
 @Injectable()
 export class MessagesProvider extends StorageServiceProvider {
-  private messages: MessageModel[];
-  private newMessagesCount: number = 0;
-  
-  private bsMessages:BehaviorSubject<MessageModel[]>
-  private bsMessagesCount:BehaviorSubject<number>
-  constructor(public storage: Storage,private messagesRestService: MessagesRestService ) {
+  private bsMessages: BehaviorSubject<MessageModel[]>
+  private bsMessagesCount: BehaviorSubject<number>
+  constructor(public storage: Storage, private messagesRestService: MessagesRestService) {
     super(storage);
 
     this.bsMessages = new BehaviorSubject([]);
     this.bsMessagesCount = new BehaviorSubject(0);
-    super.retrieveItem(StorageServiceProvider.MESSAGES_STORAGE_ID)
-    .map((msgs) => this.sortMsgs(msgs))
-    .map((msgs) => this.setAllocMessages(msgs));
-  }
-
-  public getObservableMessages():BehaviorSubject<MessageModel[]>{
-    return this.bsMessages;
-  }
-
-  public getObservableMessagesCount():BehaviorSubject<number>{
-    return this.bsMessagesCount;
-  }
-  
-  public getMessages(): Observable<MessageModel[]> {
-    if (this.getAllocMessages() == undefined) {
-      return super.retrieveItem(StorageServiceProvider.MESSAGES_STORAGE_ID)
-        .map((msgs) => this.sortMsgs(msgs))
-        .map((msgs) => this.setAllocMessages(msgs));
-    } else {
-      return Observable.of(this.getAllocMessages());
-    }
-  }
-
-  public setMessages(messages: MessageModel[]): Observable<MessageModel[]> {
-    this.setAllocMessages(messages);
-    return super.storeItem(StorageServiceProvider.MESSAGES_STORAGE_ID, messages);
-  }
-
-  private getAllocMessages(): MessageModel[] {
-    return this.messages;
-  }
-
-  private setAllocMessages(messages: MessageModel[]): MessageModel[] {
-    this.messages = messages == undefined ? [] : messages;
-    //
-    this.bsMessages.next(messages);
-    return this.messages;
+    this.loadMessages();
   }
 
   private sortMsgs(msgs: MessageModel[]): MessageModel[] {
@@ -64,38 +28,53 @@ export class MessagesProvider extends StorageServiceProvider {
     }
   }
 
-  public getNewMessagesCount():Observable<number> {
-    if (this.newMessagesCount == undefined) {
-      return super.retrieveItem(StorageServiceProvider.NEW_MESSAGES_COUNT_ID)
-        .flatMap((count) =>count==undefined?this.setNewMessagesCount(0):this.setNewMessagesCount(count));
-    } else {
-      return Observable.of(this.newMessagesCount);
+  public update(): void {
+    const messages = this.getCurrentMessages();
+    let date = 0;
+    if (messages != undefined && messages.length > 0) {
+      //Take last message date (inverse sort)
+      date = messages[0].time;
     }
-  }
-
-  public setNewMessagesCount(newMessagesCount):Observable<number>{
-    this.newMessagesCount = newMessagesCount;
-    this.bsMessagesCount.next(newMessagesCount)
-    return super.storeItem(StorageServiceProvider.NEW_MESSAGES_COUNT_ID, newMessagesCount);
-  }
-
-  public update(){
-     return this.getMessages()
-      .flatMap((messages: MessageModel[]) => {
-        let date = 0;
-        if (messages != undefined && messages.length > 0) {
-          date = messages[0].time;
+    this.messagesRestService.requestMessages(date)
+      .subscribe(newMessages => {
+        if (newMessages != undefined && newMessages.length > 0) {
+          //last messages are shown first
+          const finalMessages = newMessages.concat(messages);
+          this.getObservableMessages().next(finalMessages);
+          const messagesLeft = this.getCurrentMessagesCount() + newMessages.length;
+          this.getObservableMessagesCount().next(messagesLeft);
         }
-        return this.messagesRestService.requestMessages(date)
-          .map((newMessages: MessageModel[]) => {
-            if (newMessages != undefined && newMessages.length > 0) {
-              //last messages are shown first
-              const finalMessages = newMessages.concat(messages);
-              this.setMessages(finalMessages).subscribe();
-              this.setNewMessagesCount( this.newMessagesCount + newMessages.length);
-            }
-          });
       });
   }
 
+  /** Load msgs from database */
+  public loadMessages(): void {
+    super.retrieveItem(StorageServiceProvider.MESSAGES_STORAGE_ID)
+      .map(msgs=>this.sortMsgs(msgs))
+      .subscribe(messages => this.bsMessages.next(messages));
+  }
+
+  public saveMessages(): void {
+    let complete;
+    super.storeItem(StorageServiceProvider.MESSAGES_STORAGE_ID, this.bsMessages.getValue())
+      .subscribe();
+  }
+
+  public getObservableMessages(): BehaviorSubject<MessageModel[]> {
+    return this.bsMessages
+  }
+  public getObservableMessagesCount(): BehaviorSubject<number> {
+    return this.bsMessagesCount;
+  }
+
+  //Don't use these to show in the view
+  public getCurrentMessages(): MessageModel[] {
+    return this.bsMessages.getValue();
+  }
+  public getCurrentMessagesCount(): number {
+    return this.bsMessagesCount.getValue();
+  }
+  public setMessagesCount(messagesLeft:number){
+    this.getObservableMessagesCount().next(messagesLeft);
+  }
 }

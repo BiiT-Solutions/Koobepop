@@ -3,8 +3,6 @@ import { IonicModule, Platform, LoadingController, NavController } from 'ionic-a
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ServicesManager } from '../../providers/servicesManager';
-import { ConnectivityService } from '..7../providers/connectivity-service';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { UserProvider } from '../../providers/storage/user-provider';
 import { SummaryPage } from './summary';
@@ -16,13 +14,14 @@ import {
   SplashScreenMock,
   TranslateServiceMock,
   LoadingControllerMock,
-  ServicesManagerMock,
   ConnectivityServiceMock,
   ToastIssuerMock,
   NavMock,
   UserProvMock,
   DomSanitizerMock
 } from '../../../test-config/mocks-ionic';
+import { TasksProvider } from '../../providers/storage/tasks-provider';
+import { TasksProviderMock, UserProviderMock } from '../../../test-config/mocks-ionic';
 
 describe('SummaryPage', () => {
   let fixture;
@@ -37,9 +36,10 @@ describe('SummaryPage', () => {
       ],
       providers: [
         { provide: NavController, useClass: NavMock },
-        { provide: ServicesManager, useClass: ServicesManagerMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
-        { provide: DomSanitizer, useClass: DomSanitizerMock }
+        { provide: DomSanitizer, useClass: DomSanitizerMock },
+        { provide: TasksProvider, useClass: TasksProviderMock },
+        { provide: UserProvider, useClass: UserProviderMock },
       ]
     })
   }));

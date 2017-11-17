@@ -1,6 +1,5 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { NavController, NavParams, ItemSliding, Platform, Slides } from 'ionic-angular';
-import { ServicesManager } from '../../providers/servicesManager';
 import { Push, } from '@ionic-native/push';
 import { MessageModel } from '../../models/message.model';
 import * as moment from 'moment';
@@ -23,7 +22,6 @@ export class TestPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public manager: ServicesManager,
     public push: Push,
     public platform: Platform,
     public changeDetRef: ChangeDetectorRef) {

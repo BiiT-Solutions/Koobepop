@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ServicesManager } from '../../providers/servicesManager';
 import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { UserModel } from '../../models/user.model';
 import { CompleteTask } from '../../models/complete-task';
+import { TasksProvider } from '../../providers/storage/tasks-provider';
+import { UserProvider } from '../../providers/storage/user-provider';
 
 @Component({
   selector: 'page-summary',
@@ -17,9 +18,12 @@ export class SummaryPage {
   trackerPath: SafeResourceUrl;
   trackerReady;
 
-  constructor(public navCtrl: NavController,
-    public manager: ServicesManager,
-    private sanitizer: DomSanitizer) {
+  constructor(
+    public navCtrl: NavController,
+    private sanitizer: DomSanitizer,
+    private tasksProv:TasksProvider,
+    private userProv: UserProvider
+  ) {
     this.trackerReady = false;
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
   }
@@ -92,7 +96,7 @@ export class SummaryPage {
 
   /** Observable retunring week details */
   detailsFromWeek(week: number): Observable<any> {
-    return this.manager.getTasks().map((tasks: USMOTask[]) => {
+    return this.tasksProv.getTasks().map((tasks: USMOTask[]) => {
       const workouts = []
       const firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
       tasks.forEach(task => {
@@ -125,8 +129,8 @@ export class SummaryPage {
     const weekStarts = moment().week(this.actualWeek).startOf("isoWeek").valueOf();
     const weekFinishes = moment().week(this.actualWeek).endOf("isoWeek").valueOf();
 
-    return this.manager.getUser().flatMap((storedUser: UserModel) => {
-      return this.manager.getTasks().map((tasks: USMOTask[]) => {
+    return this.userProv.getUser().flatMap((storedUser: UserModel) => {
+      return this.tasksProv.getTasks().map((tasks: USMOTask[]) => {
         const taskTypesGoals: Map<string, number> = new Map();
         tasks.forEach((task: USMOTask) => {
           if (!taskTypesGoals.has(task.type)) {

@@ -33,33 +33,31 @@ export class HomePage {
     private tasksProvider: TasksProvider) {
     //Init push notifications handler
     pushHandler.init();
-    messagesProvider.update().subscribe();
+    messagesProvider.update();
 
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification')
         .subscribe((notification: any) => {
           console.info('Received a notification', notification);
-          messagesProvider.update()
-          .subscribe(() => {
+          messagesProvider.update();
             if (!notification.additionalData.foreground) {
               if (this.homeTabs != undefined) {
                 this.homeTabs.select(3);
               }
             }
-          }
-          );
         });
     }
-    this.messagesProvider.getObservableMessagesCount().subscribe(msgsCnt => this.pendingMessages = msgsCnt);
+    this.messagesProvider.getObservableMessagesCount()
+      .subscribe(msgsCnt => this.pendingMessages = msgsCnt);
   }
 
   ionViewDidLoad() {
     //TODO - set timer to update every 30 min or so
-   this.appointmentsProvider.update()
+    this.appointmentsProvider.update()
       .subscribe(appointments => {
         console.debug("Updated Appointemnts", appointments);
         this.tasksProvider.update()
-        .subscribe((tasks) => console.debug("Updated Tasks: ", tasks));
+          .subscribe((tasks) => console.debug("Updated Tasks: ", tasks));
       })
   }
 
@@ -88,11 +86,7 @@ export class HomePage {
   }
 
   public restartMessageCount() {
-    this.messagesProvider.setNewMessagesCount(0);
-  }
-
-  public getPendingMessages() {
-    return this.messagesProvider.getNewMessagesCount();
+    this.messagesProvider.setMessagesCount(0);
   }
 
 }

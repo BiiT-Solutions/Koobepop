@@ -16,7 +16,6 @@ export class PushNotificationsHandlerProvider {
   constructor(public platform: Platform,
     public push: Push,
     @Inject(APP_CONFIG) protected config: IAppConfig,
-    protected manager: ServicesManager,
     protected registerPushService: RegisterPushTokenRestService) {
   }
 

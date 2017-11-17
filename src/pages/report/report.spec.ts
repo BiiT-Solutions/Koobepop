@@ -1,7 +1,6 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
 import { IonicModule,  NavController } from 'ionic-angular';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { ReportPage } from './report';
 import { InfographicSlideComponent } from '../../components/infographic-slide/infographic-slide';
@@ -14,7 +13,7 @@ import { KppZoomPanComponent } from '../../components/kpp-zoom-pan/kpp-zoom-pan'
 
 import {
   TranslateServiceMock,
-  ServicesManagerMock,
+  
   ToastIssuerMock,
   NavMock,
   ReportsProvMock
@@ -37,7 +36,6 @@ describe('ReportPage', () => {
       ],
       providers: [
         { provide: NavController, useClass: NavMock },
-        { provide: ServicesManager, useClass: ServicesManagerMock },
         { provide: ToastIssuer, useClass: ToastIssuerMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
         { provide: ReportsProvider, useClass: ReportsProvMock },

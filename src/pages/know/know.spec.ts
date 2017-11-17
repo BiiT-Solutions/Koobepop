@@ -4,13 +4,13 @@ import { IonicModule, Platform, LoadingController, NavController } from 'ionic-a
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ServicesManager } from '../../providers/servicesManager';
 import { ConnectivityService } from '..7../providers/connectivity-service';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { UserProvider } from '../../providers/storage/user-provider';
 import { ChangeDetectorRef } from '@angular/core';
 import { MessagesListComponent } from '../../components/messages-list/messages-list';
 import { NotificationMessageComponent } from '../../components/notification-message/notification-message';
+import { MessagesProvider } from '../../providers/storage/messages-provider';
 
 
 import {
@@ -19,29 +19,29 @@ import {
   SplashScreenMock,
   TranslateServiceMock,
   LoadingControllerMock,
-  ServicesManagerMock,
   ConnectivityServiceMock,
   ToastIssuerMock,
   NavMock,
   UserProvMock,
-  ChangeDetectorRefMock
+  ChangeDetectorRefMock,
+  MessagesProvMock
 } from '../../../test-config/mocks-ionic';
 
 describe('KnowPage', () => {
   let fixture;
-  let component:KnowPage;
+  let component: KnowPage;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [KnowPage,MessagesListComponent,NotificationMessageComponent],
+      declarations: [KnowPage, MessagesListComponent, NotificationMessageComponent],
       imports: [
         IonicModule.forRoot(KnowPage),
         TranslateModule.forRoot()
       ],
       providers: [
         { provide: NavController, useClass: NavMock },
-        { provide: ServicesManager, useClass: ServicesManagerMock },
-        { provide:ChangeDetectorRef, useClass:ChangeDetectorRefMock },
+        { provide: MessagesProvider, useClass: MessagesProvMock },
+        { provide: ChangeDetectorRef, useClass: ChangeDetectorRefMock },
       ]
     })
   }));

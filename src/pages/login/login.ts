@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
-import { ServicesManager } from '../../providers/servicesManager';
 import { HomePage } from '../home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { Response } from '@angular/http';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { UserProvider } from '../../providers/storage/user-provider';
+import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service';
+import { TokenProvider } from '../../providers/storage/token-provider';
+import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'page-login',
@@ -18,12 +20,15 @@ export class LoginPage {
   private idIsSent: boolean = false;
   private smsSent: boolean = false;
 
-  constructor(public navCtrl: NavController,
-    public manager: ServicesManager,
+  constructor(
+    public navCtrl: NavController,
     public toaster: ToastIssuer,
     public loadingCtrl: LoadingController,
     public translateService: TranslateService,
-    public userProvider: UserProvider) {
+    public userProvider: UserProvider,
+    public authProv: AuthTokenRestService,
+    public tokenProv: TokenProvider
+  ) {
 
     userProvider.getUser().subscribe(user => {
       if (user != null) {
@@ -37,10 +42,13 @@ export class LoginPage {
   public sendId(): void {
     // Request Verification code
     this.idIsSent = true;
-    this.manager.sendAuthCodeSMS(this.id, this.translateService.currentLang)
+    this.authProv.requestSendAuthCodeSMS(this.id, this.translateService.currentLang)
       .subscribe((res: Response) => {
         if (res.status == 200) {
           this.smsSent = true;
+          let user = new UserModel();
+          user.patientId=this.id;
+          this.userProvider.setUser(user).subscribe();
         } else {
           this.idIsSent = false;
           this.smsSent = false;
@@ -66,13 +74,16 @@ export class LoginPage {
       content: this.translateService.instant('LOGIN.WAIT-MSG')
     });
     loading.present();
-    this.manager.loginWithUserPass(this.id, this.pass)
-      .subscribe((authorized) => {
-        loading.dismiss();
-        if (authorized) {
-          this.toaster.goodToast("Login successfull");
-          this.navCtrl.setRoot(HomePage);
-        }
+
+    this.authProv.requestToken(this.id, this.pass)
+      .subscribe((token:string) => {
+        this.tokenProv.setToken(token).subscribe(()=>{
+          loading.dismiss();
+          if (token) {
+            this.toaster.goodToast("Login successfull");
+            this.navCtrl.setRoot(HomePage);
+          }
+        });
       }, error => {
         loading.dismiss();
         this.toaster.badToast("Login error");

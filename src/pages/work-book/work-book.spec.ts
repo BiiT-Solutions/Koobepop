@@ -3,8 +3,6 @@ import { IonicModule, Platform, LoadingController, NavController } from 'ionic-a
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ServicesManager } from '../../providers/servicesManager';
-import { ConnectivityService } from '..7../providers/connectivity-service';
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { UserProvider } from '../../providers/storage/user-provider';
 import { WorkBookPage } from './work-book';
@@ -19,7 +17,6 @@ import {
   SplashScreenMock,
   TranslateServiceMock,
   LoadingControllerMock,
-  ServicesManagerMock,
   ConnectivityServiceMock,
   ToastIssuerMock,
   NavMock,

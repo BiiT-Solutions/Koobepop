@@ -39,7 +39,6 @@ import { UserProvider } from '../providers/storage/user-provider';
 import { MessagesProvider } from '../providers/storage/messages-provider';
 
 //Services
-import { ServicesManager } from '../providers/servicesManager';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { ToastIssuer } from '../providers/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -136,7 +135,6 @@ export function createTranslateLoader(http: Http) {
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ToastIssuer,
-    ServicesManager,
     AppointmentsRestService,
     AppointmentsProvider,
     TasksRestService,

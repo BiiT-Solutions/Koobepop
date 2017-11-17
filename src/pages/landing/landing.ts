@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ServicesManager } from '../../providers/servicesManager';
 import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
 import { ConnectivityService } from '../../providers/connectivity-service';
@@ -23,10 +22,10 @@ export class LandingPage {
   ) { }
 
   ionViewDidLoad() {
+    console.log('Landing')
     this.tokenRest.tokenStatus()
       .subscribe((status) => {
-
-        if (status == 200) {
+        if (status == 200 || status == 0) {
           this.navToHome();
         } else if (!this.connectivity.isOnline()) {
           this.navToHome();
@@ -34,8 +33,8 @@ export class LandingPage {
           this.navToLogin();
         }
       }, error => {
-
-        if (error.status == 0) {
+        console.log("unable to retrieve token status:", error);
+        if (error.status == 0 || error.status==200) {
           this.navToHome();
         } else { //Another async call failed on the process
           this.navToLogin();

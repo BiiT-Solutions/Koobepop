@@ -243,7 +243,6 @@ export class TokenProviderMock {
     return Observable.of('AU7H.T0K3N')
   }
   public setToken(token) {
-
    }
 }
 export class UserProviderMock{
@@ -257,7 +256,7 @@ export class UserProviderMock{
 
 export class AuthTokenRestServiceMock{
   public requestToken(id,code){
-    return Observable.of('AU7H.T0K3N')
+    return Observable.of('AU7H.T0K3N.M0CK')
   }
   public requestSendAuthCodeSMS(patientId,languageId){
 
@@ -273,5 +272,11 @@ export class AppointmentsRestServiceMock{
 export class ViewControllerMock{
   dismiss(x:any){
 
+  }
+}
+
+export class MessagesProvMock{
+  getObservableMessages(){
+    return Observable.of(undefined);
   }
 }

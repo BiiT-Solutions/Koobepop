@@ -2,7 +2,6 @@ import { Component, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from
 import { NavController, NavParams, Slides, LoadingController, Loading } from 'ionic-angular';
 import { AppointmentModel } from '../../models/appointment.model';
 import * as infographicjs from 'infographic-js';
-import { ServicesManager } from '../../providers/servicesManager'
 import { ToastIssuer } from '../../providers/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportsRestService } from '../../providers/rest/reports-rest-service';
@@ -24,7 +23,6 @@ export class ReportPage {
   slideToLast: boolean = false;
   timeout;
   constructor(public navCtrl: NavController,
-    public manager: ServicesManager,
     public toaster: ToastIssuer,
     public translate: TranslateService,
     public reportsProvider: ReportsProvider) {
