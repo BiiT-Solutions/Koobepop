@@ -1,11 +1,11 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
-import { TasksProvider } from './tasks-provider';
-import { AppointmentsProvider } from './appointments-provider';
-import { TasksRestService } from '../rest/tasks-rest-service';
+import { TasksProvider } from '../tasks-provider/tasks-provider';
+import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
+import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-service';
 import { Storage } from '@ionic/storage';
-import { StorageMock, AppointmentsProviderMock, TasksRestServiceMock } from '../../../test-config/mocks-ionic';
-import { USMOTask } from '../../models/usmo-task';
-import { CompleteTask } from '../../models/complete-task';
+import { StorageMock, AppointmentsProviderMock, TasksRestServiceMock } from '../../../../test-config/mocks-ionic';
+import { USMOTask } from '../../../models/usmo-task';
+import { CompleteTask } from '../../../models/complete-task';
 import { Observable } from 'rxjs/Rx';
 //TODO Test this component
 describe('Service: TasksProvider', () => {

@@ -4,13 +4,12 @@ import { IonicModule, Platform, LoadingController, NavController } from 'ionic-a
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ConnectivityService } from '..7../providers/connectivity-service';
-import { ToastIssuer } from '../../providers/toastIssuer';
-import { UserProvider } from '../../providers/storage/user-provider';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
+import { UserProvider } from '../../providers/storage/user-provider/user-provider';
 import { ChangeDetectorRef } from '@angular/core';
 import { MessagesListComponent } from '../../components/messages-list/messages-list';
 import { NotificationMessageComponent } from '../../components/notification-message/notification-message';
-import { MessagesProvider } from '../../providers/storage/messages-provider';
+import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 
 
 import {
@@ -19,7 +18,6 @@ import {
   SplashScreenMock,
   TranslateServiceMock,
   LoadingControllerMock,
-  ConnectivityServiceMock,
   ToastIssuerMock,
   NavMock,
   UserProvMock,

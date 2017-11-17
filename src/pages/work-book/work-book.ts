@@ -6,10 +6,10 @@ import { EffortSelectorComponent } from '../../components/effort-selector/effort
 import { PopoverController } from 'ionic-angular';
 import { USMOTask } from '../../models/usmo-task';
 import { ServicesManager } from '../../providers/servicesManager';
-import { ToastIssuer } from '../../providers/toastIssuer';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import * as moment from 'moment';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
-import { TasksProvider } from '../../providers/storage/tasks-provider';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 /**
  *
  */

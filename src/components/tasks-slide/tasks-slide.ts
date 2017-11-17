@@ -1,10 +1,10 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { TasksProvider } from '../../providers/storage/tasks-provider';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { TaskModel } from '../../models/task.model';
 import { USMOTask } from '../../models/usmo-task';
 import { TaskInformationPage } from '../../pages/work-book/task-information/task-information';
 import { App } from 'ionic-angular';
-import { TasksRestService } from '../../providers/rest/tasks-rest-service';
+import { TasksRestService } from '../../providers/rest/tasks-rest-service/tasks-rest-service';
 import * as moment from 'moment';
 /**
  * List of tasks from a given date

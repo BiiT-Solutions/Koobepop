@@ -1,10 +1,9 @@
-import { AppointmentsProvider } from './appointments-provider';
-import { StorageMock } from '../../../test-config/mocks-ionic';
-import { AppointmentsRestService } from '../rest/appointments-rest-service';
+import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
+import { StorageMock } from '../../../../test-config/mocks-ionic';
+import { AppointmentsRestService } from '../../rest/appointments-rest-service/appointments-rest-service';
 import { TestBed, async, getTestBed } from '@angular/core/testing';
-import { ServicesManager } from '../servicesManager';
-import { AppointmentsRestServiceMock } from '../../../test-config/mocks-ionic';
-import { AppointmentModel } from '../../models/appointment.model';
+import { AppointmentsRestServiceMock } from '../../../../test-config/mocks-ionic';
+import { AppointmentModel } from '../../../models/appointment.model';
 import { Storage } from '@ionic/storage';
 describe('Service: AppointmentsProvider', () => {
   let service: AppointmentsProvider;

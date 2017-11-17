@@ -3,8 +3,8 @@ import { IonicModule, Platform, LoadingController, NavController } from 'ionic-a
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ToastIssuer } from '../../providers/toastIssuer';
-import { UserProvider } from '../../providers/storage/user-provider';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
+import { UserProvider } from '../../providers/storage/user-provider/user-provider';
 import { WorkBookPage } from './work-book';
 import { TasksSlideComponent } from '../../components/tasks-slide/tasks-slide';
 import { TaskItemComponent } from '../../components/task-item/task-item';

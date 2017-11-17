@@ -1,10 +1,10 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
 import { IonicModule,  NavController } from 'ionic-angular';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ToastIssuer } from '../../providers/toastIssuer';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { ReportPage } from './report';
 import { InfographicSlideComponent } from '../../components/infographic-slide/infographic-slide';
-import { ReportsProvider } from '../../providers/storage/reports-provider';
+import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
 import { LoadingComponent } from '../../components/loading/loading';
 import { InfographicItemComponent } from '../../components/infographic-item/infographic-item';
 import { ZoomPanDirective } from '../../directives/zoom-pan/zoom-pan';

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
-import { MessagesProvider } from '../../providers/storage/messages-provider';
+import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 import { Push } from '@ionic-native/push';
 import { MessageModel } from '../../models/message.model';
 

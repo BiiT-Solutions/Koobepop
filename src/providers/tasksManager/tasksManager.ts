@@ -1,6 +1,6 @@
-import { USMOTask } from '../models/usmo-task';
+import { USMOTask } from '../../models/usmo-task';
 import { Injectable } from '@angular/core';
-import { TasksRestService } from './rest/tasks-rest-service';
+import { TasksRestService } from '../rest/tasks-rest-service/tasks-rest-service';
 //TODO - Integrate on the app
 /* This class is suposed to manage the sending of performed and removed tasks to the server*/
 @Injectable()

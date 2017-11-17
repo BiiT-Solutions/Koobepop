@@ -1,7 +1,7 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
 import { IonicModule, Platform, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ConnectivityService } from '../../../providers/connectivity-service';
+import { ConnectivityService } from '../../../providers/connectivity-service/connectivity-service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TaskInformationPage } from './task-information';
 

@@ -1,10 +1,10 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
-import { UserProvider } from '../storage/user-provider';
-import { UserProviderMock, TokenProviderMock, TranslateServiceMock } from '../../../test-config/mocks-ionic';
-import { AppConfig, APP_CONFIG } from '../../app/app.config';
-import { TokenProvider } from '../storage/token-provider';
+import { UserProvider } from '../../storage/user-provider/user-provider';
+import { UserProviderMock, TokenProviderMock, TranslateServiceMock } from '../../../../test-config/mocks-ionic';
+import { AppConfig, APP_CONFIG } from '../../../app/app.config';
+import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { Headers } from '@angular/http';
-import { MessagesRestService } from './messages-rest-service';
+import { MessagesRestService } from '../messages-rest-service/messages-rest-service';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import {

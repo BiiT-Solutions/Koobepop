@@ -3,8 +3,8 @@ import { IonicModule, Platform, LoadingController, NavController } from 'ionic-a
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ToastIssuer } from '../../providers/toastIssuer';
-import { UserProvider } from '../../providers/storage/user-provider';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
+import { UserProvider } from '../../providers/storage/user-provider/user-provider';
 import { SummaryPage } from './summary';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -20,7 +20,7 @@ import {
   UserProvMock,
   DomSanitizerMock
 } from '../../../test-config/mocks-ionic';
-import { TasksProvider } from '../../providers/storage/tasks-provider';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { TasksProviderMock, UserProviderMock } from '../../../test-config/mocks-ionic';
 
 describe('SummaryPage', () => {

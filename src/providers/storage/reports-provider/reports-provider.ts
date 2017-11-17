@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storage-service';
+import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Rx';
-import { ReportModel } from '../../models/report.model';
-import { ReportsRestService } from '../rest/reports-rest-service';
-import { IAppointment, AppointmentModel } from '../../models/appointment.model';
-import { AppointmentsProvider } from './appointments-provider';
+import { ReportModel } from '../../../models/report.model';
+import { ReportsRestService } from '../../rest/reports-rest-service/reports-rest-service';
+import { IAppointment, AppointmentModel } from '../../../models/appointment.model';
+import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
 @Injectable()
 export class ReportsProvider extends StorageServiceProvider {
   private reports: ReportModel[];

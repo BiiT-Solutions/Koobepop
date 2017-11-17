@@ -8,9 +8,9 @@ import { TestPage } from '../test-page/test-page';
 import { PushNotificationsHandlerProvider } from '../../providers/push-notifications-handler/push-notifications-handler';
 import { MessageModel } from '../../models/message.model';
 import { Observable } from 'rxjs/Rx';
-import { MessagesProvider } from '../../providers/storage/messages-provider';
-import { AppointmentsProvider } from '../../providers/storage/appointments-provider';
-import { TasksProvider } from '../../providers/storage/tasks-provider';
+import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
+import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 
 @Component({
   selector: 'page-home',

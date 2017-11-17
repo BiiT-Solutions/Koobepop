@@ -2,13 +2,13 @@ import { Component, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from
 import { NavController, NavParams, Slides, LoadingController, Loading } from 'ionic-angular';
 import { AppointmentModel } from '../../models/appointment.model';
 import * as infographicjs from 'infographic-js';
-import { ToastIssuer } from '../../providers/toastIssuer';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
-import { ReportsRestService } from '../../providers/rest/reports-rest-service';
+import { ReportsRestService } from '../../providers/rest/reports-rest-service/reports-rest-service';
 import { Observable } from 'rxjs/Observable';
 import { ZoomPanDirective } from '../../directives/zoom-pan/zoom-pan';
 import { ReportModel } from '../../models/report.model';
-import { ReportsProvider } from '../../providers/storage/reports-provider';
+import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
 /**
  * This page holds reports into a slider consisting on several pages (zoomable-slide)
  */

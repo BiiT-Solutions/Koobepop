@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
-import { ConnectivityService } from '../../providers/connectivity-service';
-import { ToastIssuer } from '../../providers/toastIssuer';
+import { ConnectivityService } from '../../providers/connectivity-service/connectivity-service';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service';
+import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
 
 @Component({
   selector: 'page-landing',

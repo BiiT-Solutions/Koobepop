@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Rx';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { UserModel } from '../../models/user.model';
 import { CompleteTask } from '../../models/complete-task';
-import { TasksProvider } from '../../providers/storage/tasks-provider';
-import { UserProvider } from '../../providers/storage/user-provider';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
+import { UserProvider } from '../../providers/storage/user-provider/user-provider';
 
 @Component({
   selector: 'page-summary',

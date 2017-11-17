@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storage-service';
+import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Device } from '@ionic-native/device';
 import { Storage } from '@ionic/storage';
-import { UserModel } from '../../models/user.model';
+import { UserModel } from '../../../models/user.model';
 import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class UserProvider extends StorageServiceProvider {

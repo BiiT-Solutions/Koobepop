@@ -3,10 +3,10 @@ import { NavController, LoadingController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { Response } from '@angular/http';
-import { ToastIssuer } from '../../providers/toastIssuer';
-import { UserProvider } from '../../providers/storage/user-provider';
-import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service';
-import { TokenProvider } from '../../providers/storage/token-provider';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
+import { UserProvider } from '../../providers/storage/user-provider/user-provider';
+import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
+import { TokenProvider } from '../../providers/storage/token-provider/token-provider';
 import { UserModel } from '../../models/user.model';
 
 @Component({

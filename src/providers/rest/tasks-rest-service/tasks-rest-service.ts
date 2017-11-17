@@ -1,15 +1,15 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { APP_CONFIG, IAppConfig } from '../../app/app.config';
-import { AppointmentModel } from '../../models/appointment.model';
+import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
+import { AppointmentModel } from '../../../models/appointment.model';
 import { Observable } from 'rxjs/Rx';
-import { USMOTask } from '../../models/usmo-task';
+import { USMOTask } from '../../../models/usmo-task';
 import * as moment from 'moment';
-import { BasicRestService } from './basic-rest-service';
-import { TokenProvider } from '../storage/token-provider';
-import { TaskAction } from '../tasksManager';
-import { UserProvider } from '../storage/user-provider';
-import { CompleteTask } from '../../models/complete-task';
+import { BasicRestService } from '../basic-rest-service/basic-rest-service';
+import { TokenProvider } from '../../storage/token-provider/token-provider';
+import { TaskAction } from '../../tasksManager/tasksManager';
+import { UserProvider } from '../../storage/user-provider/user-provider';
+import { CompleteTask } from '../../../models/complete-task';
 
 @Injectable()
 export class TasksRestService extends BasicRestService {

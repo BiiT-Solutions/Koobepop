@@ -1,12 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
-import { BasicRestService } from './basic-rest-service';
-import { IAppConfig, APP_CONFIG } from '../../app/app.config';
+import { BasicRestService } from '../basic-rest-service/basic-rest-service';
+import { IAppConfig, APP_CONFIG } from '../../../app/app.config';
 import { Http, Headers, Response } from '@angular/http';
-import { TokenProvider } from '../storage/token-provider';
+import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { UserModel } from '../../models/user.model';
+import { UserModel } from '../../../models/user.model';
 import { Observable } from 'rxjs/Rx';
-import { UserProvider } from '../storage/user-provider';
+import { UserProvider } from '../../storage/user-provider/user-provider';
 @Injectable()
 export class RegisterPushTokenRestService extends BasicRestService {
   appointmentsList;

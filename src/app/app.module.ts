@@ -26,21 +26,21 @@ import { SummaryPage } from '../pages/summary/summary';
 import { LoginPage } from '../pages/login/login';
 
 //REST services
-import { AppointmentsRestService } from '../providers/rest/appointments-rest-service';
-import { TasksRestService } from '../providers/rest/tasks-rest-service';
-import { AuthTokenRestService } from '../providers/rest/authentication-token-rest-service';
-import { ReportsRestService } from '../providers/rest/reports-rest-service';
+import { AppointmentsRestService } from '../providers/rest/appointments-rest-service/appointments-rest-service';
+import { TasksRestService } from '../providers/rest/tasks-rest-service/tasks-rest-service';
+import { AuthTokenRestService } from '../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
+import { ReportsRestService } from '../providers/rest/reports-rest-service/reports-rest-service';
 
 //Storage providers
-import { AppointmentsProvider } from '../providers/storage/appointments-provider';
-import { TasksProvider } from '../providers/storage/tasks-provider';
-import { TokenProvider } from '../providers/storage/token-provider';
-import { UserProvider } from '../providers/storage/user-provider';
-import { MessagesProvider } from '../providers/storage/messages-provider';
+import { AppointmentsProvider } from '../providers/storage/appointments-provider/appointments-provider';
+import { TasksProvider } from '../providers/storage/tasks-provider/tasks-provider';
+import { TokenProvider } from '../providers/storage/token-provider/token-provider';
+import { UserProvider } from '../providers/storage/user-provider/user-provider';
+import { MessagesProvider } from '../providers/storage/messages-provider/messages-provider';
 
 //Services
-import { ConnectivityService } from '../providers/connectivity-service';
-import { ToastIssuer } from '../providers/toastIssuer';
+import { ConnectivityService } from '../providers/connectivity-service/connectivity-service';
+import { ToastIssuer } from '../providers/toastIssuer/toastIssuer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -48,7 +48,7 @@ import { Push } from '@ionic-native/push';
 import { NotificationMessageComponent } from '../components/notification-message/notification-message';
 import { MessagesListComponent } from '../components/messages-list/messages-list';
 import { PushNotificationsHandlerProvider } from '../providers/push-notifications-handler/push-notifications-handler';
-import { RegisterPushTokenRestService } from '../providers/rest/register-push-token.rest-service';
+import { RegisterPushTokenRestService } from '../providers/rest/register-push-token-rest-service/register-push-token-rest-service';
 import { ZoomPanDirective } from '../directives/zoom-pan/zoom-pan';
 import { TasksSlideComponent } from '../components/tasks-slide/tasks-slide';
 import { TaskItemComponent } from '../components/task-item/task-item';
@@ -56,9 +56,9 @@ import { KppCheckBoxComponent } from '../components/kpp-check-box/kpp-check-box'
 import { InfographicSlideComponent } from '../components/infographic-slide/infographic-slide';
 import { InfographicItemComponent } from '../components/infographic-item/infographic-item';
 import { KppZoomPanComponent } from '../components/kpp-zoom-pan/kpp-zoom-pan';
-import { MessagesRestService } from '../providers/rest/messages-rest-service';
-import { StorageServiceProvider } from '../providers/storage/storage-service';
-import { ReportsProvider } from '../providers/storage/reports-provider';
+import { MessagesRestService } from '../providers/rest/messages-rest-service/messages-rest-service';
+import { StorageServiceProvider } from '../providers/storage/storage-service/storage-service';
+import { ReportsProvider } from '../providers/storage/reports-provider/reports-provider';
 import { LoadingComponent } from '../components/loading/loading';
 import { LandingPage } from '../pages/landing/landing';
 

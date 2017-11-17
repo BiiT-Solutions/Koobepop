@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storage-service';
+import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
-import { AppointmentModel } from '../../models/appointment.model';
+import { AppointmentModel } from '../../../models/appointment.model';
 import { Observable } from 'rxjs/Rx';
-import { AppointmentsRestService } from '../rest/appointments-rest-service';
+import { AppointmentsRestService } from '../../rest/appointments-rest-service/appointments-rest-service';
 @Injectable()
 export class AppointmentsProvider extends StorageServiceProvider {
   private appointments: AppointmentModel[];

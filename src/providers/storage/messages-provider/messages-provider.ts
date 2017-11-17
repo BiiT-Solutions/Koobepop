@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from './storage-service';
+import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
-import { MessageModel } from '../../models/message.model';
-import { MessagesRestService } from '../rest/messages-rest-service';
+import { MessageModel } from '../../../models/message.model';
+import { MessagesRestService } from '../../rest/messages-rest-service/messages-rest-service';
 
 
 //TODO -TEST this

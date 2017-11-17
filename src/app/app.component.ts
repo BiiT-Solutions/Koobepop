@@ -6,8 +6,8 @@ import { HomePage } from '../pages/home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { ServicesManager } from '../providers/servicesManager';
 import { LoginPage } from '../pages/login/login';
-import { ConnectivityService } from '../providers/connectivity-service';
-import { ToastIssuer } from '../providers/toastIssuer';
+import { ConnectivityService } from '../providers/connectivity-service/connectivity-service';
+import { ToastIssuer } from '../providers/toastIssuer/toastIssuer';
 import { LandingPage } from '../pages/landing/landing';
 
 @Component({

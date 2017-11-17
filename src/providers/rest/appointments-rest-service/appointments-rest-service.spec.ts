@@ -1,12 +1,12 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
-import { AppointmentsRestService } from './appointments-rest-service';
-import { AppointmentsProvider } from '../storage/appointments-provider';
-import { AppConfig, APP_CONFIG } from '../../app/app.config';
-import { TokenProvider } from '../storage/token-provider';
+import { AppointmentsRestService } from '../appointments-rest-service/appointments-rest-service';
+import { AppointmentsProvider } from '../../storage/appointments-provider/appointments-provider';
+import { AppConfig, APP_CONFIG } from '../../../app/app.config';
+import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateServiceMock, StorageMock, TokenProviderMock, UserProviderMock } from '../../../test-config/mocks-ionic';
+import { TranslateServiceMock, StorageMock, TokenProviderMock, UserProviderMock } from '../../../../test-config/mocks-ionic';
 import { Storage } from '@ionic/storage';
-import { UserProvider } from '../storage/user-provider';
+import { UserProvider } from '../../storage/user-provider/user-provider';
 import {
   BaseRequestOptions,
   Http,
