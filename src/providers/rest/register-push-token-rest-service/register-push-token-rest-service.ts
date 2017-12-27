@@ -10,7 +10,8 @@ import { UserProvider } from '../../storage/user-provider/user-provider';
 @Injectable()
 export class RegisterPushTokenRestService extends BasicRestService {
   appointmentsList;
-  constructor(protected http: Http,
+  constructor(
+    protected http: Http,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,

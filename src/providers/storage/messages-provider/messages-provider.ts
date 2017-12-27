@@ -11,12 +11,13 @@ import { MessagesRestService } from '../../rest/messages-rest-service/messages-r
 export class MessagesProvider extends StorageServiceProvider {
   private bsMessages: BehaviorSubject<MessageModel[]>
   private bsMessagesCount: BehaviorSubject<number>
+
   constructor(public storage: Storage, private messagesRestService: MessagesRestService) {
     super(storage);
-
     this.bsMessages = new BehaviorSubject([]);
     this.bsMessagesCount = new BehaviorSubject(0);
-    this.loadMessages();
+    this.loadMessages()
+      .subscribe(() => this.update());
   }
 
   private sortMsgs(msgs: MessageModel[]): MessageModel[] {
@@ -42,21 +43,24 @@ export class MessagesProvider extends StorageServiceProvider {
           const finalMessages = newMessages.concat(messages);
           this.getObservableMessages().next(finalMessages);
           const messagesLeft = this.getCurrentMessagesCount() + newMessages.length;
+          console.log(messagesLeft)
+          console.log(newMessages)
           this.getObservableMessagesCount().next(messagesLeft);
+          this.saveMessages()
         }
       });
   }
 
   /** Load msgs from database */
-  public loadMessages(): void {
-    super.retrieveItem(StorageServiceProvider.MESSAGES_STORAGE_ID)
-      .map(msgs=>this.sortMsgs(msgs))
-      .subscribe(messages => this.bsMessages.next(messages));
+  public loadMessages(): Observable<MessageModel[]> {
+    return super.retrieveItem(StorageServiceProvider.MESSAGES_STORAGE_ID)
+      .map(msgs => this.sortMsgs(msgs))
+      .map(messages => { this.bsMessages.next(messages); return messages });
   }
 
   public saveMessages(): void {
     let complete;
-    super.storeItem(StorageServiceProvider.MESSAGES_STORAGE_ID, this.bsMessages.getValue())
+    super.storeItem(StorageServiceProvider.MESSAGES_STORAGE_ID, this.getCurrentMessages())
       .subscribe();
   }
 
@@ -74,7 +78,7 @@ export class MessagesProvider extends StorageServiceProvider {
   public getCurrentMessagesCount(): number {
     return this.bsMessagesCount.getValue();
   }
-  public setMessagesCount(messagesLeft:number){
+  public setMessagesCount(messagesLeft: number) {
     this.getObservableMessagesCount().next(messagesLeft);
   }
 }

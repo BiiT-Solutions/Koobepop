@@ -19,7 +19,7 @@ import {
   MockBackend,
   MockConnection
 } from '@angular/http/testing';
-describe('Service: BasicRestService', () => {
+describe('Service: MessagesRestService', () => {
   var service: MessagesRestService;
   var backend: MockBackend;
 

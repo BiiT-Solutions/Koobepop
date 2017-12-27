@@ -280,3 +280,9 @@ export class MessagesProvMock{
     return Observable.of(undefined);
   }
 }
+
+export class InfographicJSMock{
+  infographicFromtemplate(template,content){
+    return "<svg></svg>"
+  }
+}

@@ -18,13 +18,12 @@ export class KppZoomPanComponent {
     const extraHeight = this.zoomable.nativeElement.clientHeight - this.frame.nativeElement.clientHeight;
     this.hammerIt(this.zoomable.nativeElement, extraHeight);
   }
+
   private setZoomed(zoomed) {
     this.isZoomed = zoomed;
   }
 
   private hammerIt(elm, extraHeight) {
-
-
     const hammertime = new Hammer(elm, {});
     hammertime.get('pinch').set({
       enable: true
@@ -43,14 +42,13 @@ export class KppZoomPanComponent {
     const translate_due_to_scale = { x: 0, y: 0 }
 
     hammertime.on('doubletap pan pinch panend pinchend', (ev) => {
-
+      lastScale = scale;
       // pinch
       if (ev.type === 'pinch') {
         scale = Math.max(.999, Math.min(lastScale * (ev.scale), 4));
-        console.log(ev.scale,el.clientWidth)
-        translate_due_to_scale.x = (el.clientWidth / 2 - ev.center.x + posX  ) * (scale - 1)
+        console.log(ev.scale, el.clientWidth)
+        translate_due_to_scale.x = (el.clientWidth / 2 - ev.center.x + posX) * (scale - 1)
         translate_due_to_scale.y = (el.clientHeight / 2 - ev.center.y + posY) * (scale - 1)
-
       }
 
       // pan
@@ -85,17 +83,15 @@ export class KppZoomPanComponent {
       }
 
       if (ev.type === 'doubletap') {
-
         if (scale != 1) {
           scale = 1;
-          lastScale = 1;
           posX = 0;
           posY = 0;
           lastPosX = 0;
           lastPosY = 0;
         } else {
           scale = 2;
-          lastScale = 2;
+          
         }
       }
 
@@ -107,11 +103,11 @@ export class KppZoomPanComponent {
       if (transform) {
         el.style.webkitTransform = transform;
       }
-
-      if (lastScale>1 && scale <= 1) {
+      
+      if (lastScale > 1 && scale <= 1) {
         this.setZoomed(false);
         this.zoom.emit(false);
-      } else if(lastScale<=1 && scale > 1) {
+      } else if (lastScale <= 1 && scale > 1) {
         this.setZoomed(true);
         this.zoom.emit(true);
       }

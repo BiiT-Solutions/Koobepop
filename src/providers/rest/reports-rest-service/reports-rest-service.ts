@@ -34,14 +34,16 @@ export class ReportsRestService extends BasicRestService {
       .map((data) => this.generateInfographic(appointment, data));
   }
 
-  public extractData(res) {
+  private extractData(res) {
     return res.json() || [];
   }
 
-  public generateInfographic(appointment: AppointmentModel, data: any[]): ReportModel {
+  private generateInfographic(appointment: AppointmentModel, data: any[]): ReportModel {
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime, []);
     data.forEach((item) => {
+     
       report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content))
+    
     });
     return report;
   }

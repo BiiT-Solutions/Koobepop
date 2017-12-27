@@ -49,7 +49,6 @@ import { NotificationMessageComponent } from '../components/notification-message
 import { MessagesListComponent } from '../components/messages-list/messages-list';
 import { PushNotificationsHandlerProvider } from '../providers/push-notifications-handler/push-notifications-handler';
 import { RegisterPushTokenRestService } from '../providers/rest/register-push-token-rest-service/register-push-token-rest-service';
-import { ZoomPanDirective } from '../directives/zoom-pan/zoom-pan';
 import { TasksSlideComponent } from '../components/tasks-slide/tasks-slide';
 import { TaskItemComponent } from '../components/task-item/task-item';
 import { KppCheckBoxComponent } from '../components/kpp-check-box/kpp-check-box';
@@ -84,7 +83,6 @@ export function createTranslateLoader(http: Http) {
     LoginPage,
     NotificationMessageComponent,
     MessagesListComponent,
-    ZoomPanDirective,
     TasksSlideComponent,
     TaskItemComponent,
     KppCheckBoxComponent,

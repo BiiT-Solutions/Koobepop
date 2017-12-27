@@ -33,8 +33,6 @@ export class HomePage {
     private tasksProvider: TasksProvider) {
     //Init push notifications handler
     pushHandler.init();
-    messagesProvider.update();
-
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification')
         .subscribe((notification: any) => {
