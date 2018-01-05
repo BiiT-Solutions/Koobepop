@@ -6,7 +6,6 @@ import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportsRestService } from '../../providers/rest/reports-rest-service/reports-rest-service';
 import { Observable } from 'rxjs/Observable';
-import { ZoomPanDirective } from '../../directives/zoom-pan/zoom-pan';
 import { ReportModel } from '../../models/report.model';
 import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
 /**
@@ -18,7 +17,6 @@ import { ReportsProvider } from '../../providers/storage/reports-provider/report
 })
 export class ReportPage {
   @ViewChild('slider') slider: Slides;
-  @ViewChildren(ZoomPanDirective) zoomPan;
   isLoading: boolean = true;
   slideToLast: boolean = false;
   timeout;

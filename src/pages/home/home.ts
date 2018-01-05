@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Rx';
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
+import { FillFormPage } from '../fill-form/fill-form';
 
 @Component({
   selector: 'page-home',
@@ -21,7 +22,7 @@ export class HomePage {
   tab1Root = WorkBookPage;
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
-  tab4Root = TestPage;
+  tab4Root = FillFormPage;
 
   public pendingMessages: number;
 

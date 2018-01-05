@@ -11,7 +11,6 @@ import { Network } from '@ionic-native/network';
 import { Device } from '@ionic-native/device';
 
 //Components
-import { ZoomableSlide } from '../components/zoomable-slide/zoomableSlide';
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../components/unsel-confirmation/unsel-confirmation';
 
@@ -60,7 +59,8 @@ import { StorageServiceProvider } from '../providers/storage/storage-service/sto
 import { ReportsProvider } from '../providers/storage/reports-provider/reports-provider';
 import { LoadingComponent } from '../components/loading/loading';
 import { LandingPage } from '../pages/landing/landing';
-
+import { FillFormPage } from '../pages/fill-form/fill-form';
+import { FormRunnerModule } from 'formrunner-js';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -72,7 +72,6 @@ export function createTranslateLoader(http: Http) {
     MyApp,
     HomePage,
     TestPage,
-    ZoomableSlide,
     WorkBookPage,
     ReportPage,
     KnowPage,
@@ -90,8 +89,8 @@ export function createTranslateLoader(http: Http) {
     InfographicItemComponent,
     KppZoomPanComponent,
     LoadingComponent,
-    LandingPage
-
+    LandingPage,
+    FillFormPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -103,9 +102,9 @@ export function createTranslateLoader(http: Http) {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
         deps: [Http]
-      }
-    })
-
+      },
+    }),
+    FormRunnerModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -119,6 +118,7 @@ export function createTranslateLoader(http: Http) {
     SummaryPage,
     LoginPage,
     LandingPage,
+    FillFormPage,
     EffortSelectorComponent,
     UnselConfirmationComponent
   ],

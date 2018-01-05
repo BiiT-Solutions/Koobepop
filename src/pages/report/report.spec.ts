@@ -7,13 +7,11 @@ import { InfographicSlideComponent } from '../../components/infographic-slide/in
 import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
 import { LoadingComponent } from '../../components/loading/loading';
 import { InfographicItemComponent } from '../../components/infographic-item/infographic-item';
-import { ZoomPanDirective } from '../../directives/zoom-pan/zoom-pan';
 import { KppZoomPanComponent } from '../../components/kpp-zoom-pan/kpp-zoom-pan';
 
 
 import {
-  TranslateServiceMock,
-  
+  TranslateServiceMock,  
   ToastIssuerMock,
   NavMock,
   ReportsProvMock

@@ -54,9 +54,9 @@ export class SummaryPage {
   }
 
   protected ionViewWillLeave() {
-    window.removeEventListener("tracker-ready");
-    window.removeEventListener("prev-week");
-    window.removeEventListener("next-week");
+    //window.removeEventListener("tracker-ready");
+    //window.removeEventListener("prev-week");
+    //window.removeEventListener("next-week");
   }
 
   private setTrackerReadyListener() {

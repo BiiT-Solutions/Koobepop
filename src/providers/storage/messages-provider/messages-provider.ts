@@ -43,8 +43,6 @@ export class MessagesProvider extends StorageServiceProvider {
           const finalMessages = newMessages.concat(messages);
           this.getObservableMessages().next(finalMessages);
           const messagesLeft = this.getCurrentMessagesCount() + newMessages.length;
-          console.log(messagesLeft)
-          console.log(newMessages)
           this.getObservableMessagesCount().next(messagesLeft);
           this.saveMessages()
         }
