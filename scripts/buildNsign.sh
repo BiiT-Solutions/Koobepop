@@ -3,7 +3,7 @@
 set -e
 npm install
 
-echo "Building IGOW"
+echo "Building iGROW"
 ionic cordova build android --prod --release
 echo "Signing ..."
 jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore scripts/certs/IGOW.jks platforms/android/build/outputs/apk/android-release-unsigned.apk IGOW -storepass:file scripts/certs/keystore-pass

@@ -27,6 +27,7 @@ export const AppConfig: IAppConfig = {
      "http://192.168.2.3:8081"    //LOCAL server
   // "https://testing.biit-solutions.com:10443/usmo/webservices" //TESTING server
   // "https://m3sport.biit-solutions.com:10443/usmo/webservices" //M3SPORT server
+  // "https://preventiecentra.biit-solutions.com/usmo/webservices" //Preventiecentra (Dockerized :D)
 
   , password:
     "Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=" //LOCAL & TESTING
