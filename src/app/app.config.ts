@@ -39,7 +39,9 @@ export const AppConfig: IAppConfig = {
   //"UsmoOrganization"
   "Lambertushof"
   
-  , pushSenderID: '489751559671'
+  , pushSenderID: 
+  //'489751559671'
+  '137133737832' //com-biit-igrow
 
   //Services
   , sendCodeSMS:                    "/rest/sendAuthCodeSMS"
