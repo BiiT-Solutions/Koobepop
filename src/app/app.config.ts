@@ -24,18 +24,20 @@ export interface IAppConfig {
 export const AppConfig: IAppConfig = {
   //Server configuration
   usmoServer:
-     "http://192.168.2.3:8081"    //LOCAL server
+   //  "http://192.168.2.3:8081"    //LOCAL server
   // "https://testing.biit-solutions.com:10443/usmo/webservices" //TESTING server
   // "https://m3sport.biit-solutions.com:10443/usmo/webservices" //M3SPORT server
-  // "https://preventiecentra.biit-solutions.com/usmo/webservices" //Preventiecentra (Dockerized :D)
+   "https://preventiecentra.biit-solutions.com/usmo" //Preventiecentra (Dockerized :D)
 
   , password:
-    "Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=" //LOCAL & TESTING
+   // "Basic d2Vic2VydmljZUB0ZXN0LmNvbTp1M2YyZVRIOTFWb0JpTmU=" //LOCAL & TESTING
   //"d2Vic2VydmljZUBiaWl0LXNvbHV0aW9ucy5jb206UFNJZG4zTDkzcEFpYjdr" //M3SPORT
+  "d2Vic2VydmljZXNAYmlpdC1zb2x1dGlvbnMuY29tOjk4MWViN2Y5NjA1NzFhNjQ5OQ=="//Preventiecentra
 
   , organizationName:
    //"Orbis Sport"
-  "UsmoOrganization"
+  //"UsmoOrganization"
+  "Lambertushof"
   
   , pushSenderID: '489751559671'
 

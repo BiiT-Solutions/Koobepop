@@ -41,9 +41,9 @@ export class ReportsRestService extends BasicRestService {
   private generateInfographic(appointment: AppointmentModel, data: any[]): ReportModel {
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime, []);
     data.forEach((item) => {
-     
+     try{
       report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content))
-    
+     }catch(e){console.log('infographic generation error:',item.template,e)}
     });
     return report;
   }
