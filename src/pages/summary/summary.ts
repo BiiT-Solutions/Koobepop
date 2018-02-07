@@ -21,14 +21,14 @@ export class SummaryPage {
   constructor(
     public navCtrl: NavController,
     private sanitizer: DomSanitizer,
-    private tasksProv:TasksProvider,
+    private tasksProv: TasksProvider,
     private userProv: UserProvider
   ) {
     this.trackerReady = false;
     this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
   }
 
-  protected ionViewDidLoad(){
+  protected ionViewDidLoad() {
     this.setTrackerReadyListener();
     this.setNextWeekListener();
     this.setPrevWeekListener();
@@ -41,7 +41,7 @@ export class SummaryPage {
   public setActualWeek() {
     this.actualWeek = moment().week();
     //TODO- Fix code replication
-     if(this.trackerReady){
+    if (this.trackerReady) {
       this.detailsFromWeek(this.actualWeek).subscribe(details => {
         const event = new CustomEvent("tracker-week", { detail: details });
         window.dispatchEvent(event);
@@ -54,9 +54,9 @@ export class SummaryPage {
   }
 
   protected ionViewWillLeave() {
-    window.removeEventListener("tracker-ready",undefined);
-    window.removeEventListener("prev-week",undefined);
-    window.removeEventListener("next-week",undefined);
+    window.removeEventListener("tracker-ready", undefined);
+    window.removeEventListener("prev-week", undefined);
+    window.removeEventListener("next-week", undefined);
   }
 
   private setTrackerReadyListener() {
@@ -87,10 +87,11 @@ export class SummaryPage {
   private setPrevWeekListener() {
     window.addEventListener("next-week", () => {
       this.actualWeek++;
-      this.detailsFromWeek(this.actualWeek).subscribe(details => {
-        const event = new CustomEvent("tracker-week", { detail: details });
-        window.dispatchEvent(event);
-      });
+      this.detailsFromWeek(this.actualWeek)
+        .subscribe(details => {
+          const event = new CustomEvent("tracker-week", { detail: details });
+          window.dispatchEvent(event);
+        });
     });
   }
 
@@ -117,7 +118,7 @@ export class SummaryPage {
         }
       });
       return {
-        "year": moment().year(),
+        "year":moment().year(),
         "weekNumber": week,
         "workouts": workouts
       }
