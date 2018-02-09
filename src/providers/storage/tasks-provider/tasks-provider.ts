@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
 import { USMOTask } from '../../../models/usmo-task';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { TaskModel } from '../../../models/task.model';
 import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
 import { AppointmentModel } from '../../../models/appointment.model';
@@ -87,7 +87,6 @@ export class TasksProvider extends StorageServiceProvider {
                 }
               }
             }
-
           });
 
           updatedAppointments.forEach(updatedAppointment => {

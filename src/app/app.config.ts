@@ -37,7 +37,8 @@ export const AppConfig: IAppConfig = {
   , organizationName:
    //"Orbis Sport"
   //"UsmoOrganization"
-  "Lambertushof"
+  //"Lambertushof"
+  "Centrum voor Bewegen"
   
   , pushSenderID: 
   //'489751559671'
