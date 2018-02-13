@@ -66,5 +66,8 @@
         "Physical":"body health",
         "Mental":"mental health",
         "Energy":"energy health"
+    },
+    "QR-CONFIGURATION":{
+        "TEXT":"Scan the QR code of your medical center"
     }
 }

@@ -6,6 +6,8 @@ import { ConnectivityService } from '../../providers/connectivity-service/connec
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
+import { SettingsProvider } from '../../providers/storage/settings/settings';
+import { QRConfigurationPage } from '../qr-configuration/qr-configuration';
 
 @Component({
   selector: 'page-landing',
@@ -19,10 +21,14 @@ export class LandingPage {
     private connectivity: ConnectivityService,
     private translate: TranslateService,
     private toaster: ToastIssuer,
-  ) { }
+    private settings: SettingsProvider
+  ) {
+    settings.load().subscribe();
+   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     console.log('Landing')
+    if(this.settings.allSettings){
     this.tokenRest.tokenStatus()
       .subscribe((status) => {
         if (status == 200 || status == 0) {
@@ -44,6 +50,9 @@ export class LandingPage {
             .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
         }
       });
+    }else{
+      this.navCtrl.push(QRConfigurationPage)
+    }
   }
 
   private navToLogin() {

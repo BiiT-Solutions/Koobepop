@@ -286,3 +286,17 @@ export class InfographicJSMock{
     return "<svg></svg>"
   }
 }
+export class SettingsProviderMock{
+  load(){
+    return Observable.of({})
+  }
+  get allSettings(){
+    return {
+      organization: "",
+      backend:"/",
+      access:"",
+      pushSenderId:""
+
+    }
+  }
+}

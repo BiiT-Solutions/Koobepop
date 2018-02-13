@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserModel } from '../../../models/user.model';
 import { Observable } from 'rxjs/Rx';
 import { UserProvider } from '../../storage/user-provider/user-provider';
+import { SettingsProvider } from '../../storage/settings/settings';
 @Injectable()
 export class RegisterPushTokenRestService extends BasicRestService {
   appointmentsList;
@@ -15,18 +16,18 @@ export class RegisterPushTokenRestService extends BasicRestService {
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,
-    protected translate: TranslateService) {
-    super(http, config, tokenProvider, userProvider);
+    protected translate: TranslateService,
+    protected settings: SettingsProvider
+  ) {
+    super(http, config, tokenProvider, userProvider, settings);
   }
 
   public setPushToken(pushNotificationToken: string): Observable<any> {
-    const requestAddres = this.config.usmoServer + this.config.setPushNotificationsToken;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const requestAddres = this.config.setPushNotificationsToken;
     const body = {
       pushNotificationToken: pushNotificationToken
     }
-    return super.request(requestAddres, body, headers)
+    return super.postWithToken(requestAddres, body)
       .map((res: Response) => res.json());
 
   }

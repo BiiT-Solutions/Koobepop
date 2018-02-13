@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BasicRestService } from '../basic-rest-service/basic-rest-service';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { UserProvider } from '../../storage/user-provider/user-provider';
+import { SettingsProvider } from '../../storage/settings/settings';
 
 @Injectable()
 export class AppointmentsRestService extends BasicRestService {
@@ -16,25 +17,22 @@ export class AppointmentsRestService extends BasicRestService {
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,
     protected translate: TranslateService,
+    protected settings: SettingsProvider
   ) {
-    super(http, config, tokenProvider, userProvider);
+    super(http, config, tokenProvider, userProvider, settings);
   }
 
   public requestAppointments(): Observable<AppointmentModel[]> {
-    const requestAddres = this.config.usmoServer + this.config.getAppointmentsService;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const endpoint = this.config.getAppointmentsService;
     const body = {};
-    return super.request(requestAddres, body, headers)
+    return super.postWithToken(endpoint, body)
       .map((res: Response) => this.extractData(res))
       .map((appointments: AppointmentModel[]) => { return appointments ? appointments.reverse() : []; });
   }
 
   /**Sends a list of appointments with update time and retrieves new and edited appointments */
   public requestModifiedAppointments(appointments: AppointmentModel[]): Observable<AppointmentModel[]> {
-    const requestAddres = this.config.usmoServer + this.config.getUpdatedAppointmentsService;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const endpoint = this.config.getUpdatedAppointmentsService;   
     const appointmentsIdWithDate = [];
     appointments.forEach((appointment: AppointmentModel) => {
       appointmentsIdWithDate.push({
@@ -47,7 +45,7 @@ export class AppointmentsRestService extends BasicRestService {
       appointments: appointmentsIdWithDate
     }
 
-    return super.request(requestAddres, body, headers)
+    return super.postWithToken(endpoint, body)
       .map(res => this.extractData(res))
   }
 
@@ -55,44 +53,9 @@ export class AppointmentsRestService extends BasicRestService {
   private extractData(res: Response): AppointmentModel[] {
     const appointmentsFromResponse = res.json();
     appointmentsFromResponse.forEach(appointment => {
-      //appointment.results = this.formatResults(appointment.results);
       appointment.type = this.translate.instant("TRACKER-TAG." + appointment.type.name)
     });
     return appointmentsFromResponse || [];
-  }
-
-  private formatResults(results): any {
-    const formResults = {};
-    results.forEach(result =>{
-      if(result!=undefined){
-      formResults[result.formResult.label.toLocaleLowerCase()] = this.formatForm(result.formResult)
-      }
-    });
-    return formResults;
-  }
-
-  private formatForm(form): any {
-    const formChildren = {};
-    form.children.forEach(category => {
-      formChildren[category.name.toLocaleLowerCase()] = this.formatCategory(category);
-    });
-    return formChildren;
-  }
-
-  private formatCategory(category): any {
-    const categoryChildren = {};
-    category.children.forEach(child => {
-      if (child.class == "com.biit.form.result.RepeatableGroupResult") {
-        categoryChildren[child.name.toLocaleLowerCase()] = this.formatCategory(child);
-      } else if (child.class == "com.biit.form.result.QuestionWithValueResult") {
-        categoryChildren[child.name.toLocaleLowerCase()] = this.formatQuestion(child);
-      }
-    });
-    return categoryChildren;
-  }
-
-  private formatQuestion(question): any {
-    return question.values;
   }
 
 }

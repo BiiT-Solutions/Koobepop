@@ -6,6 +6,7 @@ import { BasicRestService } from '../basic-rest-service/basic-rest-service';
 import { Device } from '@ionic-native/device';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { UserProvider } from '../../storage/user-provider/user-provider';
+import { SettingsProvider } from '../../storage/settings/settings';
 @Injectable()
 export class AuthTokenRestService extends BasicRestService {
   constructor(
@@ -13,44 +14,38 @@ export class AuthTokenRestService extends BasicRestService {
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,
-    protected device: Device) {
-    super(http, config, tokenProvider, userProvider)
+    protected device: Device,
+    protected settings: SettingsProvider) {
+    super(http, config, tokenProvider, userProvider, settings);
   }
 
   /** Request the user validation code to the server which will send an SMS with it*/
   public requestSendAuthCodeSMS(patientId: string, languageId: string): Observable<Response> {
-    const requestAddres = this.config.usmoServer + this.config.sendCodeSMS;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const requestAddres = this.config.sendCodeSMS;
     const body = {
       patientId: patientId,
       language: languageId
     };
-    return super.requestWithoutToken(requestAddres, body, headers)
+    return super.post(requestAddres, body)
   }
 
   /** Request the authentication  token to the server */
   public requestToken(id: string, code: string): Observable<string> {
     //Here we request the token to the server with the sms code, the id and the uuid
-    const requestAddres = this.config.usmoServer + this.config.getAuthenticationToken;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const requestAddres = this.config.getAuthenticationToken;
     const body = {
       patientId: id,
       authCode: code,
       uuid: this.getUuid()
     };
-    return super.requestWithoutToken(requestAddres, body, headers)
+    return super.post(requestAddres, body)
       .map(this.extractData)
   }
 
-
   /** Checks if the token is a valid one*/
   public tokenStatus(): Observable<number> {
-    const requestAddres = this.config.usmoServer + this.config.verifyAuthenticationToken;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
-    return super.request(requestAddres, {}, headers)
+    const requestAddres = this.config.verifyAuthenticationToken;
+    return super.postWithToken(requestAddres, {})
       .map((response) => { return response.status });
   }
 

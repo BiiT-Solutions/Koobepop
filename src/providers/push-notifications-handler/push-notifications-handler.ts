@@ -5,6 +5,7 @@ import { Push, PushOptions, PushObject } from '@ionic-native/push';
 import { IAppConfig, APP_CONFIG } from '../../app/app.config';
 import { ServicesManager } from '../servicesManager';
 import { RegisterPushTokenRestService } from '../rest/register-push-token-rest-service/register-push-token-rest-service';
+import { SettingsProvider } from '../storage/settings/settings';
 
 
 /**
@@ -13,10 +14,12 @@ import { RegisterPushTokenRestService } from '../rest/register-push-token-rest-s
 @Injectable()
 export class PushNotificationsHandlerProvider {
   pushObject: PushObject
-  constructor(public platform: Platform,
+  constructor(
+    public platform: Platform,
     public push: Push,
-    @Inject(APP_CONFIG) protected config: IAppConfig,
-    protected registerPushService: RegisterPushTokenRestService) {
+    protected settings: SettingsProvider,
+    protected registerPushService: RegisterPushTokenRestService
+  ) {
   }
 
   init() {
@@ -34,8 +37,9 @@ export class PushNotificationsHandlerProvider {
       // to initialize push notifications
       const options: PushOptions = {
         android: {
-          senderID: this.config.pushSenderID
+          senderID: this.settings.allSettings?this.settings.allSettings.pushSenderId:undefined
         },
+        
         ios: {
           alert: 'true',
           badge: true,

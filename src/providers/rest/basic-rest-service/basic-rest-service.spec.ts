@@ -1,10 +1,11 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
 import { BasicRestService } from '../basic-rest-service/basic-rest-service';
 import { UserProvider } from '../../storage/user-provider/user-provider';
-import { UserProviderMock, TokenProviderMock } from '../../../../test-config/mocks-ionic';
+import { UserProviderMock, TokenProviderMock, SettingsProviderMock } from '../../../../test-config/mocks-ionic';
 import { AppConfig, APP_CONFIG } from '../../../app/app.config';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { Headers } from '@angular/http';
+import { SettingsProvider } from '../../storage/settings/settings';
 import {
   BaseRequestOptions,
   Http,
@@ -29,6 +30,7 @@ describe('Service: BasicRestService', () => {
         BaseRequestOptions,
         { provide: UserProvider, useClass: UserProviderMock },
         { provide: TokenProvider, useClass: TokenProviderMock },
+        { provide: SettingsProvider, useClass: SettingsProviderMock },
         { provide: APP_CONFIG, useValue: AppConfig },
         {
           deps: [
@@ -63,12 +65,12 @@ describe('Service: BasicRestService', () => {
   })
 
   it('should request with token', () => {
-    service.request('/', {}, new Headers())
+    service.post('/', {}, new Headers())
       .subscribe(res => expect(res.status).toBe(200))
   })
 
   it('should request without token', () => {
-    service.requestWithoutToken('/', {}, new Headers())
+    service.postWithToken('/', {}, new Headers())
       .subscribe(res => expect(res.status).toBe(200))
   })
 

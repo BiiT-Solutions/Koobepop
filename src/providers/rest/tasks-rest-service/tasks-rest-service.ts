@@ -10,23 +10,24 @@ import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { TaskAction } from '../../tasksManager/tasksManager';
 import { UserProvider } from '../../storage/user-provider/user-provider';
 import { CompleteTask } from '../../../models/complete-task';
+import { SettingsProvider } from '../../storage/settings/settings';
 
 @Injectable()
 export class TasksRestService extends BasicRestService {
 
-  constructor(protected http: Http,
+  constructor(
+    protected http: Http,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
-    protected userProvider: UserProvider) {
-    super(http, config, tokenProvider, userProvider);
+    protected userProvider: UserProvider,
+    protected settings: SettingsProvider) {
+    super(http, config, tokenProvider, userProvider, settings);
   }
 
   public requestTasks(appointment: AppointmentModel): Observable<USMOTask[]> {
-    const requestAddres = this.config.usmoServer + this.config.getTasksService;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const requestAddres = this.config.getTasksService;
     const body = { appointmentId: appointment.appointmentId }
-    return super.request(requestAddres, body, headers)
+    return super.postWithToken(requestAddres, body)
       .map(this.extractData)
       .map((tasks) => this.formatTasks(appointment, tasks))
   }
@@ -45,22 +46,22 @@ export class TasksRestService extends BasicRestService {
       const deserializedTasks: USMOTask[] = [];
       tasks.forEach((task) => {
         //Map of performed exercises by week
-        const performedMap = new Map<number,CompleteTask[]>();
-        if(task.performedOn){
-        task.performedOn.forEach((performed) => {
-          const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
-          const filledTime = performed.filledTime!=undefined?performed.filledTime:performed.time;
+        const performedMap = new Map<number, CompleteTask[]>();
+        if (task.performedOn) {
+          task.performedOn.forEach((performed) => {
+            const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+            const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
 
-          if (!performedMap.has(weekKey)) {
-            const weekValue: CompleteTask[] = [];
+            if (!performedMap.has(weekKey)) {
+              const weekValue: CompleteTask[] = [];
 
-            weekValue.push(new CompleteTask(performed.time, filledTime, performed.score));
-            performedMap.set(weekKey, weekValue);
-          } else {
-            performedMap.get(weekKey).push(new CompleteTask(performed.time, filledTime, performed.score));
-          }
-        });
-      }
+              weekValue.push(new CompleteTask(performed.time, filledTime, performed.score));
+              performedMap.set(weekKey, weekValue);
+            } else {
+              performedMap.get(weekKey).push(new CompleteTask(performed.time, filledTime, performed.score));
+            }
+          });
+        }
         const newTask = new USMOTask(
           task.name,
           task.startTime,
@@ -71,7 +72,7 @@ export class TasksRestService extends BasicRestService {
           performedMap,
           task.videoUrl,
           task.content);
-        newTask.updateTime = appointment.updateTime!=undefined? appointment.updateTime:appointment.startTime;
+        newTask.updateTime = appointment.updateTime != undefined ? appointment.updateTime : appointment.startTime;
         deserializedTasks.push(newTask);
       });
       return deserializedTasks;
@@ -81,9 +82,9 @@ export class TasksRestService extends BasicRestService {
   }
 
   /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
-  public sendPerformedTask(appointmentId: number, taskName: string, score: number, performedTime: number, filledTime ) {
-    const requestAddres = this.config.usmoServer + this.config.addPerformedExercise;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
+  public sendPerformedTask(appointmentId: number, taskName: string, score: number, performedTime: number, filledTime) {
+    const requestAddres =  this.config.addPerformedExercise;
+
     const body = {
       appointmentId: appointmentId,
       name: taskName,
@@ -91,31 +92,26 @@ export class TasksRestService extends BasicRestService {
       filledTime: filledTime,
       score: score
     }
-    headers.append('Authorization', this.config.password);
-    return super.request(requestAddres, body, headers).map(res => res.status);
+    return super.postWithToken(requestAddres, body).map(res => res.status);
   }
 
   public removePerformedTask(appointmentId: number, taskName: string, date: number): Observable<number> {
-    const requestAddres = this.config.usmoServer + this.config.removePerformedExercise;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const requestAddres =  this.config.removePerformedExercise;
     const body = {
       appointmentId: appointmentId,
       name: taskName,
       time: date,
       score: 0
     }
-    headers.append('Authorization', this.config.password);
-    return super.request(requestAddres, body, headers).map(res => res.status);
+    return super.postWithToken(requestAddres, body).map(res => res.status);
   }
 
   public sendTasksActions(tasks: TaskAction[]): Observable<Response> {
-    const requestAddres = this.config.usmoServer + this.config.performActions;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const requestAddres =  this.config.performActions;
     const body = {
       taskActions: tasks
     }
-    return super.request(requestAddres, body, headers);
+    return super.postWithToken(requestAddres, body);
   }
 }
 

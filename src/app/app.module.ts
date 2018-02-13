@@ -61,6 +61,10 @@ import { LoadingComponent } from '../components/loading/loading';
 import { LandingPage } from '../pages/landing/landing';
 import { FillFormPage } from '../pages/fill-form/fill-form';
 import { FormRunnerModule } from 'formrunner-js';
+import { SettingsProvider } from '../providers/storage/settings/settings';
+import { QRConfigurationPage } from '../pages/qr-configuration/qr-configuration';
+import { QRScanner } from '@ionic-native/qr-scanner';
+
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -90,7 +94,8 @@ export function createTranslateLoader(http: Http) {
     KppZoomPanComponent,
     LoadingComponent,
     LandingPage,
-    FillFormPage
+    FillFormPage,
+    QRConfigurationPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -120,7 +125,8 @@ export function createTranslateLoader(http: Http) {
     LandingPage,
     FillFormPage,
     EffortSelectorComponent,
-    UnselConfirmationComponent
+    UnselConfirmationComponent,
+    QRConfigurationPage
   ],
   providers: [
     RegisterPushTokenRestService,
@@ -145,7 +151,9 @@ export function createTranslateLoader(http: Http) {
     PushNotificationsHandlerProvider,
     ReportsRestService,
     StorageServiceProvider,
-    ReportsProvider
+    ReportsProvider,
+    SettingsProvider,
+    QRScanner,
   ]
 })
 export class AppModule { }

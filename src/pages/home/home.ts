@@ -12,6 +12,7 @@ import { MessagesProvider } from '../../providers/storage/messages-provider/mess
 import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { FillFormPage } from '../fill-form/fill-form';
+import { QRConfigurationPage } from '../qr-configuration/qr-configuration';
 
 @Component({
   selector: 'page-home',
@@ -22,7 +23,7 @@ export class HomePage {
   tab1Root = WorkBookPage;
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
-  tab4Root = FillFormPage;
+  tab4Root = QRConfigurationPage;
 
   public pendingMessages: number;
 

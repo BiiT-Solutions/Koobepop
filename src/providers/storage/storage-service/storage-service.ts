@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 /**Base class for defining Providers from the database*/
 @Injectable()
 export class StorageServiceProvider {
+    public static SETTINGS_STORAGE_ID = "settings";
     public static TASKS_STORAGE_ID = "tasks";
     public static APPOINTMENTS_STORAGE_ID = "appointments";
     public static TOKEN_STORAGE_ID = "token";

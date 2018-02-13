@@ -11,25 +11,27 @@ import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { UserProvider } from '../../storage/user-provider/user-provider';
 import { ReportModel } from '../../../models/report.model';
 import * as infographicjs from 'infographic-js';
+import { SettingsProvider } from '../../storage/settings/settings';
 
 @Injectable()
 export class ReportsRestService extends BasicRestService {
-  constructor(protected http: Http,
+  constructor(
+    protected http: Http,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,
-    protected translate: TranslateService) {
-    super(http, config, tokenProvider, userProvider);
+    protected translate: TranslateService,
+    protected settings: SettingsProvider
+  ) {
+    super(http, config, tokenProvider, userProvider,settings);
   }
 
   public requestReports(appointment: AppointmentModel): Observable<ReportModel> {
-    const requestAddres = this.config.usmoServer + this.config.getReportService;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const requestAddres = this.config.getReportService;
     const body = {
       appointmentId: appointment.appointmentId
     }
-    return super.request(requestAddres, body, headers)
+    return super.postWithToken(requestAddres, body)
       .map((res: Response) => this.extractData(res))
       .map((data) => this.generateInfographic(appointment, data));
   }

@@ -10,6 +10,7 @@ import { BasicRestService } from '../basic-rest-service/basic-rest-service';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { MessageModel } from '../../../models/message.model';
 import { UserProvider } from '../../storage/user-provider/user-provider';
+import { SettingsProvider } from '../../storage/settings/settings';
 
 @Injectable()
 export class MessagesRestService extends BasicRestService {
@@ -17,18 +18,18 @@ export class MessagesRestService extends BasicRestService {
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,
-    protected translate: TranslateService) {
-    super(http, config, tokenProvider, userProvider);
+    protected translate: TranslateService,
+    protected settings: SettingsProvider
+  ) {
+    super(http, config, tokenProvider, userProvider, settings);
   }
 
   public requestMessages(from: number): Observable<MessageModel[]> {
-    const requestAddres = this.config.usmoServer + this.config.getMessagesService;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Authorization', this.config.password);
+    const requestAddres = this.config.getMessagesService;
     const body = {
       updateTime: from
     }
-    return super.request(requestAddres, body, headers)
+    return super.postWithToken(requestAddres, body)
       .map((res: Response) => this.extractData(res))
       .map((res: any[]) => this.toMessageModel(res));
   }

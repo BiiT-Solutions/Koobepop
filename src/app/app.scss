@@ -57,46 +57,50 @@ ion-icon {
     animation: heartbeat 1000ms infinite;
     }
 @-webkit-keyframes heartbeat {
-                0%  {
-                  -webkit-transform: scale3d(1); transform: scale(1);
-                  transform: scal3d(1); transform: scale(1);
-                }
-                20% {
-                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
-                  transform: scale3d(1.1); transform: scale(1.1);
-                }
-                40% {
-                  -webkit-transform: scale3d(1); transform: scale(1);
-                  transform: scale3d(1); transform: scale(1);
-                }
-                60% {
-                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
-                  transform: scale3d(1.1); transform: scale(1.1);
-                }
-                80% {
-                  -webkit-transform: scale3d(1); transform: scale(1);
-                  transform: scale3d(1); transform: scale(1);
-                }
-            }
-            @keyframes heartbeat {
-                0%  {
-                  -webkit-transform: scale3d(1); transform: scale(1);
-                  transform: scal3d(1); transform: scale(1);
-                }
-                20% {
-                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
-                  transform: scale3d(1.1); transform: scale(1.1);
-                }
-                40% {
-                  -webkit-transform: scale3d(1); transform: scale(1);
-                  transform: scale3d(1); transform: scale(1);
-                }
-                60% {
-                  -webkit-transform: scale3d(1.1); transform: scale(1.1);
-                  transform: scale3d(1.1); transform: scale(1.1);
-                }
-                80% {
-                  -webkit-transform: scale3d(1); transform: scale(1);
-                  transform: scale3d(1); transform: scale(1);
-                }
-            }
+  0%  {
+    -webkit-transform: scale3d(1); transform: scale(1);
+    transform: scal3d(1); transform: scale(1);
+  }
+  20% {
+    -webkit-transform: scale3d(1.1); transform: scale(1.1);
+    transform: scale3d(1.1); transform: scale(1.1);
+  }
+  40% {
+    -webkit-transform: scale3d(1); transform: scale(1);
+    transform: scale3d(1); transform: scale(1);
+  }
+  60% {
+    -webkit-transform: scale3d(1.1); transform: scale(1.1);
+    transform: scale3d(1.1); transform: scale(1.1);
+  }
+  80% {
+    -webkit-transform: scale3d(1); transform: scale(1);
+    transform: scale3d(1); transform: scale(1);
+  }
+}
+@keyframes heartbeat {
+  0%  {
+    -webkit-transform: scale3d(1); transform: scale(1);
+    transform: scal3d(1); transform: scale(1);
+  }
+  20% {
+    -webkit-transform: scale3d(1.1); transform: scale(1.1);
+    transform: scale3d(1.1); transform: scale(1.1);
+  }
+  40% {
+    -webkit-transform: scale3d(1); transform: scale(1);
+    transform: scale3d(1); transform: scale(1);
+  }
+  60% {
+    -webkit-transform: scale3d(1.1); transform: scale(1.1);
+    transform: scale3d(1.1); transform: scale(1.1);
+  }
+  80% {
+    -webkit-transform: scale3d(1); transform: scale(1);
+    transform: scale3d(1); transform: scale(1);
+  }
+}
+
+.transparentBody {
+  background: transparent !important;
+}
