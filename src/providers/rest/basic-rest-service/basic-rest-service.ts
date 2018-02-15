@@ -19,16 +19,11 @@ export class BasicRestService {
     protected userProvider: UserProvider,
     protected settings: SettingsProvider
   ) {
-    this.settings.load().subscribe(() => {
-      if (this.settings.allSettings) {
-        this.backend = this.settings.allSettings.backend;
-        this.auth = this.settings.allSettings.access;
-        this.organization = this.settings.allSettings.organization;
-      }
-    });
+    this.settings.load().subscribe();
   }
 
   public post(endpoint: string, body: any, headers?: Headers) {
+    this.loadSettings();
     if (!headers) {
       headers = new Headers({ 'Content-Type': 'application/json' });
     }
@@ -49,27 +44,12 @@ export class BasicRestService {
       });
   }
 
-  /**General method for requests via posting*/
-  public request(requestAddress: string, requestBody: any, headers: Headers): Observable<Response> {
-    return this.tokenProvider.getToken()
-      .flatMap((token: string) => {
-        return this.userProvider.getUser().flatMap((user) => {
-          return this.requestWithToken(requestAddress, requestBody, headers, token, user.patientId)
-        });
-      });
-  }
-
-  public requestWithoutToken(requestAddress: string, requestBody: any, headers: Headers): Observable<Response> {
-    const body = requestBody;
-    body["organizationName"] = this.config.organizationName;
-    return this.http.post(requestAddress, body, { headers: headers });
-  }
-
-  private requestWithToken(requestAddress: string, requestBody: any, headers: Headers, token: string, userId: string): Observable<Response> {
-    const body = requestBody;
-    body["token"] = token;
-    body["patientId"] = userId;
-    return this.requestWithoutToken(requestAddress, body, headers);
+  private loadSettings() {
+    if (this.settings.allSettings) {
+      this.backend = this.settings.allSettings.backend;
+      this.auth = this.settings.allSettings.access;
+      this.organization = this.settings.allSettings.organization;
+    }
   }
 
 }

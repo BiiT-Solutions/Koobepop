@@ -23,36 +23,38 @@ export class LandingPage {
     private toaster: ToastIssuer,
     private settings: SettingsProvider
   ) {
-    settings.load().subscribe();
-   }
+
+  }
 
   ionViewDidEnter() {
     console.log('Landing')
-    if(this.settings.allSettings){
-    this.tokenRest.tokenStatus()
-      .subscribe((status) => {
-        if (status == 200 || status == 0) {
-          this.navToHome();
-        } else if (!this.connectivity.isOnline()) {
-          this.navToHome();
-        } else {
-          this.navToLogin();
-        }
-      }, error => {
-        console.log("unable to retrieve token status:", error);
-        if (error.status == 0 || error.status==200) {
-          this.navToHome();
-        } else { //Another async call failed on the process
-          this.navToLogin();
-        }
-        if (!this.connectivity.isOnline()) {
-          this.translate.get("APP.UNABLE-TO-CONNECT-MSG")
-            .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
-        }
-      });
-    }else{
-      this.navCtrl.push(QRConfigurationPage)
-    }
+    this.settings.load().subscribe(() => {
+      if (this.settings.allSettings) {
+        this.tokenRest.tokenStatus()
+          .subscribe((status) => {
+            if (status == 200 || status == 0) {
+              this.navToHome();
+            } else if (!this.connectivity.isOnline()) {
+              this.navToHome();
+            } else {
+              this.navToLogin();
+            }
+          }, error => {
+            console.log("unable to retrieve token status:", error);
+            if (error.status == 0 || error.status == 200) {
+              this.navToHome();
+            } else { //Another async call failed on the process
+              this.navToLogin();
+            }
+            if (!this.connectivity.isOnline()) {
+              this.translate.get("APP.UNABLE-TO-CONNECT-MSG")
+                .subscribe((translation: string) => this.toaster.badToast(translation, 2500))
+            }
+          });
+      } else {
+        this.navCtrl.push(QRConfigurationPage)
+      }
+    });
   }
 
   private navToLogin() {

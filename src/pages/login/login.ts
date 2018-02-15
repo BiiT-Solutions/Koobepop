@@ -27,16 +27,16 @@ export class LoginPage {
     public translateService: TranslateService,
     public userProvider: UserProvider,
     public authProv: AuthTokenRestService,
-    public tokenProv: TokenProvider
+    public tokenProv: TokenProvider,
   ) {
-
-    userProvider.getUser().subscribe(user => {
-      if (user != null) {
-        this.id = user.patientId
-        this.idIsSent = true;
-        this.smsSent = true;
-      }
-    });
+    userProvider.getUser()
+      .subscribe(user => {
+        if (user != null) {
+          this.id = user.patientId
+          this.idIsSent = true;
+          this.smsSent = true;
+        }
+      });
   }
 
   public sendId(): void {
@@ -47,7 +47,7 @@ export class LoginPage {
         if (res.status == 200) {
           this.smsSent = true;
           let user = new UserModel();
-          user.patientId=this.id;
+          user.patientId = this.id;
           this.userProvider.setUser(user).subscribe();
         } else {
           this.idIsSent = false;
@@ -55,9 +55,11 @@ export class LoginPage {
           this.toaster.badToast(res.status.toString());
         }
       }, error => {
-        try{
-        this.toaster.badToast(error.json().error);
-        }catch(error){}
+        try {
+          this.toaster.badToast(error.json().error);
+        } catch (error) {
+          this.toaster.badToast('Error sending Id');
+        }
         this.idIsSent = false;
         this.smsSent = false;
       });
@@ -76,8 +78,8 @@ export class LoginPage {
     loading.present();
 
     this.authProv.requestToken(this.id, this.pass)
-      .subscribe((token:string) => {
-        this.tokenProv.setToken(token).subscribe(()=>{
+      .subscribe((token: string) => {
+        this.tokenProv.setToken(token).subscribe(() => {
           loading.dismiss();
           if (token) {
             this.toaster.goodToast("Login successfull");

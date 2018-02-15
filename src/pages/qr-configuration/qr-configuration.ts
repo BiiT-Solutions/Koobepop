@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { SettingsProvider } from '../../providers/storage/settings/settings';
+import { QrDecryptProvider } from '../../providers/qr-decrypt/qr-decrypt';
 
 @Component({
   selector: 'page-qr-configuration',
@@ -13,7 +14,8 @@ export class QRConfigurationPage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private qrScanner: QRScanner, 
-    private settings:SettingsProvider
+    private settings:SettingsProvider,
+    private qrDecrypt: QrDecryptProvider
   ) {
     settings.load().subscribe(()=>console.log('settings are loaded'));
    // this.text="constructor"
@@ -33,23 +35,19 @@ export class QRConfigurationPage {
        // camera permission was granted
        // start scanning
        let scanSub = this.qrScanner.scan()
-       .subscribe((settings: string) => {
-         console.log('Scanned something', settings);
-         //this.text=settings;
-         
+       .subscribe((encryptedSettings: string) => {
+         console.log('Scanned something', encryptedSettings);
+         //this.text=settings;         
          try{
-         console.log('from base64', atob(settings));
-         //this.text=atob(settings)
-         console.log('As json', JSON.parse(atob(settings)));
-         //this.text=JSON.parse(atob(settings))
-         this.settings.setAll(JSON.parse(atob(settings)));
-         window.document.querySelector('ion-app').classList.remove('transparentBody')
-         this.qrScanner.hide(); // hide camera preview
-         scanSub.unsubscribe(); // stop scanning
-         this.navCtrl.pop(); // get out
+            this.qrDecrypt.decrypt(encryptedSettings).then((settings)=>{
+                this.settings.setAll(settings)
+                window.document.querySelector('ion-app').classList.remove('transparentBody')
+                this.qrScanner.hide(); // hide camera preview
+                scanSub.unsubscribe(); // stop scanning
+                this.navCtrl.pop(); // get out
+            });
          }catch(e){
              console.error('Error parsing data ', e)
-           //this.text = this.text+'-> Diferent error '+ e;
          }         
        });
 
@@ -70,88 +68,17 @@ export class QRConfigurationPage {
   .catch((e: any) => {
       console.error(e); 
   //this.text = 'Error ' + e;
+  // TODO - This is a testing feature and should be removed before releasing
   if(e=='cordova_not_available'){
-    this.settings.setAll({
-        "organization":"Centrum voor Bewegen",
-        "backend":"https://preventiecentra.biit-solutions.com/usmo",
-        "pushSenderId":"137133737832",
-        "access":"d2Vic2VydmljZXNAYmlpdC1zb2x1dGlvbnMuY29tOjk4MWViN2Y5NjA1NzFhNjQ5OQ=="});
-    this.navCtrl.pop();
+        let encryptedSettings ="fce49af8bb8bb9965913f678388fe43ac3ab6ac2f04b951ad6af54fbb2edf92e045958dd872ed746bb2e1ac8a004170d3cdf5cb6d04f8627c1105a7d10cd880da4f52a2422bc27291d7cb00419eefaacb8ef8f8fca89163730b8daa6e5510b4a7a27facd9be76814c49bc605a28980f338a6fa7c081695dd636c5788b86a9a5b281e2c5683d326b5d73edce2b139df8097ff1553c5b1e7a1215c936e96d6592ae973dd329a11db295150b7c4b56a7a388b89cecf98abe5847ca1d6d693ae261059374b4ff689eb2cd46380f7fd21633d1448c79e9cbdcc477175b84be91e2a8b5e8893c8f4614cd5441a84d63861fc7906b286a332755d275f33ee934fb70a57fb07fe969ca48c2d17cdf1c6e0602f1964122735b3e4b4632082e96e9451ef0c";
+        
+        this.qrDecrypt.decrypt(encryptedSettings).then((settings)=>{
+            console.log(settings)
+            this.settings.setAll(JSON.parse(settings))
+            this.navCtrl.pop(); // get out
+        });
     }
 });
 }
 
-
-
-
-  /* TODO - USE THIS (Yet to be usable)
-AES_CBC_encrypt()
-{
-  let keyData = hexStringToUint8Array("2b7e151628aed2a6abf7158809cf4f3c2b7e151628aed2a6abf7158809cf4f3c");
-  let iv = hexStringToUint8Array("000102030405060708090a0b0c0d0e0f");
-
-    crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["encrypt"]).then(function(key) {
-        var plainText = document.getElementById("plainTextGCM").value;
-        return crypto.subtle.encrypt({name: "aes-cbc", iv: iv}, key, asciiToUint8Array(plainText));
-    }, failAndLog).then(function(cipherText) {
-        document.getElementById("cipherTextGCM").value = bytesToHexString(cipherText);
-    }, failAndLog);
-}
-function AES_CBC_decrypt()
-{
-    crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["decrypt"]).then(function(key) {
-        var cipherText = document.getElementById("cipherTextGCM").value;
-        return crypto.subtle.decrypt({name: "aes-cbc", iv: iv}, key, hexStringToUint8Array(cipherText));
-    }, failAndLog).then(function(plainText) {
-        document.getElementById("resultGCM").innerHTML = "Result: " + bytesToASCIIString(plainText);
-    }, failAndLog);
-}
-function hexStringToUint8Array(hexString)
-{
-    if (hexString.length % 2 != 0)
-        throw "Invalid hexString";
-    var arrayBuffer = new Uint8Array(hexString.length / 2);
-
-    for (var i = 0; i < hexString.length; i += 2) {
-        var byteValue = parseInt(hexString.substr(i, 2), 16);
-        if (byteValue == NaN)
-            throw "Invalid hexString";
-        arrayBuffer[i/2] = byteValue;
-    }
-
-    return arrayBuffer;
-}
-function bytesToHexString(bytes)
-{
-    if (!bytes)
-        return null;
-
-    bytes = new Uint8Array(bytes);
-    var hexBytes = [];
-
-    for (var i = 0; i < bytes.length; ++i) {
-        var byteString = bytes[i].toString(16);
-        if (byteString.length < 2)
-            byteString = "0" + byteString;
-        hexBytes.push(byteString);
-    }
-
-    return hexBytes.join("");
-}
-function asciiToUint8Array(str)
-{
-    var chars = [];
-    for (var i = 0; i < str.length; ++i)
-        chars.push(str.charCodeAt(i));
-    return new Uint8Array(chars);
-}
-function bytesToASCIIString(bytes)
-{
-    return String.fromCharCode.apply(null, new Uint8Array(bytes));
-}
-function failAndLog(error)
-{
-    console.log(error);
-}
-*/
 }

@@ -3,7 +3,7 @@ import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Device } from '@ionic-native/device';
 import { Storage } from '@ionic/storage';
 import { UserModel } from '../../../models/user.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class UserProvider extends StorageServiceProvider {
     private user: UserModel;

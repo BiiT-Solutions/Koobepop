@@ -64,6 +64,7 @@ import { FormRunnerModule } from 'formrunner-js';
 import { SettingsProvider } from '../providers/storage/settings/settings';
 import { QRConfigurationPage } from '../pages/qr-configuration/qr-configuration';
 import { QRScanner } from '@ionic-native/qr-scanner';
+import { QrDecryptProvider } from '../providers/qr-decrypt/qr-decrypt';
 
 
 export function createTranslateLoader(http: Http) {
@@ -154,6 +155,7 @@ export function createTranslateLoader(http: Http) {
     ReportsProvider,
     SettingsProvider,
     QRScanner,
+    QrDecryptProvider,
   ]
 })
 export class AppModule { }

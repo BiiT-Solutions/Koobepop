@@ -19,6 +19,8 @@ export interface IAppConfig {
   pushSenderID: string;
   getReportService: string;
   getMessagesService: string;
+  keyData:string;
+  iv:string;
 }
 
 export const AppConfig: IAppConfig = {
@@ -43,6 +45,12 @@ export const AppConfig: IAppConfig = {
   , pushSenderID: 
   //'489751559671'
   '137133737832' //com-biit-igrow
+
+  //QR Encryption key
+  ,keyData:"1886578AB249A216C9A9A81FD69CEB0BFDFA6712396C20097537B4B77D7C74BF"
+  //QR Encryption iv
+  ,iv:"0F0324E0F6436EF2F5F5E45BA4409595"
+
 
   //Services
   , sendCodeSMS:                    "/rest/sendAuthCodeSMS"
