@@ -10,7 +10,7 @@ export class QrDecryptProvider {
 
   public decrypt(string): PromiseLike<string> {
     return this.AES_CBC_decrypt(string)
-      .then((decrypted) => { console.log(decrypted); return atob(decrypted) })
+      .then((decrypted) => { console.log(atob(decrypted)); return atob(decrypted) })
   }
 
 
