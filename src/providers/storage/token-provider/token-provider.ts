@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { IToken } from '../../../models/tokenI';
 import { Device } from '@ionic-native/device';
 import { UserProvider } from '../user-provider/user-provider';

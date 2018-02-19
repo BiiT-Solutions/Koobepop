@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { UserModel } from '../../models/user.model';
 import { CompleteTask } from '../../models/complete-task';

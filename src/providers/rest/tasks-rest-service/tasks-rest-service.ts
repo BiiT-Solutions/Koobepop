@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
 import { AppointmentModel } from '../../../models/appointment.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { USMOTask } from '../../../models/usmo-task';
 import * as moment from 'moment';
 import { BasicRestService } from '../basic-rest-service/basic-rest-service';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { ReportModel } from '../../../models/report.model';
 import { ReportsRestService } from '../../rest/reports-rest-service/reports-rest-service';
 import { IAppointment, AppointmentModel } from '../../../models/appointment.model';

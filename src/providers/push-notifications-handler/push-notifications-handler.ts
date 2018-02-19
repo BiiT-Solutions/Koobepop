@@ -1,9 +1,6 @@
-import { Injectable, Inject } from '@angular/core';
-import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { Push, PushOptions, PushObject } from '@ionic-native/push';
-import { IAppConfig, APP_CONFIG } from '../../app/app.config';
-import { ServicesManager } from '../servicesManager';
 import { RegisterPushTokenRestService } from '../rest/register-push-token-rest-service/register-push-token-rest-service';
 import { SettingsProvider } from '../storage/settings/settings';
 

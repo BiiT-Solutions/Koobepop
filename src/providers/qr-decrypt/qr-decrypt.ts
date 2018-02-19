@@ -10,7 +10,9 @@ export class QrDecryptProvider {
 
   public decrypt(string): PromiseLike<string> {
     return this.AES_CBC_decrypt(string)
-      .then((decrypted) => { console.log(atob(decrypted)); return atob(decrypted) })
+      .then((decrypted) => {return atob(decrypted)},err=>{
+        console.log(err);return undefined;
+      })
   }
 
 
@@ -18,12 +20,12 @@ export class QrDecryptProvider {
     let keyData = this.hexStringToUint8Array(this.config.keyData);
     let iv = this.hexStringToUint8Array(this.config.iv);
 
-    crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["encrypt"]).then((key) => {
+    return crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["encrypt"])
+    .then((key) => {
       var plainText = value;
       return crypto.subtle.encrypt({ name: "aes-cbc", iv: iv }, key, this.asciiToUint8Array(plainText));
     }, this.failAndLog).then( (cipherText) => {
-      let encryptedValue = this.bytesToHexString(cipherText);
-      console.log(encryptedValue)
+      return this.bytesToHexString(cipherText);
     }, this.failAndLog);
   }
 

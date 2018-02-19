@@ -9,7 +9,6 @@ import { APP_CONFIG, AppConfig } from './app.config';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
 import { Device } from '@ionic-native/device';
-
 //Components
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../components/unsel-confirmation/unsel-confirmation';
@@ -65,9 +64,10 @@ import { SettingsProvider } from '../providers/storage/settings/settings';
 import { QRConfigurationPage } from '../pages/qr-configuration/qr-configuration';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { QrDecryptProvider } from '../providers/qr-decrypt/qr-decrypt';
+import { HttpClient } from '@angular/common/http';
 
 
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -110,7 +110,7 @@ export function createTranslateLoader(http: Http) {
         deps: [Http]
       },
     }),
-    FormRunnerModule,
+    FormRunnerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -155,7 +155,7 @@ export function createTranslateLoader(http: Http) {
     ReportsProvider,
     SettingsProvider,
     QRScanner,
-    QrDecryptProvider,
+    QrDecryptProvider
   ]
 })
 export class AppModule { }

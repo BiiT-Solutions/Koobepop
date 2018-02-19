@@ -6,7 +6,6 @@ import { Storage } from '@ionic/storage';
 import { StorageMock, AppointmentsProviderMock, TasksRestServiceMock } from '../../../../test-config/mocks-ionic';
 import { USMOTask } from '../../../models/usmo-task';
 import { CompleteTask } from '../../../models/complete-task';
-import { Observable } from 'rxjs/Rx';
 //TODO Test this component
 describe('Service: TasksProvider', () => {
   let service: TasksProvider;

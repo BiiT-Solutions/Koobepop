@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform, LoadingController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HomePage } from '../pages/home/home';
 import { TranslateService } from '@ngx-translate/core';
-import { ServicesManager } from '../providers/servicesManager';
-import { LoginPage } from '../pages/login/login';
-import { ConnectivityService } from '../providers/connectivity-service/connectivity-service';
-import { ToastIssuer } from '../providers/toastIssuer/toastIssuer';
 import { LandingPage } from '../pages/landing/landing';
 
 @Component({

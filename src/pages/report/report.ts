@@ -5,7 +5,6 @@ import * as infographicjs from 'infographic-js';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportsRestService } from '../../providers/rest/reports-rest-service/reports-rest-service';
-import { Observable } from 'rxjs/Observable';
 import { ReportModel } from '../../models/report.model';
 import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
 /**

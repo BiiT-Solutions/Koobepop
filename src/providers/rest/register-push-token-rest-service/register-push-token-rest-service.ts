@@ -5,7 +5,7 @@ import { Http, Headers, Response } from '@angular/http';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { UserModel } from '../../../models/user.model';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { UserProvider } from '../../storage/user-provider/user-provider';
 import { SettingsProvider } from '../../storage/settings/settings';
 @Injectable()

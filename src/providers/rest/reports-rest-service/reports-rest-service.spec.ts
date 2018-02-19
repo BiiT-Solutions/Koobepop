@@ -3,9 +3,7 @@ import { UserProvider } from '../../storage/user-provider/user-provider';
 import { UserProviderMock, TokenProviderMock, TranslateServiceMock, InfographicJSMock } from '../../../../test-config/mocks-ionic';
 import { AppConfig, APP_CONFIG } from '../../../app/app.config';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
-import { Headers } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { ReportsRestService } from './reports-rest-service';
 import {
     BaseRequestOptions,
@@ -20,7 +18,6 @@ import {
     MockConnection
 } from '@angular/http/testing';
 import { AppointmentModel } from '../../../models/appointment.model';
-import { ReportModel } from '../../../models/report.model';
 import * as infographicjs from 'infographic-js';
 
 describe('Service: ReportsRestService', () => {

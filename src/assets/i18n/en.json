@@ -1,73 +1,78 @@
 {
-   "APP":{
-        "UNABLE-TO-CONNECT-MSG":"Unable to connect",
-        "LOAD-MESSAGE":"Please wait..."
-   },
-    "HOME":{
-        "NAVBAR-TITLE":"Home",
-        "TITLE":"<your header here>",
-        "BOOK-BUTTON":"Book",
-        "V-BOOK-BUTTON":"Vertical book",
-        "H-BOOK-BUTTON":"Horizontal book",
-        "SEARCH-BUTTON":"Search",
-        "DETAILS-BUTTON":"Details",
-        "AGENDA-BUTTON":"Work Book",
-        "SUMMARY-BUTTON":"Tracker",
-        "REPORT-BUTTON":"Reports",
-        "KNOW-BUTTON":"Know"
+    "APP": {
+        "UNABLE-TO-CONNECT-MSG": "Unable to connect",
+        "LOAD-MESSAGE": "Please wait..."
     },
-    "AGENDA":{
-        "TITLE":"Tasks",
-        "TODAY-BUTTON":"Today"
+    "HOME": {
+        "NAVBAR-TITLE": "Home",
+        "TITLE": "<your header here>",
+        "BOOK-BUTTON": "Book",
+        "V-BOOK-BUTTON": "Vertical book",
+        "H-BOOK-BUTTON": "Horizontal book",
+        "SEARCH-BUTTON": "Search",
+        "DETAILS-BUTTON": "Details",
+        "AGENDA-BUTTON": "Work Book",
+        "SUMMARY-BUTTON": "Tracker",
+        "REPORT-BUTTON": "Reports",
+        "KNOW-BUTTON": "Know"
     },
-    "LOGIN":{
-        "TITLE":"Login",
-        "ID-LABEL":"Id:",
-        "CODE-LABEL":"Code:",
-        "SEND-ID-BUTTON":"Ok",
-        "SEND-CODE-BUTTON":"Ok",
-        "CHANGE-ID-BUTTON":"Change Id",
-        "BEFORE-SEND-ID-TEXT":"Introduce your id, we will provide you with a verification code via SMS.",
-        "BEFORE-SEND-CODE-TEXT":"Introduce your code.",
-        "WAIT-MSG":"Please wait..."
+    "AGENDA": {
+        "TITLE": "Tasks",
+        "TODAY-BUTTON": "Today"
     },
-    "REPORT":{
-        "ERROR-SETTING-APPOINTMENTS":"Unable to load appointments",
-        "REPORTS-LOADING-TEXT":"Loading reports...",
-        "ERROR-SETTING-REPORTS":"Unable to load reports"
+    "LOGIN": {
+        "TITLE": "Login",
+        "ID-LABEL": "Id:",
+        "CODE-LABEL": "Code:",
+        "SEND-ID-BUTTON": "Ok",
+        "SEND-CODE-BUTTON": "Ok",
+        "CHANGE-ID-BUTTON": "Change Id",
+        "BEFORE-SEND-ID-TEXT": "Introduce your id, we will provide you with a verification code via SMS.",
+        "BEFORE-SEND-CODE-TEXT": "Introduce your code.",
+        "WAIT-MSG": "Please wait..."
     },
-    "KNOW":{
-        "TITLE":"Messages",
-        "NO-MESSAGES-TEXT":"No messages to display"
+    "REPORT": {
+        "ERROR-SETTING-APPOINTMENTS": "Unable to load appointments",
+        "REPORTS-LOADING-TEXT": "Loading reports...",
+        "ERROR-SETTING-REPORTS": "Unable to load reports"
     },
-    "EXERCISE-INFO":{
-        "TITLE":"Info"
+    "KNOW": {
+        "TITLE": "Messages",
+        "NO-MESSAGES-TEXT": "No messages to display"
     },
-    "EFFORT-SELECTOR":{
-        "TEXT":"This exercise was:",
-        "EASY":"Easy",
-        "NORMAL":"Normal",
-        "HARD":"Hard",
-        "PAIN":"Painful"
+    "EXERCISE-INFO": {
+        "TITLE": "Info"
     },
-    "UNSEL-CONFIRMATION":{
-        "YES":"Yes",
-        "NO":"No",
-        "TEXT":"Undo this exercise?"
+    "EFFORT-SELECTOR": {
+        "TEXT": "This exercise was:",
+        "EASY": "Easy",
+        "NORMAL": "Normal",
+        "HARD": "Hard",
+        "PAIN": "Painful"
     },
-    "LOADER":{
-        "LOADING":"Loading...",
-        "REPORTS":"Loading reports",
-        "TASKS":"Loading tasks",
-        "MESSAGES":"Loading messages"
+    "UNSEL-CONFIRMATION": {
+        "YES": "Yes",
+        "NO": "No",
+        "TEXT": "Undo this exercise?"
     },
-
-    "TRACKER-TAG":{
-        "Physical":"body health",
-        "Mental":"mental health",
-        "Energy":"energy health"
+    "LOADER": {
+        "LOADING": "Loading...",
+        "REPORTS": "Loading reports",
+        "TASKS": "Loading tasks",
+        "MESSAGES": "Loading messages"
     },
-    "QR-CONFIGURATION":{
-        "TEXT":"Scan the QR code of your medical center"
+    "TRACKER-TAG": {
+        "Physical": "body health",
+        "Mental": "mental health",
+        "Energy": "energy health"
+    },
+    "QR-CONFIGURATION": {
+        "TITLE":"Configuration",
+        "TEXT": "Scan the QR code of your medical center",
+        "MANUAL": {
+            "TEXT": "Paste your code here:",
+            "ACCEPT-BUTTON": "Accept",
+            "ERROR-PARSING-HASH":"Invalid code"
+        }
     }
 }
