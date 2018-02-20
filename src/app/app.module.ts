@@ -67,7 +67,7 @@ import { QrDecryptProvider } from '../providers/qr-decrypt/qr-decrypt';
 import { HttpClient } from '@angular/common/http';
 
 
-export function createTranslateLoader(http: HttpClient) {
+export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 

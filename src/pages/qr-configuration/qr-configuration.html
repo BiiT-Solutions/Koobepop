@@ -2,10 +2,10 @@
   <ion-navbar color="primary">
     <!--<ion-title>{{'QR-CONFIGURATION.TITLE'|translate}}</ion-title>-->
     <ion-segment [(ngModel)]="inputMethod" color="light">
-      <ion-segment-button value="scan">
+      <ion-segment-button (click)="scan()" value="scan" >
         <ion-icon name="camera"></ion-icon>
       </ion-segment-button>
-      <ion-segment-button value="manual">
+      <ion-segment-button (click)="stopScan()" value="manual">
         <ion-icon name="create"></ion-icon>
       </ion-segment-button>
     </ion-segment>
