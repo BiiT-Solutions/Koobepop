@@ -27,7 +27,6 @@ export class QRConfigurationPage {
     this.manualInput = false;
     settings.load()
       .subscribe();
-    // this.text="constructor"
   }
 
   ionViewDidLoad() {
@@ -35,41 +34,31 @@ export class QRConfigurationPage {
   }
 
   scan() {
-    //this.text="scan"
     this.qrScanner.prepare()
       .then((status: QRScannerStatus) => {
         if (status.authorized) {
-          //this.text="scanning"
-          // camera permission was granted
-          // start scanning
           this.scanSub = this.qrScanner.scan()
             .subscribe((encryptedSettings: string) => {
-              //this.text=settings;         
               try {
-                this.qrDecrypt.decrypt(encryptedSettings).then((settings) => {
-                  this.stopScan();
-                  this.settings.setAll(JSON.parse(settings))
-                  this.navCtrl.pop(); // get out
-                });
+                this.hash = encryptedSettings;
+                this.saveSettings()
+                  .then(() => {
+                    this.stopScan();
+                    this.navCtrl.pop();
+                  },e => {
+                      console.warn("Error parsing configuration hash");
+                      this.showError(this.translate.instant('QR-CONFIGURATION.MANUAL.ERROR-PARSING-HASH'));
+                      this.scan();
+                    });
               } catch (e) {
-                console.error('Error parsing data ', e)
+                console.warn('Error parsing data ', e)
               }
             });
-
           window.document.querySelector('ion-app').classList.add('transparentBody')
-          // show camera preview
           this.qrScanner.show();
-
-          // wait for user to scan something, then the observable callback will be called
-
-        } else if (status.denied) {
-          //this.text="Scan :("
+        } else if (status.denied) {       
           this.qrScanner.openSettings();
         } else {
-          //this.text="Scan?"
-          // permission was denied, but not permanently. You can ask for permission again at a later time.
-
-          //Show text-input where to paste settings hash
           this.showManualInput();
         }
       })
@@ -79,7 +68,7 @@ export class QRConfigurationPage {
       });
   }
 
-  stopScan(){
+  stopScan() {
     window.document.querySelector('ion-app').classList.remove('transparentBody')
     this.qrScanner.hide(); // hide camera preview
     if (this.scanSub) {
@@ -88,17 +77,22 @@ export class QRConfigurationPage {
   }
 
   showManualInput() {
-    this.inputMethod = "manual";  
+    this.inputMethod = "manual";
+  }
+
+  onAccept() {
+    this.saveSettings()
+      .then(() => { this.navCtrl.pop(); },
+        e => {
+          console.warn("Error parsing configuration hash");
+          this.showError(this.translate.instant('QR-CONFIGURATION.MANUAL.ERROR-PARSING-HASH'));
+        });
   }
 
   saveSettings() {
-    this.qrDecrypt.decrypt(this.hash)
+    return this.qrDecrypt.decrypt(this.hash)
       .then((settings) => {
         this.settings.setAll(JSON.parse(settings))
-        this.navCtrl.pop(); // get out
-      }, e => {
-        console.warn("Error parsing configuration hash");
-        this.showError(this.translate.instant('QR-CONFIGURATION.MANUAL.ERROR-PARSING-HASH'));
       });
   }
 

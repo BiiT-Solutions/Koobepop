@@ -8,6 +8,7 @@ import { UserProvider } from '../../providers/storage/user-provider/user-provide
 import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
 import { TokenProvider } from '../../providers/storage/token-provider/token-provider';
 import { UserModel } from '../../models/user.model';
+import { SettingsProvider } from '../../providers/storage/settings/settings';
 
 @Component({
   selector: 'page-login',
@@ -28,15 +29,23 @@ export class LoginPage {
     public userProvider: UserProvider,
     public authProv: AuthTokenRestService,
     public tokenProv: TokenProvider,
+    public settings: SettingsProvider
   ) {
     userProvider.getUser()
       .subscribe(user => {
         if (user != null) {
-          this.id = user.patientId
+          this.id = user.patientId;
           this.idIsSent = true;
           this.smsSent = true;
         }
       });
+    settings.load().subscribe(()=>{
+      let set = settings.allSettings();
+      if(set.user){
+        this.id=set.user.patientId
+        this.sendId();
+      }
+    })
   }
 
   public sendId(): void {

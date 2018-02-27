@@ -22,7 +22,7 @@
         <ion-label color="primary" stacked>{{'QR-CONFIGURATION.MANUAL.TEXT'|translate}}</ion-label>
         <ion-input type="text" [(ngModel)]="hash"></ion-input>
       </ion-item>
-      <button ion-button full color="secondary" (click)="saveSettings()">{{'QR-CONFIGURATION.MANUAL.ACCEPT-BUTTON'|translate}}</button>
+      <button ion-button full color="secondary" (click)="onAccept()">{{'QR-CONFIGURATION.MANUAL.ACCEPT-BUTTON'|translate}}</button>
     </div>
   </div>
 </ion-content>

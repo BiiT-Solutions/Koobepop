@@ -3,6 +3,8 @@
 set -e
 npm install
 
+gulp setup-i-js
+
 echo "Building iGROW"
 ionic cordova build android --prod --release
 echo "Signing ..."
