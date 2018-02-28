@@ -40,7 +40,7 @@ export class LoginPage {
         }
       });
     settings.load().subscribe(()=>{
-      let set = settings.allSettings();
+      let set = settings.allSettings;
       if(set.user){
         this.id=set.user.patientId
         this.sendId();
