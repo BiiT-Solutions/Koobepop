@@ -48,6 +48,7 @@ export class TasksSlideComponent {
       }
     });
     this.tasks = tasks;
+    console.log(this.tasks)
   }
 
   public gotoExerciseInfo(name: string) {

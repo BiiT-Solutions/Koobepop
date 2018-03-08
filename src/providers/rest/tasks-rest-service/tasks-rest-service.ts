@@ -50,6 +50,7 @@ export class TasksRestService extends BasicRestService {
         if (task.performedOn) {
           task.performedOn.forEach((performed) => {
             const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+            console.log(weekKey)
             const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
 
             if (!performedMap.has(weekKey)) {
@@ -62,6 +63,7 @@ export class TasksRestService extends BasicRestService {
             }
           });
         }
+
         const newTask = new USMOTask(
           task.name,
           task.startTime,

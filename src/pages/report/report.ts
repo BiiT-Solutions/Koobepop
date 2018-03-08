@@ -30,7 +30,7 @@ export class ReportPage {
     //Preload reports into memory, remove loading page, allow slide to last
     this.reportsProvider.getReports()
       .subscribe((reports) => {
-        this.isLoading =  reports != undefined && reports.length > 0 ? false : true;
+        this.isLoading = false;
         this.slideToLast = true;
         this.reportsAvailable = reports != undefined && reports.length > 0 ? true : false;
       });
@@ -62,7 +62,7 @@ export class ReportPage {
     this.reportsProvider.update()
       .subscribe((reports) => {
         console.log("Updated reports:", reports)
-        this.isLoading = reports != undefined && reports.length > 0 ? false : true;
+        this.isLoading = false;
         this.slideToLast = true;
         this.reportsAvailable = reports != undefined && reports.length > 0 ? true : false;
       });

@@ -81,5 +81,8 @@ export class ReportsProvider extends StorageServiceProvider {
   public isLoaded(): boolean {
     return this.reports != undefined && this.reports.length > 0;
   }
+  get allReports(){
+    return this.reports;
+  }
 
 }
