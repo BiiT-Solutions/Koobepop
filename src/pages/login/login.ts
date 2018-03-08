@@ -65,9 +65,9 @@ export class LoginPage {
         }
       }, error => {
         try {
-          this.toaster.badToast(error.json().error);
+          this.toaster.badToast( this.translateService.instant('LOGIN.INVALID-USER-MSG'));
         } catch (error) {
-          this.toaster.badToast('Error sending Id');
+          this.toaster.badToast(this.translateService.instant('LOGIN.ERROR-SENDING-MSG'));
         }
         this.idIsSent = false;
         this.smsSent = false;
@@ -91,13 +91,13 @@ export class LoginPage {
         this.tokenProv.setToken(token).subscribe(() => {
           loading.dismiss();
           if (token) {
-            this.toaster.goodToast("Login successfull");
+            this.toaster.goodToast(this.translateService.instant('LOGIN.SUCCESS'));
             this.navCtrl.setRoot(HomePage);
           }
         });
       }, error => {
         loading.dismiss();
-        this.toaster.badToast("Login error");
+        this.toaster.badToast(this.translateService.instant('LOGIN.ERROR'));
         console.error(error);
       });
   }
