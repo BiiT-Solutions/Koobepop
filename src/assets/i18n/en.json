@@ -36,7 +36,7 @@
         "ERROR-SETTING-APPOINTMENTS": "Unable to load appointments",
         "REPORTS-LOADING-TEXT": "Loading reports...",
         "ERROR-SETTING-REPORTS": "Unable to load reports",
-        "NO-CONTENT-TEXT": "You don't have any report."
+        "NO-CONTENT-TEXT": "There are not finished reports available."
     },
     "KNOW": {
         "TITLE": "Messages",

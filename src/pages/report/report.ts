@@ -18,6 +18,7 @@ export class ReportPage {
   @ViewChild('slider') slider: Slides;
   isLoading: boolean = true;
   slideToLast: boolean = false;
+  reportsAvailable: boolean = false;
   timeout;
   constructor(public navCtrl: NavController,
     public toaster: ToastIssuer,
@@ -27,10 +28,12 @@ export class ReportPage {
 
   protected ionViewDidLoad() {
     //Preload reports into memory, remove loading page, allow slide to last
-    this.reportsProvider.getReports().subscribe((reports) => {
-      this.isLoading = reports != undefined ? false : true
-      this.slideToLast = true;
-    });
+    this.reportsProvider.getReports()
+      .subscribe((reports) => {
+        this.isLoading = false;
+        this.slideToLast = true;
+        this.reportsAvailable = reports != undefined && reports.length > 0 ? true : false;
+      });
   }
 
   protected ionViewWillEnter() {
@@ -56,11 +59,13 @@ export class ReportPage {
   }
 
   private updateReports() {
-    this.reportsProvider.update().subscribe((reports) => {
-      console.log("Updated reports:", reports)
-      this.isLoading = reports != undefined ? false : true
-      this.slideToLast = true;
-    });
+    this.reportsProvider.update()
+      .subscribe((reports) => {
+        console.log("Updated reports:", reports)
+        this.isLoading = false;
+        this.slideToLast = true;
+        this.reportsAvailable = reports != undefined && reports.length > 0 ? true : false;
+      });
   }
 
   public lockSwipes(zoomActive: boolean) {
