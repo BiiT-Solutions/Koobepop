@@ -18,7 +18,8 @@
     },
     "AGENDA": {
         "TITLE": "Tasks",
-        "TODAY-BUTTON": "Today"
+        "TODAY-BUTTON": "Today",
+        "NO-CONTENT-TEXT": "You don't have any tasks."
     },
     "LOGIN": {
         "TITLE": "Login",
@@ -34,7 +35,8 @@
     "REPORT": {
         "ERROR-SETTING-APPOINTMENTS": "Unable to load appointments",
         "REPORTS-LOADING-TEXT": "Loading reports...",
-        "ERROR-SETTING-REPORTS": "Unable to load reports"
+        "ERROR-SETTING-REPORTS": "Unable to load reports",
+        "NO-CONTENT-TEXT": "You don't have any report."
     },
     "KNOW": {
         "TITLE": "Messages",
