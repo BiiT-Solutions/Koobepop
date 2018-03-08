@@ -2,7 +2,7 @@
   <loading-screen *ngIf="tasks==undefined" [text]="'LOADER.TASKS'|translate"></loading-screen>
   <ion-scroll id="tasks" scrollY="true" *ngIf="tasks!=undefined">
     <ion-list>
-      <ion-item *ngIf="!tasks || tasks.length==0">{{'AGENDA.NO-CONTENT-TEXT'|translate}}</ion-item>
+      
       <task-item *ngFor="let task of tasks" [task]="task" [disabled]="disabled" (completeExercise)="completeExercise($event)" (infoClick)="gotoExerciseInfo(task.name)">
       </task-item>
     </ion-list>
