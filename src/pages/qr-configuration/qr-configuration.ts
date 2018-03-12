@@ -18,11 +18,11 @@ export class QRConfigurationPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private qrScanner: QRScanner,
-    private settings: SettingsProvider,
-    private qrDecrypt: QrDecryptProvider,
-    private toast: ToastIssuer,
-    private translate: TranslateService
+    public qrScanner: QRScanner,
+    public settings: SettingsProvider,
+    public qrDecrypt: QrDecryptProvider,
+    public toast: ToastIssuer,
+    public translate: TranslateService
   ) {
     this.manualInput = false;
     settings.load()

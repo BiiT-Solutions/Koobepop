@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 export class FillFormPage {
  @ViewChild('formRunner') formRunner;
 
-private form:Observable<any>;
+  form:Observable<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.form = Observable.of(this.getForm());

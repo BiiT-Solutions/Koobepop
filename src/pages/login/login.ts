@@ -17,9 +17,9 @@ import { SettingsProvider } from '../../providers/storage/settings/settings';
 export class LoginPage {
   public id = "";
   public pass = "";
-  private showPass: boolean = false;
-  private idIsSent: boolean = false;
-  private smsSent: boolean = false;
+  public showPass: boolean = false;
+  public idIsSent: boolean = false;
+  public smsSent: boolean = false;
 
   constructor(
     public navCtrl: NavController,
