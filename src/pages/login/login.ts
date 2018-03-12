@@ -48,6 +48,10 @@ export class LoginPage {
     })
   }
 
+  ionViewWillEnter() {
+    console.log('LoginPage will load')
+  }
+
   public sendId(): void {
     // Request Verification code
     this.idIsSent = true;

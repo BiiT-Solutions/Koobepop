@@ -26,6 +26,10 @@ export class LandingPage {
 
   }
 
+  ionViewWillEnter() {
+    console.log('LandingPage will load')
+  }
+
   ionViewDidEnter() {
     console.log('Landing')
     this.settings.load().subscribe(() => {

@@ -51,6 +51,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    
     //TODO - set timer to update every 30 min or so
     this.appointmentsProvider.update()
       .subscribe(appointments => {
@@ -60,8 +61,8 @@ export class HomePage {
       })
   }
 
-  ionViewDidUnload() {
-
+  ionViewWillEnter() {
+    console.log('HomePage will load')
   }
 
   navTest() {
