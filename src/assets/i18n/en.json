@@ -31,7 +31,7 @@
         "BEFORE-SEND-ID-TEXT": "Introduce your id, we will provide you with a verification code via SMS.",
         "BEFORE-SEND-CODE-TEXT": "Introduce your code.",
         "WAIT-MSG": "Please wait...",
-        "INVALID-USER":"Invalid user Id, please try again",
+        "INVALID-USER-MSG":"Invalid user Id, please try again",
         "ERROR-SENDING-ID":"Error sending Id",
         "SUCCESS":"Login successful",
         "ERROR":"Login error"
