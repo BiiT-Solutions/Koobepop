@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { USMOTask } from '../../../models/usmo-task';
@@ -9,7 +9,6 @@ import { USMOTask } from '../../../models/usmo-task';
 })
 export class TaskInformationPage {
   videoUrl: SafeResourceUrl;
-  @ViewChild("content") content: ElementRef;
   task: USMOTask;
   constructor(
     public navCtrl: NavController,

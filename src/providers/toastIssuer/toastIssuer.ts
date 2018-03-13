@@ -14,7 +14,7 @@ export class ToastIssuer {
         this.toast(text, time, this.BAD_TOAST_CLASS);
     }
     private toast(text: string, time: number, cssClass: string) {
-        let toast = this.toastCtrl.create({
+        const toast = this.toastCtrl.create({
             message: text,
             duration: time,
             cssClass: cssClass
