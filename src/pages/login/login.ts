@@ -88,6 +88,7 @@ export class LoginPage {
     const loading = this.loadingCtrl.create({
       content: this.translateService.instant('LOGIN.WAIT-MSG')
     });
+
     loading.present();
 
     this.authProv.requestToken(this.id, this.pass)
@@ -96,6 +97,8 @@ export class LoginPage {
           loading.dismiss();
           if (token) {
             this.toaster.goodToast(this.translateService.instant('LOGIN.SUCCESS'));
+            //TODO - remove
+            console.log(":)")
             this.navCtrl.setRoot(HomePage);
           }
         });

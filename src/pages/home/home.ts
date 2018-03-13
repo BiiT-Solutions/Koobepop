@@ -34,6 +34,8 @@ export class HomePage {
     private tasksProvider: TasksProvider) {
     //Init push notifications handler
     pushHandler.init();
+    //TODO - Remove
+    console.log("Push handler inited")
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification')
         .subscribe((notification: any) => {

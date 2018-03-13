@@ -5,6 +5,7 @@ import { ToastController } from 'ionic-angular';
 export class ToastIssuer {
     GOOD_TOAST_CLASS = 'good-toast'
     BAD_TOAST_CLASS = 'bad-toast'
+    
     constructor(public toastCtrl: ToastController) { }
     public goodToast(text: string, time: number = 1500): void {
        this.toast(text, time, this.GOOD_TOAST_CLASS);
