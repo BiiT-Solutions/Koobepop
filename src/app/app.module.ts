@@ -64,8 +64,6 @@ import { SettingsProvider } from '../providers/storage/settings/settings';
 import { QRConfigurationPage } from '../pages/qr-configuration/qr-configuration';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { QrDecryptProvider } from '../providers/qr-decrypt/qr-decrypt';
-import { HttpClient } from '@angular/common/http';
-
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

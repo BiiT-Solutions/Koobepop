@@ -3,9 +3,7 @@ import { UserProvider } from '../../storage/user-provider/user-provider';
 import { UserProviderMock, TokenProviderMock, TranslateServiceMock } from '../../../../test-config/mocks-ionic';
 import { AppConfig, APP_CONFIG } from '../../../app/app.config';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
-import { Headers } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
 import { RegisterPushTokenRestService } from './register-push-token-rest-service';
 import {
     BaseRequestOptions,

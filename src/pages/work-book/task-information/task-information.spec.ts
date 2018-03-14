@@ -1,20 +1,10 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
-import { IonicModule, Platform, LoadingController, NavController, NavParams } from 'ionic-angular';
-import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ConnectivityService } from '../../../providers/connectivity-service/connectivity-service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { async, TestBed } from '@angular/core/testing';
+import { IonicModule, NavController, NavParams } from 'ionic-angular';
+import {   TranslateModule } from '@ngx-translate/core';
 import { TaskInformationPage } from './task-information';
 
 import {
-  PlatformMock,
-  StatusBarMock,
-  SplashScreenMock,
-  TranslateServiceMock,
-  LoadingControllerMock,
-  ConnectivityServiceMock,
-  ToastIssuerMock,
   NavMock,
-  UserProvMock,
   NavParamsMock
 } from '../../../../test-config/mocks-ionic';
 

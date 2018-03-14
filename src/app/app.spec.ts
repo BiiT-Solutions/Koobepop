@@ -1,22 +1,15 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
-import { IonicModule, Platform, LoadingController } from 'ionic-angular';
+import { async, TestBed} from '@angular/core/testing';
+import { IonicModule, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
-import { ConnectivityService } from '../providers/connectivity-service/connectivity-service';
-import { ToastIssuer } from '../providers/toastIssuer/toastIssuer';
-import { HomePage } from '../pages/home/home';
 import { MyApp } from './app.component';
 import { LandingPage } from '../pages/landing/landing';
 import {
   PlatformMock,
   StatusBarMock,
   SplashScreenMock,
-  TranslateServiceMock,
-  LoadingControllerMock,
-  ServicesManagerMock,
-  ConnectivityServiceMock,
-  ToastIssuerMock
+  TranslateServiceMock
 } from '../../test-config/mocks-ionic';
 
 describe('MyApp Component', () => {

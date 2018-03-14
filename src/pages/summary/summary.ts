@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
@@ -21,11 +21,11 @@ export class SummaryPage {
   constructor(
     public navCtrl: NavController,
     private sanitizer: DomSanitizer,
-    private tasksProv: TasksProvider,
-    private userProv: UserProvider
+    public tasksProv: TasksProvider,
+    public userProv: UserProvider
   ) {
     this.trackerReady = false;
-    this.trackerPath = sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
+    this.trackerPath = this.sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
   }
 
   protected ionViewDidLoad() {

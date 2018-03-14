@@ -1,23 +1,13 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
-import { IonicModule, Platform, LoadingController, NavController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
+import { async, TestBed } from '@angular/core/testing';
+import { IonicModule, NavController } from 'ionic-angular';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { UserProvider } from '../../providers/storage/user-provider/user-provider';
 import { SummaryPage } from './summary';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import {
-  PlatformMock,
-  StatusBarMock,
-  SplashScreenMock,
   TranslateServiceMock,
-  LoadingControllerMock,
-  ConnectivityServiceMock,
-  ToastIssuerMock,
   NavMock,
-  UserProvMock,
   DomSanitizerMock
 } from '../../../test-config/mocks-ionic';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';

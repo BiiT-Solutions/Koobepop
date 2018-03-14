@@ -1,26 +1,14 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { KnowPage } from './know';
-import { IonicModule, Platform, LoadingController, NavController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
-import { UserProvider } from '../../providers/storage/user-provider/user-provider';
+import { IonicModule, NavController } from 'ionic-angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { MessagesListComponent } from '../../components/messages-list/messages-list';
 import { NotificationMessageComponent } from '../../components/notification-message/notification-message';
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 
-
-import {
-  PlatformMock,
-  StatusBarMock,
-  SplashScreenMock,
-  TranslateServiceMock,
-  LoadingControllerMock,
-  ToastIssuerMock,
+import {  
   NavMock,
-  UserProvMock,
   ChangeDetectorRefMock,
   MessagesProvMock
 } from '../../../test-config/mocks-ionic';

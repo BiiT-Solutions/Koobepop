@@ -1,12 +1,10 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { IonicModule, Platform, LoadingController, NavController } from 'ionic-angular';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ConnectivityService } from '../../providers/connectivity-service/connectivity-service';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
-import { HomePage } from '../home/home';
 import { LandingPage } from '../landing/landing';
 import { LoadingComponent } from '../../components/loading/loading';
 import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';

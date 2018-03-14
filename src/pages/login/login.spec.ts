@@ -1,9 +1,7 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { LoginPage } from './login';
-import { IonicModule, Platform, LoadingController, NavController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
+import { IonicModule, LoadingController, NavController } from 'ionic-angular';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { UserProvider } from '../../providers/storage/user-provider/user-provider';
 import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
@@ -11,9 +9,6 @@ import { AuthTokenRestServiceMock, TokenProviderMock } from '../../../test-confi
 import { TokenProvider } from '../../providers/storage/token-provider/token-provider';
 
 import {
-  PlatformMock,
-  StatusBarMock,
-  SplashScreenMock,
   TranslateServiceMock,
   LoadingControllerMock,
   ToastIssuerMock,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, LoadingController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { LandingPage } from '../pages/landing/landing';
@@ -10,9 +10,10 @@ import { LandingPage } from '../pages/landing/landing';
 export class MyApp {
   rootPage = LandingPage;
 
-  constructor(platform: Platform,
-    private translate: TranslateService,
-    private splashscreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public translate: TranslateService,
+    public splashscreen: SplashScreen) {
     translate.setDefaultLang('en');
     
     console.log("platform not ready")

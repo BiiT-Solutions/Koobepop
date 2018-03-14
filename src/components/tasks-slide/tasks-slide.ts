@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { TaskModel } from '../../models/task.model';
 import { USMOTask } from '../../models/usmo-task';
@@ -31,7 +31,7 @@ export class TasksSlideComponent {
     this.tasksProvider.getTasks()
       .subscribe((tasks) => {
         if (tasks == undefined || tasks.length <= 0) {
-          const timeout = setTimeout(()=>context.requestTasks(context), 2000)
+          setTimeout(()=>context.requestTasks(context), 2000)
         } else {
           context.setTasks(tasks)
         }

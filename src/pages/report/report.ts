@@ -1,11 +1,7 @@
-import { Component, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { NavController, NavParams, Slides, LoadingController, Loading } from 'ionic-angular';
-import { AppointmentModel } from '../../models/appointment.model';
-import * as infographicjs from 'infographic-js';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Slides } from 'ionic-angular';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
-import { ReportsRestService } from '../../providers/rest/reports-rest-service/reports-rest-service';
-import { ReportModel } from '../../models/report.model';
 import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
 /**
  * This page holds reports into a slider consisting on several pages (zoomable-slide)
@@ -43,7 +39,7 @@ export class ReportPage {
   protected ionViewDidEnter() {
   }
 
-  private errorMessage(error) {
+  public errorMessage(error) {
     this.translate.get("REPORT.ERROR-SETTING-APPOINTMENTS")
       .subscribe(translation => this.toaster.badToast(translation));
     //Stop trying to load reports

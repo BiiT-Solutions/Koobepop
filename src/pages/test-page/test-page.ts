@@ -1,7 +1,6 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { NavController, NavParams, ItemSliding, Platform, Slides } from 'ionic-angular';
 import { Push, } from '@ionic-native/push';
-import { MessageModel } from '../../models/message.model';
 import * as moment from 'moment';
 
 /**

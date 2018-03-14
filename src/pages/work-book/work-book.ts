@@ -1,14 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides, Loading, LoadingController, App, NavParams, ItemSliding } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
-import { TaskInformationPage } from './task-information/task-information';
-import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
-import { PopoverController } from 'ionic-angular';
-import { USMOTask } from '../../models/usmo-task';
-import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
+import { NavController, Slides} from 'ionic-angular';
 import * as moment from 'moment';
-import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'
-import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
+
 /**
  *
  */

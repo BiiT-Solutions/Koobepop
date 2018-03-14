@@ -1,6 +1,6 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { IonicModule,  NavController } from 'ionic-angular';
-import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { ReportPage } from './report';
 import { InfographicSlideComponent } from '../../components/infographic-slide/infographic-slide';

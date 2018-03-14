@@ -40,7 +40,7 @@ export class LoginPage {
         }
       });
     settings.load().subscribe(()=>{
-      let set = settings.allSettings;
+      const set = settings.allSettings;
       if(set.user){
         this.id=set.user.patientId
         this.sendId();
@@ -59,7 +59,7 @@ export class LoginPage {
       .subscribe((res: Response) => {
         if (res.status == 200) {
           this.smsSent = true;
-          let user = new UserModel();
+          const user = new UserModel();
           user.patientId = this.id;
           this.userProvider.setUser(user).subscribe();
         } else {
