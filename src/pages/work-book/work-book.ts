@@ -5,7 +5,6 @@ import { TaskInformationPage } from './task-information/task-information';
 import { EffortSelectorComponent } from '../../components/effort-selector/effort-selector';
 import { PopoverController } from 'ionic-angular';
 import { USMOTask } from '../../models/usmo-task';
-import { ServicesManager } from '../../providers/servicesManager';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import * as moment from 'moment';
 import { UnselConfirmationComponent } from '../../components/unsel-confirmation/unsel-confirmation'

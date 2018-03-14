@@ -7,7 +7,6 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ConnectivityService } from '../../providers/connectivity-service/connectivity-service';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { HomePage } from '../home/home';
-import { MyApp } from './app.component';
 import { LandingPage } from '../landing/landing';
 import { LoadingComponent } from '../../components/loading/loading';
 import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
