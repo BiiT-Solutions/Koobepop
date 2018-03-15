@@ -1,7 +1,7 @@
 
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffortSelectorComponent } from './effort-selector';
 import { App, Form, Keyboard, Platform, ViewController } from 'ionic-angular';
@@ -12,7 +12,6 @@ describe('EffortSelectorComponent:', () => {
 
     let comp: EffortSelectorComponent;
     let fixture: ComponentFixture<EffortSelectorComponent>;
-    let de: DebugElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -36,7 +35,6 @@ describe('EffortSelectorComponent:', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(EffortSelectorComponent);
         comp = fixture.componentInstance;
-        de = fixture.debugElement;
     })
 
 

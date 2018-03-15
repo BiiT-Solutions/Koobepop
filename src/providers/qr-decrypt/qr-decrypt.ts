@@ -10,32 +10,32 @@ export class QrDecryptProvider {
 
   public decrypt(string): PromiseLike<string> {
     return this.AES_CBC_decrypt(string)
-      .then((decrypted) => {return atob(decrypted)},err=>{
-        console.log(err);return undefined;
+      .then((decrypted) => { return atob(decrypted) }, err => {
+        console.log(err); return undefined;
       })
   }
 
 
   AES_CBC_encrypt(value) {
-    let keyData = this.hexStringToUint8Array(this.config.keyData);
-    let iv = this.hexStringToUint8Array(this.config.iv);
+    const keyData = this.hexStringToUint8Array(this.config.keyData);
+    const iv = this.hexStringToUint8Array(this.config.iv);
 
     return crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["encrypt"])
-    .then((key) => {
-      var plainText = value;
-      return crypto.subtle.encrypt({ name: "aes-cbc", iv: iv }, key, this.asciiToUint8Array(plainText));
-    }, this.failAndLog).then( (cipherText) => {
-      return this.bytesToHexString(cipherText);
-    }, this.failAndLog);
+      .then((key) => {
+        const plainText = value;
+        return crypto.subtle.encrypt({ name: "aes-cbc", iv: iv }, key, this.asciiToUint8Array(plainText));
+      }, this.failAndLog).then((cipherText) => {
+        return this.bytesToHexString(cipherText);
+      }, this.failAndLog);
   }
 
   AES_CBC_decrypt(value) {
-    let keyData = this.hexStringToUint8Array(this.config.keyData);
-    let iv = this.hexStringToUint8Array(this.config.iv);
+    const keyData = this.hexStringToUint8Array(this.config.keyData);
+    const iv = this.hexStringToUint8Array(this.config.iv);
 
     return crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["decrypt"])
       .then((key) => {
-        var cipherText = value;
+        const cipherText = value;
         return crypto.subtle.decrypt({ name: "aes-cbc", iv: iv }, key, this.hexStringToUint8Array(cipherText));
       }, this.failAndLog)
       .then((plainText) => {
@@ -45,13 +45,13 @@ export class QrDecryptProvider {
 
   hexStringToUint8Array(hexString) {
     if (hexString.length % 2 != 0)
-      throw "Invalid hexString";
-    var arrayBuffer = new Uint8Array(hexString.length / 2);
+      throw new Error("Invalid hexString");
+      const arrayBuffer = new Uint8Array(hexString.length / 2);
 
     for (var i = 0; i < hexString.length; i += 2) {
-      var byteValue = parseInt(hexString.substr(i, 2), 16);
+      const byteValue = parseInt(hexString.substr(i, 2), 16);
       if (byteValue == NaN)
-        throw "Invalid hexString";
+        throw new Error("Invalid hexString");
       arrayBuffer[i / 2] = byteValue;
     }
 
@@ -62,9 +62,9 @@ export class QrDecryptProvider {
     if (!bytes)
       return null;
     bytes = new Uint8Array(bytes);
-    var hexBytes = [];
-    for (var i = 0; i < bytes.length; ++i) {
-      var byteString = bytes[i].toString(16);
+    const hexBytes = [];
+    for (let i = 0; i < bytes.length; ++i) {
+      let byteString = bytes[i].toString(16);
       if (byteString.length < 2)
         byteString = "0" + byteString;
       hexBytes.push(byteString);
@@ -73,8 +73,8 @@ export class QrDecryptProvider {
   }
 
   asciiToUint8Array(str) {
-    var chars = [];
-    for (var i = 0; i < str.length; ++i)
+    const chars = [];
+    for (let i = 0; i < str.length; ++i)
       chars.push(str.charCodeAt(i));
     return new Uint8Array(chars);
   }

@@ -1,10 +1,8 @@
 
 import { Injectable, Inject } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
-import { Http, Response, Headers } from '@angular/http';
-import { UserModel } from '../../../models/user.model';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { AppointmentModel } from '../../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
 import { BasicRestService } from '../basic-rest-service/basic-rest-service';
 import { TokenProvider } from '../../storage/token-provider/token-provider';

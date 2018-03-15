@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http,  Headers } from '@angular/http';
 import { IAppConfig, APP_CONFIG } from '../../../app/app.config';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { UserProvider } from '../../storage/user-provider/user-provider';
@@ -27,7 +27,7 @@ export class BasicRestService {
       headers = new Headers({ 'Content-Type': 'application/json' });
     }
     headers.append('Authorization', this.auth);
-    let url = this.backend + endpoint;
+    const url = this.backend + endpoint;
     body["organizationName"] = this.organization;
     return this.http.post(url, body, { headers: headers });
   }

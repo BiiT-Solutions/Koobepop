@@ -58,7 +58,6 @@ export class MessagesProvider extends StorageServiceProvider {
   }
 
   public saveMessages(): void {
-    let complete;
     super.storeItem(StorageServiceProvider.MESSAGES_STORAGE_ID, this.getCurrentMessages())
       .subscribe();
   }

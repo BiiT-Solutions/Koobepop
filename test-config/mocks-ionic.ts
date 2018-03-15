@@ -1,8 +1,6 @@
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Observable } from 'rxjs/Observable';
-import { Loading } from 'ionic-angular';
-import { DomSanitizer } from '@angular/platform-browser';
 import { UserModel } from '../src/models/user.model';
 /**This file is intended to generate Mock classes to emulate real classes for our testing environment */
 /** TODO - Separate this file*/

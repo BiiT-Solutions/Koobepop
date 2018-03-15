@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { ReportModel } from '../../../models/report.model';
 import { ReportsRestService } from '../../rest/reports-rest-service/reports-rest-service';
-import { IAppointment, AppointmentModel } from '../../../models/appointment.model';
+import { AppointmentModel } from '../../../models/appointment.model';
 import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
 @Injectable()
 export class ReportsProvider extends StorageServiceProvider {

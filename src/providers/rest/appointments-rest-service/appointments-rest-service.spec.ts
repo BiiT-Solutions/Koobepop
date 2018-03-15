@@ -1,28 +1,24 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
 import { AppointmentsRestService } from '../appointments-rest-service/appointments-rest-service';
-import { AppointmentsProvider } from '../../storage/appointments-provider/appointments-provider';
+
 import { AppConfig, APP_CONFIG } from '../../../app/app.config';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateServiceMock, StorageMock, TokenProviderMock, UserProviderMock } from '../../../../test-config/mocks-ionic';
-import { Storage } from '@ionic/storage';
+import { TranslateServiceMock,  TokenProviderMock, UserProviderMock } from '../../../../test-config/mocks-ionic';
+
 import { UserProvider } from '../../storage/user-provider/user-provider';
 import {
   BaseRequestOptions,
   Http,
-  Response,
-  ResponseOptions,
   XHRBackend
 } from '@angular/http';
 
 import {
-  MockBackend,
-  MockConnection
+  MockBackend
 } from '@angular/http/testing';
 
 describe('Service: AppointmentsRestService', () => {
   var service: AppointmentsRestService;
-  var backend: MockBackend;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -47,17 +43,9 @@ describe('Service: AppointmentsRestService', () => {
     })
     const testbed = getTestBed();
     service = testbed.get(AppointmentsRestService);
-    backend = testbed.get(MockBackend);
   }));
 
-  function setupConnections(backend: MockBackend, options: any) {
-    backend.connections.subscribe((connection: MockConnection) => {
-      const responseOptions = new ResponseOptions(options);
-      const response = new Response(responseOptions);
-      connection.mockRespond(response);
 
-    });
-  }
 
   it('should be created', () => {
     expect(service instanceof AppointmentsRestService).toBe(true);
@@ -67,6 +55,5 @@ describe('Service: AppointmentsRestService', () => {
     const actualAppointments = [];
     service.requestModifiedAppointments(actualAppointments)
       .subscribe(appointments => { })
-
   })
 })
