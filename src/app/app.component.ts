@@ -14,9 +14,8 @@ export class MyApp {
     public platform: Platform,
     public translate: TranslateService,
     public splashscreen: SplashScreen) {
-    translate.setDefaultLang('en');
-    
     console.log("platform not ready")
+    translate.setDefaultLang('en');
     platform.ready().then(() => {
       console.log("platform ready")
       translate.use(platform.lang());
