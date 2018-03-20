@@ -62,9 +62,8 @@ import { FillFormPage } from '../pages/fill-form/fill-form';
 import { FormRunnerModule } from 'formrunner-js';
 import { SettingsProvider } from '../providers/storage/settings/settings';
 import { QRConfigurationPage } from '../pages/qr-configuration/qr-configuration';
-//import { QRScanner } from '@ionic-native/qr-scanner';
+import { QRScanner } from '@ionic-native/qr-scanner';
 import { QrDecryptProvider } from '../providers/qr-decrypt/qr-decrypt';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -153,9 +152,8 @@ export function createTranslateLoader(http: Http) {
     StorageServiceProvider,
     ReportsProvider,
     SettingsProvider,
-   // QRScanner,
-    QrDecryptProvider,
-    BarcodeScanner
+    QRScanner,
+    QrDecryptProvider
   ]
 })
 export class AppModule { }

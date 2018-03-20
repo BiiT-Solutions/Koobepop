@@ -28,7 +28,7 @@
         "SEND-ID-BUTTON": "Ok",
         "SEND-CODE-BUTTON": "Ok",
         "CHANGE-ID-BUTTON": "Change Id",
-        "BEFORE-SEND-ID-TEXT": "Introduce your id, we will provide you with a verification code via SMS.",
+        "BEFORE-SEND-ID-TEXT": "Introduce the id that you provided in your intake form, we will send you a verification code when .",
         "BEFORE-SEND-CODE-TEXT": "Introduce your code.",
         "WAIT-MSG": "Please wait...",
         "INVALID-USER-MSG":"Invalid user Id, please try again",
