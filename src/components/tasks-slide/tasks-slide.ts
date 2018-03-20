@@ -16,10 +16,17 @@ import * as moment from 'moment';
 export class TasksSlideComponent {
   @Input() date: number;
   @Input() disabled: boolean;
+
+  loading=true;
+  tasksAvaliable=false;
+  
   tasks: TaskModel[];
-  constructor(private tasksProvider: TasksProvider, private tasksRestService: TasksRestService, private app: App) {
+  constructor(
+    private tasksProvider: TasksProvider, 
+    private tasksRestService: TasksRestService, 
+    private app: App) {
    //this.requestTasks(this);
-   this.tasksProvider.getTasks().subscribe(usmoTasks=>this.setTasks(usmoTasks));
+  
   }
 
   /**When object is changed*/
@@ -48,7 +55,9 @@ export class TasksSlideComponent {
       }
     });
     this.tasks = tasks;
-    console.log(this.tasks)
+    this.loading = false;
+    this.tasksAvaliable = tasks && tasks.length>0 ? true:false;
+    //console.log(this.tasks)
   }
 
   public gotoExerciseInfo(name: string) {

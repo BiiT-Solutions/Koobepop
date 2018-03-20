@@ -29,7 +29,7 @@ export class ReportsProvider extends StorageServiceProvider {
   }
 
   public setReports(reports: ReportModel[]): Observable<ReportModel[]> {
-    reports = reports.sort((r1,r2)=>{return r1.updateTime-r2.updateTime});
+    reports = reports.sort((r1, r2) => { return r1.updateTime - r2.updateTime });
     this.setAllocReports(reports);
     return super.storeItem(StorageServiceProvider.REPORTS_STORAGE_ID, reports);
   }
@@ -59,10 +59,14 @@ export class ReportsProvider extends StorageServiceProvider {
               updatedAppointments.push(appointment);
             }
           });
-          return Observable.combineLatest(updatedAppointments.map((appointment: AppointmentModel) => {
-            return this.reportRestService.requestReports(appointment)
-          }))
-            .take(1).flatMap((reports) => {
+          if(!updatedAppointments || updatedAppointments.length==0){
+            return Observable.of(undefined)
+          }
+          return Observable.combineLatest(
+            updatedAppointments.map((appointment: AppointmentModel) => {
+              return this.reportRestService.requestReports(appointment)
+            })).take(1)
+            .flatMap((reports) => {
               reports.forEach((report: ReportModel) => {
                 const index = savedReports.map((savedReport: ReportModel) => savedReport.appointmentId).indexOf(report.appointmentId);
                 if (index >= 0) {
@@ -71,7 +75,7 @@ export class ReportsProvider extends StorageServiceProvider {
                   savedReports.push(report);
                 }
               });
-              savedReports.sort((a,b)=>a.updateTime-b.updateTime)
+              savedReports.sort((a, b) => a.updateTime - b.updateTime)
               return this.setReports(savedReports);
             });
         });
@@ -81,7 +85,7 @@ export class ReportsProvider extends StorageServiceProvider {
   public isLoaded(): boolean {
     return this.reports != undefined && this.reports.length > 0;
   }
-  get allReports(){
+  get allReports() {
     return this.reports;
   }
 

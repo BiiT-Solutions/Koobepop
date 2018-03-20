@@ -55,6 +55,7 @@ export class QRConfigurationPage {
               }
             });
           window.document.querySelector('ion-app').classList.add('transparentBody')
+          window.document.querySelector('.can-be-transparent').classList.add('transparentBody')
           this.qrScanner.show();
         } else if (status.denied) {       
           this.qrScanner.openSettings();
@@ -70,6 +71,7 @@ export class QRConfigurationPage {
 
   stopScan() {
     window.document.querySelector('ion-app').classList.remove('transparentBody')
+    window.document.querySelector('can-be-transparent').classList.remove('transparentBody')
     this.qrScanner.hide(); // hide camera preview
     if (this.scanSub) {
       this.scanSub.unsubscribe();
