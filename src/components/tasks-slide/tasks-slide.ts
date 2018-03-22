@@ -35,14 +35,11 @@ export class TasksSlideComponent {
   }
 
   private requestTasks(context) {
-    console.log("reqTasks")
     this.tasksProvider.update()
           .subscribe((tasks) => {
-            console.log("subscription", tasks)
         if (this.tasksProvider.allTasks == undefined || this.tasksProvider.allTasks.length <= 0) {
           setTimeout(()=>context.requestTasks(context), 2000)
         } else {
-          console.log("setT")
           context.setTasks(this.tasksProvider.allTasks)
           context.loading = false;
           context.tasksAvaliable = this.tasksProvider.allTasks!=undefined && this.tasksProvider.allTasks.length>0;
@@ -51,7 +48,6 @@ export class TasksSlideComponent {
   }
 
   private setTasks(usmoTasks: USMOTask[]): void {
-    console.log("setTasks")
     const tasks = [];
     usmoTasks.forEach((usmoTask: USMOTask) => {
       if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (usmoTask.finishTime == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {

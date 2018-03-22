@@ -70,12 +70,9 @@ export class TasksProvider extends StorageServiceProvider {
   }
 
   public update(): Observable<USMOTask[]> {
-    console.log("update")
     return this.appointmentsProvider.getLastAppointmentsByType()
       .flatMap((lastAppointments: AppointmentModel[]) => {
-        console.log("lastAppointemnts")
         return this.getTasks().flatMap((actualTasks: USMOTask[]) => {
-          console.log("actualTasks")
           const updatedAppointments: AppointmentModel[] = [];
           const updatedTasks: USMOTask[] = [];
 
@@ -104,10 +101,8 @@ export class TasksProvider extends StorageServiceProvider {
 
           return Observable.combineLatest(
             lastAppointments.map((appointment: AppointmentModel) => {
-              console.log("combinable")
               return this.tasksRestService.requestTasks(appointment)
             })).take(1).flatMap((tasksMat: USMOTask[][]) => {
-              console.log("combined")
               let finalTasks: USMOTask[] = [];
               if (updatedTasks != undefined) {
                 finalTasks = finalTasks.concat(updatedTasks)

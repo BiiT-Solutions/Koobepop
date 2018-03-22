@@ -8,7 +8,7 @@ export class ConnectivityService {
   onDevice: boolean; //Is this a device or is it a browser?
 
   constructor(public platform: Platform,
-              private network:Network) {
+              private network: Network) {
     this.onDevice = this.platform.is('cordova');
   }
 

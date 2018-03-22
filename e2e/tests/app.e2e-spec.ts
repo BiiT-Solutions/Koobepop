@@ -4,6 +4,7 @@ import { WorkBookPage } from '../pages/workbook.po';
 import { ReportPage } from '../../src/pages/report/report';
 import { KnowPage } from '../pages/know.po';
 import { TrackerPage } from '../pages/tracker.po';
+import {QRConfigurationPage} from '../pages/qr-configuration.po'
 import * as moment from 'moment';
 
 describe('IGOW', () => {
@@ -29,6 +30,16 @@ describe('IGOW', () => {
         )
         .then(title => expect(title == 'IGOW' || title == 'Login').toBeTruthy())
     });
+
+    it('should show a configuration screen', () => {
+      let qrConfigurationPage = new QRConfigurationPage();
+      const textField = qrConfigurationPage.getConfigurationFieldLabel()
+      textField.getText()
+        .then(text =>
+          expect(text).toEqual("Introduce the id that you provided in your intake form, we will send you a verification code to the phone number of that same intake form.")
+        );
+    });
+    //TODO - configure
 
     it('should show a login screen', () => {
       const textField = loginPage.getIdFieldLabel()
