@@ -3,7 +3,7 @@
     "author": "Alejandro Melcon",
     "homepage": "A Biit Solutions app",
     "private": true,
-    "version": "0.1.25",
+    "version": "0.1.26",
     "scripts": {
         "start": "ionic-app-scripts serve -b",
         "build": "ionic-app-scripts build --prod --release",
