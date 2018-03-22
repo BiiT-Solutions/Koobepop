@@ -61,7 +61,7 @@ export class ReportPage {
       .subscribe((reports) => {
         this.isLoading = false;
         this.slideToLast = true;
-        this.reportsAvailable = reports != undefined && reports.length > 0 ? true : false;
+        this.reportsAvailable = this.reportsProvider.allReports != undefined && this.reportsProvider.allReports.length > 0 ? true : false;
       },e=>{console.log("error")});
   }
 

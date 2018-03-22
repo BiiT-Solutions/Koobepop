@@ -54,8 +54,7 @@ export class QRConfigurationPage {
                 console.warn('Error parsing data ', e)
               }
             });
-          window.document.querySelector('ion-app').classList.add('transparentBody')
-          window.document.querySelector('.can-be-transparent').classList.add('transparentBody')
+         this.setTransparentBackground();
           this.qrScanner.show();
         } else if (status.denied) {       
           this.qrScanner.openSettings();
@@ -70,8 +69,7 @@ export class QRConfigurationPage {
   }
 
   stopScan() {
-    window.document.querySelector('ion-app').classList.remove('transparentBody')
-    window.document.querySelector('can-be-transparent').classList.remove('transparentBody')
+    this.setOpaqueBackground();
     this.qrScanner.hide(); // hide camera preview
     if (this.scanSub) {
       this.scanSub.unsubscribe();
@@ -100,5 +98,17 @@ export class QRConfigurationPage {
 
   showError(msg) {
     this.toast.badToast(msg)
+  }
+
+
+  setTransparentBackground(){
+    window.document.querySelector('ion-app').classList.add('transparentBody')
+    window.document.querySelector('.can-be-transparent').classList.add('transparentBody')
+    window.document.querySelector('.nav-decor').classList.add('transparentBody')
+  }
+  setOpaqueBackground(){
+    window.document.querySelector('ion-app').classList.remove('transparentBody')
+    window.document.querySelector('.can-be-transparent').classList.remove('transparentBody')
+    window.document.querySelector('.nav-decor').classList.remove('transparentBody')
   }
 }

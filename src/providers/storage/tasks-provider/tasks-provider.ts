@@ -70,9 +70,12 @@ export class TasksProvider extends StorageServiceProvider {
   }
 
   public update(): Observable<USMOTask[]> {
+    console.log("update")
     return this.appointmentsProvider.getLastAppointmentsByType()
       .flatMap((lastAppointments: AppointmentModel[]) => {
+        console.log("lastAppointemnts")
         return this.getTasks().flatMap((actualTasks: USMOTask[]) => {
+          console.log("actualTasks")
           const updatedAppointments: AppointmentModel[] = [];
           const updatedTasks: USMOTask[] = [];
 
@@ -94,13 +97,17 @@ export class TasksProvider extends StorageServiceProvider {
               lastAppointments.splice(index);
             }
           });
-
-          //getAppoinmentsNotUpdated()
+          
+          if(!lastAppointments || lastAppointments.length==0){
+            return Observable.of(undefined);
+          }
 
           return Observable.combineLatest(
             lastAppointments.map((appointment: AppointmentModel) => {
+              console.log("combinable")
               return this.tasksRestService.requestTasks(appointment)
             })).take(1).flatMap((tasksMat: USMOTask[][]) => {
+              console.log("combined")
               let finalTasks: USMOTask[] = [];
               if (updatedTasks != undefined) {
                 finalTasks = finalTasks.concat(updatedTasks)
@@ -162,5 +169,8 @@ export class TasksProvider extends StorageServiceProvider {
       tasksList.push(serializableTask);
     });
     return tasksList;
+  }
+  get allTasks() {
+    return this.tasks;
   }
 }

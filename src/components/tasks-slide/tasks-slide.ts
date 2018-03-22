@@ -35,17 +35,23 @@ export class TasksSlideComponent {
   }
 
   private requestTasks(context) {
-    this.tasksProvider.getTasks()
-      .subscribe((tasks) => {
-        if (tasks == undefined || tasks.length <= 0) {
+    console.log("reqTasks")
+    this.tasksProvider.update()
+          .subscribe((tasks) => {
+            console.log("subscription", tasks)
+        if (this.tasksProvider.allTasks == undefined || this.tasksProvider.allTasks.length <= 0) {
           setTimeout(()=>context.requestTasks(context), 2000)
         } else {
-          context.setTasks(tasks)
+          console.log("setT")
+          context.setTasks(this.tasksProvider.allTasks)
+          context.loading = false;
+          context.tasksAvaliable = this.tasksProvider.allTasks!=undefined && this.tasksProvider.allTasks.length>0;
         }
-      });
+      }, e=>console.log(e));
   }
 
   private setTasks(usmoTasks: USMOTask[]): void {
+    console.log("setTasks")
     const tasks = [];
     usmoTasks.forEach((usmoTask: USMOTask) => {
       if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (usmoTask.finishTime == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {
@@ -55,8 +61,8 @@ export class TasksSlideComponent {
       }
     });
     this.tasks = tasks;
-    this.loading = false;
-    this.tasksAvaliable = tasks && tasks.length>0 ? true:false;
+    //this.loading = false;
+    //this.tasksAvaliable = tasks && tasks.length>0 ? true:false;
     //console.log(this.tasks)
   }
 
