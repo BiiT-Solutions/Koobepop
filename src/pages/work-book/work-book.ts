@@ -19,7 +19,19 @@ export class WorkBookPage {
   constructor(public navCtrl: NavController) {
     this.goToToday();
   }
+  ionViewWillLoad(){
+    console.log("WB WillLoad")
+  }
 
+  ionViewWillEnter(){
+    console.log("WB WillEnter")
+    this.goToToday();
+    
+  }
+  ionViewDidEnter(){
+    console.log("WB DidEnter")
+  }
+  
   /* Listeners for when the slides are swiped */
   public nextSlide() {
     // Make sure we moved forward

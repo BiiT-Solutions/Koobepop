@@ -14,10 +14,8 @@ export class MyApp {
     public platform: Platform,
     public translate: TranslateService,
     public splashscreen: SplashScreen) {
-    console.log("platform not ready")
     translate.setDefaultLang('en');
     platform.ready().then(() => {
-      console.log("platform ready")
       translate.use(platform.lang());
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

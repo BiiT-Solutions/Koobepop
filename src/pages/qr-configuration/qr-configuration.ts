@@ -54,7 +54,7 @@ export class QRConfigurationPage {
                 console.warn('Error parsing data ', e)
               }
             });
-         this.setTransparentBackground();
+          this.setTransparentBackground();
           this.qrScanner.show();
         } else if (status.denied) {       
           this.qrScanner.openSettings();

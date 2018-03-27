@@ -64,6 +64,9 @@ import { SettingsProvider } from '../providers/storage/settings/settings';
 import { QRConfigurationPage } from '../pages/qr-configuration/qr-configuration';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { QrDecryptProvider } from '../providers/qr-decrypt/qr-decrypt';
+import { UserGuardPage } from '../pages/user-guard/user-guard';
+import { SettingsPage } from '../pages/settings/settings';
+import { UserGuardProvider } from '../providers/user-guard/user-guard';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -94,7 +97,9 @@ export function createTranslateLoader(http: Http) {
     LoadingComponent,
     LandingPage,
     FillFormPage,
-    QRConfigurationPage
+    QRConfigurationPage,
+    UserGuardPage,
+    SettingsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -125,7 +130,9 @@ export function createTranslateLoader(http: Http) {
     FillFormPage,
     EffortSelectorComponent,
     UnselConfirmationComponent,
-    QRConfigurationPage    
+    QRConfigurationPage,
+    UserGuardPage,
+    SettingsPage
   ],
   providers: [
     RegisterPushTokenRestService,
@@ -153,7 +160,8 @@ export function createTranslateLoader(http: Http) {
     ReportsProvider,
     SettingsProvider,
     QRScanner,
-    QrDecryptProvider
+    QrDecryptProvider,
+    UserGuardProvider,
   ]
 })
 export class AppModule { }

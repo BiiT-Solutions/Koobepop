@@ -7,14 +7,13 @@
         "NAVBAR-TITLE": "Home",
         "TITLE": "<your header here>",
         "BOOK-BUTTON": "Book",
-        "V-BOOK-BUTTON": "Vertical book",
-        "H-BOOK-BUTTON": "Horizontal book",
         "SEARCH-BUTTON": "Search",
         "DETAILS-BUTTON": "Details",
         "AGENDA-BUTTON": "Work Book",
         "SUMMARY-BUTTON": "Tracker",
         "REPORT-BUTTON": "Reports",
-        "KNOW-BUTTON": "Know"
+        "KNOW-BUTTON": "Know",
+        "SETTINGS-BUTTON":"Settings"
     },
     "AGENDA": {
         "TITLE": "Tasks",
@@ -33,6 +32,7 @@
         "WAIT-MSG": "Please wait...",
         "INVALID-USER-MSG":"Invalid user Id, please try again",
         "ERROR-SENDING-ID":"Error sending Id",
+        "NO-CONNECTION":"Unable to connect, please check your internet connection",
         "SUCCESS":"Login successful",
         "ERROR":"Login error"
     },
@@ -80,5 +80,14 @@
             "ACCEPT-BUTTON": "Accept",
             "ERROR-PARSING-HASH":"Invalid code"
         }
+    },
+    "SETTINGS":{
+        "TITLE":"Settings",
+        "USER-GUARD-BUTTON":"User Guard",
+        "ABOUT-BUTTON":"About",
+        "PRIVACY-POLICY-BUTTON":"Privacy policy"
+    },
+    "USER-GUARD":{
+        "TITLE":"User Guard"
     }
 }

@@ -9,6 +9,7 @@ import { AuthTokenRestService } from '../../providers/rest/authentication-token-
 import { TokenProvider } from '../../providers/storage/token-provider/token-provider';
 import { UserModel } from '../../models/user.model';
 import { SettingsProvider } from '../../providers/storage/settings/settings';
+import { ConnectivityService } from '../../providers/connectivity-service/connectivity-service';
 
 @Component({
   selector: 'page-login',
@@ -29,7 +30,8 @@ export class LoginPage {
     public userProvider: UserProvider,
     public authProv: AuthTokenRestService,
     public tokenProv: TokenProvider,
-    public settings: SettingsProvider
+    public settings: SettingsProvider,
+    public connection: ConnectivityService
   ) {
     userProvider.getUser()
       .subscribe(user => {
@@ -55,6 +57,7 @@ export class LoginPage {
   public sendId(): void {
     // Request Verification code
     this.idIsSent = true;
+    if(this.connection.isOnline()){
     this.authProv.requestSendAuthCodeSMS(this.id, this.translateService.currentLang)
       .subscribe((res: Response) => {
         if (res.status == 200) {
@@ -76,6 +79,9 @@ export class LoginPage {
         this.idIsSent = false;
         this.smsSent = false;
       });
+    } else{
+      this.toaster.badToast(this.translateService.instant('LOGIN.NO-CONNECTION'));
+    }
   }
 
   public changeId(): void {

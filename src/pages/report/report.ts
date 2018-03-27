@@ -23,18 +23,9 @@ export class ReportPage {
   }
 
   protected ionViewDidLoad() {
-    //Preload reports into memory, remove loading page, allow slide to last
-   /* this.reportsProvider.getReports()
-      .subscribe((reports) => {
-        this.isLoading = false;
-        this.slideToLast = true;
-        this.reportsAvailable = reports != undefined && reports.length > 0 ? true : false;
-      });
-  */
     }
 
   protected ionViewWillEnter() {
-    console.log("report willenter")
     this.updateReports();
   }
 

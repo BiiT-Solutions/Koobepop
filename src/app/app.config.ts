@@ -15,6 +15,7 @@ export interface IAppConfig {
   setPushNotificationsToken: string;
   getReportService: string;
   getMessagesService: string;
+  getUserGuard: string;
 
   keyData: string;
   iv: string;
@@ -42,8 +43,8 @@ export const AppConfig: IAppConfig = {
   // TODO - This should be handled by the perform actions service
   , addPerformedExercise: "/rest/addPerformedExerciseAuth"
   , removePerformedExercise: "/rest/removePerformedExerciseAuth"
-
   , performActions: "/rest/performExercisesActionsAuth"
-
+  
   , getAppointmentsService: "/rest/getAppointmentsAuth"
+  , getUserGuard:"/rest/getGuardCodeAuth"
 };

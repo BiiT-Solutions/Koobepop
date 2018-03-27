@@ -9,7 +9,7 @@ import { PushNotificationsHandlerProvider } from '../../providers/push-notificat
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
-import { QRConfigurationPage } from '../qr-configuration/qr-configuration';
+import { SettingsPage } from '../settings/settings';
 
 @Component({
   selector: 'page-home',
@@ -20,7 +20,7 @@ export class HomePage {
   tab1Root = WorkBookPage;
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
-  tab4Root = QRConfigurationPage;
+  tab4Root = SettingsPage;
 
   public pendingMessages: number;
 
@@ -89,4 +89,7 @@ export class HomePage {
     this.messagesProvider.setMessagesCount(0);
   }
 
+  public myMethod(event){
+    console.log(event)
+  }
 }

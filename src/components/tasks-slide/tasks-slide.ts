@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { TaskModel } from '../../models/task.model';
 import { USMOTask } from '../../models/usmo-task';
@@ -17,16 +17,16 @@ export class TasksSlideComponent {
   @Input() date: number;
   @Input() disabled: boolean;
 
-  loading=true;
-  tasksAvaliable=false;
-  
+  loading = true;
+  tasksAvaliable = false;
+
   tasks: TaskModel[];
   constructor(
-    private tasksProvider: TasksProvider, 
-    private tasksRestService: TasksRestService, 
+    private tasksProvider: TasksProvider,
+    private tasksRestService: TasksRestService,
     private app: App) {
-   //this.requestTasks(this);
-  
+    //this.requestTasks(this);
+
   }
 
   /**When object is changed*/
@@ -36,15 +36,11 @@ export class TasksSlideComponent {
 
   private requestTasks(context) {
     this.tasksProvider.update()
-          .subscribe((tasks) => {
-        if (this.tasksProvider.allTasks == undefined || this.tasksProvider.allTasks.length <= 0) {
-          setTimeout(()=>context.requestTasks(context), 2000)
-        } else {
+      .subscribe((tasks) => {
           context.setTasks(this.tasksProvider.allTasks)
           context.loading = false;
-          context.tasksAvaliable = this.tasksProvider.allTasks!=undefined && this.tasksProvider.allTasks.length>0;
-        }
-      }, e=>console.log(e));
+          context.tasksAvaliable = this.tasksProvider.allTasks != undefined && this.tasksProvider.allTasks.length > 0;       
+      }, e => console.log(e));
   }
 
   private setTasks(usmoTasks: USMOTask[]): void {
@@ -74,16 +70,16 @@ export class TasksSlideComponent {
   private setTask(name: string, score: number, date: number) {
     //console.log("TasksSlide  Task: "+name+" score: "+score);
     if (score >= 0) {
-      this.tasksProvider.setScore(name, score, date,moment().valueOf())
-      .subscribe(task=>{
-        this.tasksRestService.sendPerformedTask(task.appointmentId, name, score, date, moment().valueOf())
-        .subscribe();
-      },error=>console.error('Unable to set score for task '+name))
+      this.tasksProvider.setScore(name, score, date, moment().valueOf())
+        .subscribe(task => {
+          this.tasksRestService.sendPerformedTask(task.appointmentId, name, score, date, moment().valueOf())
+            .subscribe();
+        }, error => console.error('Unable to set score for task ' + name))
     } else {
       this.tasksProvider.removeScore(name, date)
         .subscribe((task: USMOTask) => {
           this.tasksRestService.removePerformedTask(task.appointmentId, name, date)
-          .subscribe();
+            .subscribe();
         });
     }
   }
