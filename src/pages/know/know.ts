@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { NavController} from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 import { MessageModel } from '../../models/message.model';
 
@@ -18,8 +18,16 @@ export class KnowPage {
     public msgProv: MessagesProvider,
     public changeDetRef: ChangeDetectorRef
   ) {
+    
+  }
+
+  ionViewWillEnter() {
     this.msgProv.getObservableMessages()
-      .subscribe(msgs => this.notifications = msgs);
+      .subscribe(msgs => {
+        console.log("Know ",msgs)
+        this.notifications = msgs;
+        this.changeDetRef.detectChanges();
+      });
   }
 
 }
