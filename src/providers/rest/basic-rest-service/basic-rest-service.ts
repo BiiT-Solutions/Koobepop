@@ -46,7 +46,7 @@ export class BasicRestService {
   private loadSettings() {
     if (this.settings.allSettings) {
       this.backend = this.settings.allSettings.backend;
-      this.auth = this.settings.allSettings.access;
+      this.auth = btoa(this.settings.allSettings.webservicesUser +':'+this.settings.allSettings.webservicesPassword);
       this.organization = this.settings.allSettings.organization;
     }
   }

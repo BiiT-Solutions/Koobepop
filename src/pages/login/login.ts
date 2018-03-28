@@ -43,8 +43,8 @@ export class LoginPage {
       });
     settings.load().subscribe(()=>{
       const set = settings.allSettings;
-      if(set.user){
-        this.id=set.user.patientId
+      if(set.patientId){
+        this.id=set.patientId
         this.sendId();
       }
     })
