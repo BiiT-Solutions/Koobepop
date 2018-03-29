@@ -8,10 +8,10 @@
   <p *ngIf="!smsSent">{{'LOGIN.BEFORE-SEND-ID-TEXT'|translate}}</p>
   <p *ngIf="smsSent">{{'LOGIN.BEFORE-SEND-CODE-TEXT'|translate}}</p>
 
-  <ion-item>
+  <!--<ion-item>
     <ion-label color="primary" stacked>{{'LOGIN.ID-LABEL'|translate}}</ion-label>
     <ion-input [disabled]="idIsSent" [(ngModel)]="id"></ion-input>
-  </ion-item>
+  </ion-item>-->
   <ion-item *ngIf="smsSent">
     <ion-label color="primary" stacked>{{'LOGIN.CODE-LABEL'|translate}}</ion-label>
     <ion-input #password type="password" [(ngModel)]="pass"></ion-input>
@@ -20,17 +20,17 @@
     </button>
   </ion-item>
   <ion-grid>
-    <ion-row *ngIf="!smsSent">
+    <!--<ion-row *ngIf="!smsSent">
       <ion-col width-25>
         <button id="send-id" [disabled]="idIsSent" ion-button full color="secondary" (click)="sendId()">{{'LOGIN.SEND-ID-BUTTON'|translate}}</button>
       </ion-col>
-    </ion-row>
+    </ion-row>-->
     <ion-row *ngIf="smsSent">
       <ion-col width-25>
-        <button  id="send-key" ion-button full color="secondary" (click)="login()">{{'LOGIN.SEND-CODE-BUTTON'|translate}}</button>
+        <button ion-button full color="secondary" (click)="resendSMS()">{{'LOGIN.SEND-SMS-AGAIN'|translate}}</button>
       </ion-col>
       <ion-col width-25>
-        <button ion-button full color="secondary" (click)="changeId()">{{'LOGIN.CHANGE-ID-BUTTON'|translate}}</button>
+        <button id="send-key" ion-button full color="secondary" (click)="login()">{{'LOGIN.SEND-CODE-BUTTON'|translate}}</button>
       </ion-col>
     </ion-row>
   </ion-grid>

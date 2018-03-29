@@ -84,9 +84,10 @@ export class LoginPage {
     }
   }
 
-  public changeId(): void {
+  public resendSMS(): void {
     this.idIsSent = false;
     this.smsSent = false;
+    this.sendId();
   }
 
   public login(): void {
