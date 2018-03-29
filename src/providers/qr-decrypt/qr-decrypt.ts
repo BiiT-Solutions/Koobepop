@@ -13,16 +13,13 @@ export class QrDecryptProvider {
       })
   }
 
-
   AES_CBC_encrypt(value, key) {
     key = this.asciiToUint8Array(key);
     const iv = crypto.getRandomValues(new Uint8Array(16));
-    console.log("encrypt", iv)
     return crypto.subtle.digest('SHA-256', key)
     .then(keyData=>{
       //Keep just 16 bytes
       keyData = keyData.slice(0,16)
-      console.log("KeyDAta: ", this.bytesToHexString(keyData))
     return crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["encrypt"])
       .then((key) => {
         const plainText = value;
@@ -37,13 +34,10 @@ export class QrDecryptProvider {
   AES_CBC_decrypt(value, key) {
     key = this.asciiToUint8Array(key);
     const iv = this.hexStringToUint8Array(value.substring(0, 32))
-
-    console.log("decrypt", iv, value.substring(0, 32))
     const cipherText = value.substring(32, value.length);
     return crypto.subtle.digest('SHA-256', key)
       .then(keyData => {
         keyData = keyData.slice(0,16)
-        console.log("KeyDAta: ", this.bytesToHexString(keyData))
         return crypto.subtle.importKey("raw", keyData, "aes-cbc", false, ["decrypt"])
           .then((key) => {
             return crypto.subtle.decrypt({ name: "aes-cbc", iv: iv }, key, this.hexStringToUint8Array(cipherText));
@@ -58,14 +52,12 @@ export class QrDecryptProvider {
     if (hexString.length % 2 != 0)
       throw new Error("Invalid hexString");
     const arrayBuffer = new Uint8Array(hexString.length / 2);
-
     for (var i = 0; i < hexString.length; i += 2) {
       const byteValue = parseInt(hexString.substr(i, 2), 16);
       if (byteValue == NaN)
         throw new Error("Invalid hexString");
       arrayBuffer[i / 2] = byteValue;
     }
-
     return arrayBuffer;
   }
 

@@ -18,16 +18,12 @@ export interface IAppConfig {
   getUserGuard: string;
 
   keyData: string;
-  iv: string;
 }
 
 export const AppConfig: IAppConfig = {
 
   //QR Encryption key
    keyData: "1886578AB249A216C9A9A81FD69CEB0BFDFA6712396C20097537B4B77D7C74BF"
-  //QR Encryption iv
-  , iv: "0F0324E0F6436EF2F5F5E45BA4409595"
-
 
   //Services
   , sendCodeSMS: "/rest/sendAuthCodeSMS"

@@ -46,7 +46,7 @@ export class QRConfigurationPage {
                     this.stopScan();
                     this.navCtrl.pop();
                   },e => {
-                      console.warn("Error parsing configuration hash");
+                      console.warn("Error parsing configuration hash",e);
                       this.showError(this.translate.instant('QR-CONFIGURATION.MANUAL.ERROR-PARSING-HASH'));
                       this.scan();
                     });
