@@ -43,7 +43,7 @@ export class TasksSlideComponent {
       }, e => console.log(e));
   }
 
-  private setTasks(usmoTasks: USMOTask[]): void {
+  public setTasks(usmoTasks: USMOTask[]): void {
     const tasks = [];
     usmoTasks.forEach((usmoTask: USMOTask) => {
       if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (usmoTask.finishTime == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {

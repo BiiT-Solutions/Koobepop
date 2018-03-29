@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 
@@ -37,10 +36,10 @@ export class QrDecryptProvider {
 
   AES_CBC_decrypt(value, key) {
     key = this.asciiToUint8Array(key);
-    let iv = this.hexStringToUint8Array(value.substring(0, 32))
+    const iv = this.hexStringToUint8Array(value.substring(0, 32))
 
     console.log("decrypt", iv, value.substring(0, 32))
-    let cipherText = value.substring(32, value.length);
+    const cipherText = value.substring(32, value.length);
     return crypto.subtle.digest('SHA-256', key)
       .then(keyData => {
         keyData = keyData.slice(0,16)

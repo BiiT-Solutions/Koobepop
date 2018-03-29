@@ -8,29 +8,32 @@ import { UserGuardProvider } from '../../providers/user-guard/user-guard';
   templateUrl: 'user-guard.html',
 })
 export class UserGuardPage {
-  userGuard: string;
+  userGuard: string = " ";
   expirationDate;
   timeLeft = 0;
+
+  timeout;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public userGuardService: UserGuardProvider
   ) {
-    this.getGuard()
-      .subscribe(() => { this.tickClock() });
-
+  
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
+    this.getGuard()
+    .subscribe(() => { this.tickClock() });
   }
 
   public tickClock() {
+    console.log("timeLeft", this.timeLeft)
     this.timeLeft = Math.max(0, moment(this.expirationDate).diff(moment()).valueOf())
     if (this.timeLeft > 0) {
-      setTimeout(() => { this.tickClock() }, 1000);
+      this.timeout = setTimeout(() => { this.tickClock() }, 1000);
     } else {
-      this.getGuard().subscribe(() => setTimeout(() => { this.tickClock() }, 1000))
-
+      this.getGuard()
+        .subscribe(() => this.timeout = setTimeout(() => { this.tickClock() }, 1000))
     }
   }
 
@@ -39,7 +42,13 @@ export class UserGuardPage {
       .map(guard => {
         this.userGuard = guard.code
         this.expirationDate = guard.expirationTime
+        this.timeLeft = Math.max(0, moment(this.expirationDate).diff(moment()).valueOf())
+        console.log(this.expirationDate)
         return guard;
       })
+  }
+
+  ionViewWillLeave() {
+    clearTimeout(this.timeout)
   }
 }
