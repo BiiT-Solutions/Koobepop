@@ -51,7 +51,6 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-    console.log('LoginPage will load')
   }
 
   public sendId(): void {
@@ -104,8 +103,6 @@ export class LoginPage {
           loading.dismiss();
           if (token) {
             this.toaster.goodToast(this.translateService.instant('LOGIN.SUCCESS'));
-            //TODO - remove
-            console.log(":)")
             this.navCtrl.setRoot(HomePage);
           }
         });

@@ -4,7 +4,7 @@ import { AppointmentsRestService } from '../appointments-rest-service/appointmen
 import { AppConfig, APP_CONFIG } from '../../../app/app.config';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateServiceMock,  TokenProviderMock, UserProviderMock } from '../../../../test-config/mocks-ionic';
+import { TranslateServiceMock, TokenProviderMock, UserProviderMock, SettingsProviderMock } from '../../../../test-config/mocks-ionic';
 
 import { UserProvider } from '../../storage/user-provider/user-provider';
 import {
@@ -16,6 +16,7 @@ import {
 import {
   MockBackend
 } from '@angular/http/testing';
+import { SettingsProvider } from '../../storage/settings/settings';
 
 describe('Service: AppointmentsRestService', () => {
   var service: AppointmentsRestService;
@@ -29,6 +30,7 @@ describe('Service: AppointmentsRestService', () => {
         { provide: TokenProvider, useClass: TokenProviderMock },
         { provide: APP_CONFIG, useValue: AppConfig },
         { provide: TranslateService, useClass: TranslateServiceMock },
+        { provide: SettingsProvider, useClass:SettingsProviderMock},
         {
           deps: [
             MockBackend,

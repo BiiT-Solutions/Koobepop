@@ -1,3 +1,37 @@
 page-user-guard {
+    .chart .gradient{
+       // background-color:map-get($colors , secondary); 
+        background: map-get($colors , primary); /* Old browsers */
+        background: linear-gradient(to left, map-get($colors , primary) 0px,map-get($colors , secondary) 100px);
+        padding: 3px;
+        margin: 1px;
+        border-radius: 5px 0 0 5px;
+        position: absolute;
+        top: 0;
+        right:0;
+        height:6px;
+        width: 100%;
+      }
 
+      .chart h1{
+        display: inline-block;
+        color:map-get($colors , primary); 
+        //mix-blend-mode: exclusion;
+      }
+
+      .chart{
+	    position: relative;
+        height:6px;
+        width: 100%;
+        border-radius: 5px;
+      }
+
+      .chart .shrinker {
+        background-color:map-get($colors , light );
+        position: absolute;
+        top: 0;
+        right:0;
+        height:7px;
+        width: 100%;
+    }  
 }

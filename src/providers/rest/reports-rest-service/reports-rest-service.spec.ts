@@ -1,6 +1,6 @@
 import { async, TestBed, getTestBed } from '@angular/core/testing';
 import { UserProvider } from '../../storage/user-provider/user-provider';
-import { UserProviderMock, TokenProviderMock, TranslateServiceMock, InfographicJSMock } from '../../../../test-config/mocks-ionic';
+import { UserProviderMock, TokenProviderMock, TranslateServiceMock, InfographicJSMock, SettingsProviderMock } from '../../../../test-config/mocks-ionic';
 import { AppConfig, APP_CONFIG } from '../../../app/app.config';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,6 +19,7 @@ import {
 } from '@angular/http/testing';
 import { AppointmentModel } from '../../../models/appointment.model';
 import * as infographicjs from 'infographic-js';
+import { SettingsProvider } from '../../storage/settings/settings';
 
 describe('Service: ReportsRestService', () => {
     var service: ReportsRestService;
@@ -35,6 +36,7 @@ describe('Service: ReportsRestService', () => {
                 { provide: APP_CONFIG, useValue: AppConfig },
                 { provide: TranslateService, useClass: TranslateServiceMock },
                 { provide: infographicjs, useClass:InfographicJSMock},
+                { provide: SettingsProvider, useClass:SettingsProviderMock},
                 {
                     deps: [
                         MockBackend,

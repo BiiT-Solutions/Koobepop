@@ -8,6 +8,8 @@ import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { LandingPage } from '../landing/landing';
 import { LoadingComponent } from '../../components/loading/loading';
 import { AuthTokenRestService } from '../../providers/rest/authentication-token-rest-service/authentication-token-rest-service';
+import { SettingsProvider } from '../../providers/storage/settings/settings';
+
 import {
   PlatformMock,
   StatusBarMock,
@@ -17,7 +19,8 @@ import {
   ConnectivityServiceMock,
   ToastIssuerMock,
   NavMock,
-  AuthTokenRestServiceMock
+  AuthTokenRestServiceMock,
+  SettingsProviderMock
 } from '../../../test-config/mocks-ionic';
 
 describe('LandingPage', () => {
@@ -41,6 +44,7 @@ describe('LandingPage', () => {
         { provide: ConnectivityService, useClass: ConnectivityServiceMock },
         { provide: ToastIssuer, useClass: ToastIssuerMock },
         { provide: NavController, useClass: NavMock },
+        { provide: SettingsProvider, useClass:SettingsProviderMock}
       ]
     })
   }));

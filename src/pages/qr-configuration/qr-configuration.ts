@@ -84,7 +84,7 @@ export class QRConfigurationPage {
     this.saveSettings()
       .then(() => { this.navCtrl.pop(); },
         e => {
-          console.warn("Error parsing configuration hash");
+          console.warn("Error parsing configuration hash:",e);
           this.showError(this.translate.instant('QR-CONFIGURATION.MANUAL.ERROR-PARSING-HASH'));
         });
   }
@@ -100,12 +100,12 @@ export class QRConfigurationPage {
     this.toast.badToast(msg)
   }
 
-
   setTransparentBackground(){
     window.document.querySelector('ion-app').classList.add('transparentBody')
     window.document.querySelector('.can-be-transparent').classList.add('transparentBody')
     window.document.querySelector('.nav-decor').classList.add('transparentBody')
   }
+
   setOpaqueBackground(){
     window.document.querySelector('ion-app').classList.remove('transparentBody')
     window.document.querySelector('.can-be-transparent').classList.remove('transparentBody')

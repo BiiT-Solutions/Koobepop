@@ -292,9 +292,9 @@ export class SettingsProviderMock{
     return {
       organization: "",
       backend:"/",
-      access:"",
+      webservicesUser:"",
+      webservicesPassword:"",
       pushSenderId:""
-
     }
   }
 }

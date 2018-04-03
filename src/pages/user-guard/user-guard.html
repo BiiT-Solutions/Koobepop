@@ -14,7 +14,15 @@
       <p>This is your temporal user id:</p>
       <h1>{{userGuard}}</h1>
       <p>Time left:</p>
-      <h1>{{ timeLeft | date:' mm:ss'}}</h1>
+      
+      <h1 class="text">{{ timeLeft | date:' mm:ss'}}</h1>
+      <div class="chart">
+        <div class="gradient">
+        </div>
+        <div class="shrinker" [style.width]="(this.timeLeft/this.initialTimeLeft)*100+'%'">
+        </div>
+       <!-- <div [style.animationDuration]="this.initialTimeLeft/1000+'s'" ></div>-->
+      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>
