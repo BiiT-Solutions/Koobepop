@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import * as moment from 'moment';
 import { UserGuardProvider } from '../../providers/user-guard/user-guard';
-import * as d3 from 'd3';
+
 @Component({
   selector: 'page-user-guard',
   templateUrl: 'user-guard.html',
