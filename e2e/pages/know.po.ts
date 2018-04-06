@@ -4,7 +4,7 @@ export class KnowPage extends Page {
 
   public getFirstMessage(){
     return browser.findElements(protractor.by.css('ion-card'))
-    .then(messages=>messages[0])
+    .then(messages=>messages[messages.length-1])
   }
 
   public getMessageText(messageEl){

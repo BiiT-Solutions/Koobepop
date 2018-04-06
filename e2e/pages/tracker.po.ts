@@ -1,4 +1,4 @@
-import { browser, protractor,by } from 'protractor';
+import { browser, protractor,by, element } from 'protractor';
 import { Page } from '../app.po';
 export class TrackerPage extends Page {
   iframe
@@ -28,7 +28,7 @@ export class TrackerPage extends Page {
   }
 
   public getWeekNumber(){
-    return browser.driver.findElement(protractor.by.cssContainingText('span','Selected week '))
+    return browser.driver.findElement(element(by.cssContainingText('span','Selected week ')))
     .findElement(protractor.by.css('span')).getText();
   }
 }

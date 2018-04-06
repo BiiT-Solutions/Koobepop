@@ -7,10 +7,14 @@ export class QrDecryptProvider {
   constructor(@Inject(APP_CONFIG) protected config: IAppConfig) { }
 
   public decrypt(string): PromiseLike<string> {
+    try{
     return this.AES_CBC_decrypt(string, this.config.keyData)
       .then((decrypted) => { return atob(decrypted) }, err => {
         console.log(err); return undefined;
       })
+    }catch(e){
+      console.log(e); return Promise.resolve(undefined);
+    }
   }
 
   AES_CBC_encrypt(value, key) {

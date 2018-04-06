@@ -22,7 +22,7 @@ export class PushNotificationsHandlerProvider {
   init() {
     if (this.platform.is('cordova')) {
       // to check if we have permission
-      /*this.push.hasPermission()
+      this.push.hasPermission()
         .then((res: any) => {
           if (res.isEnabled) {
             console.log('We have permission to send push notifications');
@@ -30,7 +30,7 @@ export class PushNotificationsHandlerProvider {
             console.log('We do not have permission to send push notifications');
           }
         });
-        */
+
       // to initialize push notifications
       const options: PushOptions = {
         android: {
@@ -45,11 +45,12 @@ export class PushNotificationsHandlerProvider {
         windows: {}
       };
 
-      const pushObject: PushObject = this.push.init(options);
+      const pushObject: PushObject =  this.push.init(options);
 
       pushObject.on('registration')
         .subscribe((registration: any) => {
           console.debug('Device registered', registration)
+          //Register on usmo
           this.registerPushService.setPushToken(registration.registrationId)
             .subscribe(response => console.debug("Set Push token status: ", response.status));
         });
