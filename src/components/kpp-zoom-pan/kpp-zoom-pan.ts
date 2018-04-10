@@ -46,17 +46,19 @@ export class KppZoomPanComponent {
 
     hammer.on('doubletap pan pinch panend pinchend', (ev) => {
       lastScale = scale;
-      // pinch
+
       if (ev.type === 'pinch') {
-        scale = Math.max(.999, Math.min(lastScale * (ev.scale), 4));
+        scale = Math.max(.999, Math.min(lastScale + (ev.scale - 1), 4));
         //translate_due_to_scale.x = (el.clientWidth / 2 - ev.center.x + posX) * (scale - 1)
         //translate_due_to_scale.y = (el.clientHeight / 2 - ev.center.y + posY) * (scale - 1)
         translate_due_to_scale.x = ((el.clientWidth * scale - el.clientWidth) / 2 - (ev.center.x * (scale / lastScale) - ev.center.x));
         translate_due_to_scale.y = ((el.clientHeight * scale - el.clientHeight) / 2 - (ev.center.y * (scale / lastScale) - ev.center.y));
       }
-
-      posX = lastPosX + ev.deltaX;
-      posY = lastPosY + ev.deltaY;
+      
+      if (ev.type === 'pan') {
+        posX = lastPosX + ev.deltaX;
+        posY = lastPosY + ev.deltaY;
+      }
 
       if (ev.type === 'panend') {
         lastPosX = posX
@@ -64,7 +66,6 @@ export class KppZoomPanComponent {
       }
 
       if (ev.type === 'doubletap') {
-        lastScale=scale
         if (scale != 1) {
           scale = 1;
           posX = 0;
@@ -74,14 +75,12 @@ export class KppZoomPanComponent {
           translate_due_to_scale.x = 0
           translate_due_to_scale.y = 0
         } else {
-          scale = 2;
+          scale = 3;
           translate_due_to_scale.x = ((el.clientWidth * scale - el.clientWidth) / 2 - (ev.center.x * scale - ev.center.x));
           translate_due_to_scale.y = ((el.clientHeight * scale - el.clientHeight) / 2 - (ev.center.y * scale - ev.center.y));
         }
       }
-      if (ev.type === 'pinchend') {
-        lastScale = scale;
-      }
+
       max_pos_x = (el.clientWidth * scale - el.clientWidth) / 2;
       max_pos_y = (el.clientHeight * scale - el.clientHeight) / 2;
 
