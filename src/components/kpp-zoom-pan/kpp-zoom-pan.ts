@@ -15,20 +15,23 @@ export class KppZoomPanComponent {
   }
   ngAfterViewInit() {
     this.setZoomed(false);
-    const extraHeight = this.zoomable.nativeElement.clientHeight - this.frame.nativeElement.clientHeight;
-    this.hammerIt(this.zoomable.nativeElement, extraHeight);
+    const extraHeight = 0;
+
+    this.setZoomListeners(this.zoomable.nativeElement, extraHeight);
   }
 
   private setZoomed(zoomed) {
     this.isZoomed = zoomed;
   }
 
-  private hammerIt(elm, extraHeight) {
-    const hammertime = new Hammer(elm, {});
-    hammertime.get('pinch').set({
-      enable: true
-    });
+  private setZoomListeners(elm, extraHeight) {
+    //despl = (w*scale-w)/2 - (location*(newscale/oldscale)-location)
 
+    //Configure event handling
+    const hammer = new Hammer(elm, {});
+    hammer.get('pinch').set({ enable: true });
+    hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL })
+    //Initialize variables
     let posX = 0,
       posY = 0,
       scale = 1,
@@ -41,69 +44,63 @@ export class KppZoomPanComponent {
     const el = elm;
     const translate_due_to_scale = { x: 0, y: 0 }
 
-    hammertime.on('doubletap pan pinch panend pinchend', (ev) => {
+    hammer.on('doubletap pan pinch panend pinchend', (ev) => {
       lastScale = scale;
       // pinch
       if (ev.type === 'pinch') {
         scale = Math.max(.999, Math.min(lastScale * (ev.scale), 4));
-        console.log(ev.scale, el.clientWidth)
-        translate_due_to_scale.x = (el.clientWidth / 2 - ev.center.x + posX) * (scale - 1)
-        translate_due_to_scale.y = (el.clientHeight / 2 - ev.center.y + posY) * (scale - 1)
+        //translate_due_to_scale.x = (el.clientWidth / 2 - ev.center.x + posX) * (scale - 1)
+        //translate_due_to_scale.y = (el.clientHeight / 2 - ev.center.y + posY) * (scale - 1)
+        translate_due_to_scale.x = ((el.clientWidth * scale - el.clientWidth) / 2 - (ev.center.x * (scale / lastScale) - ev.center.x));
+        translate_due_to_scale.y = ((el.clientHeight * scale - el.clientHeight) / 2 - (ev.center.y * (scale / lastScale) - ev.center.y));
       }
 
-      // pan
-      //if (scale !== 1) {
       posX = lastPosX + ev.deltaX;
       posY = lastPosY + ev.deltaY;
-      max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);
-      max_pos_y = Math.ceil(((scale - 1) * el.clientHeight / 2) + extraHeight);
-      if (posX > max_pos_x) {
-        posX = max_pos_x;
-      }
-      if (posX < -max_pos_x) {
-        posX = -max_pos_x;
-      }
-      if (posY > max_pos_y - extraHeight) {
-        posY = max_pos_y - extraHeight;
-      }
-      if (posY < -max_pos_y) {
-        posY = -max_pos_y;
-      }
-      //}
 
-
-      if (ev.type === 'pinchend') {
-        lastScale = scale;
-      }
-
-      // panend
       if (ev.type === 'panend') {
-        lastPosX = Math.min(posX, max_pos_x);
-        lastPosY = Math.min(posY, max_pos_y);
+        lastPosX = posX
+        lastPosY = posY
       }
 
       if (ev.type === 'doubletap') {
+        lastScale=scale
         if (scale != 1) {
           scale = 1;
           posX = 0;
           posY = 0;
           lastPosX = 0;
           lastPosY = 0;
+          translate_due_to_scale.x = 0
+          translate_due_to_scale.y = 0
         } else {
           scale = 2;
-          
+          translate_due_to_scale.x = ((el.clientWidth * scale - el.clientWidth) / 2 - (ev.center.x * scale - ev.center.x));
+          translate_due_to_scale.y = ((el.clientHeight * scale - el.clientHeight) / 2 - (ev.center.y * scale - ev.center.y));
         }
       }
+      if (ev.type === 'pinchend') {
+        lastScale = scale;
+      }
+      max_pos_x = (el.clientWidth * scale - el.clientWidth) / 2;
+      max_pos_y = (el.clientHeight * scale - el.clientHeight) / 2;
+
+      //Set bounds
+      posX = this.clamp(posX, -max_pos_x - translate_due_to_scale.x, max_pos_x - translate_due_to_scale.x);
+      posY = this.clamp(posY, -max_pos_y - translate_due_to_scale.y, max_pos_y - translate_due_to_scale.y);
+      lastPosX = this.clamp(lastPosX, -max_pos_x - translate_due_to_scale.x, max_pos_x - translate_due_to_scale.x);
+      lastPosY = this.clamp(lastPosY, -max_pos_y - translate_due_to_scale.y, max_pos_y - translate_due_to_scale.y);
 
       transform =
         'translate3d(' + translate_due_to_scale.x + 'px,' + translate_due_to_scale.y + 'px, 0) ' + //Translate due to zoom
         'translate3d(' + posX + 'px,' + posY + 'px, 0) ' +  //translate due to pan
-        'scale3d(' + scale + ', ' + scale + ', 1)';
+        'scale3d(' + scale + ', ' + scale + ', 1)'
+        ;
 
       if (transform) {
         el.style.webkitTransform = transform;
       }
-      
+
       if (lastScale > 1 && scale <= 1) {
         this.setZoomed(false);
         this.zoom.emit(false);
@@ -112,5 +109,10 @@ export class KppZoomPanComponent {
         this.zoom.emit(true);
       }
     });
+  }
+
+  clamp(num, min, max) {
+    console.log("clamp", num, min, max)
+    return num <= min ? min : num >= max ? max : num;
   }
 }

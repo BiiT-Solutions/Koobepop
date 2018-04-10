@@ -5,6 +5,7 @@ import { SettingsProvider } from '../../providers/storage/settings/settings';
 import { QrDecryptProvider } from '../../providers/qr-decrypt/qr-decrypt';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
+import { ConnectivityService } from '../../providers/connectivity-service/connectivity-service';
 
 @Component({
   selector: 'page-qr-configuration',

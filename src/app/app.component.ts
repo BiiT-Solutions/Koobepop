@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
+import { Platform } from 'ionic-angular';
 import { LandingPage } from '../pages/landing/landing';
 
 @Component({

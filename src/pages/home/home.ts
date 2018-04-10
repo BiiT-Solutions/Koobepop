@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, Tabs } from 'ionic-angular';
-import { WorkBookPage } from '../work-book/work-book';
-import { ReportPage } from '../report/report';
+import { PushNotificationsHandlerProvider } from '../../providers/push-notifications-handler/push-notifications-handler';
+import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
+import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { KnowPage } from '../know/know';
+import { ReportPage } from '../report/report';
+import { SettingsPage } from '../settings/settings';
 import { SummaryPage } from '../summary/summary';
 import { TestPage } from '../test-page/test-page';
-import { PushNotificationsHandlerProvider } from '../../providers/push-notifications-handler/push-notifications-handler';
-import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
-import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
-import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
-import { SettingsPage } from '../settings/settings';
+import { WorkBookPage } from '../work-book/work-book';
 
 @Component({
   selector: 'page-home',
@@ -21,6 +21,7 @@ export class HomePage {
   tab2Root = SummaryPage;
   tab3Root = KnowPage;
   tab4Root = SettingsPage;
+  tab5Root = TestPage;
 
   public pendingMessages: number;
 

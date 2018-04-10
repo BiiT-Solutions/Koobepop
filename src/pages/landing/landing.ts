@@ -42,7 +42,7 @@ export class LandingPage {
               this.navToLogin();
             }
           }, error => {
-            console.log("unable to retrieve token status:", error);
+            console.log("Unable to retrieve token status:", error);
             if (error.status == 0 || error.status == 200) {
               this.navToHome();
             } else { //Another async call failed on the process

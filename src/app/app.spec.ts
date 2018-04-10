@@ -1,16 +1,11 @@
-import { async, TestBed} from '@angular/core/testing';
-import { IonicModule, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
+import { TestBed, async } from '@angular/core/testing';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { MyApp } from './app.component';
+import { IonicModule, Platform } from 'ionic-angular';
+import { PlatformMock, SplashScreenMock, StatusBarMock, TranslateServiceMock } from '../../test-config/mocks-ionic';
 import { LandingPage } from '../pages/landing/landing';
-import {
-  PlatformMock,
-  StatusBarMock,
-  SplashScreenMock,
-  TranslateServiceMock
-} from '../../test-config/mocks-ionic';
+import { MyApp } from './app.component';
 
 describe('MyApp Component', () => {
   let fixture;

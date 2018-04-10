@@ -13,6 +13,8 @@ import { browser } from 'protractor';
  * 
  * browser.pause() 
  * 
+ * field.setKeys('filler text')
+ * field.clear()
  */
 describe('iGROW Application tests', () => {
   let page: Page
@@ -118,26 +120,28 @@ describe('iGROW Application tests', () => {
       });
     });
 
-    it('should load some task into view', () => {
+    it('should load some task into view', (done) => {
       workbookPage.wait()
         .then(() => workbookPage.getFirstTask())
         .then(task =>
           workbookPage.getTaskText(task))
         .then(text => {
-          expect(text).toBe('Task 1');
           taskName = text;
+          return expect(text).toBe('Task 1');
         })
+        .then(()=>done())
     });
 
-    it('should click and enter the task information', () => {
+    it('should click and enter the task information', (done) => {
       workbookPage.getFirstTask()
         .then(task => workbookPage.clickTaskInfo(task))
         .then(() => workbookPage.sleep(500))
         .then(() => workbookPage.getTitle())
         .then(text => expect(text).toBe(taskName))
+        .then(()=>done())
     });
 
-    it('should perform the task and assign some difficulty', () => {
+    it('should perform the task and assign some difficulty', (done) => {
       workbookPage.getFirstTask()
         .then(task => {
           return workbookPage.getTaskIsChecked(task)
@@ -154,13 +158,15 @@ describe('iGROW Application tests', () => {
           return workbookPage.getTaskIsChecked(task).then(isChecked => expect(isChecked).toBe('true'))
             .then(() => task);
         })
+        .then(()=>done())
     })
 
-    it('should unperform the task', () => {
+    it('should unperform the task', (done) => {
       workbookPage.getFirstTask()
         .then(task => {
-          return workbookPage.getTaskIsChecked(task).then(isChecked => expect(isChecked).toBe('true'))
-            .then(() => task);
+          return workbookPage.getTaskIsChecked(task)
+          .then(isChecked => expect(isChecked).toBe('true'))
+          .then(() => task);
         })
         .then(task => workbookPage.clickTask(task))
         .then(() => workbookPage.sleep(1000))
@@ -172,14 +178,15 @@ describe('iGROW Application tests', () => {
           return workbookPage.getTaskIsChecked(task).then(isChecked => expect(isChecked).toBe('false'))
             .then(() => task);
         })
+        .then(()=>done())
     })
 
-    it('should move between days', () => {
+    it('should move between days', (done) => {
       workbookPage.getHeader()
         .then(header => header.getText())
         .then((date) => {
           const d = new Date(date).getDate()
-          expect(d).toBe(new Date(Date.now()).getDate())
+          return expect(d).toBe(new Date(Date.now()).getDate())
         })
         .then(() => workbookPage.slideRight())
         .then(() => workbookPage.sleep(500))
@@ -187,7 +194,7 @@ describe('iGROW Application tests', () => {
         .then(header => header.getText())
         .then(date => {
           const d = new Date(date).getDate()
-          expect(d).toBe(new Date(Date.now() - (24 * 60 * 60 * 1000)).getDate())
+          return expect(d).toBe(new Date(Date.now() - (24 * 60 * 60 * 1000)).getDate())
         })
         .then(() => workbookPage.slideLeft())
         .then(() => workbookPage.sleep(500))
@@ -195,11 +202,12 @@ describe('iGROW Application tests', () => {
         .then(header => header.getText())
         .then(date => {
           const d = new Date(date).getDate()
-          expect(d).toBe(new Date(Date.now()).getDate())
-        });
+          return expect(d).toBe(new Date(Date.now()).getDate())
+        })
+        .then(()=>done());
     });
 
-    it('should go back to today when pressing the "today" button', () => {
+    it('should go back to today when pressing the "today" button', (done) => {
       workbookPage.getHeader()
         .then(header => header.getText())
         .then((date) => {
@@ -212,7 +220,7 @@ describe('iGROW Application tests', () => {
         .then(header => header.getText())
         .then(date => {
           const d = new Date(date).getDate()
-          expect(d).toBe(new Date(Date.now() - (24 * 60 * 60 * 1000)).getDate())
+          return expect(d).toBe(new Date(Date.now() - (24 * 60 * 60 * 1000)).getDate())
         })
         .then(() => workbookPage.getTodayButton())
         .then(button => button.click())
@@ -220,9 +228,10 @@ describe('iGROW Application tests', () => {
         .then(header => header.getText())
         .then((date) => {
           const d = new Date(date).getDate()
-          expect(d).toBe(new Date(Date.now()).getDate())
+          return expect(d).toBe(new Date(Date.now()).getDate())
         })
-    });
+        .then(()=>done());
+    })
 
 
   });
@@ -234,21 +243,21 @@ describe('iGROW Application tests', () => {
       knowPage = new KnowPage();
     });
 
-    it('should change view to KnowPage', () => {
+    it('should change view to KnowPage', (done) => {
       page.goToKnow()
         .then(() => page.getTitle())
-        .then(title => {
-          expect(title).not.toBe('Login')
-        });
+        .then(title =>    expect(title).not.toBe('Login'))
+        .then(()=>done());
     })
 
-    it('should have a message', () => {
+    it('should have a message', (done) => {
       page.goToKnow()
         .then(() => knowPage.wait())
         .then(() => knowPage.getFirstMessage())
         .then(messageEl => knowPage.getMessageText(messageEl))
         .then(textEl => textEl.getText())
         .then(text => expect(text).toBe('First message'))
+        .then(()=>done());
     })
   })
 
@@ -257,12 +266,11 @@ describe('iGROW Application tests', () => {
     beforeEach(() => {
     });
 
-    it('should change view to Report Page', () => {
+    it('should change view to Report Page', (done) => {
       page.goToReports()
         .then(() => page.getTitle())
-        .then(title => {
-          expect(title).toBe('iGROW')
-        });
+        .then(title => expect(title).toBe('iGROW'))
+        .then(()=>done());
     })
 
   })
@@ -274,13 +282,13 @@ describe('iGROW Application tests', () => {
       trackerPage = new TrackerPage();
     });
 
-    it('should change view to Tracker Page', () => {
+    it('should change view to Tracker Page', (done) => {
       page.goToTracker()
         .then(() => page.getTitle())
-        .then(title => {
-          expect(title).not.toBe('Login')
-        });
+        .then(title => expect(title).not.toBe('Login'))
+        .then(()=>done());
     })
+
     /*
         it('should fill tasks and show progress ', ()=>{
           const weekstart = moment().startOf('isoWeek');
