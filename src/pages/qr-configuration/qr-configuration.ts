@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
-import { SettingsProvider } from '../../providers/storage/settings/settings';
-import { QrDecryptProvider } from '../../providers/qr-decrypt/qr-decrypt';
-import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
-import { ConnectivityService } from '../../providers/connectivity-service/connectivity-service';
+import { NavController, NavParams } from 'ionic-angular';
+import { QrDecryptProvider } from '../../providers/qr-decrypt/qr-decrypt';
+import { SettingsProvider } from '../../providers/storage/settings/settings';
+import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 
 @Component({
   selector: 'page-qr-configuration',
