@@ -53,6 +53,7 @@ export class KppZoomPanComponent {
         translate_due_to_scale.y = ((zoomable.clientHeight * scale - zoomable.clientHeight) / 2 - (ev.center.y * scale - ev.center.y));
         posX = lastPosX * scale;
         posY = lastPosY * scale;
+        //console.log("lastScale", lastScale.toFixed(2), "scale", scale.toFixed(2), "scaleE", ev.scale.toFixed(2), "tdsX", translate_due_to_scale.x.toFixed(2), "pX", posX.toFixed(2), "cX", ev.center.x)
       }
 
       if (ev.type === 'pinchend') {
