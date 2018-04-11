@@ -83,11 +83,11 @@
     },
     "SETTINGS":{
         "TITLE":"Settings",
-        "USER-GUARD-BUTTON":"User Guard",
+        "USER-GUARD-BUTTON":"User Code",
         "ABOUT-BUTTON":"About",
         "PRIVACY-POLICY-BUTTON":"Privacy policy"
     },
     "USER-GUARD":{
-        "TITLE":"User Guard"
+        "TITLE":"User Code"
     }
 }
