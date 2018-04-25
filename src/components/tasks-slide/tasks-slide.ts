@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { TaskModel } from '../../models/task.model';
 import { USMOTask } from '../../models/usmo-task';
@@ -19,29 +19,29 @@ export class TasksSlideComponent {
 
   loading = true;
   tasksAvaliable = false;
-
   tasks: TaskModel[];
   constructor(
     private tasksProvider: TasksProvider,
     private tasksRestService: TasksRestService,
     private app: App) {
-    //this.requestTasks(this);
 
+    this.tasksProvider.getObservableTasks()
+      .subscribe((tasks) => {
+        this.loading = tasks == undefined;
+        this.tasksAvaliable = tasks != undefined && tasks.length > 0;
+        if (tasks) { this.setTasks(tasks) }
+      }, e => console.log(e));
   }
 
   /**When object is changed*/
   protected ngOnChanges() {
-    this.requestTasks(this);
+    let tasks = this.tasksProvider.getCurrentTaks()
+    if (tasks) { this.setTasks(tasks) };
   }
 
-  private requestTasks(context) {
-    this.tasksProvider.update()
-      .subscribe((tasks) => {
-          context.setTasks(this.tasksProvider.allTasks)
-          context.loading = false;
-          context.tasksAvaliable = this.tasksProvider.allTasks != undefined && this.tasksProvider.allTasks.length > 0;       
-      }, e => console.log(e));
+  ngAfterViewInit() {
   }
+
 
   public setTasks(usmoTasks: USMOTask[]): void {
     const tasks = [];
@@ -53,14 +53,11 @@ export class TasksSlideComponent {
       }
     });
     this.tasks = tasks;
-    //this.loading = false;
-    //this.tasksAvaliable = tasks && tasks.length>0 ? true:false;
-    //console.log(this.tasks)
   }
 
   public gotoExerciseInfo(name: string) {
-    this.tasksProvider.getTask(name)
-      .subscribe((task: USMOTask) => this.app.getRootNav().push(TaskInformationPage, task));
+    let task = this.tasksProvider.getTask(name)
+    this.app.getRootNav().push(TaskInformationPage, task)
   }
 
   public completeExercise(task: TaskModel) {
@@ -68,19 +65,10 @@ export class TasksSlideComponent {
   }
 
   private setTask(name: string, score: number, date: number) {
-    //console.log("TasksSlide  Task: "+name+" score: "+score);
     if (score >= 0) {
       this.tasksProvider.setScore(name, score, date, moment().valueOf())
-        .subscribe(task => {
-          this.tasksRestService.sendPerformedTask(task.appointmentId, name, score, date, moment().valueOf())
-            .subscribe();
-        }, error => console.error('Unable to set score for task ' + name))
     } else {
-      this.tasksProvider.removeScore(name, date)
-        .subscribe((task: USMOTask) => {
-          this.tasksRestService.removePerformedTask(task.appointmentId, name, date)
-            .subscribe();
-        });
+      this.tasksProvider.removeScore(name, date)  
     }
   }
 }

@@ -57,8 +57,6 @@ export class HomePage {
     this.appointmentsProvider.update()
       .subscribe(appointments => {
         console.debug("Updated Appointemnts", appointments);
-        this.tasksProvider.update()
-          .subscribe((tasks) => console.debug("Updated Tasks: ", tasks));
       })
   }
 

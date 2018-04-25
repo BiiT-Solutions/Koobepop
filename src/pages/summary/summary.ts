@@ -97,7 +97,7 @@ export class SummaryPage {
 
   /** Observable retunring week details */
   detailsFromWeek(week: number): Observable<any> {
-    return this.tasksProv.getTasks().map((tasks: USMOTask[]) => {
+    return this.tasksProv.getObservableTasks().map((tasks: USMOTask[]) => {
       const workouts = []
       const firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
       tasks.forEach(task => {
@@ -131,7 +131,7 @@ export class SummaryPage {
     const weekFinishes = moment().week(this.actualWeek).endOf("isoWeek").valueOf();
 
     return this.userProv.getUser().flatMap((storedUser: UserModel) => {
-      return this.tasksProv.getTasks().map((tasks: USMOTask[]) => {
+      return this.tasksProv.getObservableTasks().map((tasks: USMOTask[]) => {
         const taskTypesGoals: Map<string, number> = new Map();
         tasks.forEach((task: USMOTask) => {
           if (!taskTypesGoals.has(task.type)) {

@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, Slides} from 'ionic-angular';
 import * as moment from 'moment';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 
 /**
  *
@@ -16,18 +17,24 @@ export class WorkBookPage {
   oldIndex = 1
   @ViewChild('slider') slider: Slides;
 
-  constructor(public navCtrl: NavController) {
+  constructor(
+    public navCtrl: NavController, 
+    public tasksProvider: TasksProvider
+  ) {
     this.goToToday();
   }
   ionViewWillLoad(){
     console.log("WB WillLoad")
+    
   }
 
   ionViewWillEnter(){
     console.log("WB WillEnter")
-    this.goToToday();
-    
+    this.tasksProvider.loadTasks()
+    .subscribe((tasks) => {console.log("Loaded tasks: ", tasks)})
+    this.goToToday();    
   }
+  
   ionViewDidEnter(){
     console.log("WB DidEnter")
   }

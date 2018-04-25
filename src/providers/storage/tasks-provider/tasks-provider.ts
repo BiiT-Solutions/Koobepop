@@ -7,10 +7,12 @@ import { AppointmentsProvider } from '../appointments-provider/appointments-prov
 import { AppointmentModel } from '../../../models/appointment.model';
 import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-service';
 import { CompleteTask } from '../../../models/complete-task';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 @Injectable()
 export class TasksProvider extends StorageServiceProvider {
   private tasks: USMOTask[];
+  private bsTasks: BehaviorSubject<USMOTask[]>
 
   constructor(
     public storage: Storage,
@@ -18,6 +20,7 @@ export class TasksProvider extends StorageServiceProvider {
     protected tasksRestService: TasksRestService
   ) {
     super(storage);
+    this.bsTasks = new BehaviorSubject<USMOTask[]>(undefined)
   }
 
   public getTasks(): Observable<USMOTask[]> {
@@ -35,83 +38,43 @@ export class TasksProvider extends StorageServiceProvider {
     return this.save();
   }
 
-  private save(): Observable<USMOTask[]>{
+  private save(): Observable<USMOTask[]> {
     const tasks = this.getAllocTasks();
     const serializedTasks = this.serializeTasks(tasks);
     return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
   }
 
-  public getTask(name: string): Observable<USMOTask> {
-    return this.getTasks().map(tasks => {
-      const index = tasks.map(task => task.name).indexOf(name);
-      return index >= 0 ? tasks[index] : null
-    });
+  public getTask(name: string): USMOTask {
+    let tasks = this.getCurrentTaks()
+    const index = tasks.map(task => task.name).indexOf(name);
+    return index >= 0 ? tasks[index] : null
   }
 
-  public setScore(name: string, score: number, performedTime: number, filledTime: number): Observable<USMOTask> {
+  public setScore(name: string, score: number, performedTime: number, filledTime: number): USMOTask {
     const completeTask: CompleteTask = new CompleteTask(performedTime, filledTime, score);
-    //console.log("Set task:",name)
-    return this.getTask(name)
-      .map(task => {
-        task.setScore(completeTask)
-        this.save().subscribe();
-        return task;
-      });
+    let tasks = this.getCurrentTaks()
+    const index = tasks.map(task => task.name).indexOf(name);
+    let task = index >= 0 ? tasks[index] : null
+    if (task) {
+      task.setScore(completeTask)
+      this.tasksRestService.sendPerformedTask(name, score, performedTime, filledTime)
+        .subscribe(() => this.saveTasks(tasks).subscribe(),
+          e => { console.error('Unable to set score for task ' + name) });
+    }
+    return task;
   }
 
-  public removeScore(name: string, date: number): Observable<USMOTask> {
-    //console.log("Remove task", name, date)
-    return this.getTask(name)
-      .map(task => {
-        task.removeScore(date);
-        this.save().subscribe();
-        return task;
-      });
-  }
-
-  public update(): Observable<USMOTask[]> {
-    return this.appointmentsProvider.getLastAppointmentsByType()
-      .flatMap((lastAppointments: AppointmentModel[]) => {
-        return this.getTasks().flatMap((actualTasks: USMOTask[]) => {
-          const updatedAppointments: AppointmentModel[] = [];
-          const updatedTasks: USMOTask[] = [];
-
-          actualTasks.forEach((task: USMOTask) => {
-            const index = lastAppointments.map(appointment => appointment.appointmentId).indexOf(task.appointmentId);
-            if (index >= 0) {
-              if (task.updateTime >= lastAppointments[index].updateTime) {
-                updatedTasks.push(task);
-                if (updatedAppointments.map(appointment => appointment.appointmentId).indexOf(task.appointmentId) < 0) {
-                  updatedAppointments.push(lastAppointments[index]);
-                }
-              }
-            }
-          });
-
-          updatedAppointments.forEach(updatedAppointment => {
-            const index = lastAppointments.map(appointment => appointment.appointmentId).indexOf(updatedAppointment.appointmentId);
-            if (index >= 0) {
-              lastAppointments.splice(index);
-            }
-          });
-          
-          if(!lastAppointments || lastAppointments.length==0){
-            return Observable.of(undefined);
-          }
-
-          return Observable.combineLatest(
-            lastAppointments.map((appointment: AppointmentModel) => {
-              return this.tasksRestService.requestTasks(appointment)
-            })).take(1).flatMap((tasksMat: USMOTask[][]) => {
-              let finalTasks: USMOTask[] = [];
-              if (updatedTasks != undefined) {
-                finalTasks = finalTasks.concat(updatedTasks)
-              }
-              tasksMat.forEach((tasks: USMOTask[]) => { finalTasks = finalTasks.concat(tasks) })
-              return this.setTasks(finalTasks);
-            });
-        });
-      });
+  public removeScore(name: string, date: number): USMOTask {
+    let tasks = this.getCurrentTaks()
+    const index = tasks.map(task => task.name).indexOf(name);
+    let task = index >= 0 ? tasks[index] : null
+    if (task) {
+      task.removeScore(date)
+      this.tasksRestService.removePerformedTask(name, date)
+        .subscribe(() => this.saveTasks(tasks).subscribe(),
+          e => { console.error('Unable to remove score for task ' + name) });
+    }
+    return task;
   }
 
   private getAllocTasks(): USMOTask[] {
@@ -134,12 +97,10 @@ export class TasksProvider extends StorageServiceProvider {
           task.finishTime,
           task.repetitions,
           task.type,
-          task.appointmentId,
           USMOTask.parseStringifiedPerformedTasks(task.performedOn),
           task.videoUrl,
           task.content,
         );
-        newTask.updateTime = task.updateTime;
         deserializedTasks.push(newTask);
       });
     }
@@ -157,9 +118,7 @@ export class TasksProvider extends StorageServiceProvider {
         performedOn: USMOTask.stringifyPerformedTasks(task.performedOn),
         videoUrl: task.videoUrl,
         content: task.content,
-        type: task.type,
-        appointmentId: task.appointmentId,
-        updateTime: task.updateTime
+        type: task.type
       }
       tasksList.push(serializableTask);
     });
@@ -167,5 +126,48 @@ export class TasksProvider extends StorageServiceProvider {
   }
   get allTasks() {
     return this.tasks;
+  }
+
+  /** */
+  getObservableTasks() {
+    return this.bsTasks;
+  }
+
+  getCurrentTaks() {
+    return this.bsTasks.getValue();
+  }
+
+  saveTasks(tasks): Observable<USMOTask[]> {
+    this.bsTasks.next(tasks);
+    const serializedTasks = this.serializeTasks(tasks);
+    return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
+  }
+
+  loadTasks() {
+    return this.tasksRestService.requestTasks()
+      .flatMap((finalTasks) => {
+        return this.saveTasks(finalTasks)
+      })
+      .catch(e => {
+        console.log('Error getting tasks')
+        return this.getTasks()
+          .flatMap(tasks => {
+            return this.saveTasks(tasks)
+          }).catch(e => {
+            console.log('Error no saved tasks interno')
+            return this.saveTasks([])
+          });
+      })
+      .catch(e => {
+        console.log('Error no saved tasks')
+        return this.saveTasks([])
+      })
+  }
+
+  getSavedTasks() {
+    return super.retrieveItem(StorageServiceProvider.TASKS_STORAGE_ID)
+      .map((tasks) => this.deserializeTasks(tasks)) //Convert to USMOTask[]
+      .map((tasks) => this.setAllocTasks(tasks));   //Save locally
+
   }
 }

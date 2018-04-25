@@ -10,12 +10,12 @@ export class TasksManager {
   }
 
   public finishTask(task: USMOTask, time: number, score: number) {
-    const action: TaskAction = new TaskAction(task.name, time, score, TaskFlag.TASK_FINISHED, task.appointmentId)
+    const action: TaskAction = new TaskAction(task.name, time, score, TaskFlag.TASK_FINISHED)
     this.addTaskAction(action);
   }
 
   public unfinishTask(task: USMOTask, time: number) {
-    const action: TaskAction = new TaskAction(task.name, time, 0, TaskFlag.TASK_UNFINISHED, task.appointmentId)
+    const action: TaskAction = new TaskAction(task.name, time, 0, TaskFlag.TASK_UNFINISHED)
     this.removeTaskAction(action);
   }
 
@@ -65,13 +65,11 @@ export class TaskAction {
   time: number;
   score: number;
   action: TaskFlag;
-  appointmentId: number;
-  constructor(name: string, time: number, score: number, action: TaskFlag, appointmentId: number) {
+  constructor(name: string, time: number, score: number, action: TaskFlag) {
     this.name = name;
     this.time = time;
     this.score = score;
     this.action = action;
-    this.appointmentId = appointmentId;
   }
 }
 

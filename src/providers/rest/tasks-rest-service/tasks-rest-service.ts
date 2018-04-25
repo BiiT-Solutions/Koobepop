@@ -14,6 +14,8 @@ import { SettingsProvider } from '../../storage/settings/settings';
 
 @Injectable()
 export class TasksRestService extends BasicRestService {
+  //TODO - Find a better solution for hardcoding a default value
+  DEFAULT_EXERCISE_TYPE = 'body health'
 
   constructor(
     protected http: Http,
@@ -24,12 +26,13 @@ export class TasksRestService extends BasicRestService {
     super(http, config, tokenProvider, userProvider, settings);
   }
 
-  public requestTasks(appointment: AppointmentModel): Observable<USMOTask[]> {
+
+  public requestTasks(): Observable<USMOTask[]> {
     const requestAddres = this.config.getTasksService;
-    const body = { appointmentId: appointment.appointmentId }
+    const body = {}
     return super.postWithToken(requestAddres, body)
       .map(this.extractData)
-      .map((tasks) => this.formatTasks(appointment, tasks))
+      .map((tasks) => this.formatTasks(tasks))
   }
 
   extractData(res: Response) {
@@ -41,7 +44,7 @@ export class TasksRestService extends BasicRestService {
     }
   }
 
-  private formatTasks(appointment: AppointmentModel, tasks: any): USMOTask[] {
+  private formatTasks( tasks: any): USMOTask[] {
     if (tasks) {
       const deserializedTasks: USMOTask[] = [];
       tasks.forEach((task) => {
@@ -50,7 +53,6 @@ export class TasksRestService extends BasicRestService {
         if (task.performedOn) {
           task.performedOn.forEach((performed) => {
             const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
-            console.log(weekKey)
             const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
 
             if (!performedMap.has(weekKey)) {
@@ -69,12 +71,11 @@ export class TasksRestService extends BasicRestService {
           task.startTime,
           task.finishTime,
           task.repetitions,
-          appointment.type,
-          appointment.appointmentId,
+          this.DEFAULT_EXERCISE_TYPE,
           performedMap,
           task.videoUrl,
           task.content);
-        newTask.updateTime = appointment.updateTime != undefined ? appointment.updateTime : appointment.startTime;
+
         deserializedTasks.push(newTask);
       });
       return deserializedTasks;
@@ -84,11 +85,10 @@ export class TasksRestService extends BasicRestService {
   }
 
   /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
-  public sendPerformedTask(appointmentId: number, taskName: string, score: number, performedTime: number, filledTime) {
+  public sendPerformedTask( taskName: string, score: number, performedTime: number, filledTime) {
     const requestAddres =  this.config.addPerformedExercise;
 
     const body = {
-      appointmentId: appointmentId,
       name: taskName,
       time: performedTime,
       filledTime: filledTime,
@@ -97,10 +97,9 @@ export class TasksRestService extends BasicRestService {
     return super.postWithToken(requestAddres, body).map(res => res.status);
   }
 
-  public removePerformedTask(appointmentId: number, taskName: string, date: number): Observable<number> {
+  public removePerformedTask( taskName: string, date: number): Observable<number> {
     const requestAddres =  this.config.removePerformedExercise;
     const body = {
-      appointmentId: appointmentId,
       name: taskName,
       time: date,
       score: 0

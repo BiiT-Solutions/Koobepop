@@ -10,13 +10,11 @@ export class USMOTask {
   videoUrl?: string;
   content?: string; //Some HTML content
   type: string;
-  appointmentId: number;
-  updateTime?: number;
   // Map<weekDate,Map<dayDate, score>>
   performedOn: Map<number, CompleteTask[]>;
 
   constructor(name: string, startTime: number, finishTime: number, repetitions: number,
-    type: string, appointmentId: number, performedOn: Map<number, CompleteTask[]>,
+    type: string, performedOn: Map<number, CompleteTask[]>,
     videoUrl?: string, content?: string) {
     this.name = name;
     this.startTime = startTime;
@@ -25,7 +23,6 @@ export class USMOTask {
     this.videoUrl = videoUrl;
     this.content = content; //Some HTML content
     this.type = type;
-    this.appointmentId = appointmentId;
     this.performedOn = performedOn;
   }
 
