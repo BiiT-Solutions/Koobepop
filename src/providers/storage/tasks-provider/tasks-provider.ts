@@ -65,11 +65,14 @@ export class TasksProvider extends StorageServiceProvider {
   }
 
   public removeScore(name: string, date: number): USMOTask {
+    console.log("remove task", name)
     let tasks = this.getCurrentTaks()
     const index = tasks.map(task => task.name).indexOf(name);
     let task = index >= 0 ? tasks[index] : null
+    console.log(" task",task)
     if (task) {
       task.removeScore(date)
+      console.log("task with removed",task)
       this.tasksRestService.removePerformedTask(name, date)
         .subscribe(() => this.saveTasks(tasks).subscribe(),
           e => { console.error('Unable to remove score for task ' + name) });

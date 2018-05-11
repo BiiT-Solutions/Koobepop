@@ -223,10 +223,14 @@ export class AppointmentsProviderMock {
 }
 
 export class TasksRestServiceMock {
-  public reqiestTasks(appointment) { }
+  public requestTasks() { }
   public extractData(res) { }
-  public sendPerformedTask(appointmentID, taskName, score, performedTime, filledTime) { }
-  public removePerformedTask(appointmentId: number, taskName: string, date: number) { }
+  public sendPerformedTask( taskName, score, performedTime, filledTime) {
+    return Observable.of({});
+   }
+  public removePerformedTask( taskName: string, date: number) { 
+    return Observable.of({});
+  }
   public sendTasksActions(tasks) { }
 }
 

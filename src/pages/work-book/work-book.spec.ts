@@ -7,9 +7,8 @@ import { TaskItemComponent } from '../../components/task-item/task-item';
 import { LoadingComponent } from '../../components/loading/loading';
 import { KppCheckBoxComponent } from '../../components/kpp-check-box/kpp-check-box';
 
-import {
-  NavMock
-} from '../../../test-config/mocks-ionic';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
+import { NavMock, TasksProviderMock } from '../../../test-config/mocks-ionic';
 
 describe('WorkBookPage', () => {
   let fixture;
@@ -23,7 +22,8 @@ describe('WorkBookPage', () => {
         TranslateModule.forRoot()
       ],
       providers: [
-        { provide: NavController, useClass: NavMock }
+        { provide: NavController, useClass: NavMock },
+        {provide:TasksProvider, useClass: TasksProviderMock}
       ]
     })
   }));

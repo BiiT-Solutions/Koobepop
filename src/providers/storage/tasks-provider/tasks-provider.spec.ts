@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { StorageMock, AppointmentsProviderMock, TasksRestServiceMock } from '../../../../test-config/mocks-ionic';
 import { USMOTask } from '../../../models/usmo-task';
 import { CompleteTask } from '../../../models/complete-task';
+import * as moment from 'moment';
 //TODO Test this component
 describe('Service: TasksProvider', () => {
   let service: TasksProvider;
@@ -83,21 +84,20 @@ describe('Service: TasksProvider', () => {
     spyOn(storage, 'set').and.callFake(function (key, value) {
       return Promise.resolve(value);
     });
-    service.setTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
+
+    service.saveTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
       let task = service.setScore(TASK_1_NAME, SCORE_1, YESTERDAY, TODAY)
-      expect(task.performedOn.size).toEqual(2)
-      const indexOfCompletion = task.performedOn.get(task.performedOn.keys[1])
+      expect(task.performedOn.size).toEqual(2);
+      const indexOfCompletion = task.performedOn.get(moment(YESTERDAY).startOf('isoWeek').valueOf())
         .map(completed => completed.filledTime).indexOf(TODAY)
-      const completion = task.performedOn.get(task.performedOn.keys[1])[indexOfCompletion]
-      expect(completion.performedTime).toEqual(YESTERDAY)
-      expect(completion.score).toEqual(SCORE_1)
-      let removedTask = service.removeScore(TASK_1_NAME, YESTERDAY)
-      expect(task === removedTask).toBeTruthy();
-      expect(task.performedOn.size).toBe(1)
-      expect(removedTask.performedOn.size).toBe(1)
-
-
+        const completion = task.performedOn.get(moment(YESTERDAY).startOf('isoWeek').valueOf())[indexOfCompletion]
+        expect(completion.performedTime).toEqual(YESTERDAY)
+        expect(completion.score).toEqual(SCORE_1)
+        let removedTask = service.removeScore(TASK_1_NAME, YESTERDAY)
+        expect(task === removedTask).toBeTruthy();
+        expect(task.performedOn.size).toBe(1)
+        expect(removedTask.performedOn.size).toBe(1)
     });
   })
 
