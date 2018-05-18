@@ -124,7 +124,7 @@ export class TasksProvider extends StorageServiceProvider {
     });
     return tasksList;
   }
-  
+
   getObservableTasks() {
     return this.bsTasks;
   }
@@ -148,12 +148,13 @@ export class TasksProvider extends StorageServiceProvider {
     return this.getSavedTasks()
       .flatMap(tasks => {
         let savedTask = tasks.find(savedTask => savedTask.name == task.name)
-        if (savedTask && savedTask.content && savedTask.content.length>0) {
+        if (savedTask && savedTask.content && savedTask.content.length > 0) {
           return Observable.of(savedTask);
         } else {
           return this.tasksRestService.getTaskInfo(task)
             .map(task => {
-              this.saveTask(task).subscribe();
+              this.saveTask(task)
+                .subscribe(tasks => console.log("task saved"));
               return task
             });
         }
@@ -161,6 +162,7 @@ export class TasksProvider extends StorageServiceProvider {
   }
 
   saveTask(task) {
+    console.log("save task " + task.name)
     let tasks = this.getCurrentTaks();
     if (tasks != undefined && tasks.length > 0) {
       let savedTask = tasks.find((currentTask) => currentTask.name == task.name)
@@ -169,16 +171,17 @@ export class TasksProvider extends StorageServiceProvider {
         return this.saveTasks(tasks)
       }
     }
-    return this.getSavedTasks().flatMap((tasks) => {
-      let savedTask = tasks.find((currentTask) => currentTask.name == task.name)
-      if (savedTask) {
-        savedTask = task;
-        return this.saveTasks(tasks)
-      } else {
-        tasks.push(task)
-        return this.saveTasks(tasks)
-      }
-    });
+    return this.getSavedTasks()
+      .flatMap((tasks) => {
+        let savedTask = tasks.find((currentTask) => currentTask.name == task.name)
+        if (savedTask) {
+          savedTask = task;
+          return this.saveTasks(tasks)
+        } else {
+          tasks.push(task)
+          return this.saveTasks(tasks)
+        }
+      });
   }
 
 }

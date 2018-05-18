@@ -47,7 +47,6 @@ export class UserGuardPage {
         this.generationTime = guard.generationTime
         this.initialTimeLeft = Math.max(0, moment(this.expirationDate).diff(moment(this.generationTime)).valueOf())
         this.timeLeft = Math.max(0, moment(this.expirationDate).diff(moment()).valueOf())
-        this.initialTimeLeft = this.timeLeft;
         return guard;
       })
   }

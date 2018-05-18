@@ -19,6 +19,7 @@ export class TaskInformationPage {
     private sanitizer: DomSanitizer,
     private tasksProvider: TasksProvider) {
     this.task = navParams.data;
+    this.hasInfo = true;
     this.loading = true;
     if (this.task.content && this.task.content.length > 0) {
       this.loading = false;
