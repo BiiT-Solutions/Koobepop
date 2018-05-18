@@ -22,25 +22,32 @@ export class TasksProvider extends StorageServiceProvider {
     this.bsTasks = new BehaviorSubject<USMOTask[]>(undefined)
   }
 
-  public getTasks(): Observable<USMOTask[]> {
-    if (this.getAllocTasks() == undefined) {
-      return super.retrieveItem(StorageServiceProvider.TASKS_STORAGE_ID)
-        .map((tasks) => this.deserializeTasks(tasks)) //Convert to USMOTask[]
-        .map((tasks) => this.setAllocTasks(tasks));   //Save locally
-    } else {
-      return Observable.of(this.getAllocTasks());
-    }
+  public loadTasks() {
+    return this.tasksRestService.requestTasks()
+      .flatMap((finalTasks) => {
+        return this.saveTasks(finalTasks)
+      })
+      .catch(e => {
+        console.log('Error getting tasks')
+        return this.getSavedTasks()
+          .catch(e => {
+            console.log('Error: there are no saved tasks ')
+            return this.saveTasks([])
+          });
+      })
+      .catch(e => {
+        console.log('Error: there are no saved tasks')
+        return this.saveTasks([])
+      })
   }
 
-  public setTasks(tasks: USMOTask[]): Observable<USMOTask[]> {
-    this.setAllocTasks(tasks);
-    return this.save();
-  }
-
-  private save(): Observable<USMOTask[]> {
-    const tasks = this.getAllocTasks();
-    const serializedTasks = this.serializeTasks(tasks);
-    return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
+  public getSavedTasks(): Observable<USMOTask[]> {
+    return super.retrieveItem(StorageServiceProvider.TASKS_STORAGE_ID)
+      .map((tasks) => this.deserializeTasks(tasks)) //Convert to USMOTask[]
+      .map((tasks) => {
+        this.bsTasks.next(tasks)
+        return this.getCurrentTaks();
+      });   //Save locally
   }
 
   public getTask(name: string): USMOTask {
@@ -68,24 +75,15 @@ export class TasksProvider extends StorageServiceProvider {
     let tasks = this.getCurrentTaks()
     const index = tasks.map(task => task.name).indexOf(name);
     let task = index >= 0 ? tasks[index] : null
-    console.log(" task",task)
+    console.log(" task", task)
     if (task) {
       task.removeScore(date)
-      console.log("task with removed",task)
+      console.log("task with removed", task)
       this.tasksRestService.removePerformedTask(name, date)
         .subscribe(() => this.saveTasks(tasks).subscribe(),
           e => { console.error('Unable to remove score for task ' + name) });
     }
     return task;
-  }
-
-  private getAllocTasks(): USMOTask[] {
-    return this.tasks;
-  }
-
-  private setAllocTasks(tasks: USMOTask[]): USMOTask[] {
-    this.tasks = tasks == undefined ? [] : tasks;
-    return this.tasks;
   }
 
   /**We serialize and deserialize because the map object won't be stored properly if we don't do it */
@@ -126,11 +124,7 @@ export class TasksProvider extends StorageServiceProvider {
     });
     return tasksList;
   }
-  get allTasks() {
-    return this.tasks;
-  }
-
-  /** */
+  
   getObservableTasks() {
     return this.bsTasks;
   }
@@ -139,41 +133,52 @@ export class TasksProvider extends StorageServiceProvider {
     return this.bsTasks.getValue();
   }
 
-  saveTasks(tasks): Observable<USMOTask[]> {
+  setTasks(tasks) {
     this.bsTasks.next(tasks);
+  }
+
+  saveTasks(tasks): Observable<USMOTask[]> {
+    this.setTasks(tasks);
     const serializedTasks = this.serializeTasks(tasks);
     return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
   }
 
-  loadTasks() {
-    return this.tasksRestService.requestTasks()
-      .flatMap((finalTasks) => {
-        return this.saveTasks(finalTasks)
-      })
-      .catch(e => {
-        console.log('Error getting tasks')
-        return this.getTasks()
-          .flatMap(tasks => {
-            return this.saveTasks(tasks)
-          }).catch(e => {
-            console.log('Error no saved tasks interno')
-            return this.saveTasks([])
-          });
-      })
-      .catch(e => {
-        console.log('Error no saved tasks')
-        return this.saveTasks([])
-      })
+  getTaskInfo(task) {
+    // Search in DB
+    return this.getSavedTasks()
+      .flatMap(tasks => {
+        let savedTask = tasks.find(savedTask => savedTask.name == task.name)
+        if (savedTask) {
+          return Observable.of(savedTask);
+        } else {
+          return this.tasksRestService.getTaskInfo(task)
+            .map(task => {
+              this.saveTask(task).subscribe();
+              return task
+            });
+        }
+      });
   }
 
-  getSavedTasks() {
-    return super.retrieveItem(StorageServiceProvider.TASKS_STORAGE_ID)
-      .map((tasks) => this.deserializeTasks(tasks)) //Convert to USMOTask[]
-      .map((tasks) => this.setAllocTasks(tasks));   //Save locally
-
+  saveTask(task) {
+    let tasks = this.getCurrentTaks();
+    if (tasks != undefined && tasks.length > 0) {
+      let savedTask = tasks.find((currentTask) => currentTask.name == task.name)
+      if (savedTask) {
+        savedTask = task;
+        return this.saveTasks(tasks)
+      }
+    }
+    return this.getSavedTasks().flatMap((tasks) => {
+      let savedTask = tasks.find((currentTask) => currentTask.name == task.name)
+      if (savedTask) {
+        savedTask = task;
+        return this.saveTasks(tasks)
+      } else {
+        tasks.push(task)
+        return this.saveTasks(tasks)
+      }
+    });
   }
 
-  getTaskInfo(task){
-    return this.tasksRestService.getTaskInfo(task);
-  }
 }

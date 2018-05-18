@@ -114,7 +114,7 @@ export class TasksRestService extends BasicRestService {
   }
 
   public getTaskInfo(task){
-    const requestAddres = '/rest/getTaskInfoAuth';
+    const requestAddres = this.config.getTaskInfoService;
     const body = {name:task.name}
     return super.postWithToken(requestAddres, body)
       .map(this.extractData)

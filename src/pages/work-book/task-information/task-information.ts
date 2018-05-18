@@ -11,8 +11,8 @@ import { TasksProvider } from '../../../providers/storage/tasks-provider/tasks-p
 export class TaskInformationPage {
   videoUrl: SafeResourceUrl;
   task: USMOTask;
-  loading:boolean;
-  hasInfo:boolean;
+  loading: boolean;
+  hasInfo: boolean;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -20,12 +20,17 @@ export class TaskInformationPage {
     private tasksProvider: TasksProvider) {
     this.task = navParams.data;
     this.loading = true;
-    tasksProvider.getTaskInfo(this.task)
-     .subscribe(task=>{
-       this.task = task
-       this.loading=false;
-       this.hasInfo = task.content!=undefined && task.content.size>0;
-      });
+    if (this.task.content && this.task.content.length > 0) {
+      this.loading = false;
+      this.hasInfo = this.task.content != undefined && this.task.content.length > 0;
+    } else {
+      tasksProvider.getTaskInfo(this.task)
+        .subscribe(task => {
+          this.task = task
+          this.loading = false;
+          this.hasInfo = task.content != undefined && task.content.length > 0;
+        });
+    }
   }
 
   ionViewDidLoad() {

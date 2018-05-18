@@ -1,12 +1,12 @@
-import { async, TestBed, getTestBed } from '@angular/core/testing';
-import { TasksProvider } from '../tasks-provider/tasks-provider';
-import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
-import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-service';
+import { TestBed, async, getTestBed } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
-import { StorageMock, AppointmentsProviderMock, TasksRestServiceMock } from '../../../../test-config/mocks-ionic';
-import { USMOTask } from '../../../models/usmo-task';
-import { CompleteTask } from '../../../models/complete-task';
 import * as moment from 'moment';
+import { AppointmentsProviderMock, StorageMock, TasksRestServiceMock } from '../../../../test-config/mocks-ionic';
+import { CompleteTask } from '../../../models/complete-task';
+import { USMOTask } from '../../../models/usmo-task';
+import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-service';
+import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
+import { TasksProvider } from '../tasks-provider/tasks-provider';
 //TODO Test this component
 describe('Service: TasksProvider', () => {
   let service: TasksProvider;
@@ -55,7 +55,7 @@ describe('Service: TasksProvider', () => {
       return Promise.resolve(value);
     });
 
-    service.setTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
+    service.saveTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
       SAVED_TASKS = savedTasks
     });
@@ -63,7 +63,7 @@ describe('Service: TasksProvider', () => {
 
   it('should retrieve all tasks (previously saved)', () => {
     spyOn(storage, 'get').and.returnValue(Promise.resolve(SAVED_TASKS));
-    service.getTasks().subscribe(retrievedTasks => {
+    service.getSavedTasks().subscribe(retrievedTasks => {
       expect(storage.get).toHaveBeenCalled();
       expect(retrievedTasks).toEqual(TASKS_TO_SAVE)
     });
@@ -73,7 +73,7 @@ describe('Service: TasksProvider', () => {
     spyOn(storage, 'set').and.callFake(function (key, value) {
       return Promise.resolve(value);
     });
-    service.setTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
+    service.saveTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
       let task = service.getTask(TASK_1_NAME)
       expect(task).toEqual(TASK_1)
@@ -101,5 +101,5 @@ describe('Service: TasksProvider', () => {
     });
   })
 
-  it('should update the actual tasks //TODO')
+  fit('should update the actual tasks //TODO')
 });
