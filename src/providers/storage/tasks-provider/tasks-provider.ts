@@ -165,17 +165,17 @@ export class TasksProvider extends StorageServiceProvider {
     console.log("save task " + task.name)
     let tasks = this.getCurrentTaks();
     if (tasks != undefined && tasks.length > 0) {
-      let savedTask = tasks.find((currentTask) => currentTask.name == task.name)
-      if (savedTask) {
-        savedTask = task;
+      let savedTaskIndex = tasks.findIndex((currentTask) => currentTask.name == task.name)
+      if (savedTaskIndex>=0) {
+        tasks[savedTaskIndex] = task;
         return this.saveTasks(tasks)
       }
     }
     return this.getSavedTasks()
       .flatMap((tasks) => {
-        let savedTask = tasks.find((currentTask) => currentTask.name == task.name)
-        if (savedTask) {
-          savedTask = task;
+        let savedTaskIndex = tasks.findIndex((currentTask) => currentTask.name == task.name)
+        if (savedTaskIndex>=0) {
+          tasks[savedTaskIndex] = task;
           return this.saveTasks(tasks)
         } else {
           tasks.push(task)
