@@ -1,5 +1,8 @@
 #!/bin/bash
-# abort execution if any of below commands fail
+
+# This script builds and signs iGROW for Android, it also automatically changes the app version and commits it.
+
+# Abort execution if any of below commands fail
 set -e
 npm install
 

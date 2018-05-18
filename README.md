@@ -1,9 +1,9 @@
 This is an application developed by Biit Sourcing Solutions.
 
-To build and sing the app these are the steps:
+To build and sign the app these are the steps:
 
 · ANDROID
-0- If there's not a generated keystore
+0- If there's not a generated keystore (This would be necessary for new apps)
 
 $ keytool -genkey -v -keystore <my_release_key>.jks -alias <alias_name> -keyalg RSA -keysize 2048 -validity 10000
 Provide the necessary data for the key generation
