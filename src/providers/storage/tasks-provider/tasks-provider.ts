@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
-import { USMOTask } from '../../../models/usmo-task';
 import { Observable } from 'rxjs/Observable';
-import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
-import { AppointmentModel } from '../../../models/appointment.model';
-import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-service';
-import { CompleteTask } from '../../../models/complete-task';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { CompleteTask } from '../../../models/complete-task';
+import { USMOTask } from '../../../models/usmo-task';
+import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-service';
+import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
+import { StorageServiceProvider } from '../storage-service/storage-service';
 
 @Injectable()
 export class TasksProvider extends StorageServiceProvider {
@@ -172,5 +171,9 @@ export class TasksProvider extends StorageServiceProvider {
       .map((tasks) => this.deserializeTasks(tasks)) //Convert to USMOTask[]
       .map((tasks) => this.setAllocTasks(tasks));   //Save locally
 
+  }
+
+  getTaskInfo(task){
+    return this.tasksRestService.getTaskInfo(task);
   }
 }

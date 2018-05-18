@@ -1,16 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
-import { AppointmentModel } from '../../../models/appointment.model';
-import { Observable } from 'rxjs/Observable';
-import { USMOTask } from '../../../models/usmo-task';
 import * as moment from 'moment';
-import { BasicRestService } from '../basic-rest-service/basic-rest-service';
-import { TokenProvider } from '../../storage/token-provider/token-provider';
-import { TaskAction } from '../../tasksManager/tasksManager';
-import { UserProvider } from '../../storage/user-provider/user-provider';
+import { Observable } from 'rxjs/Observable';
+import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
 import { CompleteTask } from '../../../models/complete-task';
+import { USMOTask } from '../../../models/usmo-task';
 import { SettingsProvider } from '../../storage/settings/settings';
+import { TokenProvider } from '../../storage/token-provider/token-provider';
+import { UserProvider } from '../../storage/user-provider/user-provider';
+import { TaskAction } from '../../tasksManager/tasksManager';
+import { BasicRestService } from '../basic-rest-service/basic-rest-service';
 
 @Injectable()
 export class TasksRestService extends BasicRestService {
@@ -25,7 +24,6 @@ export class TasksRestService extends BasicRestService {
     protected settings: SettingsProvider) {
     super(http, config, tokenProvider, userProvider, settings);
   }
-
 
   public requestTasks(): Observable<USMOTask[]> {
     const requestAddres = this.config.getTasksService;
@@ -113,6 +111,13 @@ export class TasksRestService extends BasicRestService {
       taskActions: tasks
     }
     return super.postWithToken(requestAddres, body);
+  }
+
+  public getTaskInfo(task){
+    const requestAddres = '/rest/getTaskInfoAuth';
+    const body = {name:task.name}
+    return super.postWithToken(requestAddres, body)
+      .map(this.extractData)
   }
 }
 

@@ -30,10 +30,10 @@ export const AppConfig: IAppConfig = {
   , getAuthenticationToken: "/rest/getAuthenticationToken"
   , verifyAuthenticationToken: "/rest/verifyAuthenticationToken"
   , setPushNotificationsToken: "/rest/setPushNotificationToken"
-
   , getMessagesService: "/rest/getMessagesAuth"
   , getUpdatedAppointmentsService: "/rest/getUpdatedAppointmentsAuth"
-  , getTasksService: "/rest/getCorrectiveExercisesAuth"
+  //, getTasksService: "/rest/getCorrectiveExercisesAuth"
+  , getTasksService: "/rest/getTasksAuth"
   , getReportService: "/graphics/getReportContentAuth"
 
   // TODO - This should be handled by the perform actions service

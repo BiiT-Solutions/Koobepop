@@ -18,4 +18,6 @@ export class SettingsPage {
   openUserGuard() {
     this.navCtrl.push(UserGuardPage)
   }
+  openAbout(){}
+  openPrivacyPolicy(){}
 }

@@ -1,5 +1,5 @@
-import { USMOTask } from '../../models/usmo-task';
 import { Injectable } from '@angular/core';
+import { USMOTask } from '../../models/usmo-task';
 import { TasksRestService } from '../rest/tasks-rest-service/tasks-rest-service';
 //TODO - Integrate on the app
 /* This class is suposed to manage the sending of performed and removed tasks to the server*/
@@ -63,9 +63,9 @@ export class TasksManager {
 export class TaskAction {
   name: string;
   time: number;
-  score: number;
+  score: any;
   action: TaskFlag;
-  constructor(name: string, time: number, score: number, action: TaskFlag) {
+  constructor(name: string, time: number, score: any, action: TaskFlag) {
     this.name = name;
     this.time = time;
     this.score = score;
