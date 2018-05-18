@@ -148,7 +148,7 @@ export class TasksProvider extends StorageServiceProvider {
     return this.getSavedTasks()
       .flatMap(tasks => {
         let savedTask = tasks.find(savedTask => savedTask.name == task.name)
-        if (savedTask) {
+        if (savedTask && savedTask.content && savedTask.content.length>0) {
           return Observable.of(savedTask);
         } else {
           return this.tasksRestService.getTaskInfo(task)
