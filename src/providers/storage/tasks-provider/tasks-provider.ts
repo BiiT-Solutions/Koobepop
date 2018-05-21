@@ -82,14 +82,11 @@ export class TasksProvider extends StorageServiceProvider {
   }
 
   public removeScore(name: string, date: number): USMOTask {
-    console.log("remove task", name)
     let tasks = this.getCurrentTaks()
     const index = tasks.map(task => task.name).indexOf(name);
     let task = index >= 0 ? tasks[index] : null
-    console.log(" task", task)
     if (task) {
       task.removeScore(date)
-      console.log("task with removed", task)
       this.tasksRestService.removePerformedTask(name, date)
         .subscribe(() => this.saveTasks(tasks).subscribe(),
           e => { console.error('Unable to remove score for task ' + name) });
@@ -152,18 +149,12 @@ export class TasksProvider extends StorageServiceProvider {
     this.setTasks(tasks);
     const serializedTasks = this.serializeTasks(tasks);
     return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
-      .map(tasks => {
-        console.log("Stored tasks: ", tasks)
-        return tasks;
-      })
   }
 
   getTaskInfo(task): Observable<USMOTask> {
     // Search in DB
-    console.log("Get task info ", task.name)
     return this.getSavedTasks()
       .flatMap(tasks => {
-        console.log("Saved tasks", tasks)
         let savedTask = tasks.find(savedTask => savedTask.name == task.name)
         if (savedTask && savedTask.content && savedTask.content.length > 0) {
           return Observable.of(savedTask);
@@ -179,10 +170,7 @@ export class TasksProvider extends StorageServiceProvider {
   }
 
   saveTask(task: USMOTask): Observable<USMOTask[]> {
-    console.log("save task: ", task)
     let tasks = this.getCurrentTaks();
-    console.log("Current tasks ", tasks)
-
     if (tasks != undefined && tasks.length > 0) {
       let savedTaskIndex = tasks.findIndex((currentTask) => currentTask.name == task.name)
       if (savedTaskIndex >= 0) {

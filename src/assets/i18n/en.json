@@ -89,5 +89,9 @@
     },
     "USER-GUARD":{
         "TITLE":"User Code"
+    },
+    "TASK-INFORMATION":{
+        "LOADING-MSG":"Loading information",
+        "NO-CONTENT-TEXT": "This exercise has no information avaliable."
     }
 }
