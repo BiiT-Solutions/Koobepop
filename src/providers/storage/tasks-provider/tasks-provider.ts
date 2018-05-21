@@ -22,10 +22,21 @@ export class TasksProvider extends StorageServiceProvider {
     this.bsTasks = new BehaviorSubject<USMOTask[]>(undefined)
   }
 
-  public loadTasks() {
+  public loadTasks(): Observable<USMOTask[]> {
     return this.tasksRestService.requestTasks()
-      .flatMap((finalTasks) => {
-        return this.saveTasks(finalTasks)
+      .flatMap((requestedTasks) => {
+        //Check if the tasks have already been loaded and the information is been downloaded
+        return this.getSavedTasks().flatMap(savedTasks => {
+          for (let savedTask of savedTasks) {
+            for (let requestedTask of requestedTasks) {
+              if (savedTask.name == requestedTask.name) {
+                requestedTask.content = savedTask.content
+                requestedTask.videoUrl = savedTask.videoUrl
+              }
+            }
+          }
+          return this.saveTasks(requestedTasks)
+        });
       })
       .catch(e => {
         console.log('Error getting tasks')
@@ -141,12 +152,18 @@ export class TasksProvider extends StorageServiceProvider {
     this.setTasks(tasks);
     const serializedTasks = this.serializeTasks(tasks);
     return super.storeItem(StorageServiceProvider.TASKS_STORAGE_ID, serializedTasks)
+      .map(tasks => {
+        console.log("Stored tasks: ", tasks)
+        return tasks;
+      })
   }
 
-  getTaskInfo(task) {
+  getTaskInfo(task): Observable<USMOTask> {
     // Search in DB
+    console.log("Get task info ", task.name)
     return this.getSavedTasks()
       .flatMap(tasks => {
+        console.log("Saved tasks", tasks)
         let savedTask = tasks.find(savedTask => savedTask.name == task.name)
         if (savedTask && savedTask.content && savedTask.content.length > 0) {
           return Observable.of(savedTask);
@@ -161,27 +178,30 @@ export class TasksProvider extends StorageServiceProvider {
       });
   }
 
-  saveTask(task) {
-    console.log("save task " + task.name)
+  saveTask(task: USMOTask): Observable<USMOTask[]> {
+    console.log("save task: ", task)
     let tasks = this.getCurrentTaks();
+    console.log("Current tasks ", tasks)
+
     if (tasks != undefined && tasks.length > 0) {
       let savedTaskIndex = tasks.findIndex((currentTask) => currentTask.name == task.name)
-      if (savedTaskIndex>=0) {
+      if (savedTaskIndex >= 0) {
         tasks[savedTaskIndex] = task;
         return this.saveTasks(tasks)
       }
+    } else {
+      return this.getSavedTasks()
+        .flatMap((tasks) => {
+          let savedTaskIndex = tasks.findIndex((currentTask) => currentTask.name == task.name)
+          if (savedTaskIndex >= 0) {
+            tasks[savedTaskIndex] = task;
+            return this.saveTasks(tasks)
+          } else {
+            tasks.push(task)
+            return this.saveTasks(tasks)
+          }
+        });
     }
-    return this.getSavedTasks()
-      .flatMap((tasks) => {
-        let savedTaskIndex = tasks.findIndex((currentTask) => currentTask.name == task.name)
-        if (savedTaskIndex>=0) {
-          tasks[savedTaskIndex] = task;
-          return this.saveTasks(tasks)
-        } else {
-          tasks.push(task)
-          return this.saveTasks(tasks)
-        }
-      });
   }
 
 }

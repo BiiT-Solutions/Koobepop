@@ -42,39 +42,11 @@ export class TasksRestService extends BasicRestService {
     }
   }
 
-  private formatTasks( tasks: any): USMOTask[] {
+  private formatTasks(tasks: any): USMOTask[] {
     if (tasks) {
       const deserializedTasks: USMOTask[] = [];
       tasks.forEach((task) => {
-        //Map of performed exercises by week
-        const performedMap = new Map<number, CompleteTask[]>();
-        if (task.performedOn) {
-          task.performedOn.forEach((performed) => {
-            const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
-            const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
-
-            if (!performedMap.has(weekKey)) {
-              const weekValue: CompleteTask[] = [];
-
-              weekValue.push(new CompleteTask(performed.time, filledTime, performed.score));
-              performedMap.set(weekKey, weekValue);
-            } else {
-              performedMap.get(weekKey).push(new CompleteTask(performed.time, filledTime, performed.score));
-            }
-          });
-        }
-
-        const newTask = new USMOTask(
-          task.name,
-          task.startTime,
-          task.finishTime,
-          task.repetitions,
-          this.DEFAULT_EXERCISE_TYPE,
-          performedMap,
-          task.videoUrl,
-          task.content);
-
-        deserializedTasks.push(newTask);
+        deserializedTasks.push(this.formatTask(task));
       });
       return deserializedTasks;
     } else {
@@ -82,9 +54,38 @@ export class TasksRestService extends BasicRestService {
     }
   }
 
+  public formatTask(task: any): USMOTask {
+    //Map of performed exercises by week
+    const performedMap = new Map<number, CompleteTask[]>();
+    if (task.performedOn) {
+      task.performedOn.forEach((performed) => {
+        const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+        const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
+        if (!performedMap.has(weekKey)) {
+          const weekValue: CompleteTask[] = [];
+
+          weekValue.push(new CompleteTask(performed.time, filledTime, performed.score));
+          performedMap.set(weekKey, weekValue);
+        } else {
+          performedMap.get(weekKey).push(new CompleteTask(performed.time, filledTime, performed.score));
+        }
+      });
+    }
+    const newTask = new USMOTask(
+      task.name,
+      task.startTime,
+      task.finishTime,
+      task.repetitions,
+      this.DEFAULT_EXERCISE_TYPE,
+      performedMap,
+      task.videoUrl,
+      task.content);
+    return newTask;
+  }
+  
   /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
-  public sendPerformedTask( taskName: string, score: number, performedTime: number, filledTime) {
-    const requestAddres =  this.config.addPerformedExercise;
+  public sendPerformedTask(taskName: string, score: number, performedTime: number, filledTime) {
+    const requestAddres = this.config.addPerformedExercise;
 
     const body = {
       name: taskName,
@@ -95,8 +96,8 @@ export class TasksRestService extends BasicRestService {
     return super.postWithToken(requestAddres, body).map(res => res.status);
   }
 
-  public removePerformedTask( taskName: string, date: number): Observable<number> {
-    const requestAddres =  this.config.removePerformedExercise;
+  public removePerformedTask(taskName: string, date: number): Observable<number> {
+    const requestAddres = this.config.removePerformedExercise;
     const body = {
       name: taskName,
       time: date,
@@ -106,18 +107,19 @@ export class TasksRestService extends BasicRestService {
   }
 
   public sendTasksActions(tasks: TaskAction[]): Observable<Response> {
-    const requestAddres =  this.config.performActions;
+    const requestAddres = this.config.performActions;
     const body = {
       taskActions: tasks
     }
     return super.postWithToken(requestAddres, body);
   }
 
-  public getTaskInfo(task){
+  public getTaskInfo(task):Observable<USMOTask> {
     const requestAddres = this.config.getTaskInfoService;
-    const body = {name:task.name}
+    const body = { name: task.name }
     return super.postWithToken(requestAddres, body)
       .map(this.extractData)
+      .map((task) => this.formatTask(task))
   }
 }
 
