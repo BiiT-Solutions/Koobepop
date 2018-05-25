@@ -3,6 +3,7 @@ import { CompleteTask } from './complete-task';
 
 /**Represents a single recurrent task*/
 export class USMOTask {
+  comparationId: string;
   name: string;
   startTime: number;
   finishTime?: number;
@@ -11,11 +12,20 @@ export class USMOTask {
   content?: string; //Some HTML content
   type: string;
   // Map<weekDate,Map<dayDate, score>>
-  performedOn: Map<number, CompleteTask[]>;
+  performedOn: CompleteTask[];
 
-  constructor(name: string, startTime: number, finishTime: number, repetitions: number,
-    type: string, performedOn: Map<number, CompleteTask[]>,
-    videoUrl?: string, content?: string) {
+  constructor(
+    comparationId: string, 
+    name: string, 
+    startTime: number, 
+    finishTime: number, 
+    repetitions: number, 
+    type: string, 
+    performedOn: CompleteTask[], 
+    videoUrl?: string, 
+    content?: string
+  ) {
+    this.comparationId = comparationId;
     this.name = name;
     this.startTime = startTime;
     this.finishTime = finishTime;
@@ -27,7 +37,7 @@ export class USMOTask {
   }
 
   /** Stringify map so it can be stored on the DB */
-  public static stringifyPerformedTasks(map: Map<number, CompleteTask[]>): string {
+  public static stringifyPerformedTasks(map: CompleteTask[]): string {
     const arrayFromMap = [];
     map.forEach((value, key) => {
       arrayFromMap.push([key, value])
@@ -48,7 +58,7 @@ export class USMOTask {
     reParsed.forEach(map => {
       const completions = []
       map[1].forEach(element => {
-       completions.push(new CompleteTask(element.performedTime,element.filledTime,element.score));
+        completions.push(new CompleteTask(element.performedTime, element.filledTime, element.score));
       });
       rebuiltMap.set(map[0], completions)
     });
@@ -56,34 +66,17 @@ export class USMOTask {
   }
 
   public getScore(date: number): number {
-    const week = moment(date).startOf('isoWeek').valueOf();
-    if (this.performedOn.has(week)) {
-      for (const completeTask of this.performedOn.get(week)) {
-        if (completeTask.performedTime == date) {
-          return completeTask.score;
-        }
-      };
-    }
-    return -1;
+    let completeTask = this.performedOn.find(x => x.performedTime == date)
+    return completeTask == undefined ? -1 : completeTask.score;
   }
 
   public setScore(completeTask: CompleteTask) {
     const week = moment(completeTask.performedTime).startOf('isoWeek').valueOf();
-    if (!this.performedOn.has(week)) {
-      this.performedOn.set(week, []);
-    }
-    this.performedOn.get(week).push(completeTask);
+    this.performedOn.push(completeTask)
   }
 
   public removeScore(date: number) {
-    const week = moment(date).startOf('isoWeek').valueOf();
-    if (this.performedOn.has(week)) {
-      if (this.performedOn.get(week).length <= 0) {
-        this.performedOn.delete(week);
-      } else {
-        const index = this.performedOn.get(week).map(completeT => completeT.performedTime).indexOf(date);
-        this.performedOn.get(week).splice(index, 1);
-      }
-    }
+    let completeTaskIndex = this.performedOn.findIndex(x => x.performedTime == date)
+    this.performedOn.splice(completeTaskIndex, 1);
   }
 }

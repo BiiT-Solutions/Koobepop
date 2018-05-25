@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavController } from 'ionic-angular';
-import { USMOTask } from '../../models/usmo-task';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { UserModel } from '../../models/user.model';
 import { CompleteTask } from '../../models/complete-task';
+import { UserModel } from '../../models/user.model';
+import { USMOTask } from '../../models/usmo-task';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { UserProvider } from '../../providers/storage/user-provider/user-provider';
 
@@ -99,9 +99,12 @@ export class SummaryPage {
   detailsFromWeek(week: number): Observable<any> {
     return this.tasksProv.getObservableTasks().map((tasks: USMOTask[]) => {
       const workouts = []
-      const firstWeekDay: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
+      const firstWeekTime: number = moment().week(week).startOf("isoWeek").valueOf();  //monday
+      const lastWeekTime: number = moment().week(week+1).startOf("isoWeek").valueOf();
+
       tasks.forEach(task => {
-        const completeTasks: CompleteTask[] = task.performedOn.get(firstWeekDay);
+        const completeTasks: CompleteTask[] = task.performedOn.filter(p=>p.performedTime>=firstWeekTime && p.performedTime<lastWeekTime);
+
         if (completeTasks != undefined) {
           let timesPerformed = 0;
           completeTasks.forEach((completeTask) => {

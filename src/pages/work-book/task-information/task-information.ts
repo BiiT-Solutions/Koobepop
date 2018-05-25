@@ -21,6 +21,7 @@ export class TaskInformationPage {
     this.task = navParams.data;
     this.hasInfo = true;
     this.loading = true;
+    console.log("Task info",this.task)
     if (this.task.content && this.task.content.length > 0) {
       this.loading = false;
       this.hasInfo = this.task.content != undefined && this.task.content.length > 0;

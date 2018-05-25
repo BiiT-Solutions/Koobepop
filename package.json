@@ -120,7 +120,7 @@
     }
   ],
   "cordovaPlatforms": [],
-  "description": "IGOW: A BiiT Sourcing Solutions project",
+  "description": "iGROW: A BiiT Sourcing Solutions project",
   "cordova": {
     "platforms": [
       "android"

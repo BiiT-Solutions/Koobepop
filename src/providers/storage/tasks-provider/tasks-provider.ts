@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { CompleteTask } from '../../../models/complete-task';
 import { USMOTask } from '../../../models/usmo-task';
 import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-service';
+import { TaskSyncronizationProvider } from '../../task-syncronization/task-syncronization';
 import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
 import { StorageServiceProvider } from '../storage-service/storage-service';
 
@@ -16,7 +17,8 @@ export class TasksProvider extends StorageServiceProvider {
   constructor(
     public storage: Storage,
     protected appointmentsProvider: AppointmentsProvider,
-    protected tasksRestService: TasksRestService
+    protected tasksRestService: TasksRestService,
+    protected taskSync: TaskSyncronizationProvider
   ) {
     super(storage);
     this.bsTasks = new BehaviorSubject<USMOTask[]>(undefined)
@@ -26,28 +28,25 @@ export class TasksProvider extends StorageServiceProvider {
     return this.tasksRestService.requestTasks()
       .flatMap((requestedTasks) => {
         //Check if the tasks have already been loaded and the information is been downloaded
-        return this.getSavedTasks().flatMap(savedTasks => {
-          for (let savedTask of savedTasks) {
-            for (let requestedTask of requestedTasks) {
-              if (savedTask.name == requestedTask.name) {
-                requestedTask.content = savedTask.content
-                requestedTask.videoUrl = savedTask.videoUrl
-              }
-            }
-          }
-          return this.saveTasks(requestedTasks)
-        });
+        return this.getSavedTasks()
+          .flatMap(savedTasks => {
+            let tasks = this.taskSync.syncTaskList(requestedTasks, savedTasks)
+            return this.saveTasks(tasks).map((tasks) => {
+              this.taskSync.syncServerTasks(requestedTasks, tasks);
+              return tasks
+            });
+          });
       })
       .catch(e => {
-        console.log('Error getting tasks')
+        console.log('Error getting tasks', e)
         return this.getSavedTasks()
           .catch(e => {
-            console.log('Error: there are no saved tasks ')
+            console.log('Error: there are no saved tasks ', e)
             return this.saveTasks([])
           });
       })
       .catch(e => {
-        console.log('Error: there are no saved tasks')
+        console.log('Error: there are no saved tasks', e)
         return this.saveTasks([])
       })
   }
@@ -64,32 +63,35 @@ export class TasksProvider extends StorageServiceProvider {
   public getTask(name: string): USMOTask {
     let tasks = this.getCurrentTaks()
     const index = tasks.map(task => task.name).indexOf(name);
+    console.log("current task: ",tasks[index])
     return index >= 0 ? tasks[index] : null
   }
 
-  public setScore(name: string, score: number, performedTime: number, filledTime: number): USMOTask {
+  public setScore(comparationId: string, score: number, performedTime: number, filledTime: number): USMOTask {
     const completeTask: CompleteTask = new CompleteTask(performedTime, filledTime, score);
     let tasks = this.getCurrentTaks()
-    const index = tasks.map(task => task.name).indexOf(name);
+    const index = tasks.map(task => task.comparationId).indexOf(comparationId);
     let task = index >= 0 ? tasks[index] : null
     if (task) {
       task.setScore(completeTask)
-      this.tasksRestService.sendPerformedTask(name, score, performedTime, filledTime)
-        .subscribe(() => this.saveTasks(tasks).subscribe(),
-          e => { console.error('Unable to set score for task ' + name) });
+      this.saveTasks(tasks).subscribe()
+      /* this.tasksRestService.sendPerformedTask(name, score, performedTime, filledTime)
+         .subscribe(() => this.saveTasks(tasks).subscribe(),
+           e => { console.error('Unable to set score for task ' + name) });*/
     }
     return task;
   }
 
-  public removeScore(name: string, date: number): USMOTask {
+  public removeScore(comparationId: string, date: number): USMOTask {
     let tasks = this.getCurrentTaks()
-    const index = tasks.map(task => task.name).indexOf(name);
+    const index = tasks.map(task => task.comparationId).indexOf(comparationId);
     let task = index >= 0 ? tasks[index] : null
     if (task) {
       task.removeScore(date)
-      this.tasksRestService.removePerformedTask(name, date)
-        .subscribe(() => this.saveTasks(tasks).subscribe(),
-          e => { console.error('Unable to remove score for task ' + name) });
+      this.saveTasks(tasks).subscribe()
+      /* this.tasksRestService.removePerformedTask(name, date)
+         .subscribe(() => this.saveTasks(tasks).subscribe(),
+           e => { console.error('Unable to remove score for task ' + name) });*/
     }
     return task;
   }
@@ -100,12 +102,13 @@ export class TasksProvider extends StorageServiceProvider {
     if (tasks != undefined) {
       tasks.forEach(task => {
         const newTask = new USMOTask(
+          task.comparationId,
           task.name,
           task.startTime,
           task.finishTime,
           task.repetitions,
           task.type,
-          USMOTask.parseStringifiedPerformedTasks(task.performedOn),
+          task.performedOn,
           task.videoUrl,
           task.content,
         );
@@ -119,11 +122,12 @@ export class TasksProvider extends StorageServiceProvider {
     const tasksList = []
     tasks.forEach(task => {
       const serializableTask = {
+        comparationId: task.comparationId,
         name: task.name,
         startTime: task.startTime,
         finishTime: task.finishTime,
         repetitions: task.repetitions,
-        performedOn: USMOTask.stringifyPerformedTasks(task.performedOn),
+        performedOn: task.performedOn,
         videoUrl: task.videoUrl,
         content: task.content,
         type: task.type
@@ -162,7 +166,7 @@ export class TasksProvider extends StorageServiceProvider {
           return this.tasksRestService.getTaskInfo(task)
             .map(task => {
               this.saveTask(task)
-                .subscribe(tasks => console.log("task saved"));
+                .subscribe(tasks => console.log("task saved:",task));
               return task
             });
         }
@@ -170,6 +174,7 @@ export class TasksProvider extends StorageServiceProvider {
   }
 
   saveTask(task: USMOTask): Observable<USMOTask[]> {
+    console.log("Save task: ", task)
     let tasks = this.getCurrentTaks();
     if (tasks != undefined && tasks.length > 0) {
       let savedTaskIndex = tasks.findIndex((currentTask) => currentTask.name == task.name)

@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { TaskModel } from '../../models/task.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { PopoverController } from 'ionic-angular';
+import { TaskModel } from '../../models/task.model';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirmation';
 
@@ -30,11 +30,13 @@ export class TaskItemComponent {
   public clickInfo(event) {
     //This is so the ion-item's click event doesn't fire
     event.stopPropagation();
+    event.preventDefault();
     this.infoClick.emit(this.task.name);
   }
 
   /* When item is clicked */
   public click(event) {
+    console.log(event)
     if (!this.disabled) {
       //Open popover
       let popover;
@@ -43,7 +45,7 @@ export class TaskItemComponent {
           .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((score: number) => {
           if (score != undefined) {
-            this.task = new TaskModel(this.task.name, this.task.hasInfo, score);
+            this.task = new TaskModel(this.task.comparationId,this.task.name, this.task.hasInfo, score);
             this.completeExercise.emit(this.task);
             this.checked = this.task.score >= 0;
           }
@@ -53,7 +55,7 @@ export class TaskItemComponent {
           .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((unsel) => {
           if (unsel) {
-            this.task = new TaskModel(this.task.name, this.task.hasInfo, -1);
+            this.task = new TaskModel(this.task.comparationId,this.task.name, this.task.hasInfo, -1);
             this.completeExercise.emit(this.task);
             this.checked = this.task.score >= 0;
           }

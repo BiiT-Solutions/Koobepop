@@ -1,4 +1,4 @@
-import { browser, protractor, WebElement } from 'protractor';
+import { WebElement, browser, protractor } from 'protractor';
 import { Page } from '../app.po';
 export class WorkBookPage extends Page {
 

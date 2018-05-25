@@ -1,5 +1,5 @@
-import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { Observable } from 'rxjs/Observable';
 import { UserModel } from '../src/models/user.model';
 /**This file is intended to generate Mock classes to emulate real classes for our testing environment */
@@ -238,6 +238,7 @@ export class TasksProviderMock {
   public getTasks() { }
   public setTasks(tasks) { }
   public getTask(name: string) { }
+  public getTaskInfo(task){ return Observable.of([])}
 }
 
 export class TokenProviderMock {
@@ -301,4 +302,10 @@ export class SettingsProviderMock{
       pushSenderId:""
     }
   }
+}
+export class TaskSyncronizationProviderMock{
+  syncTaskList(requestedTasks, savedTasks){
+    return Observable.of(savedTasks)
+  }
+  syncServerTasks(requestedTasks, tasks){}
 }

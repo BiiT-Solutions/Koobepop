@@ -1,12 +1,11 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule, NavController, NavParams } from 'ionic-angular';
-import {   TranslateModule } from '@ngx-translate/core';
+import { NavMock, NavParamsMock, TasksProviderMock } from '../../../../test-config/mocks-ionic';
+import { LoadingComponent } from '../../../components/loading/loading';
+import { TasksProvider } from '../../../providers/storage/tasks-provider/tasks-provider';
 import { TaskInformationPage } from './task-information';
 
-import {
-  NavMock,
-  NavParamsMock
-} from '../../../../test-config/mocks-ionic';
 
 describe('TaskInformationPage', () => {
   let fixture;
@@ -14,14 +13,15 @@ describe('TaskInformationPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TaskInformationPage],
+      declarations: [TaskInformationPage,LoadingComponent],
       imports: [
         IonicModule.forRoot(TaskInformationPage),
         TranslateModule.forRoot()
       ],
       providers: [
         { provide: NavController, useClass: NavMock },
-        { provide: NavParams, useClass: NavParamsMock }
+        { provide: NavParams, useClass: NavParamsMock },
+        {provide:TasksProvider, useClass: TasksProviderMock}
       ]
     })
   }));

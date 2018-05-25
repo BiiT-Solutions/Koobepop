@@ -49,7 +49,7 @@ export class TasksSlideComponent {
       if (moment(usmoTask.startTime).startOf('day').valueOf() <= this.date && (usmoTask.finishTime == undefined || moment(usmoTask.finishTime).startOf('day').valueOf() >= this.date)) {
         const taskScore: number = usmoTask.getScore(this.date);
         const taskHasInfo = usmoTask.videoUrl != undefined || usmoTask.content != undefined;
-        tasks.push(new TaskModel(usmoTask.name, taskHasInfo, taskScore));
+        tasks.push(new TaskModel(usmoTask.comparationId, usmoTask.name, taskHasInfo, taskScore));
       }
     });
     this.tasks = tasks;
@@ -61,14 +61,14 @@ export class TasksSlideComponent {
   }
 
   public completeExercise(task: TaskModel) {
-    this.setTask(task.name, task.score, this.date);
+    this.setTask(task.comparationId, task.score, this.date);
   }
 
-  private setTask(name: string, score: number, date: number) {
+  private setTask(comparationId: string, score: number, date: number) {
     if (score >= 0) {
-      this.tasksProvider.setScore(name, score, date, moment().valueOf())
+      this.tasksProvider.setScore(comparationId, score, date, moment().valueOf())
     } else {
-      this.tasksProvider.removeScore(name, date)  
+      this.tasksProvider.removeScore(comparationId, date)
     }
   }
 }

@@ -1,12 +1,9 @@
 import { Page } from '../app.po';
-import { LoginPage } from '../pages/login.po';
-import { WorkBookPage } from '../pages/workbook.po';
-import { ReportPage } from '../../src/pages/report/report';
 import { KnowPage } from '../pages/know.po';
+import { LoginPage } from '../pages/login.po';
+import { QRConfigurationPage } from '../pages/qr-configuration.po';
 import { TrackerPage } from '../pages/tracker.po';
-import { QRConfigurationPage } from '../pages/qr-configuration.po'
-import * as moment from 'moment';
-import { browser } from 'protractor';
+import { WorkBookPage } from '../pages/workbook.po';
 
 /**
  * Useful commands:
@@ -95,15 +92,15 @@ describe('iGROW Application tests', () => {
         )
     });
 
-    it('should accept a blank code in the testing environment', (done) => { 
-    loginPage.getSendCredentialsButton()
-          .then(item => item.click())
-          .then(()=>page.sleep(1000))
-          .then(()=>page.getTitle())
-          //For some reason ionic loses the page name here
-          .then(title=>expect(title).toBe(""))
-          .then(()=>done())
-      });
+    it('should accept a blank code in the testing environment', (done) => {
+      loginPage.getSendCredentialsButton()
+        .then(item => item.click())
+        .then(() => page.sleep(1000))
+        .then(() => page.getTitle())
+        //For some reason ionic loses the page name here
+        .then(title => expect(title).toBe(""))
+        .then(() => done())
+    });
   });
 
   /******WORKBOOK******/
@@ -129,20 +126,24 @@ describe('iGROW Application tests', () => {
           taskName = text;
           return expect(text).toBe('Task 1');
         })
-        .then(()=>done())
+        .then(() => done())
     });
 
     it('should click and enter the task information', (done) => {
-      workbookPage.getFirstTask()
+      workbookPage.sleep(300)
+      workbookPage.wait()
+        .then(() => workbookPage.getFirstTask())
         .then(task => workbookPage.clickTaskInfo(task))
         .then(() => workbookPage.sleep(500))
         .then(() => workbookPage.getTitle())
         .then(text => expect(text).toBe(taskName))
-        .then(()=>done())
+        .then(() => done())
     });
 
     it('should perform the task and assign some difficulty', (done) => {
-      workbookPage.getFirstTask()
+      workbookPage.sleep(300)
+      workbookPage.wait()
+        .then(() => workbookPage.getFirstTask())
         .then(task => {
           return workbookPage.getTaskIsChecked(task)
             .then(isChecked => expect(isChecked).toBe('false'))
@@ -158,16 +159,24 @@ describe('iGROW Application tests', () => {
           return workbookPage.getTaskIsChecked(task).then(isChecked => expect(isChecked).toBe('true'))
             .then(() => task);
         })
-        .then(()=>done())
+        .then(() => done())
     })
 
     it('should unperform the task', (done) => {
-      workbookPage.getFirstTask()
+      workbookPage.sleep(300)
+      workbookPage.wait()
+        .then(() => workbookPage.getFirstTask())
         .then(task => {
           return workbookPage.getTaskIsChecked(task)
-          .then(isChecked => expect(isChecked).toBe('true'))
-          .then(() => task);
+            .then(isChecked => expect(isChecked).toBe('false'))
+            .then(() => task);
         })
+        .then(task => workbookPage.clickTask(task))
+        .then(() => workbookPage.sleep(1000))
+        .then(() => workbookPage.getSelection('Easy'))
+        .then((el) => el.click())
+        .then(() => workbookPage.sleep(1000))
+        .then(() => workbookPage.getFirstTask())
         .then(task => workbookPage.clickTask(task))
         .then(() => workbookPage.sleep(1000))
         .then(() => workbookPage.getSelection('Yes'))
@@ -178,7 +187,7 @@ describe('iGROW Application tests', () => {
           return workbookPage.getTaskIsChecked(task).then(isChecked => expect(isChecked).toBe('false'))
             .then(() => task);
         })
-        .then(()=>done())
+        .then(() => done())
     })
 
     it('should move between days', (done) => {
@@ -204,7 +213,7 @@ describe('iGROW Application tests', () => {
           const d = new Date(date).getDate()
           return expect(d).toBe(new Date(Date.now()).getDate())
         })
-        .then(()=>done());
+        .then(() => done());
     });
 
     it('should go back to today when pressing the "today" button', (done) => {
@@ -230,7 +239,7 @@ describe('iGROW Application tests', () => {
           const d = new Date(date).getDate()
           return expect(d).toBe(new Date(Date.now()).getDate())
         })
-        .then(()=>done());
+        .then(() => done());
     })
 
 
@@ -246,8 +255,8 @@ describe('iGROW Application tests', () => {
     it('should change view to KnowPage', (done) => {
       page.goToKnow()
         .then(() => page.getTitle())
-        .then(title =>    expect(title).not.toBe('Login'))
-        .then(()=>done());
+        .then(title => expect(title).not.toBe('Login'))
+        .then(() => done());
     })
 
     it('should have a message', (done) => {
@@ -257,7 +266,7 @@ describe('iGROW Application tests', () => {
         .then(messageEl => knowPage.getMessageText(messageEl))
         .then(textEl => textEl.getText())
         .then(text => expect(text).toBe('First message'))
-        .then(()=>done());
+        .then(() => done());
     })
   })
 
@@ -270,7 +279,7 @@ describe('iGROW Application tests', () => {
       page.goToReports()
         .then(() => page.getTitle())
         .then(title => expect(title).toBe('iGROW'))
-        .then(()=>done());
+        .then(() => done());
     })
 
   })
@@ -286,7 +295,7 @@ describe('iGROW Application tests', () => {
       page.goToTracker()
         .then(() => page.getTitle())
         .then(title => expect(title).not.toBe('Login'))
-        .then(()=>done());
+        .then(() => done());
     })
 
     /*

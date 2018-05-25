@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
 import { CompleteTask } from '../../../models/complete-task';
@@ -55,34 +54,28 @@ export class TasksRestService extends BasicRestService {
   }
 
   public formatTask(task: any): USMOTask {
-    //Map of performed exercises by week
-    const performedMap = new Map<number, CompleteTask[]>();
+    let performedOn: CompleteTask[] = []
+    
     if (task.performedOn) {
-      task.performedOn.forEach((performed) => {
-        const weekKey: number = moment(performed.time).startOf("isoWeek").valueOf();//Gets the start of the week (Monday)
+      for (let performed of task.performedOn) {
         const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
-        if (!performedMap.has(weekKey)) {
-          const weekValue: CompleteTask[] = [];
-
-          weekValue.push(new CompleteTask(performed.time, filledTime, performed.score));
-          performedMap.set(weekKey, weekValue);
-        } else {
-          performedMap.get(weekKey).push(new CompleteTask(performed.time, filledTime, performed.score));
-        }
-      });
+        performedOn.push(new CompleteTask(performed.time, filledTime, performed.score))
+      }
     }
+
     const newTask = new USMOTask(
+      task.comparationId,
       task.name,
       task.startTime,
       task.finishTime,
       task.repetitions,
       this.DEFAULT_EXERCISE_TYPE,
-      performedMap,
+      performedOn,
       task.videoUrl,
       task.content);
     return newTask;
   }
-  
+
   /**Enviar performed y removed tasks TODO - Utilizar una lista y enviar periódicamente */
   public sendPerformedTask(taskName: string, score: number, performedTime: number, filledTime) {
     const requestAddres = this.config.addPerformedExercise;
@@ -114,12 +107,16 @@ export class TasksRestService extends BasicRestService {
     return super.postWithToken(requestAddres, body);
   }
 
-  public getTaskInfo(task):Observable<USMOTask> {
+  public getTaskInfo(task: USMOTask): Observable<USMOTask> {
     const requestAddres = this.config.getTaskInfoService;
     const body = { name: task.name }
     return super.postWithToken(requestAddres, body)
       .map(this.extractData)
-      .map((task) => this.formatTask(task))
+      .map((taskWithInfo) => {
+        task.content = taskWithInfo.content
+        task.videoUrl = taskWithInfo.videoUrl
+        return task
+      })
   }
 }
 

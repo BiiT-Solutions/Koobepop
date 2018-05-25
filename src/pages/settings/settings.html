@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Settings</ion-title>
+    <ion-title>{{'SETTINGS.TITLE'|translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <button ion-button full (click)="openUserGuard()">{{'SETTINGS.USER-GUARD-BUTTON'|translate}}</button>
-  <!--<button ion-item>{{'SETTINGS.ABOUT-BUTTON'|translate}}</button>
-  <button ion-item>{{'SETTINGS.PRIVACY-POLICY-BUTTON'|translate}}</button>-->
+  <button ion-item (click)="openUserGuard()">{{'SETTINGS.USER-GUARD-BUTTON'|translate}}</button>
+  <!--<button ion-item>{{'SETTINGS.ABOUT-BUTTON'|translate}}</button>-->
+  <button ion-item (click)="openPrivacyPolicy()">{{'SETTINGS.PRIVACY-POLICY-BUTTON'|translate}}</button>
 </ion-content>

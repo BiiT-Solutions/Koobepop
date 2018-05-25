@@ -93,5 +93,11 @@
     "TASK-INFORMATION":{
         "LOADING-MSG":"Loading information",
         "NO-CONTENT-TEXT": "This exercise has no information avaliable."
+    },
+    "PRIVACY-POLICY":{
+        "TITLE":"Privacy Policy"
+    },
+    "ABOUT":{
+        "TITLE":"About us"
     }
 }
