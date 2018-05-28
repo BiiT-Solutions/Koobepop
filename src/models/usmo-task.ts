@@ -65,6 +65,25 @@ export class USMOTask {
     return rebuiltMap;
   }
 
+  /**
+   * Util method to update old database versions
+   */
+  public static parseStringifiedPerformedTasksToList(stringifiedMap: string):CompleteTask[]{
+    const rebuiltList = [];
+    if (stringifiedMap == undefined || stringifiedMap == "") {
+      console.debug("TasksProvider: parseStringifiedMap: string void ");
+      return rebuiltList;
+    }
+    const reParsed = JSON.parse(stringifiedMap);
+    reParsed.forEach(map => {
+      const completions = []
+      map[1].forEach(element => {
+        rebuiltList.push(new CompleteTask(element.performedTime, element.filledTime, element.score));
+      });
+    });
+    return rebuiltList
+  }
+
   public getScore(date: number): number {
     let completeTask = this.performedOn.find(x => x.performedTime == date)
     return completeTask == undefined ? -1 : completeTask.score;

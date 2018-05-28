@@ -63,7 +63,7 @@ export class TasksProvider extends StorageServiceProvider {
   public getTask(name: string): USMOTask {
     let tasks = this.getCurrentTaks()
     const index = tasks.map(task => task.name).indexOf(name);
-    console.log("current task: ",tasks[index])
+    console.log("current task: ", tasks[index])
     return index >= 0 ? tasks[index] : null
   }
 
@@ -101,6 +101,19 @@ export class TasksProvider extends StorageServiceProvider {
     const deserializedTasks: USMOTask[] = [];
     if (tasks != undefined) {
       tasks.forEach(task => {
+        let performedOn
+        //TODO - Remove when all applications are updated
+        if (typeof task.performedOn == 'string') {
+          const perf = JSON.parse(task.performedOn)
+          if (perf && perf.length > 0 && Array.isArray(perf[0])) {
+            performedOn = USMOTask.parseStringifiedPerformedTasksToList(task.performedOn)
+          } else {
+            performedOn = []
+          }
+        } else {
+          performedOn = task.performedOn
+        }
+
         const newTask = new USMOTask(
           task.comparationId,
           task.name,
@@ -166,7 +179,7 @@ export class TasksProvider extends StorageServiceProvider {
           return this.tasksRestService.getTaskInfo(task)
             .map(task => {
               this.saveTask(task)
-                .subscribe(tasks => console.log("task saved:",task));
+                .subscribe(tasks => console.log("task saved:", task));
               return task
             });
         }
