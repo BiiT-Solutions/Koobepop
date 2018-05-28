@@ -33,8 +33,6 @@ export class HomePage {
     private tasksProvider: TasksProvider) {
     //Init push notifications handler
     pushHandler.init();
-    //TODO - Remove
-    console.log("Push handler inited")
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification')
         .subscribe((notification: any) => {
@@ -58,10 +56,6 @@ export class HomePage {
       .subscribe(appointments => {
         console.debug("Updated Appointemnts", appointments);
       })
-  }
-
-  ionViewWillEnter() {
-    console.log('HomePage will load')
   }
 
   navTest() {
@@ -88,7 +82,4 @@ export class HomePage {
     this.messagesProvider.setMessagesCount(0);
   }
 
-  public myMethod(event){
-    console.log(event)
-  }
 }

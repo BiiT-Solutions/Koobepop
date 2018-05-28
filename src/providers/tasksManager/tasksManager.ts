@@ -1,5 +1,6 @@
-import { USMOTask } from '../../models/usmo-task';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { CompleteTask } from '../../models/complete-task';
 import { TasksRestService } from '../rest/tasks-rest-service/tasks-rest-service';
 //TODO - Integrate on the app
 /* This class is suposed to manage the sending of performed and removed tasks to the server*/
@@ -9,63 +10,45 @@ export class TasksManager {
   public constructor(public tasksServices: TasksRestService) {
   }
 
-  public finishTask(task: USMOTask, time: number, score: number) {
-    const action: TaskAction = new TaskAction(task.name, time, score, TaskFlag.TASK_FINISHED)
-    this.addTaskAction(action);
+  public finishTask(id: string, name: string, completeTask: CompleteTask) {
+    const action: TaskAction = new TaskAction(id, name, completeTask.performedTime, completeTask.score, TaskFlag.TASK_FINISHED)
+    this.taskActions.push(action);
   }
 
-  public unfinishTask(task: USMOTask, time: number) {
-    const action: TaskAction = new TaskAction(task.name, time, 0, TaskFlag.TASK_UNFINISHED)
-    this.removeTaskAction(action);
+  public unfinishTask(id: string, name: string, completeTask: CompleteTask) {
+    const action: TaskAction = new TaskAction(id, name, completeTask.performedTime, 0, TaskFlag.TASK_UNFINISHED)
+    this.taskActions.push(action);
   }
 
   public sendStagedActions() {
-    this.tasksServices.sendTasksActions(this.taskActions).subscribe((res) => {
+    
+    if(this.taskActions&&this.taskActions.length>0){
+      //TODO remove
+      console.log("Send staged actions:",this.taskActions)
+    return this.tasksServices.sendTasksActions(this.taskActions).map((res) => {
       if (res.status == 200) {
         this.taskActions = [];
+        return true;
       } else {
         console.error("Error sending tasks");
+        return false
       }
     }, error => console.error("Error sending tasks"));
+  }else{
+    console.log("No tasks to send")
+    return Observable.of(false)
+  }
   }
 
-  private addTaskAction(taskAction: TaskAction) {
-    //Get actions with the same name and time
-    const alreadyStagedActions: TaskAction[] = this.taskActions.filter((action: TaskAction) => {
-      return (action.name == taskAction.name && action.time == taskAction.time);
-    });
-    //Remove those from the list (tipically this willl be 1 max)
-    if (alreadyStagedActions.length > 0) {
-      alreadyStagedActions.forEach((task: TaskAction) => {
-        this.taskActions.splice(this.taskActions.indexOf(task), 1);
-      });
-    }
-    //Add the new task to the list
-    this.taskActions.push(taskAction);
-  }
-
-  private removeTaskAction(taskAction: TaskAction) {
-    //Get actions with the same name and time
-    const alreadyStagedActions: TaskAction[] = this.taskActions.filter((action: TaskAction) => {
-      return (action.name == taskAction.name && action.time == taskAction.time);
-    });
-    //Remove those from the list (tipically this willl be 1 max)
-    if (alreadyStagedActions.length > 0) {
-      alreadyStagedActions.forEach((task: TaskAction) => {
-        this.taskActions.splice(this.taskActions.indexOf(task), 1);
-      });
-    }
-    //Add the new task to the list
-    this.taskActions.push(taskAction);
-  }
 }
-
 export class TaskAction {
+  comparationId: string;
   name: string;
   time: number;
-  score: number;
+  score: any;
   action: TaskFlag;
-  constructor(name: string, time: number, score: number, action: TaskFlag) {
+  constructor(comparationId: string, name: string, time: number, score: any, action: TaskFlag) {
+    this.comparationId = comparationId;
     this.name = name;
     this.time = time;
     this.score = score;

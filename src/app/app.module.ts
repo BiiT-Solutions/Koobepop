@@ -30,6 +30,7 @@ import { HomePage } from '../pages/home/home';
 import { KnowPage } from '../pages/know/know';
 import { LandingPage } from '../pages/landing/landing';
 import { LoginPage } from '../pages/login/login';
+import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { QRConfigurationPage } from '../pages/qr-configuration/qr-configuration';
 import { ReportPage } from '../pages/report/report';
 import { SettingsPage } from '../pages/settings/settings';
@@ -58,10 +59,13 @@ import { StorageServiceProvider } from '../providers/storage/storage-service/sto
 import { TasksProvider } from '../providers/storage/tasks-provider/tasks-provider';
 import { TokenProvider } from '../providers/storage/token-provider/token-provider';
 import { UserProvider } from '../providers/storage/user-provider/user-provider';
+import { TaskSyncronizationProvider } from '../providers/task-syncronization/task-syncronization';
+import { TasksManager } from '../providers/tasksManager/tasksManager';
 import { ToastIssuer } from '../providers/toastIssuer/toastIssuer';
 import { UserGuardProvider } from '../providers/user-guard/user-guard';
 import { MyApp } from './app.component';
 import { APP_CONFIG, AppConfig } from './app.config';
+
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -70,16 +74,8 @@ export function createTranslateLoader(http: Http) {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    TestPage,
-    WorkBookPage,
-    ReportPage,
-    KnowPage,
-    TaskInformationPage,
     EffortSelectorComponent,
     UnselConfirmationComponent,
-    SummaryPage,
-    LoginPage,
     NotificationMessageComponent,
     MessagesListComponent,
     TasksSlideComponent,
@@ -89,6 +85,15 @@ export function createTranslateLoader(http: Http) {
     InfographicItemComponent,
     KppZoomPanComponent,
     LoadingComponent,
+    HomePage,
+    TestPage,
+    WorkBookPage,
+    ReportPage,
+    KnowPage,
+    TaskInformationPage,
+    PrivacyPolicyPage,
+    SummaryPage,
+    LoginPage,
     LandingPage,
     FillFormPage,
     QRConfigurationPage,
@@ -112,6 +117,8 @@ export function createTranslateLoader(http: Http) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    EffortSelectorComponent,
+    UnselConfirmationComponent,
     HomePage,
     TestPage,
     WorkBookPage,
@@ -122,11 +129,10 @@ export function createTranslateLoader(http: Http) {
     LoginPage,
     LandingPage,
     FillFormPage,
-    EffortSelectorComponent,
-    UnselConfirmationComponent,
     QRConfigurationPage,
     UserGuardPage,
-    SettingsPage
+    SettingsPage,
+    PrivacyPolicyPage
   ],
   providers: [
     RegisterPushTokenRestService,
@@ -156,6 +162,8 @@ export function createTranslateLoader(http: Http) {
     QRScanner,
     QrDecryptProvider,
     UserGuardProvider,
+    TaskSyncronizationProvider,
+    TasksManager
   ]
 })
 export class AppModule { }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 import { UserGuardPage } from '../user-guard/user-guard';
 
 
@@ -17,5 +18,13 @@ export class SettingsPage {
 
   openUserGuard() {
     this.navCtrl.push(UserGuardPage)
+  }
+  
+  openAbout(){
+
+  }
+
+  openPrivacyPolicy(){
+    this.navCtrl.push(PrivacyPolicyPage);
   }
 }

@@ -8,6 +8,14 @@
   <div *ngIf="videoUrl!=undefined" class="video-container">
     <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
   </div>
-  <div [innerHTML]="task.content">
+  <div *ngIf="loading" class="loading-container">
+    <loading-screen [text]="'TASK-INFORMATION.LOADING-MSG'|translate"></loading-screen>
+  </div>
+  <div *ngIf="!hasInfo">
+    <ion-card-content>
+      {{'TASK-INFORMATION.NO-CONTENT-TEXT'|translate}}
+    </ion-card-content>
+  </div>
+  <div *ngIf="task.content" [innerHTML]="task.content">
   </div>
 </ion-content>

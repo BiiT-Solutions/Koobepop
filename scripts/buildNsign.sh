@@ -15,10 +15,10 @@ jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore scripts/certs/IGOW.jks p
 
 # get current version
 version=`cat package.json | grep -Po '(?<="version": ")[^"]*'`
-toolsVersion="25.0.0"
+sdkToolsVersion="25.0.0"
 
 echo "Optimizing and renaming"
-$ANDROID_HOME/build-tools/${toolsVersion}/zipalign -vf 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk iGROW_${version}.apk
+$ANDROID_HOME/build-tools/${sdkToolsVersion}/zipalign -vf 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk iGROW_${version}.apk
 
 echo "Bumping version"
 # increase version number eg.: 1.5.X

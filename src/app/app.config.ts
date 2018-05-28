@@ -4,6 +4,7 @@ export let APP_CONFIG = new OpaqueToken('app.config');
 
 export interface IAppConfig {
   getTasksService: string;
+  getTaskInfoService:string;
   getAppointmentsService: string;
   getUpdatedAppointmentsService: string;
   getAuthenticationToken: string;
@@ -30,17 +31,18 @@ export const AppConfig: IAppConfig = {
   , getAuthenticationToken: "/rest/getAuthenticationToken"
   , verifyAuthenticationToken: "/rest/verifyAuthenticationToken"
   , setPushNotificationsToken: "/rest/setPushNotificationToken"
-
   , getMessagesService: "/rest/getMessagesAuth"
   , getUpdatedAppointmentsService: "/rest/getUpdatedAppointmentsAuth"
-  , getTasksService: "/rest/getCorrectiveExercisesAuth"
+  //, getTasksService: "/rest/getCorrectiveExercisesAuth"
+  , getTasksService: "/rest/getTasksAuth"
+  , getTaskInfoService:"/rest/getTaskInfoAuth"
   , getReportService: "/graphics/getReportContentAuth"
 
   // TODO - This should be handled by the perform actions service
   , addPerformedExercise: "/rest/addPerformedExerciseAuth"
   , removePerformedExercise: "/rest/removePerformedExerciseAuth"
   , performActions: "/rest/performExercisesActionsAuth"
-  
+
   , getAppointmentsService: "/rest/getAppointmentsAuth"
   , getUserGuard:"/rest/getGuardCodeAuth"
 };
