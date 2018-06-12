@@ -46,12 +46,11 @@ describe('Service: AppointmentsRestService', () => {
     expect(service instanceof AppointmentsRestService).toBe(true);
   })
 
-  it('should request the updated apointments ', (done) => {
+  it('should request the updated apointments ', () => {
     const actualAppointments = [];
     service.requestModifiedAppointments(actualAppointments)
-    .toPromise()
-    .then(appointments => { 
-      done();
+    .toPromise().then((appointments)=>{
+      expect(appointments).toBe([])
     })
   })
 })
