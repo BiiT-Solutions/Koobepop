@@ -57,7 +57,8 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers:
-    ['Chrome'],
+    ['ChromeHeadless'],
+    //['Chrome'],
     //['PhantomJS'],
     singleRun: false
   };
