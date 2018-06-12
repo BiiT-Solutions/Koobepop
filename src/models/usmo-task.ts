@@ -11,7 +11,6 @@ export class USMOTask {
   videoUrl?: string;
   content?: string; //Some HTML content
   type: string;
-  // Map<weekDate,Map<dayDate, score>>
   performedOn: CompleteTask[];
 
   constructor(
@@ -90,7 +89,6 @@ export class USMOTask {
   }
 
   public setScore(completeTask: CompleteTask) {
-    const week = moment(completeTask.performedTime).startOf('isoWeek').valueOf();
     this.performedOn.push(completeTask)
   }
 

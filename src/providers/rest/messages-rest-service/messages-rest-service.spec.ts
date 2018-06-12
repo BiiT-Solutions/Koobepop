@@ -85,7 +85,6 @@ describe('Service: MessagesRestService', () => {
         expect(messages[0].text).toEqual(MESSAGE_TEXT);
         expect(messages[0].title).toEqual("");
         expect(messages[0].time).toEqual(TIME);
-
       });
   });
 });

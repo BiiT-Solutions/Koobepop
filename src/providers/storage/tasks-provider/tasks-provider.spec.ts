@@ -7,7 +7,7 @@ import { TasksRestService } from '../../rest/tasks-rest-service/tasks-rest-servi
 import { TaskSyncronizationProvider } from '../../task-syncronization/task-syncronization';
 import { AppointmentsProvider } from '../appointments-provider/appointments-provider';
 import { TasksProvider } from '../tasks-provider/tasks-provider';
-//TODO Test this component
+
 describe('Service: TasksProvider', () => {
   let service: TasksProvider;
   let storage: StorageMock;
@@ -51,56 +51,64 @@ describe('Service: TasksProvider', () => {
     expect(service instanceof TasksProvider).toBe(true);
   })
 
-  it('should save all tasks ', () => {
+  it('should save all tasks ', (done) => {
     spyOn(storage, 'set').and.callFake(function (key, value) {
       return Promise.resolve(value);
     });
 
-    service.saveTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
+    service.saveTasks(TASKS_TO_SAVE)
+    .toPromise()
+    .then(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
       SAVED_TASKS = savedTasks
+      done();
     });
   });
 
-  it('should retrieve all tasks (previously saved)', () => {
+  it('should retrieve all tasks (previously saved)', (done) => {
     spyOn(storage, 'get').and.returnValue(Promise.resolve(SAVED_TASKS));
-    service.getSavedTasks().subscribe(retrievedTasks => {
+    service.getSavedTasks()
+    .toPromise()
+    .then(retrievedTasks => {
       expect(storage.get).toHaveBeenCalled();
-      expect(retrievedTasks).toEqual(TASKS_TO_SAVE)
+      expect(retrievedTasks).toEqual(TASKS_TO_SAVE);
+      done();
     });
   });
 
-  it('should retrieve one task from task name', () => {
+  it('should retrieve one task from task name', (done) => {
     spyOn(storage, 'set').and.callFake(function (key, value) {
       return Promise.resolve(value);
     });
-    service.saveTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
+    service.saveTasks(TASKS_TO_SAVE)
+      .toPromise()
+      .then(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
       let task = service.getTask(TASK_1_NAME)
       expect(task).toEqual(TASK_1)
+      done();
     });
   })
 
-  it('should set the score of a task for a given day and then remove it //TODO Fix');/*, () => {
+  it('should set the score of a task for a given day and then remove it', (done) => {
     spyOn(storage, 'set').and.callFake(function (key, value) {
       return Promise.resolve(value);
     });
-
-    service.saveTasks(TASKS_TO_SAVE).subscribe(savedTasks => {
+    
+    service.saveTasks(TASKS_TO_SAVE)
+    .toPromise()
+    .then(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
-      let task = service.setScore(TASK_1_NAME, SCORE_1, YESTERDAY, TODAY)
+      let task = service.setScore(TASK_1_COMPARATION_ID, SCORE_1, YESTERDAY, TODAY)
       expect(task.performedOn.length).toBe(2);
-      const indexOfCompletion = task.performedOn.get(moment(YESTERDAY).startOf('isoWeek').valueOf())
-        .map(completed => completed.filledTime).indexOf(TODAY)
-        const completion = task.performedOn.get(moment(YESTERDAY).startOf('isoWeek').valueOf())[indexOfCompletion]
-        expect(completion.performedTime).toEqual(YESTERDAY)
+      const completion = task.performedOn.find(perf=>perf.performedTime == YESTERDAY)
+        expect(completion.filledTime).toEqual(TODAY)
         expect(completion.score).toEqual(SCORE_1)
-        let removedTask = service.removeScore(TASK_1_NAME, YESTERDAY)
+        let removedTask = service.removeScore(TASK_1_COMPARATION_ID, YESTERDAY)
         expect(task === removedTask).toBeTruthy();
-        expect(task.performedOn.size).toBe(1)
-        expect(removedTask.performedOn.size).toBe(1)
+        expect(task.performedOn.length).toBe(1)
+        expect(removedTask.performedOn.length).toBe(1)
+    done();
     });
-  })*/
-
-  it('should update the actual tasks //TODO')
+  })
 });

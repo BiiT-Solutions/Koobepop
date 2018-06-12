@@ -63,7 +63,6 @@ export class TasksProvider extends StorageServiceProvider {
   public getTask(name: string): USMOTask {
     let tasks = this.getCurrentTaks()
     const index = tasks.map(task => task.name).indexOf(name);
-    console.log("current task: ", tasks[index])
     return index >= 0 ? tasks[index] : null
   }
 
