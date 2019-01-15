@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Push, PushOptions, PushObject } from '@ionic-native/push';
+import { Push, PushOptions, PushObject, AndroidPushOptions } from '@ionic-native/push';
 import { RegisterPushTokenRestService } from '../rest/register-push-token-rest-service/register-push-token-rest-service';
 import { SettingsProvider } from '../storage/settings/settings';
 
@@ -32,11 +32,12 @@ export class PushNotificationsHandlerProvider {
         });
 
       // to initialize push notifications
+      const androidOptions:AndroidPushOptions = {
+        senderID: this.settings.allSettings?this.settings.allSettings.pushSenderId:undefined
+      }
+      
       const options: PushOptions = {
-        android: {
-          senderID: this.settings.allSettings?this.settings.allSettings.pushSenderId:undefined
-        },
-        
+        android: androidOptions,        
         ios: {
           alert: 'true',
           badge: true,

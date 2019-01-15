@@ -30,7 +30,7 @@ export class QrDecryptProvider {
         return crypto.subtle.encrypt({ name: "aes-cbc", iv: iv }, key, this.asciiToUint8Array(plainText));
       }, this.failAndLog).then((cipherText) => {
 
-        return this.uint8ArraytoHexString(iv) + this.bytesToHexString(cipherText);
+        return this.uint8ArraytoHexString(iv as Uint8Array) + this.bytesToHexString(cipherText);
       }, this.failAndLog);
     });
     }

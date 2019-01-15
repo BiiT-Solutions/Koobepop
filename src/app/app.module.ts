@@ -10,7 +10,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { FormRunnerModule } from 'formrunner-js';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 //Components
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
@@ -24,7 +23,6 @@ import { NotificationMessageComponent } from '../components/notification-message
 import { TaskItemComponent } from '../components/task-item/task-item';
 import { TasksSlideComponent } from '../components/tasks-slide/tasks-slide';
 import { UnselConfirmationComponent } from '../components/unsel-confirmation/unsel-confirmation';
-import { FillFormPage } from '../pages/fill-form/fill-form';
 //Pages
 import { HomePage } from '../pages/home/home';
 import { KnowPage } from '../pages/know/know';
@@ -95,7 +93,6 @@ export function createTranslateLoader(http: Http) {
     SummaryPage,
     LoginPage,
     LandingPage,
-    FillFormPage,
     QRConfigurationPage,
     UserGuardPage,
     SettingsPage
@@ -112,7 +109,6 @@ export function createTranslateLoader(http: Http) {
         deps: [Http]
       },
     }),
-    FormRunnerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -128,7 +124,6 @@ export function createTranslateLoader(http: Http) {
     SummaryPage,
     LoginPage,
     LandingPage,
-    FillFormPage,
     QRConfigurationPage,
     UserGuardPage,
     SettingsPage,

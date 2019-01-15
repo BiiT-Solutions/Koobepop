@@ -13,7 +13,7 @@
         "SUMMARY-BUTTON": "Tracker",
         "REPORT-BUTTON": "Reports",
         "KNOW-BUTTON": "Know",
-        "SETTINGS-BUTTON":"Settings"
+        "SETTINGS-BUTTON":"Privacy"
     },
     "AGENDA": {
         "TITLE": "Tasks",
@@ -82,7 +82,7 @@
         }
     },
     "SETTINGS":{
-        "TITLE":"Settings",
+        "TITLE":"Privacy",
         "USER-GUARD-BUTTON":"User Code",
         "ABOUT-BUTTON":"About",
         "PRIVACY-POLICY-BUTTON":"Privacy policy"
