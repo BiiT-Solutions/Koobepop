@@ -3,7 +3,7 @@
   "author": "Alejandro Melcon",
   "homepage": "A Biit Solutions app",
   "private": true,
-  "version": "0.1.45",
+  "version": "0.1.46",
   "scripts": {
     "start": "ionic serve -b",
     "build": "ionic-app-scripts build --prod",
@@ -57,7 +57,8 @@
     "moment": "^2.20.1",
     "rxjs": "^5.5.6",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.20"
+    "zone.js": "0.8.20",
+    "cordova-ios": "~4.5.4"
   },
   "devDependencies": {
     "@angular/cli": "^7.2.1",
