@@ -1,14 +1,14 @@
 
-import { Injectable, Inject } from '@angular/core';
-import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
+import { Inject, Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { AppointmentModel } from '../../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
-import { BasicRestService } from '../basic-rest-service/basic-rest-service';
+import { Observable } from 'rxjs/Observable';
+import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
+import { AppointmentModel } from '../../../models/appointment.model';
+import { SettingsProvider } from '../../storage/settings/settings';
 import { TokenProvider } from '../../storage/token-provider/token-provider';
 import { UserProvider } from '../../storage/user-provider/user-provider';
-import { SettingsProvider } from '../../storage/settings/settings';
+import { BasicRestService } from '../basic-rest-service/basic-rest-service';
 
 @Injectable()
 export class AppointmentsRestService extends BasicRestService {

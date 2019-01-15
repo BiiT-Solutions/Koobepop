@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '../../app/app.config';
 
 

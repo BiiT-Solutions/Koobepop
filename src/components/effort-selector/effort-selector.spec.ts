@@ -37,9 +37,7 @@ describe('EffortSelectorComponent:', () => {
         comp = fixture.componentInstance;
     })
 
-
     it('Should be defined', () => {
         expect(comp).toBeDefined();
     });
-
 });
