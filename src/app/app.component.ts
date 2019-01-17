@@ -3,6 +3,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform } from 'ionic-angular';
 import { LandingPage } from '../pages/landing/landing';
+import { MessagesProvider } from '../providers/storage/messages-provider/messages-provider';
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
@@ -13,7 +14,8 @@ export class MyApp {
   constructor(
     public platform: Platform,
     public translate: TranslateService,
-    public splashscreen: SplashScreen) {
+    public splashscreen: SplashScreen,
+    public msgProv: MessagesProvider) {
     translate.setDefaultLang('en');
     platform.ready().then(() => {
       translate.use(platform.lang());
@@ -25,6 +27,10 @@ export class MyApp {
         console.error(this + " ERROR:");
         console.error(e);
       }
+      platform.resume.subscribe((event)=>{
+        console.log("App resumed",event)
+        this.msgProv.loadMessages().subscribe(() => this.msgProv.update());
+      })
     });
   }
 }

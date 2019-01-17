@@ -1,9 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, Tabs } from 'ionic-angular';
 import { PushNotificationsHandlerProvider } from '../../providers/push-notifications-handler/push-notifications-handler';
 import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
-import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { KnowPage } from '../know/know';
 import { ReportPage } from '../report/report';
 import { SettingsPage } from '../settings/settings';
@@ -30,33 +29,39 @@ export class HomePage {
     protected pushHandler: PushNotificationsHandlerProvider,
     private messagesProvider: MessagesProvider,
     private appointmentsProvider: AppointmentsProvider,
-    private tasksProvider: TasksProvider) {
+    public changeDetRef: ChangeDetectorRef) {
     //Init push notifications handler
     pushHandler.init();
+
     if (pushHandler.getPushObject() != undefined) {
       pushHandler.getPushObject().on('notification')
         .subscribe((notification: any) => {
           console.info('Received a notification', notification);
           messagesProvider.update();
-            if (!notification.additionalData.foreground) {
-              if (this.homeTabs != undefined) {
-                this.homeTabs.select(3);
-              }
+          if (!notification.additionalData.foreground) {
+            if (this.homeTabs != undefined) {
+              this.homeTabs.select(3);
             }
+          }
         });
-    }
-    this.messagesProvider.getObservableMessagesCount()
-      .subscribe(msgsCnt => this.pendingMessages = msgsCnt);
+      }
+
+      this.messagesProvider.getObservableMessagesCount()
+        .subscribe(msgsCnt => {
+          console.log("Modified message counter", msgsCnt)
+          this.pendingMessages = msgsCnt
+          if(msgsCnt>0){
+            this.changeDetRef.detectChanges()
+          }
+        });
   }
 
   ionViewDidLoad() {
-    
-    //TODO - set timer to update every 30 min or so
     this.appointmentsProvider.update()
       .subscribe(appointments => {
         console.debug("Updated Appointemnts", appointments);
       })
-  }
+    }
 
   navTest() {
     this.navCtrl.push(TestPage);
@@ -76,10 +81,6 @@ export class HomePage {
 
   navSummary() {
     this.navCtrl.push(SummaryPage);
-  }
-
-  public restartMessageCount() {
-    this.messagesProvider.setMessagesCount(0);
   }
 
 }

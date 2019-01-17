@@ -11,6 +11,7 @@ import { SettingsProvider } from '../storage/settings/settings';
 @Injectable()
 export class PushNotificationsHandlerProvider {
   pushObject: PushObject
+
   constructor(
     public platform: Platform,
     public push: Push,
@@ -47,6 +48,7 @@ export class PushNotificationsHandlerProvider {
       };
 
       const pushObject: PushObject =  this.push.init(options);
+
 
       pushObject.on('registration')
         .subscribe((registration: any) => {

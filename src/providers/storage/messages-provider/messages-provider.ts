@@ -17,8 +17,7 @@ export class MessagesProvider extends StorageServiceProvider {
     super(storage);
     this.bsMessages = new BehaviorSubject([]);
     this.bsMessagesCount = new BehaviorSubject(0);
-    this.loadMessages()
-      .subscribe(() => this.update());
+    this.loadMessages().subscribe(() => this.update());
   }
 
   private sortMsgs(msgs: MessageModel[]): MessageModel[] {
@@ -30,6 +29,7 @@ export class MessagesProvider extends StorageServiceProvider {
     }
   }
 
+  /** Check for changes on the user messages */
   public update(): void {
     const messages = this.getCurrentMessages();
     let date = 0;
@@ -42,9 +42,9 @@ export class MessagesProvider extends StorageServiceProvider {
         if (newMessages != undefined && newMessages.length > 0) {
           //last messages are shown first
           const finalMessages = newMessages.concat(messages);
-          this.getObservableMessages().next(finalMessages);
+          this.bsMessages.next(finalMessages);
           const messagesLeft = this.getCurrentMessagesCount() + newMessages.length;
-          this.getObservableMessagesCount().next(messagesLeft);
+          this.bsMessagesCount.next(messagesLeft);
           this.saveMessages()
         }
       });
@@ -73,9 +73,11 @@ export class MessagesProvider extends StorageServiceProvider {
   public getCurrentMessages(): MessageModel[] {
     return this.bsMessages.getValue();
   }
+
   public getCurrentMessagesCount(): number {
     return this.bsMessagesCount.getValue();
   }
+
   public setMessagesCount(messagesLeft: number) {
     this.getObservableMessagesCount().next(messagesLeft);
   }

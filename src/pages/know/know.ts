@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 import { MessageModel } from '../../models/message.model';
+import { Subscription } from 'rxjs';
 
 /**
  *
@@ -12,22 +13,36 @@ import { MessageModel } from '../../models/message.model';
 })
 export class KnowPage {
   public notifications: MessageModel[];
-
+  public subscription: Subscription
   constructor(
     public navCtrl: NavController,
-    public msgProv: MessagesProvider,
+    public messagesProvider: MessagesProvider,
     public changeDetRef: ChangeDetectorRef
-  ) {
-    
+  ) {  }
+  
+  ionViewWillEnter() {
+    this.subscription = this.messagesProvider.getObservableMessages()
+      .subscribe((messages: MessageModel[]) => {
+        console.log("Know ", messages)
+        this.notifications = messages;
+        if (messages.length > 0) {
+          this.changeDetRef.detectChanges();
+        }
+      });
+    this.restartMessageCount();
   }
 
-  ionViewWillEnter() {
-    this.msgProv.getObservableMessages()
-      .subscribe(msgs => {
-        console.log("Know ",msgs)
-        this.notifications = msgs;
-        this.changeDetRef.detectChanges();
-      });
+  ionViewWillLeave() {
+    this.restartMessageCount();
+    this.unsubscribeMessageProvider();
+  }
+
+  public restartMessageCount() {
+    this.messagesProvider.setMessagesCount(0);
+  }
+
+  unsubscribeMessageProvider() {
+    this.subscription.unsubscribe();
   }
 
 }
