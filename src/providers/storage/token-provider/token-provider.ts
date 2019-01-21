@@ -42,6 +42,7 @@ export class TokenProvider extends StorageServiceProvider {
     private tokenToString(token: IToken): Observable<string> {
         return this.userProvider.retrieveItem(StorageServiceProvider.USER_STORAGE_ID)
             .map(user => {
+                if(user){
                 let payload: string =
                     btoa('{"patientId":"' + user.patientId +'"'
                         + ',"uuid":"' + this.getUuid() +'"'
@@ -56,6 +57,8 @@ export class TokenProvider extends StorageServiceProvider {
                 const realToken = token.head + "." + payload + "." + token.signature;
 
                 return realToken;
+                }
+                return null
             })
     }
 

@@ -66,4 +66,8 @@ export class PushNotificationsHandlerProvider {
   public getPushObject(): PushObject {
     return this.pushObject;
   }
+
+  public clearNotifications(){
+    this.pushObject.clearAllNotifications()
+  }
 }

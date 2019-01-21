@@ -28,7 +28,6 @@ export class MyApp {
         console.error(e);
       }
       platform.resume.subscribe((event)=>{
-        console.log("App resumed",event)
         this.msgProv.loadMessages().subscribe(() => this.msgProv.update());
       })
     });

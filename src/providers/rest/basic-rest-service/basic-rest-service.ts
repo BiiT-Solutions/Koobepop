@@ -37,8 +37,11 @@ export class BasicRestService {
       .flatMap((token: string) => {
         return this.userProvider.getUser().flatMap((user) => {
           body["token"] = token;
-          body["patientId"] = user.patientId;
+          if(user){
+            body["patientId"] = user.patientId;
+          }
           return this.post(endpoint, body, headers);
+
         });
       });
   }
