@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides} from 'ionic-angular';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { NavController, Slides, Platform} from 'ionic-angular';
 import * as moment from 'moment';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 
@@ -19,20 +19,22 @@ export class WorkBookPage {
 
   constructor(
     public navCtrl: NavController, 
-    public tasksProvider: TasksProvider
+    public tasksProvider: TasksProvider,
+    public platform: Platform,
+    public cdRef: ChangeDetectorRef
   ) {
     this.goToToday();
   }
   ionViewWillLoad(){
     console.log("WB WillLoad")
-    
   }
 
   ionViewWillEnter(){
     console.log("WB WillEnter")
     this.tasksProvider.loadTasks()
-    .subscribe((tasks) => {console.log("Loaded tasks: ", tasks)})
-    this.goToToday();    
+    .subscribe((tasks) => {console.log("Loaded tasks: ", tasks)});
+    this.slider.update();
+    this.goToToday();
   }
   
   ionViewDidEnter(){

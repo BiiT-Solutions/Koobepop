@@ -34,6 +34,7 @@ describe('WorkBookPage', () => {
   });
 
   it('should be created', () => {
+    console.log("Getting back to Work Book");
     expect(component instanceof WorkBookPage).toBe(true);
   });
 

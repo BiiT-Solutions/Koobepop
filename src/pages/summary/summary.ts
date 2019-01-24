@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { CompleteTask } from '../../models/complete-task';
@@ -8,6 +8,7 @@ import { UserModel } from '../../models/user.model';
 import { USMOTask } from '../../models/usmo-task';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { UserProvider } from '../../providers/storage/user-provider/user-provider';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-summary',
@@ -17,25 +18,40 @@ export class SummaryPage {
   actualWeek: number = 0;
   trackerPath: SafeResourceUrl;
   trackerReady;
+  currentView: string = "home";
+  unsubscribeBackButtonAction: Function;
 
   constructor(
     public navCtrl: NavController,
     private sanitizer: DomSanitizer,
     public tasksProv: TasksProvider,
-    public userProv: UserProvider
+    public userProv: UserProvider,
+    public platform: Platform
   ) {
     this.trackerReady = false;
     this.trackerPath = this.sanitizer.bypassSecurityTrustResourceUrl('tracker-dist/index.html');
   }
-
+  
   protected ionViewDidLoad() {
     this.setTrackerReadyListener();
     this.setNextWeekListener();
     this.setPrevWeekListener();
+    this.setCurrentViewListener();
+  }
+  
+  protected ionViewWillEnter() {
+    this.unsubscribeBackButtonAction = this.platform.registerBackButtonAction(()=>this.backButtonAction());
+    this.setActualWeek();//In case there's any changes
   }
 
-  protected ionViewWillEnter() {
-    this.setActualWeek();//In case there's any changes
+  private backButtonAction() {
+    if (this.currentView != "home") {
+      const backButtonEvent = new CustomEvent("tracker-back-action", {});
+      window.dispatchEvent(backButtonEvent);
+    } else {
+      this.unsubscribeBackButtonAction()
+      this.platform.runBackButtonAction()
+    }
   }
 
   public setActualWeek() {
@@ -57,6 +73,19 @@ export class SummaryPage {
     window.removeEventListener("tracker-ready", undefined);
     window.removeEventListener("prev-week", undefined);
     window.removeEventListener("next-week", undefined);
+    window.removeEventListener("tracker-current-view", undefined);
+    
+    const backButtonEvent = new CustomEvent("tracker-back-action", {});
+    window.dispatchEvent(backButtonEvent);
+    this.currentView = "home";
+    this.unsubscribeBackButtonAction && this.unsubscribeBackButtonAction();
+
+  }
+
+  private setCurrentViewListener() {
+    window.addEventListener("tracker-current-view", (event: CustomEvent) => {
+      this.currentView = event.detail + "";
+    });
   }
 
   private setTrackerReadyListener() {
