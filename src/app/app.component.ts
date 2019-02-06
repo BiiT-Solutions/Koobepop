@@ -16,9 +16,12 @@ export class MyApp {
     public translate: TranslateService,
     public splashscreen: SplashScreen,
     public msgProv: MessagesProvider) {
-    translate.setDefaultLang('en');
+    this.translate.setDefaultLang('en');
     platform.ready().then(() => {
-      translate.use(platform.lang());
+      // Language
+
+      this.translate.use(platform.lang());
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       try {
@@ -27,7 +30,7 @@ export class MyApp {
         console.error(this + " ERROR:");
         console.error(e);
       }
-      platform.resume.subscribe((event)=>{
+      platform.resume.subscribe((event) => {
         this.msgProv.loadMessages().subscribe(() => this.msgProv.update());
       })
     });

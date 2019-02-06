@@ -1,9 +1,109 @@
 {
+    "APP": {
+        "UNABLE-TO-CONNECT-MSG": "Imposible conectar",
+        "LOAD-MESSAGE": "Por favor espere..."
+    },
+    "LANGUAGES": {
+        "ENGLISH": "Inglés",
+        "DUTCH": "Holandés",
+        "SPANISH": "Español"
+    },
+    "HOME": {
+        "NAVBAR-TITLE": "Inicio sesión",
+        "TITLE": "<su cabecera aqui>",
+        "BOOK-BUTTON": "Libro",
+        "SEARCH-BUTTON": "Buscar",
+        "DETAILS-BUTTON": "Detalles",
+        "AGENDA-BUTTON": "Ejercicios",
+        "SUMMARY-BUTTON": "Seguimiento",
+        "REPORT-BUTTON": "Informes",
+        "KNOW-BUTTON": "Avisos",
+        "SETTINGS-BUTTON":"Ajustes"
+    },
+    "AGENDA": {
+        "TITLE": "Tareas",
+        "TODAY-BUTTON": "Hoy",
+        "NO-CONTENT-TEXT": "No tiene ninguna tarea."
+    },
+    "LOGIN": {
+        "TITLE": "Inicio sesión",
+        "ID-LABEL": "Id:",
+        "CODE-LABEL": "Código:",
+        "SEND-ID-BUTTON": "Ok",
+        "SEND-CODE-BUTTON": "Ok",
+        "SEND-SMS-AGAIN": "Reenviar SMS",
+        "BEFORE-SEND-ID-TEXT": "Comprobando configuración, le enviaremos un SMS cpn un código de verificación",
+        "BEFORE-SEND-CODE-TEXT": "Introduzaca su código del SMS.",
+        "WAIT-MSG": "Por favor espere...",
+        "INVALID-USER-MSG":"Id de usuario no válida, por favor pruebe otra vez",
+        "ERROR-SENDING-ID":"Error enviando Id",
+        "NO-CONNECTION":"Imposible conectar, por favor compruebe su conexión a internet",
+        "SUCCESS":"Inicio de sesión correcto",
+        "ERROR":"Error en el inicio de sesión"
+    },
+    "REPORT": {
+        "ERROR-SETTING-APPOINTMENTS": "Imposible cargar sus citas",
+        "REPORTS-LOADING-TEXT": "Cargando informes...",
+        "ERROR-SETTING-REPORTS": "Imposible cargar sus informes",
+        "NO-CONTENT-TEXT": "No hay informes terminados disponibles."
+    },
+    "KNOW": {
+        "TITLE": "Avisos",
+        "NO-MESSAGES-TEXT": "No hay mensages que mostrar"
+    },
+    "EXERCISE-INFO": {
+        "TITLE": "Info"
+    },
     "EFFORT-SELECTOR":{
         "TEXT":"Este ejercicio ha sido:",
         "EASY":"Fácil",
         "NORMAL":"Normal",
         "HARD":"Difícil",
         "PAIN":"Doloroso"
+    },
+    "UNSEL-CONFIRMATION": {
+        "YES": "Si",
+        "NO": "No",
+        "TEXT": "¿Deshacer éste ejercicio?"
+    },
+    "LOADER": {
+        "LOADING": "Cargando...",
+        "REPORTS": "Cargando informes",
+        "TASKS": "Cargando tareas",
+        "MESSAGES": "Cargando mensages"
+    },
+    "TRACKER-TAG": {
+        "Physical": "salud fisica",
+        "Mental": "salud mental",
+        "Energy": "salud enérgica"
+    },
+    "QR-CONFIGURATION": {
+        "TITLE":"Configuración",
+        "TEXT": "Escanee su código QR de su centro médico",
+        "MANUAL": {
+            "TEXT": "Pegue su código aquí:",
+            "ACCEPT-BUTTON": "Aceptar",
+            "ERROR-PARSING-HASH":"Código inválido"
+        }
+    },
+    "SETTINGS":{
+        "TITLE":"Privacy",
+        "LANGUAGE-SELECT-LABEL":"Seleccione idioma:",
+        "USER-GUARD-BUTTON":"Código de usuario",
+        "ABOUT-BUTTON":"Acerca de",
+        "PRIVACY-POLICY-BUTTON":"Política de privacidad"
+    },
+    "USER-GUARD":{
+        "TITLE":"Código de usuario"
+    },
+    "TASK-INFORMATION":{
+        "LOADING-MSG":"Cargando información",
+        "NO-CONTENT-TEXT": "Este ejercicio no tiene información disponible."
+    },
+    "PRIVACY-POLICY":{
+        "TITLE":"Política de privacidad"
+    },
+    "ABOUT":{
+        "TITLE":"Acerca de nosotros"
     }
 }
