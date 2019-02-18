@@ -21,6 +21,7 @@ export class MyApp {
       translate.use(platform.lang());
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      console.log('Platform ready')
       try {
         this.splashscreen.hide();
       } catch (e) {

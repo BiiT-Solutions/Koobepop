@@ -30,6 +30,7 @@ export class QRConfigurationPage {
   }
 
   ionViewDidLoad() {
+    console.log('Loaded QRConfigurationPage')
     this.scan();
   }
 
