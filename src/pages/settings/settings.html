@@ -5,7 +5,17 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-list id="languagesList">
+    <ion-item>
+      <ion-label>{{'SETTINGS.LANGUAGE-SELECT-LABEL'|translate}}</ion-label>
+      <ion-select (ionChange)="chooseLanguage($event)" [(ngModel)]="defaultLanguage">
+        <ion-option *ngFor="let item of idioms" [value]="item.value">
+          {{ item.label | translate }}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+ <!--<button ion-item>{{'SETTINGS.ABOUT-BUTTON'|translate}}</button>-->
   <button ion-item (click)="openUserGuard()">{{'SETTINGS.USER-GUARD-BUTTON'|translate}}</button>
-  <!--<button ion-item>{{'SETTINGS.ABOUT-BUTTON'|translate}}</button>-->
   <button ion-item (click)="openPrivacyPolicy()">{{'SETTINGS.PRIVACY-POLICY-BUTTON'|translate}}</button>
 </ion-content>

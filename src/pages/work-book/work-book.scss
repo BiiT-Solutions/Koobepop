@@ -1,16 +1,52 @@
-
 page-work-book {
-
-    .header{
-        display: block;
-        text-align: center;
-        color: $background-color;
-        font-size: 2rem;
-    }
-    #today-button{
-      font-size:1em;
-    }
-    .slide-zoom{
-      height:100%;
-    }
+  #header {
+    position: relative;
+    text-align: center;
   }
+  #today-button {
+    font-size: 1em;
+  }
+  #prevButton {
+    display: inline-block;
+    position: relative;
+    color: $background-color;
+    background-color: transparent;
+  }
+  #navigationDate {
+    display: inline-block;
+    position: relative;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: $background-color;
+    font-size: 2rem;
+    top: 8px;
+  }
+  #nextButton {
+    display: inline-block;
+    position: relative;
+    color: $background-color;
+    background-color: transparent;
+  }
+  .slide-zoom {
+    height: 100%;
+  }
+  #slide {
+    position: relative;
+    left: 0;
+    width: 100% !important;
+    float: left !important;
+  }
+  #slider {
+    position: relative;
+    left: 0;
+    width: 100% !important;
+    float: left !important;
+  }
+  ion-slide.swiper-slide {
+    position: relative;
+    left: 0;
+    width: 100% !important;
+    float: left !important;
+    align-items: flex-start;
+  }
+}

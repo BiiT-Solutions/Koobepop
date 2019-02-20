@@ -40,4 +40,7 @@ export class TaskInformationPage {
       this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.task.videoUrl);
     }
   }
+
+  ionViewWillLeave() {
+  }
 }

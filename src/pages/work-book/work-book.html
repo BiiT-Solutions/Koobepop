@@ -1,20 +1,26 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-buttons left>
-      <button id="today-button" (click)="goToToday()"
-              icon-only ion-button color="light">
-          <ion-icon (click)="goToToday()" name="igow-today"></ion-icon>
-        </button>
-      </ion-buttons>
-    <div class="header">
-      {{actualDay|date}}
+      <button id="today-button" (click)="goToToday()" icon-only ion-button color="light">
+        <ion-icon (click)="goToToday()" name="igow-today"></ion-icon>
+      </button>
+    </ion-buttons>
+    <div id="header">
+      <button ion-button icon-only id="prevButton" (click)="prevSlide()">
+        <ion-icon name="arrow-dropleft"></ion-icon>
+      </button>
+      <div id="navigationDate">{{actualDay | date:'mediumDate'}}</div>
+      <button ion-button icon-only id="nextButton" (click)="nextSlide()">
+        <ion-icon name="arrow-dropright"></ion-icon>
+      </button>
     </div>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-slides initialSlide="1" #slider (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
-    <ion-slide *ngFor="let day of days">
+  <ion-slides id="slider" initialSlide="1" #slider (ionSlideNextEnd)="swipeNextSlide()" (ionSlidePrevEnd)="swipePrevSlide()"
+    slidesPerView="1">
+    <ion-slide id="slide" *ngFor="let day of days">
       <tasks-slide [date]="day" [disabled]="isDisabled(day)"></tasks-slide>
     </ion-slide>
   </ion-slides>

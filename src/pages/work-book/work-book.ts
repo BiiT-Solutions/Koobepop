@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides} from 'ionic-angular';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { NavController, Slides, Platform } from 'ionic-angular';
 import * as moment from 'moment';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 
@@ -18,34 +18,40 @@ export class WorkBookPage {
   @ViewChild('slider') slider: Slides;
 
   constructor(
-    public navCtrl: NavController, 
-    public tasksProvider: TasksProvider
+    public navCtrl: NavController,
+    public tasksProvider: TasksProvider,
+    public platform: Platform,
+    public cdRef: ChangeDetectorRef
   ) {
     this.goToToday();
   }
-  ionViewWillLoad(){
-    console.log("WB WillLoad")
-    
+
+  ngAfterViewInit() {
+    this.slider.slidesPerView = 1;
   }
 
-  ionViewWillEnter(){
+  ionViewWillLoad() {
+    console.log("WB WillLoad")
+  }
+
+  ionViewWillEnter() {
     console.log("WB WillEnter")
     this.tasksProvider.loadTasks()
-    .subscribe((tasks) => {console.log("Loaded tasks: ", tasks)})
-    this.goToToday();    
+      .subscribe((tasks) => { console.log("Loaded tasks: ", tasks) });
+    this.slider.update();
+    this.goToToday();
   }
-  
-  ionViewDidEnter(){
+
+  ionViewDidEnter() {
     console.log("WB DidEnter")
   }
-  
+
   /* Listeners for when the slides are swiped */
-  public nextSlide() {
+  swipeNextSlide() {
     // Make sure we moved forward
     if (this.oldIndex < this.slider.getActiveIndex()) {
       this.actualDay = moment(this.actualDay).add(1, "days").valueOf();
-      if (this.days.indexOf(moment(this.actualDay).add(1, "days").valueOf()) >= 0) {
-      } else {
+      if (this.days.indexOf(moment(this.actualDay).add(1, "days").valueOf()) < 0) {
         this.days.push(moment(this.actualDay).add(1, "days").valueOf());
         this.days.shift();
         this.slider.slidePrev(0);
@@ -53,12 +59,15 @@ export class WorkBookPage {
     }
   }
 
-  public prevSlide() {
+  nextSlide() {
+    this.slider.slideNext();
+  }
+
+  swipePrevSlide() {
     // Make sure we moved backwards
     if (this.oldIndex > this.slider.getActiveIndex()) {
       this.actualDay = moment(this.actualDay).add(-1, "days").valueOf();
-      if (this.days.indexOf(moment(this.actualDay).add(-1, "days").valueOf()) >= 0) {
-      } else {
+      if (this.days.indexOf(moment(this.actualDay).add(-1, "days").valueOf()) < 0) {
         this.days.unshift(moment(this.actualDay).add(-1, "days").valueOf());
         this.slider.slideNext(0);
         this.days.pop();
@@ -66,7 +75,11 @@ export class WorkBookPage {
     }
   }
 
-  public goToToday() {
+  prevSlide() {
+    this.slider.slidePrev();
+  }
+
+  goToToday() {
     this.days = [
       moment(this.today).add(-1, "days").valueOf(),
       this.today,
@@ -82,4 +95,3 @@ export class WorkBookPage {
   }
 
 }
-

@@ -3,6 +3,11 @@
         "UNABLE-TO-CONNECT-MSG": "Unable to connect",
         "LOAD-MESSAGE": "Please wait..."
     },
+    "LANGUAGES": {
+        "ENGLISH": "English",
+        "DUTCH": "Dutch",
+        "SPANISH": "Spanish"
+    },
     "HOME": {
         "NAVBAR-TITLE": "Home",
         "TITLE": "<your header here>",
@@ -12,8 +17,8 @@
         "AGENDA-BUTTON": "Work Book",
         "SUMMARY-BUTTON": "Tracker",
         "REPORT-BUTTON": "Reports",
-        "KNOW-BUTTON": "Know",
-        "SETTINGS-BUTTON":"Privacy"
+        "KNOW-BUTTON": "Advices",
+        "SETTINGS-BUTTON":"Settings"
     },
     "AGENDA": {
         "TITLE": "Tasks",
@@ -74,7 +79,7 @@
     },
     "QR-CONFIGURATION": {
         "TITLE":"Configuration",
-        "TEXT": "Scan the QR code of your medical center",
+        "TEXT": "Scan the QR code from your client profile",
         "MANUAL": {
             "TEXT": "Paste your code here:",
             "ACCEPT-BUTTON": "Accept",
@@ -82,7 +87,8 @@
         }
     },
     "SETTINGS":{
-        "TITLE":"Privacy",
+        "TITLE":"Settings",
+        "LANGUAGE-SELECT-LABEL":"Choose language:",
         "USER-GUARD-BUTTON":"User Code",
         "ABOUT-BUTTON":"About",
         "PRIVACY-POLICY-BUTTON":"Privacy policy"
