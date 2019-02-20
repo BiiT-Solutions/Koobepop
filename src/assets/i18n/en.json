@@ -79,7 +79,7 @@
     },
     "QR-CONFIGURATION": {
         "TITLE":"Configuration",
-        "TEXT": "Scan the QR code of your medical center",
+        "TEXT": "Scan the QR code from your client profile",
         "MANUAL": {
             "TEXT": "Paste your code here:",
             "ACCEPT-BUTTON": "Accept",

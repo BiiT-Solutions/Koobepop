@@ -1,0 +1,109 @@
+{
+    "APP": {
+        "UNABLE-TO-CONNECT-MSG": "Verbinding niet mogelijk",
+        "LOAD-MESSAGE": "Ogenblik a.u.b..."
+    },
+    "LANGUAGES": {
+        "ENGLISH": "Engels",
+        "DUTCH": "Nederlands",
+        "SPANISH": "Spaans"
+    },
+    "HOME": {
+        "NAVBAR-TITLE": "Start",
+        "TITLE": "<your header here>",
+        "BOOK-BUTTON": "Boek",
+        "SEARCH-BUTTON": "Zoek",
+        "DETAILS-BUTTON": "Details",
+        "AGENDA-BUTTON": "Actieboek",
+        "SUMMARY-BUTTON": "Voortgang",
+        "REPORT-BUTTON": "Rapporten",
+        "KNOW-BUTTON": "Adviezen",
+        "SETTINGS-BUTTON":"Instellingen"
+    },
+    "AGENDA": {
+        "TITLE": "Tasks",
+        "TODAY-BUTTON": "Today",
+        "NO-CONTENT-TEXT": "You don't have any tasks."
+    },
+    "LOGIN": {
+        "TITLE": "Login",
+        "ID-LABEL": "Id:",
+        "CODE-LABEL": "Code:",
+        "SEND-ID-BUTTON": "Ok",
+        "SEND-CODE-BUTTON": "Ok",
+        "SEND-SMS-AGAIN": "Zend SMS op opnieuw",
+        "BEFORE-SEND-ID-TEXT": "Check configuratie, u ontvangt een SMS met een verificatie code",
+        "BEFORE-SEND-CODE-TEXT": "Bevestig met de SMS code die u heeft ontvangen.",
+        "WAIT-MSG": "Ogenblik a.u.b...",
+        "INVALID-USER-MSG":"Verkeerde user Id, probeer opnieuw...",
+        "ERROR-SENDING-ID":"Fout bij zenden Id",
+        "NO-CONNECTION":"Geen verbinding mogelijk,check de internet verbinding a.u.b",
+        "SUCCESS":"Login gelukt",
+        "ERROR":"Login fout"
+    },
+    "REPORT": {
+        "ERROR-SETTING-APPOINTMENTS": "Kan afspraken niet laden...",
+        "REPORTS-LOADING-TEXT": "Rapporten worden geladen...",
+        "ERROR-SETTING-REPORTS": "Niet mogelijk rapporten te laden",
+        "NO-CONTENT-TEXT": "Er zijn geen rapporten beschikbaar"
+    },
+    "KNOW": {
+        "TITLE": "Bericht",
+        "NO-MESSAGES-TEXT": "Geen berichten"
+    },
+    "EXERCISE-INFO": {
+        "TITLE": "Info"
+    },
+    "EFFORT-SELECTOR": {
+        "TEXT": "Het uitvoeren van deze actie was:",
+        "EASY": "Makkelijk",
+        "NORMAL": "Normaal",
+        "HARD": "Moeilijk",
+        "PAIN": "Pijnlijk"
+    },
+    "UNSEL-CONFIRMATION": {
+        "YES": "Ja",
+        "NO": "Nee",
+        "TEXT": "Ongedaan maken?"
+    },
+    "LOADER": {
+        "LOADING": "Laden...",
+        "REPORTS": "Laden rapporten",
+        "TASKS": "Laden taken",
+        "MESSAGES": "Laden berichten"
+    },
+    "TRACKER-TAG": {
+        "Physical": "fysiek",
+        "Mental": "mentaal",
+        "Energy": "energie"
+    },
+    "QR-CONFIGURATION": {
+        "TITLE":"Configuratie",
+        "TEXT": "Scan de QR code van uw klant profiel",
+        "MANUAL": {
+            "TEXT": "Plak de code hier:",
+            "ACCEPT-BUTTON": "Accept",
+            "ERROR-PARSING-HASH":"Code onjuist"
+        }
+    },
+    "SETTINGS":{
+        "TITLE":"Settings",
+        "LANGUAGE-SELECT-LABEL":"Kies taal:",
+        "USER-GUARD-BUTTON":"Gebruikerscode",
+        "ABOUT-BUTTON":"Over",
+        "PRIVACY-POLICY-BUTTON":"Privacy "
+    },
+    "USER-GUARD":{
+        "TITLE":"User Code"
+    },
+    "TASK-INFORMATION":{
+        "LOADING-MSG":"Info laden",
+        "NO-CONTENT-TEXT": "Deze actie heeft geen extra info."
+    },
+    "PRIVACY-POLICY":{
+        "TITLE":"Privacy Policy"
+    },
+    "ABOUT":{
+        "TITLE":"Over ons"
+    }
+}

@@ -25,7 +25,7 @@ export class SettingsPage {
         label: 'LANGUAGES.DUTCH'
       },
       {
-        value: 'es',
+        value: 'es-es',
         label: 'LANGUAGES.SPANISH'
       }
     ];

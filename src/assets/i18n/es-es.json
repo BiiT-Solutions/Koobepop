@@ -18,7 +18,7 @@
         "SUMMARY-BUTTON": "Seguimiento",
         "REPORT-BUTTON": "Informes",
         "KNOW-BUTTON": "Avisos",
-        "SETTINGS-BUTTON":"Ajustes"
+        "SETTINGS-BUTTON": "Ajustes"
     },
     "AGENDA": {
         "TITLE": "Tareas",
@@ -35,11 +35,11 @@
         "BEFORE-SEND-ID-TEXT": "Comprobando configuración, le enviaremos un SMS cpn un código de verificación",
         "BEFORE-SEND-CODE-TEXT": "Introduzaca su código del SMS.",
         "WAIT-MSG": "Por favor espere...",
-        "INVALID-USER-MSG":"Id de usuario no válida, por favor pruebe otra vez",
-        "ERROR-SENDING-ID":"Error enviando Id",
-        "NO-CONNECTION":"Imposible conectar, por favor compruebe su conexión a internet",
-        "SUCCESS":"Inicio de sesión correcto",
-        "ERROR":"Error en el inicio de sesión"
+        "INVALID-USER-MSG": "Id de usuario no válida, por favor pruebe otra vez",
+        "ERROR-SENDING-ID": "Error enviando Id",
+        "NO-CONNECTION": "Imposible conectar, por favor compruebe su conexión a internet",
+        "SUCCESS": "Inicio de sesión correcto",
+        "ERROR": "Error en el inicio de sesión"
     },
     "REPORT": {
         "ERROR-SETTING-APPOINTMENTS": "Imposible cargar sus citas",
@@ -54,12 +54,12 @@
     "EXERCISE-INFO": {
         "TITLE": "Info"
     },
-    "EFFORT-SELECTOR":{
-        "TEXT":"Este ejercicio ha sido:",
-        "EASY":"Fácil",
-        "NORMAL":"Normal",
-        "HARD":"Difícil",
-        "PAIN":"Doloroso"
+    "EFFORT-SELECTOR": {
+        "TEXT": "Este ejercicio ha sido:",
+        "EASY": "Fácil",
+        "NORMAL": "Normal",
+        "HARD": "Difícil",
+        "PAIN": "Doloroso"
     },
     "UNSEL-CONFIRMATION": {
         "YES": "Si",
@@ -78,32 +78,32 @@
         "Energy": "salud enérgica"
     },
     "QR-CONFIGURATION": {
-        "TITLE":"Configuración",
-        "TEXT": "Escanee su código QR de su centro médico",
+        "TITLE": "Configuración",
+        "TEXT": "Escanee su código QR desde su perfil",
         "MANUAL": {
             "TEXT": "Pegue su código aquí:",
             "ACCEPT-BUTTON": "Aceptar",
-            "ERROR-PARSING-HASH":"Código inválido"
+            "ERROR-PARSING-HASH": "Código inválido"
         }
     },
-    "SETTINGS":{
-        "TITLE":"Privacy",
-        "LANGUAGE-SELECT-LABEL":"Seleccione idioma:",
-        "USER-GUARD-BUTTON":"Código de usuario",
-        "ABOUT-BUTTON":"Acerca de",
-        "PRIVACY-POLICY-BUTTON":"Política de privacidad"
+    "SETTINGS": {
+        "TITLE": "Ajustes",
+        "LANGUAGE-SELECT-LABEL": "Seleccione idioma:",
+        "USER-GUARD-BUTTON": "Código de usuario",
+        "ABOUT-BUTTON": "Acerca de",
+        "PRIVACY-POLICY-BUTTON": "Política de privacidad"
     },
-    "USER-GUARD":{
-        "TITLE":"Código de usuario"
+    "USER-GUARD": {
+        "TITLE": "Código de usuario"
     },
-    "TASK-INFORMATION":{
-        "LOADING-MSG":"Cargando información",
+    "TASK-INFORMATION": {
+        "LOADING-MSG": "Cargando información",
         "NO-CONTENT-TEXT": "Este ejercicio no tiene información disponible."
     },
-    "PRIVACY-POLICY":{
-        "TITLE":"Política de privacidad"
+    "PRIVACY-POLICY": {
+        "TITLE": "Política de privacidad"
     },
-    "ABOUT":{
-        "TITLE":"Acerca de nosotros"
+    "ABOUT": {
+        "TITLE": "Acerca de nosotros"
     }
 }

@@ -9,8 +9,8 @@
             {{'REPORT.NO-CONTENT-TEXT'|translate}}
           </ion-card-content>        
     </ion-card>
-    <ion-slides *ngIf="reportsAvailable" #slider initialSlide="(reportsProvider.allReports).length" zoom="true" pager="true">
-      <ion-slide *ngFor="let report of reportsProvider.allReports" class="swiper-zoom-container">
+    <ion-slides *ngIf="reportsAvailable" #slider initialSlide="(reportsProvider.allReports).length" zoom="true" pager="true" spaceBetween='5'>
+      <ion-slide *ngFor="let report of reportsProvider.allReports | async" class="swiper-zoom-container">
           <infographic-slide [report]="report"></infographic-slide>
       </ion-slide>
     </ion-slides>

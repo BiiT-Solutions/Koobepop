@@ -16,6 +16,7 @@ export class MyApp {
     public translate: TranslateService,
     public splashscreen: SplashScreen,
     public msgProv: MessagesProvider) {
+    this.translate.addLangs(["en", "es-es", "nl"]);
     this.translate.setDefaultLang('en');
     platform.ready().then(() => {
       // Language

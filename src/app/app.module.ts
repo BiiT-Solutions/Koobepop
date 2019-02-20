@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { Device } from '@ionic-native/device';
@@ -63,11 +63,22 @@ import { ToastIssuer } from '../providers/toastIssuer/toastIssuer';
 import { UserGuardProvider } from '../providers/user-guard/user-guard';
 import { MyApp } from './app.component';
 import { APP_CONFIG, AppConfig } from './app.config';
+// Pipes
+import { ALL_PIPES } from '../pipes/allPipes';
+// Languages
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+import localeNl from '@angular/common/locales/nl';
+//import { localeEs } from '../assets/i18n/angular-locale_es-es';
+//import { localeNl } from '../assets/i18n/angular-locale_nl';
 
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+registerLocaleData(localeEs, 'es-es');
+registerLocaleData(localeNl, 'nl');
 
 @NgModule({
   declarations: [
@@ -95,7 +106,8 @@ export function createTranslateLoader(http: Http) {
     LandingPage,
     QRConfigurationPage,
     UserGuardPage,
-    SettingsPage
+    SettingsPage,
+    ALL_PIPES
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -139,6 +151,7 @@ export function createTranslateLoader(http: Http) {
     ConnectivityService,
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    { provide: LOCALE_ID, useValue: window.navigator.language },
     ToastIssuer,
     AppointmentsRestService,
     AppointmentsProvider,
