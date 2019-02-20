@@ -86,6 +86,7 @@
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <allow-navigation href="http://192.168.2.3:8100" />
+    <plugin name="cordova-plugin-device" spec="^2.0.2" />
     <engine name="android" spec="^7.1.4" />
     <engine name="ios" spec="~4.5.5" />
     <plugin name="cordova-plugin-device" spec="~2.0.1" />
