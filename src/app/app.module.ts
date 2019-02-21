@@ -66,6 +66,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
 // Pipes
 import { ALL_PIPES } from '../pipes/allPipes';
 // Languages
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeNl from '@angular/common/locales/nl';
@@ -73,7 +74,7 @@ import localeNl from '@angular/common/locales/nl';
 //import { localeNl } from '../assets/i18n/angular-locale_nl';
 
 
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: HttpClient):TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -113,12 +114,13 @@ registerLocaleData(localeNl, 'nl');
     IonicModule.forRoot(MyApp),
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
-        deps: [Http]
+        deps: [HttpClient]
       },
     }),
   ],
