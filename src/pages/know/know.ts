@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
   selector: 'page-know',
   templateUrl: 'know.html'
 })
+
 export class KnowPage {
   public notifications: MessageModel[];
   public subscription: Subscription
@@ -30,6 +31,9 @@ export class KnowPage {
         }
       });
     this.restartMessageCount();
+  }
+
+  ionViewDidEnter() {
   }
 
   ionViewWillLeave() {

@@ -28,8 +28,9 @@ export class ReportPage {
   protected ionViewWillEnter() {
     this.updateReports();
   }
-
+  
   protected ionViewDidEnter() {
+    //console.log("All reports:", typeof this.reportsProvider.allReports, this.reportsProvider.allReports)
   }
 
   public errorMessage(error) {

@@ -16,6 +16,7 @@ export class ReportsProvider extends StorageServiceProvider {
     super(storage);
   }
 
+
   public getReports(): Observable<ReportModel[]> {
     if (this.reports == undefined) {
       return super.retrieveItem(StorageServiceProvider.REPORTS_STORAGE_ID)
