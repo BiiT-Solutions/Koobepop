@@ -62,8 +62,12 @@ export class MessagesProvider extends StorageServiceProvider {
       .subscribe();
   }
 
+  public removeMessages(): void {
+    this.bsMessages = new BehaviorSubject([]);
+  }
+
   public getObservableMessages(): BehaviorSubject<MessageModel[]> {
-    return this.bsMessages
+    return this.bsMessages;
   }
   public getObservableMessagesCount(): BehaviorSubject<number> {
     return this.bsMessagesCount;

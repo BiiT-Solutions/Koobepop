@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 import { UserGuardPage } from '../user-guard/user-guard';
 import { TranslateService } from '@ngx-translate/core';
-
+import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
+import { MessageModel } from '../../models/message.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-settings',
@@ -13,8 +15,11 @@ export class SettingsPage {
 
   idioms: any[] = [];
   defaultLanguage: any;
+  public notifications: MessageModel[];
+  public subscription: Subscription;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private translate: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private translate: TranslateService,
+    private messagesProvider: MessagesProvider, public changeDetRef: ChangeDetectorRef) {
     this.idioms = [
       {
         value: 'en',
@@ -48,5 +53,6 @@ export class SettingsPage {
 
   chooseLanguage(lang) {
     this.translate.use(lang);
+    this.messagesProvider.removeMessages();
   }
 }
