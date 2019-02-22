@@ -3,7 +3,7 @@
   <div *ngIf="isLoading" class="loading-container">
     <loading-screen [text]="'LOADER.REPORTS'|translate"></loading-screen>
   </div>
-  <div *ngIf="!isLoading" style="height:100%;width:100%">
+  <div *ngIf="!isLoading" id="contentContainer">
     <ion-card *ngIf="!reportsAvailable">
         <ion-card-content>
             {{'REPORT.NO-CONTENT-TEXT'|translate}}

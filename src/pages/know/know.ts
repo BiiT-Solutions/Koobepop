@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ViewController } from 'ionic-angular';
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 import { MessageModel } from '../../models/message.model';
 import { Subscription } from 'rxjs';
@@ -18,10 +18,11 @@ export class KnowPage {
   constructor(
     public navCtrl: NavController,
     public messagesProvider: MessagesProvider,
-    public changeDetRef: ChangeDetectorRef
+    public changeDetRef: ChangeDetectorRef,
+    public viewController: ViewController
   ) {  }
   
-  ionViewWillEnter() {
+  public ionViewWillEnter() {
     this.subscription = this.messagesProvider.getObservableMessages()
       .subscribe((messages: MessageModel[]) => {
         console.log("Know ", messages)

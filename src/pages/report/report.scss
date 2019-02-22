@@ -8,11 +8,14 @@ page-report {
   ion-slides {
     height: 100% !important;
     width: 100% !important;
+    position: absolute;
   }
 
   ion-slide {
     height: 100% !important;
     width: 100% !important;
+    position: absolute;
+    top: 20px;
   }
 
   infographic-slide {
@@ -21,6 +24,12 @@ page-report {
   }
 
   .swiper-pagination {
-    top: 20px;
+    position: absolute;
+    top: 10px;
+  }
+
+  #contentContainer {
+    height: 100%;
+    width: 100%;
   }
 }

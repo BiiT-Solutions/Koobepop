@@ -44,24 +44,23 @@ export class HomePage {
             }
           }
         });
-      }
+    }
 
-      this.messagesProvider.getObservableMessagesCount()
-        .subscribe(msgsCnt => {
-          console.log("Modified message counter", msgsCnt)
-          this.pendingMessages = msgsCnt
-          if(msgsCnt>0){
-            this.changeDetRef.detectChanges()
-          }
-        });
+    this.messagesProvider.getObservableMessagesCount()
+      .subscribe(msgsCnt => {
+        console.log("Modified message counter", msgsCnt)
+        this.pendingMessages = msgsCnt
+        if (msgsCnt > 0) {
+          this.changeDetRef.detectChanges()
+        }
+      });
   }
 
   ionViewDidLoad() {
-    this.appointmentsProvider.update()
-      .subscribe(appointments => {
+    this.appointmentsProvider.update().subscribe(appointments => {
         console.debug("Updated Appointemnts", appointments);
-      })
-    }
+      });
+  }
 
   navTest() {
     this.navCtrl.push(TestPage);
