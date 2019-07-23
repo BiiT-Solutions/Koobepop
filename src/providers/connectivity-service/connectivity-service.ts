@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Network } from '@ionic-native/network';
+import { Network } from '@ionic-native/network/ngx';
 import { Platform } from 'ionic-angular';
 
 @Injectable()
