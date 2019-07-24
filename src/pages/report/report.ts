@@ -30,7 +30,7 @@ export class ReportPage {
   }
   
   protected ionViewDidEnter() {
-    //console.log("All reports:", typeof this.reportsProvider.allReports, this.reportsProvider.allReports)
+    console.log("All reports:", typeof this.reportsProvider.allReports, this.reportsProvider.allReports)
   }
 
   public errorMessage(error) {
