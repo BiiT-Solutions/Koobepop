@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Push, PushOptions, PushObject, AndroidPushOptions } from '@ionic-native/push';
+import { Push, PushOptions, PushObject, AndroidPushOptions } from '@ionic-native/push/ngx';
 import { RegisterPushTokenRestService } from '../rest/register-push-token-rest-service/register-push-token-rest-service';
 import { SettingsProvider } from '../storage/settings/settings';
 

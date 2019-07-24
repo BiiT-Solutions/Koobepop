@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform } from 'ionic-angular';
 import { LandingPage } from '../pages/landing/landing';

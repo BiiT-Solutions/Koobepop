@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { QrDecryptProvider } from '../../providers/qr-decrypt/qr-decrypt';
