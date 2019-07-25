@@ -13,8 +13,8 @@ export class PushNotificationsHandlerProvider {
   pushObject: PushObject
 
   constructor(
-    public platform: Platform,
-    public push: Push,
+    private platform: Platform,
+    private push: Push,
     protected settings: SettingsProvider,
     protected registerPushService: RegisterPushTokenRestService
   ) {
