@@ -42,11 +42,19 @@ export class ReportsRestService extends BasicRestService {
   private generateInfographic(appointment: AppointmentModel, data: any[]): ReportModel {
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime, []);
     data.forEach((item) => {
-     try{
-      report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content))
-     }catch(e){console.log('infographic generation error:',item.template,e)}
+      try{
+        item = this.filterHtmlTags(JSON.stringify(item));
+        console.log('Infographic JSON:', item);
+        item = JSON.parse(item);
+        report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content));
+      } catch(e) {
+        console.log('infographic generation error:',item.template,e);
+      }
     });
     return report;
   }
 
+  private filterHtmlTags(text) {
+    return text.replace(/(&([^>]+);|<([^>]+)>)/ig, '');
+  }
 }

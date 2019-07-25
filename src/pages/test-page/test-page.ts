@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { Push } from '@ionic-native/push';
+import { Push } from '@ionic-native/push/ngx';
 import { NavController, NavParams, Platform, Slides } from 'ionic-angular';
 
 /**

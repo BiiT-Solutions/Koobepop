@@ -1,12 +1,12 @@
 import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { Device } from '@ionic-native/device';
-import { Network } from '@ionic-native/network';
-import { Push } from '@ionic-native/push';
-import { QRScanner } from '@ionic-native/qr-scanner';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
+import { Device } from '@ionic-native/device/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { Push } from '@ionic-native/push/ngx';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
