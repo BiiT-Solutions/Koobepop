@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { StorageServiceProvider } from '../storage-service/storage-service';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs';
 import { IToken } from '../../../models/tokenI';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@ionic-native/device';
 import { UserProvider } from '../user-provider/user-provider';
-import { of } from 'rxjs'; 
+import { Observable } from 'rxjs/Observable'; 
 
 @Injectable()
 export class TokenProvider extends StorageServiceProvider {
@@ -20,7 +19,7 @@ export class TokenProvider extends StorageServiceProvider {
                 .flatMap(token=>{return this.tokenToString(token)})
                 .map(token=>this.setAllocToken(token));
         } else {
-            return of(this.getAllocToken());
+            return Observable.of(this.getAllocToken());
         }
     }
 

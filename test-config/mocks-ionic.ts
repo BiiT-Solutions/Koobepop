@@ -1,5 +1,5 @@
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { Observable } from 'rxjs';
 import { UserModel } from '../src/models/user.model';
 /**This file is intended to generate Mock classes to emulate real classes for our testing environment */
