@@ -2,7 +2,9 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, ViewController } from 'ionic-angular';
 import { MessagesProvider } from '../../providers/storage/messages-provider/messages-provider';
 import { MessageModel } from '../../models/message.model';
-import { Subscription } from 'rxjs';
+//import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+
 
 /**
  *

@@ -30,6 +30,7 @@ export class LandingPage {
   }
 
   ionViewDidEnter() {
+    console.log('Loaded LandingPage')
     this.settings.load().subscribe(() => {
       if (this.settings.allSettings) {
         this.tokenRest.tokenStatus()

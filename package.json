@@ -52,7 +52,6 @@
     "d3": "^5.0.0",
     "infographic-js": "^0.1.978",
     "ionic-angular": "^3.9.2",
-    "ionic-plugin-keyboard": "~2.2.1",
     "ionicons": "3.0.0",
     "moment": "^2.20.1",
     "rxjs": "^5.5.6",
@@ -61,8 +60,12 @@
     "cordova-ios": "~4.5.4"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@angular/cli": "^7.2.1",
     "@ionic/app-scripts": "^3.2.3",
+=======
+    "@ionic/app-scripts": "^3.1.8",
+>>>>>>> origin/ios
     "@types/jasmine": "2.6.0",
     "@types/node": "^8.0.31",
     "ajv": "^6.1.1",
@@ -127,12 +130,10 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-whitelist": {},
-      "cordova-sqlite-storage": {},
+      "cordova-plugin-add-swift-support": {},
       "cordova-plugin-qrscanner": {},
-      "phonegap-plugin-push": {
-        "SENDER_ID": "85075801930"
-      },
-      "cordova-plugin-console": {}
+      "cordova-sqlite-storage": {},
+      "phonegap-plugin-push": {}
     }
   }
 }

@@ -53,6 +53,9 @@ export class LoginPage {
   ionViewWillEnter() {
   }
 
+  ionViewDidEnter(){
+    console.log('Loaded LoginPage')
+  }
   public sendId(): void {
     // Request Verification code
     this.idIsSent = true;
