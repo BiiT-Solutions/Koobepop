@@ -42,15 +42,6 @@ export class ReportsRestService extends BasicRestService {
   private generateInfographic(appointment: AppointmentModel, data: any[]): ReportModel {
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime, []);
     data.forEach((item) => {
-<<<<<<< HEAD
-      try{
-        item = this.filterHtmlTags(JSON.stringify(item));
-        console.log('Infographic JSON:', item);
-        item = JSON.parse(item);
-        report.infographicsList.push(infographicjs.infographicFromTemplate(item.template, item.content));
-      } catch(e) {
-        console.log('infographic generation error:',item.template,e);
-=======
      try {
       var itemWithoutHTMLTags = this.filterHtmlTags(JSON.stringify(item));
       itemWithoutHTMLTags = JSON.parse(item);
@@ -58,7 +49,6 @@ export class ReportsRestService extends BasicRestService {
       report.infographicsList.push(infographicjs.infographicFromTemplate(itemWithoutHTMLTags.template, itemWithoutHTMLTags.content))
      } catch(e) {
        console.log('infographic generation error:',itemWithoutHTMLTags.template,e);
->>>>>>> origin/ios
       }
     });
     return report;
@@ -67,8 +57,4 @@ export class ReportsRestService extends BasicRestService {
   private filterHtmlTags(text) {
     return text.replace(/(&([^>]+);|<([^>]+)>)/ig, '');
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/ios
 }

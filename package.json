@@ -60,12 +60,7 @@
     "cordova-ios": "~4.5.4"
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@angular/cli": "^7.2.1",
-    "@ionic/app-scripts": "^3.2.3",
-=======
     "@ionic/app-scripts": "^3.1.8",
->>>>>>> origin/ios
     "@types/jasmine": "2.6.0",
     "@types/node": "^8.0.31",
     "ajv": "^6.1.1",
