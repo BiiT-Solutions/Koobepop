@@ -118,7 +118,7 @@ $provide.value("$locale", {
       }
     ]
   },
-  "id": "es-es",
+  "id": "es",
   "localeID": "es_ES",
   "pluralCat": function(n, opt_precision) {  if (n == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });

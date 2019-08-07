@@ -30,11 +30,11 @@ export class SettingsPage {
         label: 'LANGUAGES.DUTCH'
       },
       {
-        value: 'es-es',
+        value: 'es',
         label: 'LANGUAGES.SPANISH'
       }
     ];
-    this.defaultLanguage = this.translate.getDefaultLang();
+    this.defaultLanguage = this.translate.getBrowserLang();
   }
 
   ionViewDidLoad() {

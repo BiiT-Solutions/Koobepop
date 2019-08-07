@@ -7,6 +7,7 @@ import { Push } from '@ionic-native/push';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { Globalization } from '@ionic-native/globalization/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -70,7 +71,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeNl from '@angular/common/locales/nl';
-//import { localeEs } from '../assets/i18n/angular-locale_es-es';
+import localeEn from '@angular/common/locales/en';
+//import { localeEs } from '../assets/i18n/angular-locale_es';
 //import { localeNl } from '../assets/i18n/angular-locale_nl';
 
 
@@ -78,8 +80,9 @@ export function createTranslateLoader(http: HttpClient):TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-registerLocaleData(localeEs, 'es-es');
+registerLocaleData(localeEs, 'es');
 registerLocaleData(localeNl, 'nl');
+registerLocaleData(localeEn, 'en');
 
 @NgModule({
   declarations: [
@@ -147,6 +150,7 @@ registerLocaleData(localeNl, 'nl');
     RegisterPushTokenRestService,
     Push,
     StatusBar,
+    Globalization,
     SplashScreen,
     Network,
     Device,
