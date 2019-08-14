@@ -3,7 +3,7 @@
   "author": "Alejandro Melcon",
   "homepage": "A Biit Solutions app",
   "private": true,
-  "version": "0.1.55",
+  "version": "0.1.56",
   "scripts": {
     "start": "ionic serve -b",
     "build": "ionic-app-scripts build --prod",
@@ -41,6 +41,8 @@
     "@ionic/storage": "2.2.0",
     "@ngx-translate/core": "^9.0.0",
     "@ngx-translate/http-loader": "^2.0.0",
+    "@types/jasmine": "2.6.0",
+    "@types/node": "^8.0.31",
     "cordova-android": "^7.1.4",
     "cordova-ios": "~4.5.4",
     "cordova-plugin-compat": "~1.2.0",
@@ -63,8 +65,6 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.1.8",
-    "@types/jasmine": "2.6.0",
-    "@types/node": "^8.0.31",
     "ajv": "^6.1.1",
     "angular2-template-loader": "^0.6.2",
     "babel-core": "^6.26.0",
