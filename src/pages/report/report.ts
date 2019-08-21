@@ -23,13 +23,15 @@ export class ReportPage {
   }
 
   protected ionViewDidLoad() {
-    }
+  }
 
   protected ionViewWillEnter() {
     this.updateReports();
   }
-  
+
   protected ionViewDidEnter() {
+    this.updateReports();
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaBBBBBBBBBBDDDDDDDGDRTWASD");
     console.log("All reports:", typeof this.reportsProvider.allReports, this.reportsProvider.allReports)
   }
 
@@ -48,13 +50,18 @@ export class ReportPage {
     }
   }
 
-  private updateReports() {
+  /*private updateReports() {
     this.reportsProvider.update()
       .subscribe((reports) => {
         this.isLoading = false;
         this.slideToLast = true;
         this.reportsAvailable = this.reportsProvider.allReports != undefined && this.reportsProvider.allReports.length > 0 ? true : false;
-      },e=>{console.log("error")});
+      }, e => { console.log("error") });
+  }*/
+
+  private updateReports() {
+    console.log("Updating reports.");
+    this.reportsProvider.update().subscribe((reports) => { }, e => { console.log("error") });
   }
 
   public lockSwipes(zoomActive: boolean) {

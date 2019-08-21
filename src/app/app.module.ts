@@ -1,5 +1,5 @@
 import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
-import { Http, HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { Device } from '@ionic-native/device';
 import { Network } from '@ionic-native/network';
