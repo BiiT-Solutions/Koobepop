@@ -16,7 +16,6 @@ export class ReportsProvider extends StorageServiceProvider {
     super(storage);
   }
 
-
   public getReports(): Observable<ReportModel[]> {
     if (this.reports == undefined) {
       return super.retrieveItem(StorageServiceProvider.REPORTS_STORAGE_ID)
@@ -25,6 +24,7 @@ export class ReportsProvider extends StorageServiceProvider {
       return Observable.of(this.getAllocReports());
     }
   }
+
   public getAllocReports(): ReportModel[] {
     return this.reports;
   }
@@ -47,10 +47,10 @@ export class ReportsProvider extends StorageServiceProvider {
         return this.getReports().flatMap((savedReports: ReportModel[]) => {
           if (savedReports == undefined) {
             savedReports = [];
-          }
+          };
           appointments.forEach((appointment: AppointmentModel) => {
             const index = savedReports.map((report: ReportModel) => report.appointmentId).indexOf(appointment.appointmentId);
-            if (index >= 0) {
+            /*if (index >= 0) {
               if (appointment.updateTime > savedReports[index].updateTime) {
                 updatedAppointments.push(appointment);
               } else if (savedReports[index].updateTime == undefined) {
@@ -58,13 +58,16 @@ export class ReportsProvider extends StorageServiceProvider {
               }
             } else {
               updatedAppointments.push(appointment);
-            }
+            }*/
+            updatedAppointments.push(appointment);
           });
           if(!updatedAppointments || updatedAppointments.length==0){
-            return Observable.of(undefined)
+            console.log("reports-provider | No updated appointments");
+            return Observable.of(undefined);
           }
           return Observable.combineLatest(
             updatedAppointments.map((appointment: AppointmentModel) => {
+              console.log("reports-provider | Requesting resports for appointment '" + appointment.appointmentId + "'");
               return this.reportRestService.requestReports(appointment)
             })).take(1)
             .flatMap((reports) => {
@@ -86,6 +89,7 @@ export class ReportsProvider extends StorageServiceProvider {
   public isLoaded(): boolean {
     return this.reports != undefined && this.reports.length > 0;
   }
+
   get allReports() {
     return this.reports;
   }

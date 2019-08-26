@@ -5,6 +5,8 @@ import { Platform } from 'ionic-angular';
 import { LandingPage } from '../pages/landing/landing';
 import { MessagesProvider } from '../providers/storage/messages-provider/messages-provider';
 import { Globalization } from '@ionic-native/globalization/ngx';
+import { AppointmentsRestService } from '../../src/providers/rest/appointments-rest-service/appointments-rest-service'
+import { StorageServiceProvider } from '../../src/providers/storage/storage-service/storage-service'
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
@@ -17,7 +19,9 @@ export class MyApp {
     public translate: TranslateService,
     public splashscreen: SplashScreen,
     public globalization: Globalization,
-    public msgProv: MessagesProvider) {
+    public msgProv: MessagesProvider,
+    public appointmentsRestService: AppointmentsRestService,
+    public storageServiceProvider: StorageServiceProvider) {
     this.translate.addLangs(["en", "es", "nl"]);
     this.translate.setDefaultLang('en');
     platform.ready().then(() => {
@@ -29,6 +33,8 @@ export class MyApp {
         this.translate.use(this.translate.getBrowserLang());
       }
 
+      //this.storageServiceProvider.resetDBItems(StorageServiceProvider.APPOINTMENTS_STORAGE_ID);
+      //this.appointmentsRestService.requestAppointments();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       console.log('Platform ready');

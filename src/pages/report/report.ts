@@ -3,6 +3,7 @@ import { NavController, Slides } from 'ionic-angular';
 import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
+import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
 /**
  * This page holds reports into a slider consisting on several pages (zoomable-slide)
  */
@@ -19,20 +20,20 @@ export class ReportPage {
   constructor(public navCtrl: NavController,
     public toaster: ToastIssuer,
     public translate: TranslateService,
-    public reportsProvider: ReportsProvider) {
+    public reportsProvider: ReportsProvider,
+    public appointmentsProvider: AppointmentsProvider) {
   }
 
   protected ionViewDidLoad() {
   }
 
   protected ionViewWillEnter() {
+    this.appointmentsProvider.update();
     this.updateReports();
   }
 
   protected ionViewDidEnter() {
-    this.updateReports();
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaBBBBBBBBBBDDDDDDDGDRTWASD");
-    console.log("All reports:", typeof this.reportsProvider.allReports, this.reportsProvider.allReports)
+    console.log("reports | All reports:", typeof this.reportsProvider.allReports, this.reportsProvider.allReports)
   }
 
   public errorMessage(error) {
@@ -50,18 +51,14 @@ export class ReportPage {
     }
   }
 
-  /*private updateReports() {
+  private updateReports() {
+    console.log("reports | Updating reports.");
     this.reportsProvider.update()
       .subscribe((reports) => {
         this.isLoading = false;
         this.slideToLast = true;
         this.reportsAvailable = this.reportsProvider.allReports != undefined && this.reportsProvider.allReports.length > 0 ? true : false;
-      }, e => { console.log("error") });
-  }*/
-
-  private updateReports() {
-    console.log("Updating reports.");
-    this.reportsProvider.update().subscribe((reports) => { }, e => { console.log("error") });
+      }, e => { console.log("reports | Error updating reports: " + e) });
   }
 
   public lockSwipes(zoomActive: boolean) {

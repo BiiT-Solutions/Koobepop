@@ -24,15 +24,18 @@ export class AppointmentsRestService extends BasicRestService {
 
   public requestAppointments(): Observable<AppointmentModel[]> {
     const endpoint = this.config.getAppointmentsService;
-    const body = {};
-    return super.postWithToken(endpoint, body)
+    var body = {};
+    console.log("appointments-rest-service | Appointments sent: '" + JSON.stringify(body) + "'");
+    let appointments = super.postWithToken(endpoint, body)
       .map((res: Response) => this.extractData(res))
       .map((appointments: AppointmentModel[]) => { return appointments ? appointments.reverse() : []; });
+    console.log("appointments-rest-service | Appointments retrieved: '" + JSON.stringify(appointments) + "'");
+    return appointments;
   }
 
   /**Sends a list of appointments with update time and retrieves new and edited appointments */
   public requestModifiedAppointments(appointments: AppointmentModel[]): Observable<AppointmentModel[]> {
-    const endpoint = this.config.getUpdatedAppointmentsService;   
+    const endpoint = this.config.getUpdatedAppointmentsService;
     const appointmentsIdWithDate = [];
     appointments.forEach((appointment: AppointmentModel) => {
       appointmentsIdWithDate.push({
@@ -51,10 +54,12 @@ export class AppointmentsRestService extends BasicRestService {
 
   /**Format appointments from USMO to a lighter form */
   private extractData(res: Response): AppointmentModel[] {
+    console.log("appointments-rest-service | Res: '" + JSON.stringify(res) + "'");
     const appointmentsFromResponse = res.json();
     appointmentsFromResponse.forEach(appointment => {
       appointment.type = this.translate.instant("TRACKER-TAG." + appointment.type.name)
     });
+    console.log("appointments-rest-service | Appointments from response: '" + JSON.stringify(appointmentsFromResponse) + "'");
     return appointmentsFromResponse || [];
   }
 

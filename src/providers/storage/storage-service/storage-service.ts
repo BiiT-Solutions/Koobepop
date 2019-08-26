@@ -28,4 +28,8 @@ export class StorageServiceProvider {
     public resetDB() {
         this.storage.clear();
     }
+
+    public resetDBItems(name: string) {
+        this.storage.remove(name);
+    }
 }

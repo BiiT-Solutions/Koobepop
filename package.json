@@ -3,7 +3,7 @@
   "author": "Alejandro Melcon",
   "homepage": "A Biit Solutions app",
   "private": true,
-  "version": "0.1.56",
+  "version": "0.1.57",
   "scripts": {
     "start": "ionic serve -b",
     "build": "ionic-app-scripts build --prod",
@@ -43,7 +43,7 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "@types/jasmine": "2.6.0",
     "@types/node": "^8.0.31",
-    "cordova-android": "^7.1.4",
+    "cordova-android": "^8.0.0",
     "cordova-ios": "~4.5.4",
     "cordova-plugin-compat": "~1.2.0",
     "cordova-plugin-device": "~2.0.1",
@@ -119,7 +119,6 @@
   "description": "iGROW: A BiiT Sourcing Solutions project",
   "cordova": {
     "platforms": [
-      "android",
       "ios"
     ],
     "plugins": {

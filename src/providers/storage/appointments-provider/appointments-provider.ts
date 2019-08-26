@@ -15,12 +15,15 @@ export class AppointmentsProvider extends StorageServiceProvider {
   }
 
   public getAppointments(): Observable<AppointmentModel[]> {
+    let appointments: Observable<AppointmentModel[]>;
     if (this.getAllocAppointments() == undefined) {
-      return super.retrieveItem(StorageServiceProvider.APPOINTMENTS_STORAGE_ID)
-        .map(this.setAllocAppointmnts);
+      appointments = super.retrieveItem(StorageServiceProvider.APPOINTMENTS_STORAGE_ID).map(this.setAllocAppointments);
+      console.log("appointments-provider | Returning appointments: " + appointments);
     } else {
-      return Observable.of(this.getAllocAppointments());
+      appointments = Observable.of(this.getAllocAppointments());
+      console.log("appointments-provider | Returning allocated appointments: " + appointments);
     }
+    return appointments;
   }
 
   public getLastAppointmentsByType(): Observable<AppointmentModel[]> {
@@ -42,7 +45,7 @@ export class AppointmentsProvider extends StorageServiceProvider {
   }
 
   public setAppointments(appointments: AppointmentModel[]): Observable<AppointmentModel[]> {
-    this.setAllocAppointmnts(appointments);
+    this.setAllocAppointments(appointments);
     return super.storeItem(StorageServiceProvider.APPOINTMENTS_STORAGE_ID, appointments);
   }
 
@@ -76,7 +79,7 @@ export class AppointmentsProvider extends StorageServiceProvider {
     return this.appointments;
   }
 
-  private setAllocAppointmnts(appointments: AppointmentModel[]): AppointmentModel[] {
+  private setAllocAppointments(appointments: AppointmentModel[]): AppointmentModel[] {
     this.appointments = appointments == undefined ? [] : appointments;
     return this.appointments;
   }

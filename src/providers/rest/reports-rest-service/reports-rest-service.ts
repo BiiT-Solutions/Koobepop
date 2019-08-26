@@ -1,8 +1,8 @@
 
 import { Injectable, Inject } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from '../../../app/app.config';
-import { Http, Response, Headers } from '@angular/http';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AppointmentModel } from '../../../models/appointment.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,10 +18,6 @@ export class ReportsRestService extends BasicRestService {
   constructor(
     protected http: Http,
     private httpClient: HttpClient,
-    //protected headers: Headers,
-    
-    protected httpHeaders: HttpHeaders,
-
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,
@@ -36,6 +32,7 @@ export class ReportsRestService extends BasicRestService {
     const body = {
       appointmentId: appointment.appointmentId
     }
+    console.log("resports-rest-services | body: '" + JSON.stringify(body) + "'");
     return super.postWithToken(requestAddres, body)
       .map((res: Response) => this.extractData(res))
       .map((data) => this.generateInfographic(appointment, data));
@@ -46,19 +43,19 @@ export class ReportsRestService extends BasicRestService {
   }
 
   private generateInfographic(appointment: AppointmentModel, data: any[]): ReportModel {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime, []);
     data.forEach((item) => {
       try {
-        /*var itemWithoutHTMLTags = this.filterHtmlTags(JSON.stringify(item));
-        itemWithoutHTMLTags = JSON.parse(item);
-        console.log("JSON: " + JSON.stringify(itemWithoutHTMLTags));
-        report.infographicsList.push(infographicjs.infographicFromTemplate(itemWithoutHTMLTags.template, itemWithoutHTMLTags.content));*/
-        console.log("Sending POST: " + item);
-        report.infographicsList.push(this.postReport(item));
+        let itemWithoutHTMLTagsString = this.filterHtmlTags(JSON.stringify(item));
+        console.log("reports-rest-services | JSON without HTML tags: '" + itemWithoutHTMLTagsString + "'");
+        var itemWithoutHTMLTagsJSON = JSON.parse(itemWithoutHTMLTagsString);
+        console.log("reports-rest-services | JSON to infographic: " + JSON.stringify(itemWithoutHTMLTagsJSON));
+        report.infographicsList.push(infographicjs.infographicFromTemplate(itemWithoutHTMLTagsJSON.template, itemWithoutHTMLTagsJSON.content));
+        
+        //report.infographicsList.push(this.postReport(item));
       } catch (e) {
-        //console.log('infographic generation error:', itemWithoutHTMLTags.template, e);
-        console.log('infographic generation error:', item.template, e);
+        console.log('reports-rest-services | infographic generation error:', itemWithoutHTMLTagsJSON.template, e);
+        //console.log('reports-rest-services | Infographic generation error: ', item.template, e);
       }
     });
     return report;
@@ -66,16 +63,14 @@ export class ReportsRestService extends BasicRestService {
 
   private postReport(content) {
     const URL = "https://m3sport.biit-solutions.com/infographicjs/getSvgFromTemplate";
-    //let headersObject = new HttpHeaders();
-    //const headers = headersObject.append('Content-Type', 'application/json');
-
-    this.httpClient.post<any>(URL, content)
+    console.log("reports-rest-services | POST: " + content);
+    this.http.post(URL, content)
       .subscribe(data => {
-        alert('POST Result: ' + data);
+        console.log("reports-rest-services | POST Result: '" + data + "'");
         return data;
       },
         error => {
-          alert("POST Error: " + error);
+          console.log("reports-rest-services | POST Error: '" + error + "'");
         }
       );
   }
