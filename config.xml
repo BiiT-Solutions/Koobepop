@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
+<<<<<<< HEAD
 <widget id="com.biit.igow" version="0.1.58" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+=======
+<widget id="com.biit.igow" version="0.1.57" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+>>>>>>> e88c9b89940bc70c2ac810085fd3597bb5fd882f
     <name>M3Sport iGROW</name>
     <description>A BiiT Sourcing Solutions application.</description>
     <author email="developer@biit-solutions.com">Biit Sourcing Solutions</author>
