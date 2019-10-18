@@ -29,8 +29,6 @@ plugins/ios.json
 www/
 $RECYCLE.BIN/
 
-src/assets/infographic-images
-
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
