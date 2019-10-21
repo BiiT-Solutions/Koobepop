@@ -12,10 +12,14 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "es5",
+<<<<<<< HEAD
     "types": [
       "jasmine",
       "node"
     ]
+=======
+    "types": ["node", "jasmine"]
+>>>>>>> e88c9b89940bc70c2ac810085fd3597bb5fd882f
   },
   "include": [
     "src/**/*.ts"

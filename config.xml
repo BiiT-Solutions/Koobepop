@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
+<<<<<<< HEAD
 <widget id="com.biit.igow" version="0.1.58" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+=======
+<widget id="com.biit.igow" version="0.1.57" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+>>>>>>> e88c9b89940bc70c2ac810085fd3597bb5fd882f
     <name>M3Sport iGROW</name>
     <description>A BiiT Sourcing Solutions application.</description>
     <author email="developer@biit-solutions.com">Biit Sourcing Solutions</author>
@@ -73,7 +77,6 @@
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="28" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="20000" />
@@ -94,6 +97,5 @@
     <plugin name="cordova-plugin-qrscanner" spec="2.6.0" />
     <plugin name="cordova-sqlite-storage" spec="3.0.0" />
     <plugin name="phonegap-plugin-push" spec="2.2.3" />
-    <engine name="ios" spec="~4.5.4" />
-    <engine name="android" spec="^7.1.4" />
+    <engine name="ios" spec="4.5.5" />
 </widget>
