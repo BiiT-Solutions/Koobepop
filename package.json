@@ -64,7 +64,6 @@
     "phonegap-plugin-push": "^1.10.7",
     "rxjs": "^5.5.6",
     "sw-toolbox": "3.6.0",
-    "xmldom": "^0.1.27",
     "zone.js": "0.8.20"
   },
   "devDependencies": {
