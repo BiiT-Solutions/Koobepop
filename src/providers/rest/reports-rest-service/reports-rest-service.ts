@@ -42,6 +42,10 @@ export class ReportsRestService extends BasicRestService {
     return res.json() || [];
   }
 
+/**
+ * InfographicJS SVGs must be added to assets/infographic-images/ in order to
+ * show reports correctly. Other way it will show ERR_FILE_NOT_FOUND .
+ */
   private generateInfographic(appointment: AppointmentModel, data: any[]): ReportModel {
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime, []);
     data.forEach((item) => {
@@ -55,7 +59,6 @@ export class ReportsRestService extends BasicRestService {
         //report.infographicsList.push(this.postReport(item));
       } catch (e) {
         console.log('reports-rest-services | infographic generation error:', itemWithoutHTMLTagsJSON.template, e);
-        //console.log('reports-rest-services | Infographic generation error: ', item.template, e);
       }
     });
     return report;
