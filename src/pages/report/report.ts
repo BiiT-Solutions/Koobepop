@@ -4,6 +4,7 @@ import { ToastIssuer } from '../../providers/toastIssuer/toastIssuer';
 import { TranslateService } from '@ngx-translate/core';
 import { ReportsProvider } from '../../providers/storage/reports-provider/reports-provider';
 import { AppointmentsProvider } from '../../providers/storage/appointments-provider/appointments-provider';
+import { WorkBookPage } from '../work-book/work-book';
 /**
  * This page holds reports into a slider consisting on several pages (zoomable-slide)
  */
@@ -53,12 +54,15 @@ export class ReportPage {
 
   private updateReports() {
     console.log("reports | Updating reports.");
-    this.reportsProvider.update()
+    this.reportsProvider.update().timeout(120*1000)
       .subscribe((reports) => {
         this.isLoading = false;
         this.slideToLast = true;
         this.reportsAvailable = this.reportsProvider.allReports != undefined && this.reportsProvider.allReports.length > 0 ? true : false;
-      }, e => { console.log("reports | Error updating reports: " + e) });
+      }, e => {
+        this.errorMessage("reports | Error updating reports: " + e);
+        this.navCtrl.setRoot(WorkBookPage);
+      });
   }
 
   public lockSwipes(zoomActive: boolean) {
