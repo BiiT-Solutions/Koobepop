@@ -3,7 +3,7 @@
   "author": "Biit Solutions",
   "homepage": "A Biit Solutions app",
   "private": true,
-  "version": "0.1.62",
+  "version": "0.1.63",
   "scripts": {
     "start": "ionic serve -b",
     "build": "ionic-app-scripts build --prod",
@@ -44,7 +44,7 @@
     "@types/jasmine": "2.6.0",
     "@types/node": "^8.0.31",
     "cordova-android": "^7.1.4",
-    "cordova-ios": "~4.5.4",
+    "cordova-plugin-add-swift-support": "1.7.2",
     "cordova-plugin-compat": "~1.2.0",
     "cordova-plugin-device": "~2.0.1",
     "cordova-plugin-globalization": "^1.11.0",
@@ -118,9 +118,7 @@
   "cordovaPlatforms": [],
   "description": "iGROW: A BiiT Sourcing Solutions project",
   "cordova": {
-    "platforms": [
-      "ios"
-    ],
+    "platforms": [],
     "plugins": {
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
