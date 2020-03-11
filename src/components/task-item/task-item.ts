@@ -15,29 +15,23 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 export class TaskItemComponent {
   @Input() task: TaskModel;
   @Input() disabled: boolean;
-  checked: boolean;
 
-
+  static readonly TASKNAMEURL = '2';
+ 
   @Output() completeExercise: EventEmitter<TaskModel> = new EventEmitter();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
- 
+  checked:boolean
 
-
-
-  constructor(public popoverCtrl: PopoverController, private iab: InAppBrowser) {
-   
-  }
+  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser) {}
+  
   protected ngOnChanges() {
     this.checked = this.task.score >= 0;
     //console.log(this.task.name,this.task.score)
+    
   }
-  public opentab(){
-    this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach','_blank')
-  }
-
   public clickInfo(event) {
     //This is so the ion-item's click event doesn't fire
-    if(this.task.name == '2'){
+    if(this.task.name == TaskItemComponent.TASKNAMEURL){
       this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach','_blank')
       event.stopPropagation();
      
