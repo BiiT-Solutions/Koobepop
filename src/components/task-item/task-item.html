@@ -3,7 +3,7 @@
   <ion-label item-content [class]="disabled?'disabled':''">{{task.name}}</ion-label>
 <kpp-check-box [checked]="checked" [disabled]="disabled" [class]="disabled?'disabled':''" item-left></kpp-check-box>
   <button ion-button item-left clear icon-only
-    (click)="clickInfo($event)">
+    (click)="openTab()">
     <ion-icon name="information-circle"></ion-icon>
   </button>
 </ion-item>

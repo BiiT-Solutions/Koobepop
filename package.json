@@ -33,6 +33,7 @@
     "@ionic-native/core": "^4.20.0",
     "@ionic-native/device": "^4.3.3",
     "@ionic-native/globalization": "^5.11.0",
+    "@ionic-native/in-app-browser": "^5.22.0",
     "@ionic-native/network": "^4.3.3",
     "@ionic-native/push": "^4.3.3",
     "@ionic-native/qr-scanner": "^4.3.3",
@@ -118,7 +119,9 @@
   "cordovaPlatforms": [],
   "description": "iGROW: A BiiT Sourcing Solutions project",
   "cordova": {
-    "platforms": [],
+    "platforms": [
+      "android"
+    ],
     "plugins": {
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
@@ -127,7 +130,8 @@
       "cordova-plugin-add-swift-support": {},
       "cordova-plugin-qrscanner": {},
       "cordova-sqlite-storage": {},
-      "phonegap-plugin-push": {}
+      "phonegap-plugin-push": {},
+      "cordova-plugin-inappbrowser": {}
     }
   }
 }

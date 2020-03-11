@@ -3,7 +3,7 @@ import { PopoverController } from 'ionic-angular';
 import { TaskModel } from '../../models/task.model';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirmation';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 /**
  *
  */
@@ -20,15 +20,22 @@ export class TaskItemComponent {
   @Output() completeExercise: EventEmitter<TaskModel> = new EventEmitter();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(public popoverCtrl: PopoverController) { }
+  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser) {}
 
   protected ngOnChanges() {
     this.checked = this.task.score >= 0;
     //console.log(this.task.name,this.task.score)
   }
 
+  public openTab(){
+    this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach')
+  }
+
+
   public clickInfo(event) {
     //This is so the ion-item's click event doesn't fire
+    
+    
     event.stopPropagation();
     event.preventDefault();
     this.infoClick.emit(this.task.name);
