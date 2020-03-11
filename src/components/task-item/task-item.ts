@@ -27,20 +27,15 @@ export class TaskItemComponent {
     //console.log(this.task.name,this.task.score)
   }
 
-  public openTab(){
-    this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach')
-  }
-
-
   public clickInfo(event) {
     //This is so the ion-item's click event doesn't fire
-    
-    
+    if(this.task.name == 'Intake Form'){
+      this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach')
+    }
     event.stopPropagation();
     event.preventDefault();
     this.infoClick.emit(this.task.name);
   }
-
   /* When item is clicked */
   public click(event) {
     console.log(event)
