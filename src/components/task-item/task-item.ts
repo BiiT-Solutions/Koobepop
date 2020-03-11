@@ -3,7 +3,7 @@ import { PopoverController } from 'ionic-angular';
 import { TaskModel } from '../../models/task.model';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirmation';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 /**
  *
  */
@@ -20,7 +20,7 @@ export class TaskItemComponent {
   @Output() completeExercise: EventEmitter<TaskModel> = new EventEmitter();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(public popoverCtrl: PopoverController) { }
+  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser) { }
 
   protected ngOnChanges() {
     this.checked = this.task.score >= 0;
