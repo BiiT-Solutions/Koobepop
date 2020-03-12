@@ -4,6 +4,8 @@ import { TaskModel } from '../../models/task.model';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirmation';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { UserGuardProvider } from '../../providers/user-guard/user-guard';
+import * as moment from 'moment';
 /**
  *
  */
@@ -12,7 +14,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   templateUrl: 'task-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskItemComponent {
+export class TaskItemComponent{
   @Input() task: TaskModel;
   @Input() disabled: boolean;
 
@@ -20,9 +22,12 @@ export class TaskItemComponent {
  
   @Output() completeExercise: EventEmitter<TaskModel> = new EventEmitter();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
-  checked:boolean
 
-  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser) {}
+  checked:boolean
+  userCode=" ";
+ 
+  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser,public userGuardService: UserGuardProvider ) {}
+   
   
   protected ngOnChanges() {
     this.checked = this.task.score >= 0;
@@ -31,10 +36,17 @@ export class TaskItemComponent {
   }
   public clickInfo(event) {
     //This is so the ion-item's click event doesn't fire
+    
     if(this.task.name == TaskItemComponent.TASKNAMEURL){
-      this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach','_blank')
-      event.stopPropagation();
-     
+
+      if(this.userCode == " "){
+        this.getGuard()
+        .subscribe(() => this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach '+this.userCode,'_blank'))
+        event.stopPropagation(); 
+      }else{
+      this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach '+this.userCode,'_blank')
+      event.stopPropagation(); 
+      }
     }else{
       event.stopPropagation();
       event.preventDefault();
@@ -71,4 +83,12 @@ export class TaskItemComponent {
       popover.present({ ev: event });
     }
   }
+  getGuard() {
+    return this.userGuardService.requestUserGuard()
+      .map(guard => {
+        this.userCode = guard.code
+        return guard;
+      })
+  }
+
 }

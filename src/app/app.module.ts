@@ -13,6 +13,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 //Components
 import { EffortSelectorComponent } from '../components/effort-selector/effort-selector';
 import { InfographicItemComponent } from '../components/infographic-item/infographic-item';
