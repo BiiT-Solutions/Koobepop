@@ -6,6 +6,8 @@ import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirma
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { UserGuardProvider } from '../../providers/user-guard/user-guard';
 import * as moment from 'moment';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
+import { USMOTask } from '../../models/usmo-task';
 /**
  *
  */
@@ -25,8 +27,10 @@ export class TaskItemComponent{
 
   checked:boolean
   userCode=" ";
+  tasksInfo:USMOTask;
+  url:string;
  
-  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser,public userGuardService: UserGuardProvider ) {}
+  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser,public userGuardService: UserGuardProvider, private tasksProvider: TasksProvider ) {}
    
   
   protected ngOnChanges() {
@@ -36,22 +40,41 @@ export class TaskItemComponent{
   }
   public clickInfo(event) {
     //This is so the ion-item's click event doesn't fire
-    
+   this.tasksInfo = this.getInfo(this.task.name)
+   
     if(this.task.name == TaskItemComponent.TASKNAMEURL){
 
-      if(this.userCode == " "){
-        this.getGuard()
-        .subscribe(() => this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach '+this.userCode,'_blank'))
-        event.stopPropagation(); 
-      }else{
-      this.iab.create('https://m3sport.biit-solutions.com/formrunner/?form=LEC%20Cool%20Intake&organization=Centrum%20voor%20Bewegen&appointment_type=Leefstijlcoach '+this.userCode,'_blank')
-      event.stopPropagation(); 
+      if(this.tasksInfo.formUrl != undefined && this.tasksInfo.formUrl.length > 0){
+
+        if(this.userCode == " "){
+
+          this.url = this.tasksInfo.formUrl        
+          this.getGuard()
+          .subscribe(() => this.getLinkStartCounter(this.url,this.userCode))
+          event.stopPropagation(); 
+          
+          }else{
+          this.iab.create(this.url+this.userCode,'_blank')
+          event.stopPropagation(); 
+          }
       }
-    }else{
+      
+     }else{
       event.stopPropagation();
       event.preventDefault();
       this.infoClick.emit(this.task.name);
     }
+  }
+  startCountdownuntdown(seconds) {
+    var counter = seconds;
+  
+    var interval = setInterval(() => {
+      counter--; 
+      if(counter < 0 ){      
+       this.userCode =" " 
+        clearInterval(interval);
+      };
+    }, 1000);
   }
   /* When item is clicked */
   public click(event) {
@@ -67,6 +90,7 @@ export class TaskItemComponent{
             this.task = new TaskModel(this.task.comparationId,this.task.name, this.task.hasInfo, score);
             this.completeExercise.emit(this.task);
             this.checked = this.task.score >= 0;
+            
           }
         });
       } else {
@@ -91,4 +115,15 @@ export class TaskItemComponent{
       })
   }
 
+  getInfo(name){
+   return this.tasksProvider.getTask(name)
+
+  }
+  getLinkStartCounter(url,userCode){
+    this.iab.create(url + userCode, '_blank')
+    this.startCountdownuntdown(120)
+  }
 }
+
+
+

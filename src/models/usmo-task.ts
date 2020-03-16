@@ -9,6 +9,7 @@ export class USMOTask {
   finishTime?: number;
   repetitions: number;
   videoUrl?: string;
+  formUrl?:string;
   content?: string; //Some HTML content
   type: string;
   performedOn: CompleteTask[];
@@ -22,7 +23,8 @@ export class USMOTask {
     type: string, 
     performedOn: CompleteTask[], 
     videoUrl?: string, 
-    content?: string
+    content?: string,
+    formUrl?: string
   ) {
     this.comparationId = comparationId;
     this.name = name;
@@ -33,6 +35,7 @@ export class USMOTask {
     this.content = content; //Some HTML content
     this.type = type;
     this.performedOn = performedOn;
+    this.formUrl = formUrl;
   }
 
   /** Stringify map so it can be stored on the DB */
