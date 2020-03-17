@@ -16,62 +16,59 @@ import { USMOTask } from '../../models/usmo-task';
   templateUrl: 'task-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskItemComponent{
+export class TaskItemComponent {
   @Input() task: TaskModel;
   @Input() disabled: boolean;
+  @Input() usmoTask: USMOTask;
 
-  static readonly TASKNAMEURL = '2';
- 
   @Output() completeExercise: EventEmitter<TaskModel> = new EventEmitter();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
-  checked:boolean
-  userCode=" ";
-  tasksInfo:USMOTask;
-  url:string;
- 
-  constructor(public popoverCtrl: PopoverController,private iab: InAppBrowser,public userGuardService: UserGuardProvider, private tasksProvider: TasksProvider ) {}
-   
-  
+  checked: boolean
+  userCode = " ";
+  tasksInfo: USMOTask;
+
+  constructor(public popoverCtrl: PopoverController, private iab: InAppBrowser, public userGuardService: UserGuardProvider, public tasksProvider: TasksProvider) { }
+
+
   protected ngOnChanges() {
     this.checked = this.task.score >= 0;
     //console.log(this.task.name,this.task.score)
-    
+
   }
+
   public clickInfo(event) {
-    //This is so the ion-item's click event doesn't fire
-   this.tasksInfo = this.getInfo(this.task.name)
-   
-    if(this.task.name == TaskItemComponent.TASKNAMEURL){
 
-      if(this.tasksInfo.formUrl != undefined && this.tasksInfo.formUrl.length > 0){
+  //can't find a way to get the task passed as a task modal
 
-        if(this.userCode == " "){
+  this.getCurrentExercise(this.task).subscribe()
 
-          this.url = this.tasksInfo.formUrl        
-          this.getGuard()
-          .subscribe(() => this.getLinkStartCounter(this.url,this.userCode))
-          event.stopPropagation(); 
-          
-          }else{
-          this.iab.create(this.url+this.userCode,'_blank')
-          event.stopPropagation(); 
-          }
-      }
+    if (this.tasksInfo.formUrl != undefined && this.tasksInfo.formUrl.length > 0) {
       
-     }else{
+      if (this.userCode == " ") {
+        this.getGuard()
+          .subscribe(() => this.getLinkStartCounter(this.tasksInfo.formUrl, this.userCode))
+        event.stopPropagation();
+
+      } else {
+        this.iab.create(this.tasksInfo.formUrl + this.userCode, '_blank')
+        event.stopPropagation();
+      }
+    } else {
       event.stopPropagation();
       event.preventDefault();
       this.infoClick.emit(this.task.name);
     }
   }
+  //countdown for code expiration
   startCountdownuntdown(seconds) {
     var counter = seconds;
-  
+
     var interval = setInterval(() => {
-      counter--; 
-      if(counter < 0 ){      
-       this.userCode =" " 
+      counter--;
+      //if usercode is less that 5 will consider as expired
+      if (counter < 5) {
+        this.userCode = " "
         clearInterval(interval);
       };
     }, 1000);
@@ -87,10 +84,10 @@ export class TaskItemComponent{
           .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((score: number) => {
           if (score != undefined) {
-            this.task = new TaskModel(this.task.comparationId,this.task.name, this.task.hasInfo, score);
+            this.task = new TaskModel(this.task.comparationId, this.task.name, this.task.hasInfo, score);
             this.completeExercise.emit(this.task);
             this.checked = this.task.score >= 0;
-            
+
           }
         });
       } else {
@@ -98,7 +95,7 @@ export class TaskItemComponent{
           .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((unsel) => {
           if (unsel) {
-            this.task = new TaskModel(this.task.comparationId,this.task.name, this.task.hasInfo, -1);
+            this.task = new TaskModel(this.task.comparationId, this.task.name, this.task.hasInfo, -1);
             this.completeExercise.emit(this.task);
             this.checked = this.task.score >= 0;
           }
@@ -114,12 +111,14 @@ export class TaskItemComponent{
         return guard;
       })
   }
-
-  getInfo(name){
-   return this.tasksProvider.getTask(name)
-
+  //returns a task with information
+  getCurrentExercise(taskItem) {
+    return this.tasksProvider.getTaskInfo(taskItem).map(task =>{
+      this.tasksInfo = task
+      return task;
+    })
   }
-  getLinkStartCounter(url,userCode){
+  getLinkStartCounter(url, userCode) {
     this.iab.create(url + userCode, '_blank')
     this.startCountdownuntdown(120)
   }
