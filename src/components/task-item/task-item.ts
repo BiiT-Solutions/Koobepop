@@ -25,10 +25,9 @@ export class TaskItemComponent {
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
   checked: boolean
-  userCode = " ";
   tasksInfo: USMOTask;
 
-  constructor(public popoverCtrl: PopoverController, private iab: InAppBrowser, public userGuardService: UserGuardProvider, public tasksProvider: TasksProvider) { }
+  constructor(public popoverCtrl: PopoverController, private iab: InAppBrowser) { }
 
 
   protected ngOnChanges() {
@@ -38,41 +37,13 @@ export class TaskItemComponent {
   }
 
   public clickInfo(event) {
-
-  //can't find a way to get the task passed as a task modal
-
-  this.getCurrentExercise(this.task).subscribe()
-
-    if (this.tasksInfo.formUrl != undefined && this.tasksInfo.formUrl.length > 0) {
-      
-      if (this.userCode == " ") {
-        this.getGuard()
-          .subscribe(() => this.getLinkStartCounter(this.tasksInfo.formUrl, this.userCode))
-        event.stopPropagation();
-
-      } else {
-        this.iab.create(this.tasksInfo.formUrl + this.userCode, '_blank')
-        event.stopPropagation();
-      }
-    } else {
       event.stopPropagation();
       event.preventDefault();
       this.infoClick.emit(this.task.name);
     }
-  }
+  
   //countdown for code expiration
-  startCountdownuntdown(seconds) {
-    var counter = seconds;
-
-    var interval = setInterval(() => {
-      counter--;
-      //if usercode is less that 5 will consider as expired
-      if (counter < 5) {
-        this.userCode = " "
-        clearInterval(interval);
-      };
-    }, 1000);
-  }
+  
   /* When item is clicked */
   public click(event) {
     console.log(event)
@@ -103,24 +74,6 @@ export class TaskItemComponent {
       }
       popover.present({ ev: event });
     }
-  }
-  getGuard() {
-    return this.userGuardService.requestUserGuard()
-      .map(guard => {
-        this.userCode = guard.code
-        return guard;
-      })
-  }
-  //returns a task with information
-  getCurrentExercise(taskItem) {
-    return this.tasksProvider.getTaskInfo(taskItem).map(task =>{
-      this.tasksInfo = task
-      return task;
-    })
-  }
-  getLinkStartCounter(url, userCode) {
-    this.iab.create(url + userCode, '_blank')
-    this.startCountdownuntdown(120)
   }
 }
 

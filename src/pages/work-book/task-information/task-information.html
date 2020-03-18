@@ -8,6 +8,9 @@
   <div *ngIf="videoUrl!=undefined" class="video-container">
     <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
   </div>
+  <div *ngIf="formUrl!=undefined" class="video-container">
+    <iframe width="853" height="100" [src]="formUrl" frameborder="0" allowfullscreen></iframe>
+  </div>
   <div *ngIf="loading" class="loading-container">
     <loading-screen [text]="'TASK-INFORMATION.LOADING-MSG'|translate"></loading-screen>
   </div>

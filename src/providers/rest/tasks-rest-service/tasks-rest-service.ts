@@ -108,7 +108,7 @@ export class TasksRestService extends BasicRestService {
     }
     return super.postWithToken(requestAddres, body);
   }
-
+  
   public getTaskInfo(task: USMOTask): Observable<USMOTask> {
     const requestAddres = this.config.getTaskInfoService;
     const body = { name: task.name }
