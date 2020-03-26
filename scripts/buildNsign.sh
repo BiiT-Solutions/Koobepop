@@ -7,7 +7,7 @@
 set -e
 
 #This sets up the project
-scripts/setup.sh
+./scripts/setup.sh
 
 echo "Building iGROW"
 ionic cordova build android --release
@@ -16,7 +16,7 @@ jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore scripts/certs/IGOW.jks p
 
 # get current version
 version=`cat package.json | grep -Po '(?<="version": ")[^"]*'`
-sdkToolsVersion="25.0.0"
+sdkToolsVersion="29.0.3"
 
 echo "Optimizing and renaming"
 $ANDROID_HOME/build-tools/${sdkToolsVersion}/zipalign -vf 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk iGROW_${version}.apk

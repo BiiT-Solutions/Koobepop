@@ -5,7 +5,7 @@ To build and sign the app these are the steps:
 
 
 # ANDROID
-# There's an script 'scripts/buildNsign.sh' which builds and signs the application if all the dependencies are installed (android studio, SDKs, etc)
+# There's an script 'buildNsign.sh' which builds and signs the application if all the dependencies are installed (android studio, SDKs, etc)
 
   0- If there's not a generated keystore (This would be necessary for new apps)
   `$ keytool -genkey -v -keystore <my_release_key>.jks -alias <alias_name> -keyalg RSA -keysize 2048 -validity 10000`
