@@ -22,7 +22,6 @@ export class TasksSlideComponent {
   tasks: TaskModel[];
   constructor(
     private tasksProvider: TasksProvider,
-    private tasksRestService: TasksRestService,
     private app: App) {
 
     this.tasksProvider.getObservableTasks()

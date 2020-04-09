@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { CompleteTask } from './complete-task';
 
 /**Represents a single recurrent task*/
@@ -78,7 +77,6 @@ export class USMOTask {
     }
     const reParsed = JSON.parse(stringifiedMap);
     reParsed.forEach(map => {
-      const completions = []
       map[1].forEach(element => {
         rebuiltList.push(new CompleteTask(element.performedTime, element.filledTime, element.score));
       });
@@ -87,7 +85,7 @@ export class USMOTask {
   }
 
   public getScore(date: number): number {
-    let completeTask = this.performedOn.find(x => x.performedTime == date)
+    const completeTask = this.performedOn.find(x => x.performedTime == date)
     return completeTask == undefined ? -1 : completeTask.score;
   }
 
@@ -96,7 +94,7 @@ export class USMOTask {
   }
 
   public removeScore(date: number) {
-    let completeTaskIndex = this.performedOn.findIndex(x => x.performedTime == date)
+    const completeTaskIndex = this.performedOn.findIndex(x => x.performedTime == date)
     this.performedOn.splice(completeTaskIndex, 1);
   }
 }

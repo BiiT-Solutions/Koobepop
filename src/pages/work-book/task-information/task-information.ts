@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { USMOTask } from '../../../models/usmo-task';
 import { TasksProvider } from '../../../providers/storage/tasks-provider/tasks-provider';
 import { UserGuardProvider } from '../../../providers/user-guard/user-guard';
+import { VariablesProvider } from '../../../providers/variables/variables-provider';
 
 @Component({
   selector: 'page-task-information',
@@ -22,6 +23,7 @@ export class TaskInformationPage {
     private sanitizer: DomSanitizer,
     private tasksProvider: TasksProvider,
     public userGuardService: UserGuardProvider,
+    public variablesProvider: VariablesProvider,
   ) {
     this.task = navParams.data;
     this.hasInfo = true;
@@ -42,49 +44,15 @@ export class TaskInformationPage {
 
   ionViewDidLoad() {
     if (this.task.videoUrl) {
-      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.task.videoUrl);
-
-      if (this.task.formUrl) {
-        if (this.userCode == " ") {
-          this.getGuard().subscribe(() => {
-            this.startCountdownuntdown(120)
-            this.formUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.replaceUserCode(this.userCode))
-          })
-
-        } else {
-          this.formUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.replaceUserCode(this.userCode))
-        }
-
-
-      }
+      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.videoUrl));
     }
 
-  }
-  replaceUserCode(params) {
-    var url = this.task.formUrl.replace('${USER_CODE}', params)
-    return url;
+    if (this.task.formUrl) {
+      this.formUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.formUrl))
+    }
   }
 
   ionViewWillLeave() {
   }
 
-  getGuard() {
-    return this.userGuardService.requestUserGuard()
-      .map(guard => {
-        this.userCode = guard.code
-        return guard;
-      })
-  }
-  startCountdownuntdown(seconds) {
-    var counter = seconds;
-
-    var interval = setInterval(() => {
-      counter--;
-      //if usercode is less that 5 will consider as expired
-      if (counter < 5) {
-        this.userCode = " "
-        clearInterval(interval);
-      };
-    }, 1000);
-  }
 }

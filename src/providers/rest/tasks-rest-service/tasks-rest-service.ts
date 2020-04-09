@@ -54,10 +54,10 @@ export class TasksRestService extends BasicRestService {
   }
 
   public formatTask(task: any): USMOTask {
-    let performedOn: CompleteTask[] = []
+    const performedOn: CompleteTask[] = []
     
     if (task.performedOn) {
-      for (let performed of task.performedOn) {
+      for (const performed of task.performedOn) {
         const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
         performedOn.push(new CompleteTask(performed.time, filledTime, performed.score))
       }

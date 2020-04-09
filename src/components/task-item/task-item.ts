@@ -4,9 +4,6 @@ import { TaskModel } from '../../models/task.model';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirmation';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { UserGuardProvider } from '../../providers/user-guard/user-guard';
-import * as moment from 'moment';
-import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 import { USMOTask } from '../../models/usmo-task';
 /**
  *
@@ -27,7 +24,7 @@ export class TaskItemComponent {
   checked: boolean
   tasksInfo: USMOTask;
 
-  constructor(public popoverCtrl: PopoverController, private iab: InAppBrowser) { }
+  constructor(public popoverCtrl: PopoverController) { }
 
 
   protected ngOnChanges() {

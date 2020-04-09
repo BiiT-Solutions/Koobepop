@@ -16,7 +16,7 @@ jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore scripts/certs/IGOW.jks p
 
 # get current version
 version=`cat package.json | grep -Po '(?<="version": ")[^"]*'`
-sdkToolsVersion="29.0.2"
+sdkToolsVersion="29.0.3"
 
 echo "Optimizing and renaming"
 ${ANDROID_HOME}/build-tools/${sdkToolsVersion}/zipalign -vf 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk iGROW_${version}.apk

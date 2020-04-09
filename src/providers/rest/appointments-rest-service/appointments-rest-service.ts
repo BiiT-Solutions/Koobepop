@@ -24,9 +24,9 @@ export class AppointmentsRestService extends BasicRestService {
 
   public requestAppointments(): Observable<AppointmentModel[]> {
     const endpoint = this.config.getAppointmentsService;
-    var body = {};
+    const body = {};
     console.log("appointments-rest-service | Appointments sent: '" + JSON.stringify(body) + "'");
-    let appointments = super.postWithToken(endpoint, body)
+    const appointments = super.postWithToken(endpoint, body)
       .map((res: Response) => this.extractData(res))
       .map((appointments: AppointmentModel[]) => { return appointments ? appointments.reverse() : []; });
     console.log("appointments-rest-service | Appointments retrieved: '" + JSON.stringify(appointments) + "'");

@@ -21,23 +21,23 @@ export class TasksManager {
   }
 
   public sendStagedActions() {
-    
-    if(this.taskActions&&this.taskActions.length>0){
+
+    if (this.taskActions && this.taskActions.length > 0) {
       //TODO remove
-      console.log("Send staged actions:",this.taskActions)
-    return this.tasksServices.sendTasksActions(this.taskActions).map((res) => {
-      if (res.status == 200) {
-        this.taskActions = [];
-        return true;
-      } else {
-        console.error("Error sending tasks");
-        return false
-      }
-    }, error => console.error("Error sending tasks"));
-  }else{
-    console.log("No tasks to send")
-    return Observable.of(false)
-  }
+      console.log("Send staged actions:", this.taskActions)
+      return this.tasksServices.sendTasksActions(this.taskActions).map((res) => {
+        if (res.status == 200) {
+          this.taskActions = [];
+          return true;
+        } else {
+          console.error("Error sending tasks");
+          return false
+        }
+      }, error => console.error("Error sending tasks"));
+    } else {
+      console.log("No tasks to send")
+      return Observable.of(false)
+    }
   }
 
 }
