@@ -23,8 +23,6 @@ export class TasksManager {
   public sendStagedActions() {
 
     if (this.taskActions && this.taskActions.length > 0) {
-      //TODO remove
-      console.log("Send staged actions:", this.taskActions)
       return this.tasksServices.sendTasksActions(this.taskActions).map((res) => {
         if (res.status == 200) {
           this.taskActions = [];

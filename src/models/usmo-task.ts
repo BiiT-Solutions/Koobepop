@@ -49,7 +49,6 @@ export class USMOTask {
 
   /** Parse stringified map from the DB */
   public static parseStringifiedPerformedTasks(stringifiedMap: string): Map<number, CompleteTask[]> {
-    // console.log("USMOTask map to Rebuild", stringifiedMap)
     const rebuiltMap = new Map<number, CompleteTask[]>();
     if (stringifiedMap == undefined || stringifiedMap == "") {
       console.debug("TasksProvider: parseStringifiedMap: string void ");
