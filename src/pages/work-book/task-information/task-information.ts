@@ -3,12 +3,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavController, NavParams } from 'ionic-angular';
 import { USMOTask } from '../../../models/usmo-task';
 import { TasksProvider } from '../../../providers/storage/tasks-provider/tasks-provider';
-import { UserGuardProvider } from '../../../providers/user-guard/user-guard';
 import { VariablesProvider } from '../../../providers/variables/variables-provider';
 
 @Component({
   selector: 'page-task-information',
-  templateUrl: 'task-information.html'
+  templateUrl: 'task-information.html', 
+  providers: [VariablesProvider]
 })
 export class TaskInformationPage {
   videoUrl: SafeResourceUrl;
@@ -21,13 +21,12 @@ export class TaskInformationPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private sanitizer: DomSanitizer,
-    private tasksProvider: TasksProvider,
-    public userGuardService: UserGuardProvider,
+    tasksProvider: TasksProvider,
     public variablesProvider: VariablesProvider,
   ) {
     this.task = navParams.data;
     this.hasInfo = true;
-    this.loading = true;
+    this.loading = false ;
     console.log("Task info", this.task)
     if (this.task.content && this.task.content.length > 0) {
       this.loading = false;

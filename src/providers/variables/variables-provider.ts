@@ -8,7 +8,7 @@ export class VariablesProvider {
   userCode = " ";
 
   constructor(
-    public userGuardService: UserGuardProvider,
+    public userGuardService: UserGuardProvider
   ) {
 
   }
