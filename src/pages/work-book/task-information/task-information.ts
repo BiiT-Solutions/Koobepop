@@ -7,7 +7,7 @@ import { VariablesProvider } from '../../../providers/variables/variables-provid
 
 @Component({
   selector: 'page-task-information',
-  templateUrl: 'task-information.html', 
+  templateUrl: 'task-information.html',
   providers: [VariablesProvider]
 })
 export class TaskInformationPage {
@@ -26,7 +26,7 @@ export class TaskInformationPage {
   ) {
     this.task = navParams.data;
     this.hasInfo = true;
-    this.loading = true ;
+    this.loading = true;
     console.log("Task info", this.task)
     if (this.task.content && this.task.content.length > 0) {
       this.loading = false;
@@ -44,10 +44,12 @@ export class TaskInformationPage {
   ionViewDidLoad() {
     if (this.task.videoUrl) {
       this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.videoUrl));
+      console.log('Video URL ' + this.videoUrl);
     }
 
     if (this.task.formUrl) {
-      this.formUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.formUrl))
+      this.formUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.formUrl));
+      console.log('Form URL ' + this.formUrl);
     }
   }
 
