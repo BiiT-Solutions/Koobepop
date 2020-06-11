@@ -8,9 +8,6 @@
   <div *ngIf="videoUrl!=undefined" class="video-container">
     <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
   </div>
-  <div *ngIf="externalLink!=undefined" class="external-url-container">
-    <iframe width="900" height="1000" [src]="externalLink" frameborder="0" allowfullscreen></iframe>
-  </div>
   <div *ngIf="loading" class="loading-container">
     <loading-screen [text]="'TASK-INFORMATION.LOADING-MSG'|translate"></loading-screen>
   </div>
@@ -20,5 +17,8 @@
     </ion-card-content>
   </div>
   <div *ngIf="task.content" [innerHTML]="task.content">
+  </div>
+  <div *ngIf="externalLink!=undefined" class="external-url-container">
+    <iframe width="900" height="1000" [src]="externalLink" frameborder="0" allowfullscreen></iframe>
   </div>
 </ion-content>
