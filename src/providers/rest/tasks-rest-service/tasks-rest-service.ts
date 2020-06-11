@@ -73,7 +73,7 @@ export class TasksRestService extends BasicRestService {
       performedOn,
       task.videoUrl,
       task.content,
-      task.formUrl
+      task.externalLink
       );
     return newTask;
   }
@@ -117,7 +117,7 @@ export class TasksRestService extends BasicRestService {
       .map((taskWithInfo) => {
         task.content = taskWithInfo.content
         task.videoUrl = taskWithInfo.videoUrl
-        task.formUrl = taskWithInfo.formUrl
+        task.externalLink = taskWithInfo.externalLink
         return task
       })
   }

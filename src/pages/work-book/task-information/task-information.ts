@@ -15,7 +15,7 @@ export class TaskInformationPage {
   task: USMOTask;
   loading: boolean;
   hasInfo: boolean;
-  formUrl: SafeResourceUrl;
+  externalLink: SafeResourceUrl;
   userCode = " ";
   constructor(
     public navCtrl: NavController,
@@ -47,9 +47,9 @@ export class TaskInformationPage {
       console.log('Video URL ' + this.videoUrl);
     }
 
-    if (this.task.formUrl) {
-      this.formUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.formUrl));
-      console.log('Form URL ' + this.formUrl);
+    if (this.task.externalLink) {
+      this.externalLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.externalLink));
+      console.log('External URL ' + this.externalLink);
     }
   }
 
