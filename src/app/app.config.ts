@@ -4,7 +4,7 @@ export let APP_CONFIG = new InjectionToken('app.config');
 
 export interface IAppConfig {
   getTasksService: string;
-  getTaskInfoService:string;
+  getTaskInfoService: string;
   getAppointmentsService: string;
   getUpdatedAppointmentsService: string;
   getAuthenticationToken: string;
@@ -24,7 +24,7 @@ export interface IAppConfig {
 export const AppConfig: IAppConfig = {
 
   //QR Encryption key
-   keyData: "1886578AB249A216C9A9A81FD69CEB0BFDFA6712396C20097537B4B77D7C74BF"
+  keyData: "1886578AB249A216C9A9A81FD69CEB0BFDFA6712396C20097537B4B77D7C74BF"
 
   //Services
   , sendCodeSMS: "/rest/sendAuthCodeSMS"
@@ -35,7 +35,7 @@ export const AppConfig: IAppConfig = {
   , getUpdatedAppointmentsService: "/rest/getUpdatedAppointmentsAuth"
   //, getTasksService: "/rest/getCorrectiveExercisesAuth"
   , getTasksService: "/rest/getTasksAuth"
-  , getTaskInfoService:"/rest/getTaskInfoAuth"
+  , getTaskInfoService: "/rest/getTaskInfoAuth"
   , getReportService: "/graphics/getReportContentAuth"
 
   // TODO - This should be handled by the perform actions service
@@ -44,5 +44,5 @@ export const AppConfig: IAppConfig = {
   , performActions: "/rest/performExercisesActionsAuth"
 
   , getAppointmentsService: "/rest/getAppointmentsAuth"
-  , getUserGuard:"/rest/getGuardCodeAuth"
+  , getUserGuard: "/rest/getGuardCodeAuth"
 };

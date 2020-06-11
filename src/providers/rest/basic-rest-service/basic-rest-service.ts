@@ -33,7 +33,7 @@ export class BasicRestService {
       console.log("basic-rest-service | POST endPoint: '" + endpoint + "' body: '" + JSON.stringify(body) + "' headers: '" + JSON.stringify(headers) + "'");
       return this.http.post(url, body, { headers: headers });
     } catch (error) {
-      console.log("reports-rest-services | POST Error: " + error);
+      console.log("basic-rest-service | POST Error: " + error);
     }
   }
 
