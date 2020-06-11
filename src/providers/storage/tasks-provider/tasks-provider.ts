@@ -109,6 +109,7 @@ export class TasksProvider extends StorageServiceProvider {
           task.performedOn,
           task.videoUrl,
           task.content,
+          task.externalLink
         );
         deserializedTasks.push(newTask);
       });
@@ -128,6 +129,7 @@ export class TasksProvider extends StorageServiceProvider {
         performedOn: task.performedOn,
         videoUrl: task.videoUrl,
         content: task.content,
+        externalLink: task.externalLink,
         type: task.type
       }
       tasksList.push(serializableTask);
