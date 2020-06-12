@@ -49,7 +49,7 @@ export class TaskInformationPage {
 
     if (this.task.externalLink) {
       this.externalLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.externalLink));
-      console.log('External URL ' + this.externalLink);
+      console.log('External URL ' + this.variablesProvider.replaceVariables(this.task.externalLink));
     }
   }
 

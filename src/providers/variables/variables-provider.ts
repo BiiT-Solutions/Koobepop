@@ -25,6 +25,7 @@ export class VariablesProvider {
       } else {
         console.log("Replacing user guard on ", text, " with ", this.userCode);
         text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
+        console.log("Final result ", text);
       }
     }
     return text;
