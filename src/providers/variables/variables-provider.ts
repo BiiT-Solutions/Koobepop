@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { UserGuardProvider } from '../user-guard/user-guard';
+import { SettingsProvider } from '../storage/settings/settings';
 
 
 @Injectable()
 export class VariablesProvider {
-  readonly USER_GUARD_VARIABLE = "${USER_CODE}";
+  readonly USER_GUARD_VARIABLE = "{{USER_CODE}}";
+  readonly SERVER_VARIABLE = "{{SERVER_URL}}";
   userCode = " ";
 
   constructor(
-    public userGuardService: UserGuardProvider
+    protected userGuardService: UserGuardProvider,
+    protected settings: SettingsProvider
   ) {
-
+    this.settings.load().subscribe();
   }
 
   public replaceVariables(text: string) {
@@ -19,16 +22,26 @@ export class VariablesProvider {
       if (this.userCode == " ") {
         this.getGuard().subscribe(() => {
           this.startCountdownuntdown(120);
-          console.log("Replacing user guard on ", text, " with ", this.userCode);
           text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
+          console.log("Replaced user guard on ", text);
         })
       } else {
-        console.log("Replacing user guard on ", text, " with ", this.userCode);
         text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
-        console.log("Final result ", text);
+        console.log("Replaced user guard on ", text);
       }
     }
+    if (text.includes(this.SERVER_VARIABLE)) {
+      text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
+      console.log("Replaced server url on ", text);
+    }
     return text;
+  }
+
+  private getHostUrl() {
+    var url = new URL(this.settings.allSettings.backend);
+    url.protocol;  // "http:"
+    url.hostname;  // "aaa.bbb.ccc.com"
+    return url.protocol + "//" + url.hostname;
   }
 
   private getGuard() {

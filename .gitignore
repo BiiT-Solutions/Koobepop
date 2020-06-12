@@ -37,3 +37,5 @@ UserInterfaceState.xcuserstate
 .sourcemaps/
 package-lock.json
 package.json
+*.orig
+
