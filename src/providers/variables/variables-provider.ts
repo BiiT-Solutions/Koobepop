@@ -16,25 +16,29 @@ export class VariablesProvider {
     this.settings.load().subscribe();
   }
 
-  public replaceVariables(text: string) {
-    if (text.includes(this.USER_GUARD_VARIABLE)) {
-
-      if (this.userCode == " ") {
-        this.getGuard().subscribe(() => {
-          this.startCountdownuntdown(120);
+  public replaceVariables(text: string): Promise<string> {
+    let promise: Promise<string> = new Promise((resolve, reject) => {
+      if (text.includes(this.USER_GUARD_VARIABLE)) {
+        if (this.userCode == " ") {
+          this.getGuard().subscribe(() => {
+            this.startCountdownuntdown(120);
+            text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
+            console.log("Replaced user guard on ", text);
+            resolve(text);
+          })
+        } else {
           text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
           console.log("Replaced user guard on ", text);
-        })
-      } else {
-        text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
-        console.log("Replaced user guard on ", text);
+          resolve(text);
+        }
+        if (text.includes(this.SERVER_VARIABLE)) {
+          text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
+          console.log("Replaced server url on ", text);
+          resolve(text);
+        }
       }
-    }
-    if (text.includes(this.SERVER_VARIABLE)) {
-      text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
-      console.log("Replaced server url on ", text);
-    }
-    return text;
+    });
+    return promise;
   }
 
   private getHostUrl() {

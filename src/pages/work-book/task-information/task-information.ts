@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { USMOTask } from '../../../models/usmo-task';
 import { TasksProvider } from '../../../providers/storage/tasks-provider/tasks-provider';
 import { VariablesProvider } from '../../../providers/variables/variables-provider';
+import { resolve } from 'url';
 
 @Component({
   selector: 'page-task-information',
@@ -42,14 +43,21 @@ export class TaskInformationPage {
   }
 
   ionViewDidLoad() {
+    let value: Promise<string>;
     if (this.task.videoUrl) {
-      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.videoUrl));
-      console.log('Video URL ' + this.videoUrl);
+      value = this.variablesProvider.replaceVariables(this.task.videoUrl);
+      value.then(resolve => {
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(resolve);
+        console.log('Video URL ' + this.videoUrl);
+      });
     }
 
     if (this.task.externalLink) {
-      this.externalLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.variablesProvider.replaceVariables(this.task.externalLink));
-      console.log('External URL ' + this.variablesProvider.replaceVariables(this.task.externalLink));
+      value = this.variablesProvider.replaceVariables(this.task.externalLink);
+      value.then(resolve => {
+        this.externalLink = this.sanitizer.bypassSecurityTrustResourceUrl(resolve);
+        console.log('External URL ' + this.externalLink);
+      });
     }
   }
 
