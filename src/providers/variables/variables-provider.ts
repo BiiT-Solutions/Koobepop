@@ -31,11 +31,11 @@ export class VariablesProvider {
           console.log("Replaced user guard on ", text);
           resolve(text);
         }
-        if (text.includes(this.SERVER_VARIABLE)) {
-          text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
-          console.log("Replaced server url on ", text);
-          resolve(text);
-        }
+      }
+      if (text.includes(this.SERVER_VARIABLE)) {
+        text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
+        console.log("Replaced server url on ", text);
+        resolve(text);
       }
     });
     return promise;
