@@ -38,7 +38,6 @@ export class VariablesProvider {
         resolve(text);
       }
     });
-    return promise;
   }
 
   private getHostUrl() {

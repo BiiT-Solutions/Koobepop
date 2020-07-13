@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavController, NavParams } from 'ionic-angular';
 import { USMOTask } from '../../../models/usmo-task';
@@ -18,6 +18,8 @@ export class TaskInformationPage {
   hasInfo: boolean;
   externalLink: SafeResourceUrl;
   userCode = " ";
+  showExternalLinkFrame: boolean = false;
+  showVideoFrame: boolean = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -40,25 +42,37 @@ export class TaskInformationPage {
           this.hasInfo = task.content != undefined && task.content.length > 0;
         });
     }
+
+    this.replaceVariables();
   }
 
-  ionViewDidLoad() {
+  private replaceVariables() {
     let value: Promise<string>;
     if (this.task.videoUrl) {
       value = this.variablesProvider.replaceVariables(this.task.videoUrl);
       value.then(resolve => {
-        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(resolve);
+        this.videoUrl = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustResourceUrl(resolve));
         console.log('Video URL ' + this.videoUrl);
+        this.showVideoFrame = true;
       });
     }
 
     if (this.task.externalLink) {
       value = this.variablesProvider.replaceVariables(this.task.externalLink);
       value.then(resolve => {
-        this.externalLink = this.sanitizer.bypassSecurityTrustResourceUrl(resolve);
+        console.log('Resolve URL ' + resolve);
+        this.externalLink = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustResourceUrl(resolve));
         console.log('External URL ' + this.externalLink);
+        this.showExternalLinkFrame = true;
+        console.log('showExternalLinkFrame URL ' + this.showExternalLinkFrame);
       });
+      console.log('THEN URL ' + this.externalLink);
     }
+  }
+
+
+  ionViewWillEnter() {
+
   }
 
   ionViewWillLeave() {
