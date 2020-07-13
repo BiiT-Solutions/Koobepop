@@ -19,6 +19,6 @@
   <div *ngIf="task.content" [innerHTML]="task.content">
   </div>
   <div *ngIf="externalLink!=undefined && showExternalLinkFrame" class="external-url-container">
-    <iframe width="100%" height="100%" [src]="externalLink" frameborder="0" allowfullscreen></iframe>
+    <iframe width="100%" height="100%" [src]="externalLink | safeHtml" frameborder="0" allowfullscreen></iframe>
   </div>
 </ion-content>
