@@ -61,7 +61,7 @@ export class TaskInformationPage {
       value = this.variablesProvider.replaceVariables(this.task.externalLink);
       value.then(resolve => {
         console.log('Resolve URL ' + resolve);
-        this.externalLink = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustResourceUrl(resolve));
+        this.externalLink = resolve;
         console.log('External URL ' + this.externalLink);
         this.showExternalLinkFrame = true;
         console.log('showExternalLinkFrame URL ' + this.showExternalLinkFrame);
