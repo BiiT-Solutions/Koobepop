@@ -16,7 +16,7 @@ export class VariablesProvider {
     this.settings.load().subscribe();
   }
 
-  public replaceVariables(text: string): Promise<string> {
+  public replaceVariables(text: string) {
     let promise: Promise<string> = new Promise((resolve, reject) => {
       if (text.includes(this.USER_GUARD_VARIABLE)) {
         if (this.userCode == " ") {
@@ -38,6 +38,7 @@ export class VariablesProvider {
         resolve(text);
       }
     });
+    return promise;
   }
 
   private getHostUrl() {
