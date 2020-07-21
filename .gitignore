@@ -35,3 +35,9 @@ UserInterfaceState.xcuserstate
 
 *.apk
 .sourcemaps/
+package-lock.json
+package.json
+*.orig
+.idea
+*.iml
+

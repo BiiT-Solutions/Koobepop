@@ -3,7 +3,8 @@ import { PopoverController } from 'ionic-angular';
 import { TaskModel } from '../../models/task.model';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirmation';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { USMOTask } from '../../models/usmo-task';
 /**
  *
  */
@@ -15,25 +16,31 @@ import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirma
 export class TaskItemComponent {
   @Input() task: TaskModel;
   @Input() disabled: boolean;
-  checked: boolean;
+  @Input() usmoTask: USMOTask;
 
   @Output() completeExercise: EventEmitter<TaskModel> = new EventEmitter();
   @Output() infoClick: EventEmitter<string> = new EventEmitter<string>();
 
+  checked: boolean
+  tasksInfo: USMOTask;
+
   constructor(public popoverCtrl: PopoverController) { }
+
 
   protected ngOnChanges() {
     this.checked = this.task.score >= 0;
     //console.log(this.task.name,this.task.score)
+
   }
 
   public clickInfo(event) {
-    //This is so the ion-item's click event doesn't fire
-    event.stopPropagation();
-    event.preventDefault();
-    this.infoClick.emit(this.task.name);
-  }
-
+      event.stopPropagation();
+      event.preventDefault();
+      this.infoClick.emit(this.task.name);
+    }
+  
+  //countdown for code expiration
+  
   /* When item is clicked */
   public click(event) {
     console.log(event)
@@ -45,9 +52,10 @@ export class TaskItemComponent {
           .create(EffortSelectorComponent, {}, { cssClass: 'effort-selector-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((score: number) => {
           if (score != undefined) {
-            this.task = new TaskModel(this.task.comparationId,this.task.name, this.task.hasInfo, score);
+            this.task = new TaskModel(this.task.comparationId, this.task.name, this.task.hasInfo, score);
             this.completeExercise.emit(this.task);
             this.checked = this.task.score >= 0;
+
           }
         });
       } else {
@@ -55,7 +63,7 @@ export class TaskItemComponent {
           .create(UnselConfirmationComponent, {}, { cssClass: 'unsel-confirmation-popover', enableBackdropDismiss: true });
         popover.onDidDismiss((unsel) => {
           if (unsel) {
-            this.task = new TaskModel(this.task.comparationId,this.task.name, this.task.hasInfo, -1);
+            this.task = new TaskModel(this.task.comparationId, this.task.name, this.task.hasInfo, -1);
             this.completeExercise.emit(this.task);
             this.checked = this.task.score >= 0;
           }
@@ -65,3 +73,6 @@ export class TaskItemComponent {
     }
   }
 }
+
+
+

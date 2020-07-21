@@ -33,6 +33,7 @@
     "@ionic-native/core": "^4.20.0",
     "@ionic-native/device": "^4.3.3",
     "@ionic-native/globalization": "^5.11.0",
+    "@ionic-native/in-app-browser": "^5.22.0",
     "@ionic-native/network": "^4.3.3",
     "@ionic-native/push": "^4.3.3",
     "@ionic-native/qr-scanner": "^4.3.3",
@@ -78,6 +79,7 @@
     "gulp-replace": "^0.5.4",
     "gulp-util": "^3.0.8",
     "html-loader": "^0.5.1",
+    "ionic-plugin-keyboard": "^2.2.1",
     "istanbul-instrumenter-loader": "^3.0.0",
     "jasmine": "^2.0.0",
     "jasmine-core": "^2.0.0",
@@ -129,7 +131,9 @@
       "cordova-sqlite-storage": {},
       "phonegap-plugin-push": {
         "SENDER_ID": "85075801930"
-      }
+      },
+      "cordova-plugin-inappbrowser": {},
+      "ionic-plugin-keyboard": {}
     }
   }
 }

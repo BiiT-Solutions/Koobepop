@@ -12,8 +12,8 @@ export class TaskSyncronizationProvider {
   //Sync algorithm
   public syncTaskList(remoteTasks: USMOTask[], localTasks: USMOTask[]): USMOTask[] {
     console.log('Sync tasks', remoteTasks, localTasks)
-    let finalTasks = []
-    for (let remoteTask of remoteTasks) {
+    const finalTasks = []
+    for (const remoteTask of remoteTasks) {
       let taskIsAlreadySaved = false;
       let finalTask = remoteTask
       for (let localTask of localTasks) {
@@ -45,11 +45,9 @@ export class TaskSyncronizationProvider {
 
 
   public syncServerTasks(remoteTasks: USMOTask[], localTasks:USMOTask[]) {
-    for (let remoteTask of remoteTasks) {
-      let taskIsAlreadySaved = false;
-      for (let localTask of localTasks) {
+    for (const remoteTask of remoteTasks) {
+      for (const localTask of localTasks) {
         if (localTask.comparationId == remoteTask.comparationId) {
-          taskIsAlreadySaved = true;
           this.taskActions(remoteTask, localTask)
           break;
         }
@@ -61,15 +59,15 @@ export class TaskSyncronizationProvider {
 
   public taskActions(remoteTask: USMOTask, localTask: USMOTask) {
     //Tasks in remote and not local
-    let differenceRemoteLocal = remoteTask.performedOn.filter(x => !localTask.performedOn.find(y => y.performedTime == x.performedTime))
+    const differenceRemoteLocal = remoteTask.performedOn.filter(x => !localTask.performedOn.find(y => y.performedTime == x.performedTime))
     //Tasks in local and not remote
-    let differenceLocalRemote = localTask.performedOn.filter(y => !remoteTask.performedOn.find(x => x.performedTime == y.performedTime))
+    const differenceLocalRemote = localTask.performedOn.filter(y => !remoteTask.performedOn.find(x => x.performedTime == y.performedTime))
 
     //console.log("Differences local-remote remote-local ",localTask.name,differenceLocalRemote,differenceRemoteLocal);
-    for (let taskPerformed of differenceRemoteLocal) {
+    for (const taskPerformed of differenceRemoteLocal) {
       this.taskManager.unfinishTask(localTask.comparationId, localTask.name, taskPerformed)
     }
-    for (let taskPerformed of differenceLocalRemote) {
+    for (const taskPerformed of differenceLocalRemote) {
       this.taskManager.finishTask(localTask.comparationId, localTask.name, taskPerformed)
     }
   }

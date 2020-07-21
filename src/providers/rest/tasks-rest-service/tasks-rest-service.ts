@@ -54,10 +54,10 @@ export class TasksRestService extends BasicRestService {
   }
 
   public formatTask(task: any): USMOTask {
-    let performedOn: CompleteTask[] = []
+    const performedOn: CompleteTask[] = []
     
     if (task.performedOn) {
-      for (let performed of task.performedOn) {
+      for (const performed of task.performedOn) {
         const filledTime = performed.filledTime != undefined ? performed.filledTime : performed.time;
         performedOn.push(new CompleteTask(performed.time, filledTime, performed.score))
       }
@@ -72,7 +72,9 @@ export class TasksRestService extends BasicRestService {
       this.DEFAULT_EXERCISE_TYPE,
       performedOn,
       task.videoUrl,
-      task.content);
+      task.content,
+      task.externalLink
+      );
     return newTask;
   }
 
@@ -106,7 +108,7 @@ export class TasksRestService extends BasicRestService {
     }
     return super.postWithToken(requestAddres, body);
   }
-
+  
   public getTaskInfo(task: USMOTask): Observable<USMOTask> {
     const requestAddres = this.config.getTaskInfoService;
     const body = { name: task.name }
@@ -115,6 +117,7 @@ export class TasksRestService extends BasicRestService {
       .map((taskWithInfo) => {
         task.content = taskWithInfo.content
         task.videoUrl = taskWithInfo.videoUrl
+        task.externalLink = taskWithInfo.externalLink
         return task
       })
   }

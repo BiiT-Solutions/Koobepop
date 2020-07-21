@@ -1,4 +1,3 @@
-import * as moment from 'moment';
 import { CompleteTask } from './complete-task';
 
 /**Represents a single recurrent task*/
@@ -9,6 +8,7 @@ export class USMOTask {
   finishTime?: number;
   repetitions: number;
   videoUrl?: string;
+  externalLink?:string;
   content?: string; //Some HTML content
   type: string;
   performedOn: CompleteTask[];
@@ -22,7 +22,8 @@ export class USMOTask {
     type: string, 
     performedOn: CompleteTask[], 
     videoUrl?: string, 
-    content?: string
+    content?: string,
+    externalLink?: string
   ) {
     this.comparationId = comparationId;
     this.name = name;
@@ -33,6 +34,7 @@ export class USMOTask {
     this.content = content; //Some HTML content
     this.type = type;
     this.performedOn = performedOn;
+    this.externalLink = externalLink;
   }
 
   /** Stringify map so it can be stored on the DB */
@@ -47,7 +49,6 @@ export class USMOTask {
 
   /** Parse stringified map from the DB */
   public static parseStringifiedPerformedTasks(stringifiedMap: string): Map<number, CompleteTask[]> {
-    // console.log("USMOTask map to Rebuild", stringifiedMap)
     const rebuiltMap = new Map<number, CompleteTask[]>();
     if (stringifiedMap == undefined || stringifiedMap == "") {
       console.debug("TasksProvider: parseStringifiedMap: string void ");
@@ -75,7 +76,6 @@ export class USMOTask {
     }
     const reParsed = JSON.parse(stringifiedMap);
     reParsed.forEach(map => {
-      const completions = []
       map[1].forEach(element => {
         rebuiltList.push(new CompleteTask(element.performedTime, element.filledTime, element.score));
       });
@@ -84,7 +84,7 @@ export class USMOTask {
   }
 
   public getScore(date: number): number {
-    let completeTask = this.performedOn.find(x => x.performedTime == date)
+    const completeTask = this.performedOn.find(x => x.performedTime == date)
     return completeTask == undefined ? -1 : completeTask.score;
   }
 
@@ -93,7 +93,7 @@ export class USMOTask {
   }
 
   public removeScore(date: number) {
-    let completeTaskIndex = this.performedOn.findIndex(x => x.performedTime == date)
+    const completeTaskIndex = this.performedOn.findIndex(x => x.performedTime == date)
     this.performedOn.splice(completeTaskIndex, 1);
   }
 }
