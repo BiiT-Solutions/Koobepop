@@ -18,24 +18,23 @@ export class VariablesProvider {
 
   public replaceVariables(text: string) {
     let promise: Promise<string> = new Promise((resolve, reject) => {
+      if (text.includes(this.SERVER_VARIABLE)) {
+        text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
+        console.log("Replaced server url on ", text);
+      }
       if (text.includes(this.USER_GUARD_VARIABLE)) {
         if (this.userCode == " ") {
           this.getGuard().subscribe(() => {
             this.startCountdownuntdown(120);
             text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
-            console.log("Replaced user guard on ", text);
+            console.log("Replaced user guard 3 on ", text);
             resolve(text);
           })
         } else {
           text = text.replace(this.USER_GUARD_VARIABLE, this.userCode);
-          console.log("Replaced user guard on ", text);
+          console.log("Replaced user guard 2 on ", text);
           resolve(text);
         }
-      }
-      if (text.includes(this.SERVER_VARIABLE)) {
-        text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
-        console.log("Replaced server url on ", text);
-        resolve(text);
       }
     });
     return promise;
