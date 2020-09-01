@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { PopoverController } from 'ionic-angular';
 import { TaskModel } from '../../models/task.model';
 import { EffortSelectorComponent } from '../effort-selector/effort-selector';
 import { UnselConfirmationComponent } from '../unsel-confirmation/unsel-confirmation';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { USMOTask } from '../../models/usmo-task';
+import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 /**
  *
  */
@@ -13,7 +14,7 @@ import { USMOTask } from '../../models/usmo-task';
   templateUrl: 'task-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskItemComponent {
+export class TaskItemComponent implements OnInit {
   @Input() task: TaskModel;
   @Input() disabled: boolean;
   @Input() usmoTask: USMOTask;
@@ -23,8 +24,19 @@ export class TaskItemComponent {
 
   checked: boolean
   tasksInfo: USMOTask;
+  public iconName = "information-circle";
 
-  constructor(public popoverCtrl: PopoverController) { }
+  constructor(public popoverCtrl: PopoverController, private taskProvider: TasksProvider) {
+    
+   }
+
+
+  ngOnInit(): void {
+    let providedTask = this.taskProvider.getTask(this.task.name);
+    if (providedTask.externalLink && providedTask.externalLink != ""){
+      this.iconName = "menu"
+    }
+  }
 
 
   protected ngOnChanges() {
