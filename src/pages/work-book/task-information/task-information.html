@@ -12,7 +12,7 @@
     <loading-screen [text]="'TASK-INFORMATION.LOADING-MSG'|translate"></loading-screen>
   </div>
   <div *ngIf="!hasInfo">
-    <ion-card-content>
+    <ion-card-content *ngIf="!hasInfo">
       {{'TASK-INFORMATION.NO-CONTENT-TEXT'|translate}}
     </ion-card-content>
   </div>

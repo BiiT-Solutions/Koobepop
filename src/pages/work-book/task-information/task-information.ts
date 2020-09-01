@@ -15,7 +15,7 @@ export class TaskInformationPage {
   videoUrl: SafeResourceUrl;
   task: USMOTask;
   loading: boolean;
-  hasInfo: boolean;
+  public hasInfo: boolean;
   externalLink: SafeResourceUrl;
   userCode = " ";
   showExternalLinkFrame: boolean = false;
@@ -33,13 +33,15 @@ export class TaskInformationPage {
     console.log("Task info", this.task)
     if (this.task.content && this.task.content.length > 0) {
       this.loading = false;
-      this.hasInfo = this.task.content != undefined && this.task.content.length > 0;
+      this.hasInfo = (this.task.content != undefined && this.task.content.length > 0) 
+      || (this.task.externalLink != undefined && this.task.externalLink != null && this.task.externalLink != "");
     } else {
       tasksProvider.getTaskInfo(this.task)
         .subscribe(task => {
           this.task = task
           this.loading = false;
-          this.hasInfo = task.content != undefined && task.content.length > 0;
+          this.hasInfo = (task.content != undefined && task.content.length > 0) 
+          || (this.task.externalLink != undefined && this.task.externalLink != null && this.task.externalLink != "") ;
         });
     }
 
@@ -58,6 +60,7 @@ export class TaskInformationPage {
     }
 
     if (this.task.externalLink) {
+      console.log("replace external link " , this.task.externalLink)
       value = this.variablesProvider.replaceVariables(this.task.externalLink);
       value.then(resolve => {
         console.log('Resolve URL ' + resolve);
@@ -66,7 +69,6 @@ export class TaskInformationPage {
         this.showExternalLinkFrame = true;
         console.log('showExternalLinkFrame URL ' + this.showExternalLinkFrame);
       });
-      console.log('THEN URL ' + this.externalLink);
     }
   }
 
