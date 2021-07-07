@@ -56,6 +56,7 @@ export class AppointmentsProvider extends StorageServiceProvider {
       .flatMap((appointments: AppointmentModel[]) => {
         return this.appointmentsRestService.requestModifiedAppointments(appointments)
           .flatMap((updatedAppointments: AppointmentModel[]) => {
+            appointments = [];
             if (updatedAppointments != undefined && updatedAppointments.length > 0) {
               updatedAppointments.forEach((updatedAppointment: AppointmentModel) => {
                 const index = appointments.map(appointment => appointment.appointmentId).indexOf(updatedAppointment.appointmentId);

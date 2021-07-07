@@ -48,6 +48,7 @@ export class ReportsProvider extends StorageServiceProvider {
           if (savedReports == undefined) {
             savedReports = [];
           };
+          savedReports = [];
           appointments.forEach((appointment: AppointmentModel) => {
             updatedAppointments.push(appointment);
           });
