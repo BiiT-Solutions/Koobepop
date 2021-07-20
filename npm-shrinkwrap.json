@@ -1,6 +1,6 @@
 {
    "name": "iGROW",
-   "version": "0.1.73",
+   "version": "0.1.74",
    "lockfileVersion": 1,
    "requires": true,
    "dependencies": {
@@ -5457,9 +5457,9 @@
          }
       },
       "infographic-js": {
-         "version": "0.1.1011",
-         "resolved": "https://dev.biit-solutions.com/npm/infographic-js/-/infographic-js-0.1.1011.tgz",
-         "integrity": "sha512-QWHhYo5g1AqTmbhF0W63Dy4vEmmqPUe9LwTsXbJTwg+8t4vt0HHax6ntwzvATssbh3Q6FkpTMhvQroUSGxMdYA==",
+         "version": "0.1.1021",
+         "resolved": "https://dev.biit-solutions.com/npm/infographic-js/-/infographic-js-0.1.1021.tgz",
+         "integrity": "sha512-j7imanRL/hRrT5vYbObsh66xdMWsdMpsAotKNZCBYt6pfpr46ifmyZtH3u91ri3C/ccO52O6LuI/S3QnGep4Og==",
          "requires": {
             "ajv": "^4.11.8",
             "xmldom": "^0.1.27"
