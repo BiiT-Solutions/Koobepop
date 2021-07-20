@@ -26,6 +26,7 @@ export class TasksProvider extends StorageServiceProvider {
   public loadTasks(): Observable<USMOTask[]> {
     return this.tasksRestService.requestTasks()
       .flatMap((requestedTasks) => {
+        console.log("req task", requestedTasks)
         //Check if the tasks have already been loaded and the information is been downloaded
         return this.getSavedTasks()
           .flatMap(savedTasks => {
@@ -99,7 +100,7 @@ export class TasksProvider extends StorageServiceProvider {
     const deserializedTasks: USMOTask[] = [];
     if (tasks != undefined) {
       tasks.forEach(task => {
-        const newTask = new USMOTask(
+        let newTask = new USMOTask(
           task.comparationId,
           task.name,
           task.startTime,
@@ -112,6 +113,15 @@ export class TasksProvider extends StorageServiceProvider {
           task.externalLink
         );
         deserializedTasks.push(newTask);
+        this.tasksRestService.getTaskInfo(newTask).subscribe(
+          data => {
+            console.log("subscribe", data)
+            if(data && data.externalLink){
+              newTask.externalLink = data.externalLink;
+              console.log("new task", newTask)
+            }
+          }
+        );
       });
     }
     return deserializedTasks;

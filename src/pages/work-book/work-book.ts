@@ -1,6 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, Slides, Platform } from 'ionic-angular';
 import * as moment from 'moment';
+import { TasksRestService } from '../../providers/rest/tasks-rest-service/tasks-rest-service';
 import { TasksProvider } from '../../providers/storage/tasks-provider/tasks-provider';
 
 /**
@@ -20,6 +21,7 @@ export class WorkBookPage {
   constructor(
     public navCtrl: NavController,
     public tasksProvider: TasksProvider,
+    public tasksRestService: TasksRestService,
     public platform: Platform,
     public cdRef: ChangeDetectorRef
   ) {
@@ -37,7 +39,12 @@ export class WorkBookPage {
   ionViewWillEnter() {
     console.log("WB WillEnter")
     this.tasksProvider.loadTasks()
-      .subscribe((tasks) => { console.log("Loaded tasks: ", tasks) });
+      .subscribe((tasks) => { 
+        console.log("Loaded tasks: ", tasks) 
+        tasks.forEach(task => {
+          this.tasksRestService.getTaskInfo(task).subscribe();
+        });
+      });
     this.slider.update();
     this.goToToday();
   }

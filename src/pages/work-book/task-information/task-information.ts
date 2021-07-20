@@ -69,7 +69,6 @@ export class TaskInformationPage {
       value.then(resolve => {
         console.log('Resolve URL ' + resolve);
         this.externalLink = resolve;
-        //this.externalLink = "https://www.google.es";
         console.log('External URL ' + this.externalLink);
         this.showExternalLinkFrame = true;
         console.log('showExternalLinkFrame URL ' + this.showExternalLinkFrame);

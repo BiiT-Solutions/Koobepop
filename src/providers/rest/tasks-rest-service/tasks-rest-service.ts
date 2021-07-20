@@ -43,6 +43,7 @@ export class TasksRestService extends BasicRestService {
 
   private formatTasks(tasks: any): USMOTask[] {
     if (tasks) {
+      console.log("non parsed ", tasks)
       const deserializedTasks: USMOTask[] = [];
       tasks.forEach((task) => {
         deserializedTasks.push(this.formatTask(task));
@@ -112,9 +113,11 @@ export class TasksRestService extends BasicRestService {
   public getTaskInfo(task: USMOTask): Observable<USMOTask> {
     const requestAddres = this.config.getTaskInfoService;
     const body = { name: task.name }
+    console.log("get task iinfo")
     return super.postWithToken(requestAddres, body)
       .map(this.extractData)
       .map((taskWithInfo) => {
+        console.log("get task infoo", taskWithInfo)
         task.content = taskWithInfo.content
         task.videoUrl = taskWithInfo.videoUrl
         task.externalLink = taskWithInfo.externalLink

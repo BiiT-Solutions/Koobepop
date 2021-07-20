@@ -4,6 +4,6 @@
 <kpp-check-box [checked]="checked" [disabled]="disabled" [class]="disabled?'disabled':''" item-left></kpp-check-box>
   <button ion-button item-left clear icon-only
     (click)="clickInfo($event)">
-    <ion-icon [name]="iconName"></ion-icon>
+    <ion-icon [(name)]="iconName"></ion-icon>
   </button>
 </ion-item>
