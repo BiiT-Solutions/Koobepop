@@ -39,9 +39,11 @@ export class TaskInformationPage {
       tasksProvider.getTaskInfo(this.task)
         .subscribe(task => {
           this.task = task
+          // this.task.content = sanitizer.bypassSecurityTrustHtml(this.task.content).toString();;
           this.loading = false;
           this.hasInfo = (task.content != undefined && task.content.length > 0) 
-          || (this.task.externalLink != undefined && this.task.externalLink != null && this.task.externalLink != "") ;
+          || (this.task.externalLink != undefined && this.task.externalLink != null && this.task.externalLink != "") 
+          || (this.task.videoUrl != undefined && this.task.videoUrl != null && this.task.videoUrl != "");
         });
     }
 
@@ -53,7 +55,9 @@ export class TaskInformationPage {
     if (this.task.videoUrl) {
       value = this.variablesProvider.replaceVariables(this.task.videoUrl);
       value.then(resolve => {
-        this.videoUrl = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustResourceUrl(resolve));
+        this.hasInfo = true;
+        // this.videoUrl = this.sanitizer.sanitize(SecurityContext.HTML, this.sanitizer.bypassSecurityTrustResourceUrl(resolve));
+        this.videoUrl = resolve;
         console.log('Video URL ' + this.videoUrl);
         this.showVideoFrame = true;
       });
@@ -65,6 +69,7 @@ export class TaskInformationPage {
       value.then(resolve => {
         console.log('Resolve URL ' + resolve);
         this.externalLink = resolve;
+        //this.externalLink = "https://www.google.es";
         console.log('External URL ' + this.externalLink);
         this.showExternalLinkFrame = true;
         console.log('showExternalLinkFrame URL ' + this.showExternalLinkFrame);

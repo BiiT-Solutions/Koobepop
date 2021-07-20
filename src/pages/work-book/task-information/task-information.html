@@ -6,7 +6,7 @@
 </ion-header>
 <ion-content padding>
   <div *ngIf="videoUrl!=undefined && showVideoFrame" class="video-container">
-    <iframe width="853" height="480" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+    <iframe width="853" height="480" [src]="videoUrl | safeHtml" frameborder="0" allowfullscreen></iframe>
   </div>
   <div *ngIf="loading" class="loading-container">
     <loading-screen [text]="'TASK-INFORMATION.LOADING-MSG'|translate"></loading-screen>
@@ -16,7 +16,7 @@
       {{'TASK-INFORMATION.NO-CONTENT-TEXT'|translate}}
     </ion-card-content>
   </div>
-  <div *ngIf="task.content" [innerHTML]="task.content">
+  <div *ngIf="task.content" [innerHTML]="sanitizer.bypassSecurityTrustHtml(task.content)">
   </div>
   <div *ngIf="externalLink!=undefined && showExternalLinkFrame" class="external-url-container">
     <iframe width="100%" height="100%" [src]="externalLink | safeHtml" frameborder="0" allowfullscreen></iframe>
