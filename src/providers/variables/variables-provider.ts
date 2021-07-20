@@ -7,6 +7,7 @@ import { SettingsProvider } from '../storage/settings/settings';
 export class VariablesProvider {
   readonly USER_GUARD_VARIABLE = "{{USER_CODE}}";
   readonly SERVER_VARIABLE = "{{SERVER_URL}}";
+  readonly VIDEO_VARIABLE = "embed";
   userCode = " ";
 
   constructor(
@@ -17,7 +18,12 @@ export class VariablesProvider {
   }
 
   public replaceVariables(text: string) {
+    console.log("The video url is: ", text)
     let promise: Promise<string> = new Promise((resolve, reject) => {
+      if (text.includes(this.VIDEO_VARIABLE)) {
+        console.log("Video url replaced is ", text);
+        resolve(text);
+      }
       if (text.includes(this.SERVER_VARIABLE)) {
         text = text.replace(this.SERVER_VARIABLE, this.getHostUrl());
         console.log("Replaced server url on ", text);

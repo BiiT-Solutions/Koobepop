@@ -48,6 +48,7 @@ export class ReportsProvider extends StorageServiceProvider {
           if (savedReports == undefined) {
             savedReports = [];
           };
+          savedReports = [];
           appointments.forEach((appointment: AppointmentModel) => {
             updatedAppointments.push(appointment);
           });
@@ -62,6 +63,8 @@ export class ReportsProvider extends StorageServiceProvider {
             })).take(1)
             .flatMap((reports) => {
               reports.forEach((report: ReportModel) => {
+                console.log("REports:")
+                console.log(report)
                 const index = savedReports.map((savedReport: ReportModel) => savedReport.appointmentId).indexOf(report.appointmentId);
                 if (index >= 0) {
                   savedReports[index] = report;
