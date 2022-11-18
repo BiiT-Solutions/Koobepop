@@ -10,7 +10,8 @@ set -e
 scripts/setup.sh
 
 echo "Building iGROW"
-ionic cordova build android --release
+ionic cordova build android --prod --release -- -- --packageType=bundle
+
 echo "Signing ..."
 jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore scripts/certs/IGOW.jks platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk IGOW -storepass:file scripts/certs/keystore-pass
 
