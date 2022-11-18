@@ -42,6 +42,11 @@ To build and sign the app these are the steps:
 
   To bump the application version run:
   `$ gulp bump --<flag>`
+  
+# Change target SDK
+Change on config.xml to :
+<preference name="android-targetSdkVersion" value="28" />
+ionic cordova prepare android
 
 
 
