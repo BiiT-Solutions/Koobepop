@@ -16,6 +16,9 @@ Needs Java and javac 8!
 
 And install Android SDK
 
+#Note
+Ensure you are using the node v10 max. 
+
 To build and sign the app these are the steps:
 
 
