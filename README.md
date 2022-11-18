@@ -1,7 +1,22 @@
 This is an application developed by Biit Sourcing Solutions.
 
-To build and sign the app these are the steps:
+# First time, you must:
 
+sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+sudo apt install gradle
+
+#Node 10 max!!
+nvm install lts/dubnium
+npm install -g @ionic/cli
+apt install python2
+npm rebuild node-sass
+npm install -g gulp gulp-cli
+
+Needs Java and javac 8!
+
+And install Android SDK
+
+To build and sign the app these are the steps:
 
 
 # ANDROID
