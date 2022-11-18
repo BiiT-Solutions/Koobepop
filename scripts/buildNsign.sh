@@ -23,6 +23,6 @@ $ANDROID_HOME/build-tools/${sdkToolsVersion}/zipalign -vf 4 platforms/android/ap
 
 #echo "Bumping version"
 # increase version number eg.: 1.5.X
-gulp bump --patch
+gulp bump --minor
 git add --all
 git commit -m "Built version ${version}"
