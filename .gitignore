@@ -34,6 +34,7 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 *.apk
+*.apks
 .sourcemaps/
 package-lock.json
 package.json
