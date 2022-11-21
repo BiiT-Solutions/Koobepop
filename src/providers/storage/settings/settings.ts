@@ -12,10 +12,10 @@ export class SettingsProvider extends StorageServiceProvider {
   }
 
   load() {
-    if(!this.settings){
-    return super.retrieveItem(StorageServiceProvider.SETTINGS_STORAGE_ID)
-    .map((settings)=>{this.settings = settings; return this.settings;});
-    }else{
+    if (!this.settings) {
+      return super.retrieveItem(StorageServiceProvider.SETTINGS_STORAGE_ID)
+        .map((settings) => { this.settings = settings; return this.settings; });
+    } else {
       return Observable.of(this.settings);
     }
   }
@@ -26,7 +26,7 @@ export class SettingsProvider extends StorageServiceProvider {
   }
 
   setAll(settings) {
-    this.settings=settings;
+    this.settings = settings;
     this.save();
   }
 

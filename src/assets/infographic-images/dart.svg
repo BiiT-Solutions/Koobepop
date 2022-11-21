@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="302.2mm" height="305.68mm" version="1.1" viewBox="0 0 302.2 305.68" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(37.615 15.875)">
+  <circle cx="113.08" cy="136.59" r="17.974" fill="#9a9a9a" fill-opacity=".5418" stroke-opacity=".7118" stroke-width="12.7"/>
+  <g fill="none">
+   <circle cx="113.62" cy="135.99" r="18.508" opacity=".44" stroke-opacity=".7118" stroke-width="13.077"/>
+   <circle cx="113.08" cy="136.59" r="24.313"/>
+   <g stroke="#9a9a9a" stroke-opacity=".91765">
+    <circle cx="113.62" cy="135.99" r="42.194" stroke-width="15.653"/>
+    <g stroke-width="15.653">
+     <circle cx="113.62" cy="135.99" r="42.194"/>
+     <circle cx="113.62" cy="135.99" r="74.111"/>
+     <circle cx="113.62" cy="135.99" r="105.56"/>
+    </g>
+    <circle cx="113.62" cy="135.99" r="135.13" stroke-width="9.0772"/>
+   </g>
+  </g>
+  <rect x="-37.615" y="134.65" width="302.2" height="4.2896" opacity=".78253" stroke-opacity=".91765" stroke-width="9.2651"/>
+  <rect transform="rotate(-89.934)" x="-289.67" y="111.24" width="305.67" height="4.3389" opacity=".78253" stroke-opacity=".91765" stroke-width="9.3717"/>
+ </g>
+</svg>

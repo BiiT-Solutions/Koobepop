@@ -48,17 +48,8 @@ export class ReportsProvider extends StorageServiceProvider {
           if (savedReports == undefined) {
             savedReports = [];
           };
+          savedReports = [];
           appointments.forEach((appointment: AppointmentModel) => {
-            const index = savedReports.map((report: ReportModel) => report.appointmentId).indexOf(appointment.appointmentId);
-            /*if (index >= 0) {
-              if (appointment.updateTime > savedReports[index].updateTime) {
-                updatedAppointments.push(appointment);
-              } else if (savedReports[index].updateTime == undefined) {
-                updatedAppointments.push(appointment);
-              }
-            } else {
-              updatedAppointments.push(appointment);
-            }*/
             updatedAppointments.push(appointment);
           });
           if(!updatedAppointments || updatedAppointments.length==0){
@@ -72,6 +63,8 @@ export class ReportsProvider extends StorageServiceProvider {
             })).take(1)
             .flatMap((reports) => {
               reports.forEach((report: ReportModel) => {
+                console.log("REports:")
+                console.log(report)
                 const index = savedReports.map((savedReport: ReportModel) => savedReport.appointmentId).indexOf(report.appointmentId);
                 if (index >= 0) {
                   savedReports[index] = report;

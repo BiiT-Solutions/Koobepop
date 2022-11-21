@@ -22,7 +22,6 @@ export class TasksSlideComponent {
   tasks: TaskModel[];
   constructor(
     private tasksProvider: TasksProvider,
-    private tasksRestService: TasksRestService,
     private app: App) {
 
     this.tasksProvider.getObservableTasks()
@@ -33,7 +32,7 @@ export class TasksSlideComponent {
       }, e => console.error(e));
   }
 
-  /**When object is changed*/
+  /** When object is changed*/
   protected ngOnChanges() {
     let tasks = this.tasksProvider.getCurrentTaks()
     if (tasks) { this.setTasks(tasks) };

@@ -56,6 +56,9 @@ export class AppointmentsProvider extends StorageServiceProvider {
       .flatMap((appointments: AppointmentModel[]) => {
         return this.appointmentsRestService.requestModifiedAppointments(appointments)
           .flatMap((updatedAppointments: AppointmentModel[]) => {
+            console.debug("list of appointments")
+            console.debug("list of appointments " + JSON.stringify(updatedAppointments))
+            appointments = []
             if (updatedAppointments != undefined && updatedAppointments.length > 0) {
               updatedAppointments.forEach((updatedAppointment: AppointmentModel) => {
                 const index = appointments.map(appointment => appointment.appointmentId).indexOf(updatedAppointment.appointmentId);
@@ -65,14 +68,38 @@ export class AppointmentsProvider extends StorageServiceProvider {
                   appointments.push(updatedAppointment);
                 }
               });
+
+              console.debug("filtered appints")
+              //appointments = this.removeOrphanAppointments(updatedAppointments, appointments)
+              console.debug(appointments)
               console.debug("Updating appointments")
               return this.setAppointments(appointments);
             } else {
+              //Remove orphan appointments
+              updatedAppointments = [];
+              console.debug("filtered appointments")
+              appointments = []
+              //appointments = this.removeOrphanAppointments(updatedAppointments, appointments)
+              console.debug(appointments)
               console.debug("Nothing to update")
-              return Observable.of(appointments);
+              return this.setAppointments(appointments);
             }
           });
       });
+  }
+
+  private removeOrphanAppointments(updatedAppointments, appointments){
+    appointments.forEach((appointmentOld: AppointmentModel) => {
+      const index = updatedAppointments.map(appointment => appointment.appointmentId).indexOf(appointmentOld.appointmentId);
+      console.debug("index11 " + index)
+      if (index < 0) {
+        const indexToRemove = appointments.map(appointment => appointment.appointmentId).indexOf(appointmentOld.appointmentId);
+        console.debug("Removing orphan appointment with id " + appointmentOld.appointmentId +" a index " + indexToRemove)
+        console.debug("index22 " + indexToRemove)
+        appointments.splice(indexToRemove, 1);
+      }
+    });
+    return appointments;
   }
 
   private getAllocAppointments(): AppointmentModel[] {

@@ -17,7 +17,6 @@ import { SettingsProvider } from '../../storage/settings/settings';
 export class ReportsRestService extends BasicRestService {
   constructor(
     protected http: Http,
-    private httpClient: HttpClient,
     @Inject(APP_CONFIG) protected config: IAppConfig,
     protected tokenProvider: TokenProvider,
     protected userProvider: UserProvider,
@@ -50,15 +49,15 @@ export class ReportsRestService extends BasicRestService {
     const report = new ReportModel(appointment.appointmentId, appointment.updateTime, []);
     data.forEach((item) => {
       try {
-        let itemWithoutHTMLTagsString = this.filterHtmlTags(JSON.stringify(item));
+        const itemWithoutHTMLTagsString = this.filterHtmlTags(JSON.stringify(item));
         console.log("reports-rest-services | JSON without HTML tags: '" + itemWithoutHTMLTagsString + "'");
-        var itemWithoutHTMLTagsJSON = JSON.parse(itemWithoutHTMLTagsString);
+        const itemWithoutHTMLTagsJSON = JSON.parse(itemWithoutHTMLTagsString);
         console.log("reports-rest-services | JSON to infographic: " + JSON.stringify(itemWithoutHTMLTagsJSON));
         report.infographicsList.push(infographicjs.infographicFromTemplate(itemWithoutHTMLTagsJSON.template, itemWithoutHTMLTagsJSON.content));
         
         //report.infographicsList.push(this.postReport(item));
       } catch (e) {
-        console.log('reports-rest-services | infographic generation error:', itemWithoutHTMLTagsJSON.template, e);
+        console.log('reports-rest-services | infographic generation error: ', e);
       }
     });
     return report;

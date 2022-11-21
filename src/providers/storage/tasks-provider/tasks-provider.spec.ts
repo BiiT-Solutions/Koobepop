@@ -84,7 +84,7 @@ describe('Service: TasksProvider', () => {
       .toPromise()
       .then(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
-      let task = service.getTask(TASK_1_NAME)
+      const task = service.getTask(TASK_1_NAME)
       expect(task).toEqual(TASK_1)
       done();
     });
@@ -99,12 +99,12 @@ describe('Service: TasksProvider', () => {
     .toPromise()
     .then(savedTasks => {
       expect(storage.set).toHaveBeenCalled();
-      let task = service.setScore(TASK_1_COMPARATION_ID, SCORE_1, YESTERDAY, TODAY)
+      const task = service.setScore(TASK_1_COMPARATION_ID, SCORE_1, YESTERDAY, TODAY)
       expect(task.performedOn.length).toBe(2);
       const completion = task.performedOn.find(perf=>perf.performedTime == YESTERDAY)
         expect(completion.filledTime).toEqual(TODAY)
         expect(completion.score).toEqual(SCORE_1)
-        let removedTask = service.removeScore(TASK_1_COMPARATION_ID, YESTERDAY)
+        const removedTask = service.removeScore(TASK_1_COMPARATION_ID, YESTERDAY)
         expect(task === removedTask).toBeTruthy();
         expect(task.performedOn.length).toBe(1)
         expect(removedTask.performedOn.length).toBe(1)
