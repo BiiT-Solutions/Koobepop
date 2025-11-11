@@ -1,8 +1,9 @@
 {
-  "name": "iGROW",
-  "author": "Biit Solutions",
+  "name": "@biit-solutions/igrow",
   "homepage": "A Biit Solutions app",
-  "private": true,
+  "license": "AGPLv3",
+  "author": "BiiT Sourcing Solutions",
+  "private": false,
   "version": "0.3.3",
   "scripts": {
     "start": "ionic serve -b",
@@ -141,5 +142,9 @@
       "cordova-plugin-inappbrowser": {},
       "ionic-plugin-keyboard": {}
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BiiT-Solutions/Koobepop.git"
   }
 }
